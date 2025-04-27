@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <navbar :changeComponent class="fixed top-0 left-0 w-full z-10 bg-base-200 h-20" />
 
   <div class="min-h-screen pt-20 w-full flex flex-row justify-center bg-base-0 sm:bg-base-200">
@@ -53,4 +53,70 @@ const components = {
 function changeComponent(component) {
   currentComponent.value = component;
 }
+</script> -->
+
+<template>
+  <navbar :changeComponent class="fixed top-0 left-0 w-full z-10 bg-base-200 h-20" />
+
+  <div class="h-screen pt-20 w-full flex flex-row justify-center bg-base-200">
+    <main class="w-full max-w-[100vw] sm:max-w-6xl h-[calc(100vh-5rem)] overflow-y-auto overflow-x-hidden bg-base-0 sm:bg-base-200">
+      <div class="flex flex-col items-center gap-4 px-0 sm:px-6">
+        <br>
+        <component :is="components[currentComponent]"></component>
+        <br>
+      </div>
+    </main>
+  </div>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import Upload from './components/Review.vue';
+import Discard from './components/Discard.vue';
+import ThreeHundred from './components/ThreeHundred.vue';
+import PointCalculation from './components/PointCalculation.vue';
+import Guide from './components/Guide.vue';
+import Books from './components/Books.vue';
+import Contact from './components/Contact.vue';
+import Introduce from './components/Introduce.vue';
+import WebDictionary from './components/WebDictionary.vue';
+import Navbar from './components/Navbar.vue';
+
+const currentComponent = ref('Discard');
+
+const components = {
+  Discard,
+  Upload,
+  ThreeHundred,
+  PointCalculation,
+  Guide,
+  Books,
+  Contact,
+  Introduce,
+  WebDictionary,
+};
+
+function changeComponent(component) {
+  currentComponent.value = component;
+}
 </script>
+
+<!-- <style scoped>
+/* 确保滚动条样式一致（可选） */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+</style> -->
