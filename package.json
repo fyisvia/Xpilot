@@ -1,6 +1,6 @@
 {
-  "name": "mahjongfrontend",
-  "version": "0.0.0",
+  "name": "xpilot",
+  "version": "1.0.0-rc",
   "private": true,
   "type": "module",
   "scripts": {

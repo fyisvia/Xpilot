@@ -9,32 +9,32 @@
         </div>
         <ul
           tabindex="0"
-          class="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-52 p-2 shadow"
+          class="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-44 p-2 shadow"
         >
           <li>
-            <a>分析</a>
+            <a class="text-sm font-semibold">分析</a>
             <ul class="p-2">
-              <li><a @click="changeComponent('Discard')">何切分析</a></li>
-              <li><a @click="changeComponent('Upload')">牌谱分析</a></li>
+              <li><a class="text-sm" @click="changeComponent('Discard')">何切分析</a></li>
+              <li><a class="text-sm" @click="changeComponent('Upload')">牌谱分析</a></li>
             </ul>
           </li>
           <li>
-            <a>学习</a>
+            <a class="text-sm font-semibold">学习</a>
             <ul class="p-2">
-              <li><a @click="changeComponent('ThreeHundred')">何切三百问</a></li>
+              <li><a class="text-sm" @click="changeComponent('ThreeHundred')">何切三百问</a></li>
               <!-- <li><a @click="changeComponent('HanCalculation')">番数计算</a></li>
               <li><a @click="changeComponent('FuCalculation')">符数计算</a></li> -->
-              <li><a @click="changeComponent('PointCalculation')">点数计算练习</a></li>
-              <li><a @click="changeComponent('Guide')">入门及进阶路线</a></li>
-              <li><a @click="changeComponent('Books')">战术书链接合集</a></li>
+              <li><a class="text-sm" @click="changeComponent('PointCalculation')">点数计算练习</a></li>
+              <li><a class="text-sm" @click="changeComponent('Guide')">入门及进阶路线</a></li>
+              <li><a class="text-sm" @click="changeComponent('Books')">战术书链接合集</a></li>
             </ul>
           </li>
           <li>
-            <a>其他</a>
+            <a class="text-sm font-semibold">其他</a>
             <ul class="p-2">
-              <li><a @click="changeComponent('Contact')">关于作者</a></li>
-              <li><a @click="changeComponent('Introduce')">关于本站</a></li>
-              <li><a @click="changeComponent('WebDictionary')">其他网站</a></li>
+              <li><a class="text-sm" @click="changeComponent('Contact')">关于作者</a></li>
+              <li><a class="text-sm" @click="changeComponent('Introduce')">关于本站</a></li>
+              <li><a class="text-sm" @click="changeComponent('WebDictionary')">其他网站</a></li>
             </ul>
           </li>
         </ul>
