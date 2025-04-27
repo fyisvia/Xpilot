@@ -1,6 +1,5 @@
 <template>
     <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
-        <br>
         <li class="p-4 pb-2 text-lg font-semibold tracking-wide">其他网站</li>
         <br>
         <li class="list-row">

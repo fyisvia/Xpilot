@@ -1,6 +1,5 @@
 <template>
   <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-full px-2 sm:px-8">
-    <br>
 
     <li class="p-2 sm:p-4 pb-2 text-lg sm:text-xl md:text-2xl opacity-100 tracking-wide font-semibold">
       No. {{ currentArticle.id }}
