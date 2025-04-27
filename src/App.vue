@@ -1,7 +1,7 @@
 <template>
-  <navbar :changeComponent class="fixed top-0 left-0 w-full z-10 bg-base-200 h-20" />
+  <navbar :changeComponent class="fixed top-0 left-0 w-full z-10 bg-base-200 h-16 sm:h-20" />
 
-  <div class="min-h-screen pt-20 w-full flex flex-row justify-center bg-base-0 sm:bg-base-200 overscroll-contain">
+  <div class="min-h-screen pt-16 sm:pt-20 w-full flex flex-row justify-center bg-base-0 sm:bg-base-200 overscroll-contain">
     <main class="w-full max-w-full sm:max-w-6xl h-[calc(100vh-5rem)] overflow-x-hidden bg-base-0 sm:bg-base-200">
       <div class="flex flex-col items-center gap-4 px-0 sm:px-6">
         <br>

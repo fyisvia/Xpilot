@@ -12,7 +12,7 @@
             1.0.1 - rc 版本简介<br>
         </li>
         <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
-            我很高兴宣布 Xpilot Version 1.0.1-rc 的发布。Xpilot作为专为日本麻将（Riichi Mahjong）设计的功能性网页端，致力于日麻爱好者提供稳定、易用的体验。本次 beta 版本为用户带来了以下主要功能：
+            我很高兴宣布 Xpilot Version 1.0.1-rc 的发布。Xpilot作为专为日本麻将（Riichi Mahjong）设计的功能性网页端，致力于日麻爱好者提供稳定、易用的体验。本次 rc 版本为用户带来了以下主要功能：
             <br><br>
             1.基础功能支持：<br>  
             实现了基本的手牌何切分析功能，何切三百问的练习功能（目前仅收录了前36题），点数速查和计算练习功能，以及教程列表查看功能。<br>
