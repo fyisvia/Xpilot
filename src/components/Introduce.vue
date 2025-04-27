@@ -4,7 +4,7 @@
             MahjongXpilot
         </li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
-            version: 1.0.0 - Beta<br><br>
+            version: 1.0.1 - Beta<br><br>
             Copyright © Fyisvia Virell. <br>
             All Rights Reserved.<br><br>
         </li>
@@ -12,10 +12,10 @@
             1.0.0 - Beta 版本简介<br>
         </li>
         <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
-            我很高兴宣布 Xpilot Version 1.0.0-beta 的发布。Xpilot作为专为日本麻将（Riichi Mahjong）设计的功能性网页端，致力于日麻爱好者提供稳定、易用的体验。本次 beta 版本为用户带来了以下主要功能：
+            我很高兴宣布 Xpilot Version 1.0.1-beta 的发布。Xpilot作为专为日本麻将（Riichi Mahjong）设计的功能性网页端，致力于日麻爱好者提供稳定、易用的体验。本次 beta 版本为用户带来了以下主要功能：
             <br><br>
             1.基础功能支持：<br>  
-            实现了基本的手牌何切分析功能，何切三百问的练习功能（目前仅收录了前60题），点数速查和计算练习功能。
+            实现了基本的手牌何切分析功能，何切三百问的练习功能（目前仅收录了前36题），点数速查和计算练习功能。
             <br><br>
             2.用戶界面：<br> 
             提供了一个简洁直观的用户界面，设计上偏向简约风格，方便用户快速上手。包括基本的手牌何切分析、何切三百问、点数计算和教程列表查看功能。
