@@ -1,3 +1,10 @@
+// Copyright 2025 [Fyisvia Virell]
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// See the LICENSE file in the project root for full license information.
+
 <template>
     <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
         <li class="p-4 pb-2 text-lg font-semibold tracking-wide">其他网站</li>

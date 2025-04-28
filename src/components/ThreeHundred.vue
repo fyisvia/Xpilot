@@ -1,3 +1,10 @@
+// Copyright 2025 [Fyisvia Virell]
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// See the LICENSE file in the project root for full license information.
+
 <template>
   <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-full px-2 sm:px-8">
 
@@ -742,17 +749,6 @@ const articles = ref([
       '这', '里', '选', '择', '能', '确', '实', '用', '上', p0, '的', '形', '状', '。',
       '基', '本', '确', '定', '有', '断', '幺', '，', '先', '完', '成', '饼', '子', '的', '面', '子', '的', '话', '有', '三', '面', '听', '。',
       '摸', '进', '宝', '牌', '也', '可', '以', '打', s2, '来', '应', '对', '。'
-    ]
-  },
-  {
-  id: 41,
-    round: '东 1 局  西家  9 巡目',
-    images1: [z0, z0, p5, z0, z0, z0, z0],
-    images2: [m1, m2, m3, p2, p3, p3, p5, p6, p7, p8, s5, s6, s7, s8],
-    answerImg: p2,
-    explanation: [
-      '固', '定', '雀', '头', '，', '活', '用', '两', '个', '四', '连', '型', '。',
-      '巡', '目', '早', '的', '时', '候', '，', '摸', '进', p5, p8, '或', s5, s8, '的', '对', '碰', '听', '牌', '也', '可', '以', '摸', '切', '拒', '听', '。'
     ]
   },
   {

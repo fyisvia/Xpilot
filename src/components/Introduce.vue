@@ -1,15 +1,45 @@
+// Copyright 2025 [Fyisvia Virell]
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// See the LICENSE file in the project root for full license information.
+
 <template>
     <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-8">
         <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
             MahjongXpilot
         </li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
-            version: 1.0.1 - rc<br><br>
+            version: 1.0.1<br><br>
             Copyright © Fyisvia Virell. <br>
-            All Rights Reserved.<br><br>
+            All Rights Reserved.<br>
+        </li>
+        <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
+            <div class="flex items-center space-x-2">
+                <span>Github项目地址：</span>
+                <a href="https://github.com/fyisvia/Xpilot" target="_blank" rel="noopener">
+                    <button class="btn btn-link">Link</button>
+                </a>
+            </div>
+            欢迎帮忙review代码，提交bug和功能建议。<br><br>
         </li>
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
-            1.0.1 - rc 版本简介<br>
+            1.0.1 版本更新（20250428）<br>
+        </li>
+        <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
+            本次 rc 更新主要内容为：
+            <br><br>
+            1.修复了在移动端页面垂直滑动时的卡顿问题。
+            <br><br>
+            2.何切三百问更新至41题。
+            <br><br>
+            3.修复了部分UI问题。
+            <br><br>
+            如有其他任何问题或建议，欢迎发邮件至admin@xpilot.top进行反馈，帮助我进行改进。我一般会在24小时内回复。
+        </li>
+        <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
+            1.0.1 - rc 版本简介（20250427）<br>
         </li>
         <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
             我很高兴宣布 Xpilot Version 1.0.1-rc 的发布。Xpilot作为专为日本麻将（Riichi Mahjong）设计的功能性网页端，致力于日麻爱好者提供稳定、易用的体验。本次 rc 版本为用户带来了以下主要功能：
