@@ -24,8 +24,8 @@
             alt=""
             class="flex-shrink-0 object-contain"
             :style="{
-              width: `calc(100% / (${currentArticle.images2.length} + 1/3))`,
-              height: `calc((100% / (${currentArticle.images2.length} + 1/3)) * 1.5)`
+              width: `calc(100% / (14 + 1/3))`,
+              height: `calc((100% / (14 + 1/3)) * 1.5)`
             }"
           >
         </div>
@@ -43,16 +43,31 @@
             class="flex-shrink-0 object-contain"
             :style="{
               width: `calc(100% / (${currentArticle.images2.length} + 1/3))`,
-              height: `calc((100% / (${currentArticle.images2.length} + 1/3)) * 1.5)`,
+              height: `calc((100% / (14 + 1/3)) * 1.5)`,
               marginRight: index === currentArticle.images2.length - 2 ? `calc((100% / (${currentArticle.images2.length} + 1/3)) / 3)` : '0'
             }"
           >
         </template>
       </div>
     </li>
-
-    <br><br>
-
+    <br>
+    <li class="p-2 sm:p-4 pb-2 text-xs sm:text-sm md:text-base opacity-100 tracking-wide">
+      <div class="flex flex-nowrap justify-end" style="gap: 0;">
+        <template v-for="(img, index) in currentArticle.images3">
+          <img
+            :src="img"
+            alt=""
+            class="flex-shrink-0 object-contain"
+            :class="{ 'first-image': index === 0 }"
+            :style="{
+              width: `calc(100% / (${currentArticle.images2.length} + 1/3))`,
+              height: `calc((100% / (14 + 1/3)) * 1.5)`,
+              marginRight: index === currentArticle.images2.length - 2 ? `calc((100% / (${currentArticle.images2.length} + 1/3)) / 3)` : '0'
+            }"
+          >
+        </template>
+      </div>
+    </li>
     <li class="p-2 sm:p-4 pb-2 text-sm sm:text-base md:text-lg opacity-100 tracking-wide">
       <div class="flex items-center gap-2 pb-4">
         <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
@@ -71,21 +86,6 @@
             <br>
             <a class="opacity-100">解析:</a>
             <br>
-            <!-- <div class="inline-flex flex-wrap items-center gap-1 text-justify" style="text-wrap: balance; word-break: keep-all;">
-              <template v-for="part in currentArticle.number">
-                <span v-if="!part.endsWith('.png')" class="opacity-100">{{ part }}</span>
-                <img
-                  v-else
-                  :src="part"
-                  alt=""
-                  class="inline-block object-contain"
-                  :style="{
-                    width: `calc(1em * (${currentArticle.images2.length} / 10))`,
-                    height: `calc(1.5em * (${currentArticle.images2.length} / 10))`
-                  }"
-                >
-              </template>
-            </div> -->
             <div class="inline-flex flex-wrap items-center gap-1 text-justify" style="text-wrap: balance; word-break: keep-all;">
               <template v-for="part in currentArticle.explanation">
                 <span v-if="!part.endsWith('.png')" class="opacity-100">{{ part }}</span>
@@ -219,6 +219,7 @@ import z6 from '/mahjongfiles/6z.png'
 import z7 from '/mahjongfiles/7z.png'
 
 import z0 from '/mahjongfiles/-1.png'
+import ph from '/mahjongfiles/ph.png'
 
 // 定义文章数据数组
 const articles = ref([
@@ -762,6 +763,102 @@ const articles = ref([
       '巡', '目', '早', '的', '时', '候', '，', '摸', '进', p5, p8, '或', s5, s8, '的', '对', '碰', '听', '牌', '也', '可', '以', '摸', '切', '拒', '听', '。'
     ]
   }, 
+  {
+  id: 42,
+    round: '东 1 局  东家  7 巡目',
+    images1: [z0, z0, p1, z0, z0, z0, z0],
+    images2: [m3, m3, m3, m5, p7, s1, s1, s2, s0, s6, ph, ph, ph, s7],
+    images3: [z1, z1, z1],
+    answerImg: s2,
+    explanation: [
+      '这', '里', '会', '有', '人', '想', '打', p7, '来', '准', '备', '碰', '听', '或', '者', '吃', '听', '吧', '。',
+      '但', '是', '这', '里', '打', p7, '的', '话', '，', '再', '摸', '进', '周', '边', '的', '牌', '也', '只', '能', '扔', '掉', '。',
+      '留', '着', s2, '可', '以', '吃', s3, '加', '速', '，', '四', '枚', s3, '按', '吃', '听', '两', '倍', '速', '换', '算', '下', '来', '就', '是', '八', '枚', '。',
+      '而', '留', '着', p7, '有', '八', '枚', '两', '面', '听', '牌', '的', '有', '效', '牌', '。',
+      '周', '边', '还', '有', '坎', '张', '或', '者', '对', '碰', '的', '听', '牌', '进', '张', '。',
+      '打', s2, '后', '的', '最', '终', '型', '也', '更', '好', '些', '。'
+    ]
+  }, 
+  {
+  id: 43,
+    round: '东 1 局  东家  6 巡目',
+    images1: [z0, z0, m5, z0, z0, z0, z0],
+    images2: [m4, m4, m4, m7, p3, p5, p7, s1, s1, s1, s3, s5, s5, p4],
+    answerImg: s3,
+    explanation: [
+      '靠', '张', '听', '牌', '的', '问', '题', '。',
+      '借', '助', '暗', '刻', '旁', '边', '的', '浮', '牌', '不', '适', '合', '靠', '张', '听', '牌', '的', '理', '论', '，', '可', '以', '得', '出', '正', '解', '。',
+      '请', '注', '意', '，', '摸', '进', s2, '后', '的', '变', '则', '三', '面', '听', '是', '不', '如', '单', '纯', '的', '两', '面', '听', '牌', '的', '。',
+      '目', '标', '是', '摸', '宝', '牌', m6, '、', '摸', p6, '的', '三', '面', '听', '、', '摸', s5, '的', '三', '暗', '刻', '，',
+      s3, '妨', '碍', '狙', '击', '三', '暗', '刻', '。'
+    ]
+  }, 
+  {
+  id: 44,
+    round: '东 1 局  南家  7 巡目',
+    images1: [z0, z0, s4, z0, z0, z0, z0],
+    images2: [m2, m3, m4, p3, s1, s2, s4, s5, s5, s6, s8, s9, s9, s3],
+    answerImg: s8,
+    explanation: [
+      '推', '荐', '打', s8, '。',
+      '执', '着', '于', '一', '气', '会', '让', '进', '张', '变', '少', '，',
+      '而', '且', '还', '有', '“', '最', '终', '型', '不', '好', '”', '“', '要', '打', '掉', '宝', '牌', '”', '等', '等', '减', '分', '项', '。',
+      '想', '狙', '击', p3, '和', s5, '靠', '张', '后', '的', '立', '平', '。'
+    ]
+  }, 
+  {
+  id: 45,
+    round: '东 1 局  西家  5 巡目',
+    images1: [z0, z0, m1, z0, z0, z0, z0],
+    images2: [m3, m4, p4, p5, p6, p6, p7, p8, s2, s4, s6, s7, s7, s8],
+    answerImg: s2,
+    explanation: [
+      '单', '看', '听', '牌', '枚', '数', '，', '打', s7, '固', '定', '面', '子', '最', '多', '，',
+      '但', '是', '万', '子', '的', '两', '面', '可', '以', '吸', '收', '宝', '牌', '和', '红', '5', '，', '非', '常', '想', '用', '上', '。',
+      '这', '里', '打', s2, '更', '好', '。', '比', '起', '打', s8, '的', '两', '坎', '，', '打', s2, '有', '效', '牌', '更', '多', '。',
+      '再', '加', '上', '听', '牌', '的', '入', '张', '以', '外', '，', '摸', '进', s6, s8, '可', '以', '变', '化', '成', '更', '优', '秀', '的', '一', '向', '听', '。',
+      '也', '可', '以', '应', '对', '饼', '子', '的', '延', '伸', '。'
+    ]
+  }, 
+  {
+  id: 46,
+    round: '东 1 局  东家  7 巡目',
+    images1: [z0, z0, m2, z0, z0, z0, z0],
+    images2: [m2, m4, m6, m7, m9, m9, p6, p7, p8, s1, s1, s4, s5, m5],
+    answerImg: m9,
+    explanation: [
+      '打', m9, '后', '形', '成', m3, m8, '进', '张', '的', '两', '个', '坎', '张', '。',
+      '先', '摸', '进', '坎', '张', '有', '平', '和', '。',
+      '两', '坎', '分', '离', '的', '形', '状', '就', '是', '一', '般', '所', '说', '的', '相', '离', '两', '坎', '。'
+    ]
+  }, 
+  {
+  id: 47,
+    round: '东 1 局  东家  7 巡目',
+    images1: [z0, z0, s4, z0, z0, z0, z0],
+    images2: [m1, m1, m3, m4, m6, m8, p2, p2, p2, s5, s6, s9, s9, m5],
+    answerImg: m8,
+    explanation: [
+      '一', '向', '听', '。', '打', m1, '和', m8, '进', '张', '同', '样', '是', '16', '枚', '，',
+      '打', m8, '后', m1, '或', s9, '摸', '成', '暗', '刻', '可', '以', '跳', '符', '。',
+      '而', '且', '端', '牌', '的', '对', '碰', '容', '易', '和', '出', '也', '是', '优', '点', '。'
+    ]
+  }, 
+  {
+  id: 48,
+    round: '东 1 局  东家  7 巡目',
+    images1: [z0, z0, m7, z0, z0, z0, z0],
+    images2: [m4, m6, m7, m8, m9, p6, p6, s2, s2, s4, s4, s5, s5, m0],
+    answerImg: p6,
+    explanation: [
+      '虽', '想', '从', s4, s4, s5, s5, '的', '两', '面', '子', '中', '切', '掉', '一', '枚', '，',
+      '但', '是', '两', '面', '听', '牌', '的', '枚', '数', '打', p6, '、', s2, '、', s5, '都', '是', '一', '样', '的', '。',
+      '拆', '出', p6, '单', '张', '，', '看', '一', '下', '饼', '子', '横', '向', '的', '延', '伸', '（', '遥', '远', '的', '三', '色', '）',
+      '和', '索', '子', '的', '一', '杯', '口', '。',
+      s4, '绝', '对', '不', '能', '打', '，', '因', '为', '会', '错', '过', '进', s3, '的', '两', '面', '听', '牌', '。',
+      '不', '考', '虑', '赤', '牌', '的', '牌', '效', '率', '顺', '序', '：', '打', p6, '>', '打', s5, '>', '打', s4, '。'
+    ]
+  }, 
 ])
 
 // 当前文章索引
@@ -1268,3 +1365,10 @@ const handleSubmit = () => {
   errorMessage.value = null
 }
 </script>
+
+<style>
+.first-image {
+  transform: rotate(-90deg) translateY(-16.67%) translateX(-20%);
+  transform-origin: center;
+}
+</style>
