@@ -585,7 +585,7 @@ const articles = ref([
   id: 28,
     round: '东 1 局  东家   7 巡目',
     images1: [z0, z0, p1, z0, z0, z0, z0],
-    images2: [m9, m9, p2, p3, p4, p6, p8, p0, s3, s7, s7, z4, z4, z4],
+    images2: [m9, m9, p2, p3, p4, p6, p8, s3, s0, s7, s7, z4, z4, z4],
     answerImg: s7,
     explanation: [
       '“', '门', '清', '为', '前', '提', '”', '的', '手', '牌', '。',
