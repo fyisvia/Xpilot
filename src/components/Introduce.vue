@@ -28,7 +28,7 @@
             1.0.1 版本更新（20250428）<br>
         </li>
         <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
-            本次 rc 更新主要内容为：
+            本次更新主要内容为：
             <br><br>
             1.修复了在移动端页面垂直滑动时的卡顿问题。
             <br><br>
