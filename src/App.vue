@@ -1,11 +1,12 @@
 <template>
   <navbar :changeComponent class="fixed top-0 left-0 w-full z-10 bg-base-200 h-16 sm:h-20" />
 
-  <div class="min-h-screen pt-16 sm:pt-20 w-full flex flex-row justify-center bg-base-0 sm:bg-base-200 overscroll-contain overflow-hidden">
-    <main class="w-full max-w-full sm:max-w-6xl h-[calc(100vh-5rem)] overflow-y-auto overflow-x-hidden bg-base-0 sm:bg-base-200">
+  <div class="min-h-screen pt-16 sm:pt-20 w-full flex flex-row justify-center  overflow-hidden bg-base-0 sm:bg-base-200">
+    <main class="w-full max-w-full sm:max-w-6xl h-[calc(100vh-5rem)] overflow-x-hidden overflow-y-auto overscroll-contain bg-base-0 sm:bg-base-200">
       <div class="flex flex-col items-center gap-4 px-0 sm:px-6">
         <br>
         <component :is="components[currentComponent]"></component>
+        <br>
       </div>
     </main>
   </div>
@@ -13,7 +14,6 @@
 
 <script setup>
 import { ref } from 'vue';
-import { onMounted } from 'vue';
 
 // import HomeView from '';
 import Upload from './components/Review.vue';
@@ -54,6 +54,8 @@ function changeComponent(component) {
   currentComponent.value = component;
 }
 
+import { onMounted } from 'vue';
+
 onMounted(() => {
   const main = document.querySelector('main');
   const updateHeight = () => {
@@ -64,21 +66,3 @@ onMounted(() => {
 });
 
 </script>
-
-<style scoped>
-  /* 在全局 CSS 或 <style> 中添加 */
-  html, body {
-    height: 100%;
-    overflow: hidden; /* 禁止 body 滚动 */
-  }
-
-  .min-h-screen {
-    height: 100vh;
-    overflow: hidden; /* 禁止外层 div 滚动 */
-  }
-
-  main {
-    overflow-y: auto; /* 仅 main 允许垂直滚动 */
-    -webkit-overflow-scrolling: touch; /* 优化手机滚动体验 */
-  }
-</style>
