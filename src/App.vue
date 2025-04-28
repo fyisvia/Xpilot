@@ -2,8 +2,8 @@
   <navbar :changeComponent class="fixed top-0 left-0 w-full z-10 bg-base-200 h-16 sm:h-20" />
 
   <div class="min-h-screen pt-16 sm:pt-20 w-full flex flex-row justify-center overflow-x-hidden overflow-y-auto overscroll-contain bg-base-0 sm:bg-base-200">
-    <main class="w-full max-w-full sm:max-w-6xl h-[calc(100vh-5rem)] overflow-hidden bg-base-0 sm:bg-base-200">
-      <div class="flex flex-col items-center overflow-hidden gap-4 px-0 sm:px-6">
+    <main class="w-full max-w-full sm:max-w-6xl h-[calc(100vh-5rem)] overflow-x-hidden overflow-y-auto overscroll-contain bg-base-0 sm:bg-base-200">
+      <div class="flex flex-col items-center gap-4 px-0 sm:px-6">
         <br>
         <component :is="components[currentComponent]"></component>
         <br>
