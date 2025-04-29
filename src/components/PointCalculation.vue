@@ -34,7 +34,7 @@
                         autocomplete="off"
                         @keyup.enter="checkAnswer"
                     />
-                    <span>点 All</span>
+                    <span>点</span>
                 </div>
                 <div v-else-if="!question.isDealer && question.isTsumo" class="flex flex-wrap items-center gap-2 justify-center w-full">
                     <input
