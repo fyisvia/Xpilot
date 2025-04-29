@@ -2,7 +2,7 @@
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+// any later version.
 // See the LICENSE file in the project root for full license information.
 
 <template>
@@ -19,8 +19,7 @@
                         1. 默认考虑一般形式，七对子和国士无双。<br>
                         2. 因为没有其他玩家和牌河，剩余枚数为最大值。<br>
                         3. 不考虑巡目。
-                        <!-- <br>
-                        4. 可以选择是否考虑红五和dora指示牌。<br>                       -->
+                        <!-- <br>4. 可以选择是否考虑红五和dora指示牌。-->
                     </div>
                 </div>
             </div>

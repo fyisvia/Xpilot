@@ -2,7 +2,7 @@
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+// any later version.
 // See the LICENSE file in the project root for full license information.
 
 <template>
@@ -29,8 +29,6 @@
             <a class="text-sm font-semibold">学习</a>
             <ul class="p-2">
               <li><a class="text-sm" @click="changeComponent('ThreeHundred')">何切三百问</a></li>
-              <!-- <li><a @click="changeComponent('HanCalculation')">番数计算</a></li>
-              <li><a @click="changeComponent('FuCalculation')">符数计算</a></li> -->
               <li><a class="text-sm" @click="changeComponent('PointCalculation')">点数计算练习</a></li>
               <li><a class="text-sm" @click="changeComponent('Guide')">入门及进阶路线</a></li>
               <li><a class="text-sm" @click="changeComponent('Books')">战术书链接合集</a></li>
@@ -64,8 +62,6 @@
             <summary>学习</summary>
             <ul class="p-2 w-36">
               <li><a @click="changeComponent('ThreeHundred')">何切三百问</a></li>
-              <!-- <li><a @click="changeComponent('')">番数计算</a></li>
-              <li><a @click="changeComponent('')">符数计算</a></li> -->
               <li><a @click="changeComponent('PointCalculation')">点数计算</a></li>
               <li><a @click="changeComponent('Guide')">入门及进阶路线</a></li>
               <li><a @click="changeComponent('Books')">战术书链接合集</a></li>
@@ -105,8 +101,8 @@
               <!-- <span class="badge"></span> -->
             </a>
           </li>
-          <!-- <li><a>Settings</a></li>
-          <li><a>Logout</a></li> -->
+          <!-- <li><a>Settings</a></li> -->
+          <!-- <li><a>Logout</a></li> -->
         </ul>
       </div>
     </div>

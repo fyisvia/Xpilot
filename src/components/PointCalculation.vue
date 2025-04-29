@@ -2,16 +2,12 @@
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+// any later version.
 // See the LICENSE file in the project root for full license information.
 
 <template>
     <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-0 sm:px-8">
-        <!-- <li class="p-4 pb-2 text-lg opacity-100 tracking-wide font-semibold">
-            点数计算练习
-        </li> -->
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide flex justify-center">
-            <!-- 問題展示 -->
             <div v-if="question">
                 <div>
                     {{ question.isDealer ? "庄家" : "子家" }} {{ question.isTsumo ? "自摸" : "荣和" }} {{ question.han }} 番 {{ question.fu }} 符
@@ -136,7 +132,6 @@ import { ref, onMounted } from 'vue';
 import PointTableJpg from '/photos/PointsTable.jpg';
 import PointTableBLJpg from '/photos/PointsTableBL.jpg';
 
-// 計算點數
 const calculatePoints = (isDealer, isTsumo, han, fu) => {
     let basePoints;
 
@@ -179,7 +174,6 @@ const calculatePoints = (isDealer, isTsumo, han, fu) => {
     }
 };
 
-// 隨機生成問題
 const generateQuestion = () => {
     let isDealer = Math.random() < 0.5;
     let isTsumo = Math.random() < 0.5;
