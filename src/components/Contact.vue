@@ -29,6 +29,14 @@
                 </a>
             </div>
         </li>
+        <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
+            <div class="flex items-center space-x-2">
+                <span>小黑盒主页：</span>
+                <a href="https://web.xiaoheihe.cn/bbs/user_profile_share?user_id=809b6a5a9524" target="_blank" rel="noopener">
+                    <button class="btn btn-link">Link</button>
+                </a>
+            </div>
+        </li>
         <br>
     </ul>
 </template>

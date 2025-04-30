@@ -13,8 +13,25 @@
     </li>
 
     <br>
+    
+    <li class="p-4 sm:p-4 pb-2 text-lg opacity-100 tracking-wide">
+      <div class="flex items-center gap-2 pb-4">
+        <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
+          <input type="checkbox" />
+          <div class="collapse-title opacity-100">使用说明</div>
+          <div class="collapse-content md:text-sm text-xs md:font-semibold sm:opacity-60 mb-0">
+              可以直接点击图片选择答案。<br>
+              选择正确会进入下一题，<br>
+              选择错误会自动展开参考答案和解析。<br>
+              但是手机上可能会有点小。
+          </div>
+        </div>
+      </div>
+    </li>
 
-    <li class="p-2 sm:p-4 pb-2 text-lg sm:text-xl md:text-2xl opacity-100 tracking-wide">
+    <br>
+
+    <li class="p-4 sm:p-4 pb-2 text-lg sm:text-xl md:text-2xl opacity-100 tracking-wide">
       <div class="flex flex-col items-start">
         <a class="mb-2">[ {{ currentArticle.round }} ]</a>
         <div class="flex flex-row space-x-0">
@@ -36,18 +53,26 @@
 
     <li class="p-2 sm:p-4 pb-2 text-xs sm:text-sm md:text-base opacity-100 tracking-wide">
       <div class="flex flex-nowrap justify-start" style="gap: 0;">
-        <template v-for="(img, index) in currentArticle.images2">
-          <img
-            :src="img"
-            alt=""
-            class="flex-shrink-0 object-contain"
-            :style="{
-              width: `calc(100% / (${currentArticle.images2.length} + 1/3))`,
-              height: `calc((100% / (14 + 1/3)) * 1.5)`,
-              marginRight: index === currentArticle.images2.length - 2 ? `calc((100% / (${currentArticle.images2.length} + 1/3)) / 3)` : '0'
-            }"
-          >
-        </template>
+      <template v-for="(img, index) in currentArticle.images2" :key="img + '-' + index">
+        <div class="relative group">
+        <img
+          :src="img"
+          alt=""
+          class="flex-shrink-0 object-contain transition-transform duration-150 group-active:scale-95 group-hover:scale-110"
+          :style="{
+          // width: `calc(100% / (${currentArticle.images2.length} + 1/3))`,
+          // height: `calc((100% / (14 + 1/3)) * 1.5)`,
+          // marginRight: index === currentArticle.images2.length - 1 ? `calc((100% / (${currentArticle.images2.length} + 1/3)) / 3)` : '0'
+          }"
+        />
+        <button
+          class="absolute inset-0 w-full h-full opacity-0 hover:opacity-50 transition-opacity duration-300"
+          @click="handleImageClick(img)"
+          tabindex="-1"
+          style="pointer-events: auto;"
+        ></button>
+        </div>
+      </template>
       </div>
     </li>
     <br>
@@ -173,7 +198,9 @@
     <li class="p-4 pb-2 text-sm opacity-80 tracking-wide flex justify-end">
       <div>更新至 69 题</div>
     </li>
+
     <br>
+
   </ul>
 </template>
 
@@ -1635,6 +1662,17 @@ const handleSubmit = () => {
   showResult.value = true
   errorMessage.value = null
 }
+
+const handleImageClick = (img) => {
+  // 直接比较图片对象（import 进来的变量）是否相等
+  if (img === currentArticle.value.answerImg) {
+    nextArticle()
+  } else {
+    isAnswerCollapsed.value = true
+    handleSubmit()
+  }
+}
+
 </script>
 
 <style>
