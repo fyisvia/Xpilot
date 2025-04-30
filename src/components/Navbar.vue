@@ -29,6 +29,7 @@
             <a class="text-sm font-semibold">学习</a>
             <ul class="p-2">
               <li><a class="text-sm" @click="changeComponent('ThreeHundred')">何切三百问</a></li>
+              <!-- <li><a class="text-sm" @click="changeComponent('PureOnes')">清一色练习</a></li> -->
               <li><a class="text-sm" @click="changeComponent('PointCalculation')">点数计算练习</a></li>
               <li><a class="text-sm" @click="changeComponent('Guide')">入门及进阶路线</a></li>
               <li><a class="text-sm" @click="changeComponent('Books')">战术书链接合集</a></li>
@@ -62,6 +63,7 @@
             <summary>学习</summary>
             <ul class="p-2 w-36">
               <li><a @click="changeComponent('ThreeHundred')">何切三百问</a></li>
+              <!-- <li><a @click="changeComponent('PureOnes')">清一色练习</a></li> -->
               <li><a @click="changeComponent('PointCalculation')">点数计算</a></li>
               <li><a @click="changeComponent('Guide')">入门及进阶路线</a></li>
               <li><a @click="changeComponent('Books')">战术书链接合集</a></li>

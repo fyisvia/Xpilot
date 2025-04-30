@@ -12,7 +12,7 @@
     <main class="w-full max-w-full sm:max-w-6xl h-[calc(100vh-5rem)] overflow-x-hidden overflow-y-auto overscroll-contain bg-base-0 sm:bg-base-200">
       <div class="flex flex-col items-center gap-4 px-0 sm:px-6">
         <br>
-        <component :is="components[currentComponent]"></component>
+        <component :changeComponent :is="components[currentComponent]"></component>
         <br>
       </div>
     </main>
@@ -28,6 +28,7 @@ import Discard from './components/Discard.vue';
 
 import ThreeHundred from './components/ThreeHundred.vue';
 import PointCalculation from './components/PointCalculation.vue';
+// import PureOnes from './components/PureOnes.vue';
 import Guide from './components/Guide.vue';
 import Books from './components/Books.vue';
 
@@ -48,6 +49,7 @@ const components = {
 
   ThreeHundred: ThreeHundred,
   PointCalculation: PointCalculation,
+  // PureOnes: PureOnes,
   Guide: Guide,
   Books: Books,
 

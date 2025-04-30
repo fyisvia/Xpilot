@@ -77,7 +77,10 @@
                 <span>4.何切：</span>
             </div>
             <div class="pl-8 flex items-center space-x-2">
-                <span>线上练习</span>
+                <span>《麻将杰作“何切”300选》福地诚/G·Uzaku （何切三百问）</span>
+                <a @click="changeComponent('ThreeHundred')">
+                    <button class="btn btn-link">Link</button>
+                </a>
             </div>
             <div class="pl-8 flex items-center space-x-2">
                 <span>《麻将定式“何切”301选》福地诚/G·Uzaku</span>
@@ -96,3 +99,7 @@
         <br>
     </ul>
 </template>
+
+<script setup>
+    defineProps(['changeComponent'])
+</script>
