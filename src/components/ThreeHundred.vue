@@ -13,23 +13,6 @@
     </li>
 
     <br>
-    
-    <li class="p-4 sm:p-4 pb-2 text-lg opacity-100 tracking-wide">
-      <div class="flex items-center gap-2 pb-4">
-        <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
-          <input type="checkbox" />
-          <div class="collapse-title opacity-100">使用说明</div>
-          <div class="collapse-content md:text-sm text-xs md:font-semibold sm:opacity-60 mb-0">
-              可以直接点击图片选择答案。<br>
-              选择正确会进入下一题，<br>
-              选择错误会自动展开参考答案和解析。<br>
-              但是手机上可能会有点小。
-          </div>
-        </div>
-      </div>
-    </li>
-
-    <br>
 
     <li class="p-4 sm:p-4 pb-2 text-lg sm:text-xl md:text-2xl opacity-100 tracking-wide">
       <div class="flex flex-col items-start">
@@ -75,7 +58,6 @@
       </template>
       </div>
     </li>
-    <br>
     <li class="p-2 sm:p-4 pb-2 text-xs sm:text-sm md:text-base opacity-100 tracking-wide">
       <div class="flex flex-nowrap justify-end" style="gap: 0;">
         <template v-for="(img, index) in currentArticle.images3">
@@ -93,6 +75,10 @@
         </template>
       </div>
     </li>
+    <li class="p-4 pb-2 text-sm opacity-80 tracking-wide flex justify-end">
+      <div>⬆️直接点击选择答案</div>
+    </li>
+
     <li class="p-2 sm:p-4 pb-2 text-sm sm:text-base md:text-lg opacity-100 tracking-wide">
       <div class="flex items-center gap-2 pb-4">
         <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
@@ -1664,10 +1650,43 @@ const handleSubmit = () => {
 }
 
 const handleImageClick = (img) => {
-  // 直接比较图片对象（import 进来的变量）是否相等
   if (img === currentArticle.value.answerImg) {
+    const correctMsg = document.createElement('div')
+    correctMsg.textContent = '回答正确！'
+    correctMsg.style.position = 'fixed'
+    correctMsg.style.top = '15%'
+    correctMsg.style.left = '50%'
+    correctMsg.style.transform = 'translate(-50%, -50%)'
+    correctMsg.style.background = 'rgba(200, 230, 255, 0.25)' 
+    correctMsg.style.color = '#222'
+    correctMsg.style.padding = '0.6em 1.5em'
+    correctMsg.style.borderRadius = '10px'
+    correctMsg.style.fontSize = '1.1em'
+    correctMsg.style.zIndex = 9999
+    correctMsg.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)'
+    document.body.appendChild(correctMsg)
+    setTimeout(() => {
+      document.body.removeChild(correctMsg)
+    }, 900)
     nextArticle()
   } else {
+    const correctMsg = document.createElement('div')
+    correctMsg.textContent = '回答错误！'
+    correctMsg.style.position = 'fixed'
+    correctMsg.style.top = '15%'
+    correctMsg.style.left = '50%'
+    correctMsg.style.transform = 'translate(-50%, -50%)'
+    correctMsg.style.background = 'rgba(0, 0, 0, 0.06)' 
+    correctMsg.style.color = '#222'
+    correctMsg.style.padding = '0.6em 1.5em'
+    correctMsg.style.borderRadius = '10px'
+    correctMsg.style.fontSize = '1.1em'
+    correctMsg.style.zIndex = 9999
+    correctMsg.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)'
+    document.body.appendChild(correctMsg)
+    setTimeout(() => {
+      document.body.removeChild(correctMsg)
+    }, 900)
     isAnswerCollapsed.value = true
     handleSubmit()
   }
