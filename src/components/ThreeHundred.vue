@@ -1650,6 +1650,7 @@ const handleSubmit = () => {
 }
 
 const handleImageClick = (img) => {
+  const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches
   if (img === currentArticle.value.answerImg) {
     const correctMsg = document.createElement('div')
     correctMsg.textContent = '回答正确！'
@@ -1657,8 +1658,10 @@ const handleImageClick = (img) => {
     correctMsg.style.top = '15%'
     correctMsg.style.left = '50%'
     correctMsg.style.transform = 'translate(-50%, -50%)'
-    correctMsg.style.background = 'rgba(200, 230, 255, 0.25)' 
-    correctMsg.style.color = '#222'
+    correctMsg.style.background = isDark
+      ? 'rgba(80, 120, 180, 0.8)'
+      : 'rgba(120, 180, 255, 0.25)'
+    correctMsg.style.color = isDark ? '#fff' : '#222'
     correctMsg.style.padding = '0.6em 1.5em'
     correctMsg.style.borderRadius = '10px'
     correctMsg.style.fontSize = '1.1em'
@@ -1670,22 +1673,24 @@ const handleImageClick = (img) => {
     }, 900)
     nextArticle()
   } else {
-    const correctMsg = document.createElement('div')
-    correctMsg.textContent = '回答错误！'
-    correctMsg.style.position = 'fixed'
-    correctMsg.style.top = '15%'
-    correctMsg.style.left = '50%'
-    correctMsg.style.transform = 'translate(-50%, -50%)'
-    correctMsg.style.background = 'rgba(0, 0, 0, 0.06)' 
-    correctMsg.style.color = '#222'
-    correctMsg.style.padding = '0.6em 1.5em'
-    correctMsg.style.borderRadius = '10px'
-    correctMsg.style.fontSize = '1.1em'
-    correctMsg.style.zIndex = 9999
-    correctMsg.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)'
-    document.body.appendChild(correctMsg)
+    const wrongMsg = document.createElement('div')
+    wrongMsg.textContent = '回答错误！'
+    wrongMsg.style.position = 'fixed'
+    wrongMsg.style.top = '15%'
+    wrongMsg.style.left = '50%'
+    wrongMsg.style.transform = 'translate(-50%, -50%)'
+    wrongMsg.style.background = isDark
+      ? 'rgba(80, 80, 80, 0.65)'
+      : 'rgba(0, 0, 0, 0.06)'
+    wrongMsg.style.color = isDark ? '#fff' : '#222'
+    wrongMsg.style.padding = '0.6em 1.5em'
+    wrongMsg.style.borderRadius = '10px'
+    wrongMsg.style.fontSize = '1.1em'
+    wrongMsg.style.zIndex = 9999
+    wrongMsg.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)'
+    document.body.appendChild(wrongMsg)
     setTimeout(() => {
-      document.body.removeChild(correctMsg)
+      document.body.removeChild(wrongMsg)
     }, 900)
     isAnswerCollapsed.value = true
     handleSubmit()
