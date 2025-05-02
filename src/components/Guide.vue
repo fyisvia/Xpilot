@@ -67,8 +67,8 @@
                 <span>3.防守：</span>
             </div>
             <div class="pl-8 flex items-center space-x-2">
-                <span>《麻将技术教科书：何切问答200问》小林刚/井出洋介</span>
-                <a href="https://www.bilibili.com/read/readlist/rl483437" target="_blank" rel="noopener">
+                <span>《麻将技术教科书：不会放铳的打法》小林刚/井出洋介</span>
+                <a href="https://www.bilibili.com/read/readlist/rl398453" target="_blank" rel="noopener">
                     <button class="btn btn-link">Link</button>
                 </a>
             </div>

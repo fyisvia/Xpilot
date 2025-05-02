@@ -75,15 +75,15 @@
         </template>
       </div>
     </li>
-    <li class="p-4 pb-2 text-sm opacity-80 tracking-wide flex justify-end">
-      <div>⬆️直接点击选择答案</div>
+    <li class="p-4 pb-2 text-xs md:text-base opacity-80 tracking-wide flex justify-end">
+      <div>⬆️直接点击选择答案，目前更新至90题</div>
     </li>
 
     <li class="p-2 sm:p-4 pb-2 text-sm sm:text-base md:text-lg opacity-100 tracking-wide">
       <div class="flex items-center gap-2 pb-4">
         <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
-          <input type="checkbox" v-model="isAnswerCollapsed" />
-          <div class="collapse-title text-lg sm:text-xl md:text-2xl font-semibold">参考答案及解析</div>
+            <input type="checkbox" v-model="isAnswerCollapsed"/>
+            <div class="collapse-title text-lg md:text-xl font-semibold text-center">参考答案及解析</div>
           <div class="collapse-content text-sm sm:text-base md:text-lg mb-0">
             <img
               :src="currentArticle.answerImg"
@@ -116,7 +116,7 @@
         </div>
       </div>
       <div class="list-row flex flex-col gap-2">
-        <button class="btn text-sm sm:text-base bg-base-100" @click="handleSubmit">进张数分析</button>
+        <button class="btn text-base md:text-lg font-semibold bg-base-100" @click="handleSubmit">进张数分析</button>
       </div>
       <div class="overflow-x-auto" v-if="showResult">
         <div class="responsive-table-wrapper">
@@ -180,9 +180,6 @@
       >
         下一题
       </button>
-    </li>
-    <li class="p-4 pb-2 text-sm opacity-80 tracking-wide flex justify-end">
-      <div>更新至 90 题</div>
     </li>
 
     <br>
