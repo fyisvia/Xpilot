@@ -22,13 +22,13 @@
 <script setup>
 import { ref } from 'vue';
 
-// import HomeView from '';
+import Home from './components/Home.vue';
 import Upload from './components/Review.vue';
 import Discard from './components/Discard.vue';
 
 import ThreeHundred from './components/ThreeHundred.vue';
 import PointCalculation from './components/PointCalculation.vue';
-// import PureOnes from './components/PureOnes.vue';
+import PureOnesTenpai from './components/PureOnesTenpai.vue';
 import Guide from './components/Guide.vue';
 import Books from './components/Books.vue';
 
@@ -39,17 +39,18 @@ import WebDictionary from './components/WebDictionary.vue';
 import Navbar from './components/Navbar.vue';
 
 
-const currentComponent = ref('Discard');
+const currentComponent = ref('Home');
 
 const components = {
   
-  // Home: Home,
+  Home: Home,
+
   Discard: Discard,
   Upload: Upload,
 
   ThreeHundred: ThreeHundred,
   PointCalculation: PointCalculation,
-  // PureOnes: PureOnes,
+  PureOnesTenpai: PureOnesTenpai,
   Guide: Guide,
   Books: Books,
 

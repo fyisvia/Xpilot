@@ -37,15 +37,14 @@
     <li class="p-2 sm:p-4 pb-2 text-xs sm:text-sm md:text-base opacity-100 tracking-wide">
       <div class="flex flex-nowrap justify-start" style="gap: 0;">
       <template v-for="(img, index) in currentArticle.images2" :key="img + '-' + index">
-        <div class="relative group">
+        <div class="relative group" style="width: calc(100% / 14);">
         <img
           :src="img"
           alt=""
           class="flex-shrink-0 object-contain transition-transform duration-150 group-active:scale-95 group-hover:scale-110"
           :style="{
-          // width: `calc(100% / (${currentArticle.images2.length} + 1/3))`,
-          // height: `calc((100% / (14 + 1/3)) * 1.5)`,
-          // marginRight: index === currentArticle.images2.length - 1 ? `calc((100% / (${currentArticle.images2.length} + 1/3)) / 3)` : '0'
+          width: '100%',
+          height: 'calc(1.5 * 100%)'
           }"
         />
         <button
@@ -604,7 +603,7 @@ const articles = ref([
     answerImg: s7,
     explanation: [
       '“', '门', '清', '为', '前', '提', '”', '的', '手', '牌', '。',
-      '优', '先', '打', s7, '固', '定', '赤', p5, '。',
+      '优', '先', '打', s7, '固', '定', s0, '。',
       '亲', '家', '一', '枚', '赤', '宝', '牌', '，', '愚', '型', '即', '立', '也', '可', '以', '。'
     ]
   },

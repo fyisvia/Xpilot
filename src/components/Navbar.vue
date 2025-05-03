@@ -21,7 +21,7 @@
           <li>
             <a class="text-sm font-semibold">分析</a>
             <ul class="p-2">
-              <li><a class="text-sm" @click="changeComponent('Discard')">何切分析</a></li>
+              <li><a class="text-sm" @click="changeComponent('Discard')">牌效率分析</a></li>
               <li><a class="text-sm" @click="changeComponent('Upload')">牌谱分析</a></li>
             </ul>
           </li>
@@ -29,7 +29,7 @@
             <a class="text-sm font-semibold">学习</a>
             <ul class="p-2">
               <li><a class="text-sm" @click="changeComponent('ThreeHundred')">何切三百问</a></li>
-              <!-- <li><a class="text-sm" @click="changeComponent('PureOnes')">清一色练习</a></li> -->
+              <li><a class="text-sm" @click="changeComponent('PureOnesTenpai')">清一色听牌练习</a></li>
               <li><a class="text-sm" @click="changeComponent('PointCalculation')">点数计算练习</a></li>
               <li><a class="text-sm" @click="changeComponent('Guide')">入门及进阶路线</a></li>
               <li><a class="text-sm" @click="changeComponent('Books')">战术书链接合集</a></li>
@@ -45,7 +45,7 @@
           </li>
         </ul>
       </div>
-      <a class="btn btn-ghost text-xl">Xpilot</a>
+      <a class="btn btn-ghost text-xl" @click="changeComponent('Home')">Xpilot</a>
     </div>
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1">
@@ -53,7 +53,7 @@
           <details>
             <summary>分析</summary>
             <ul class="p-2 w-32">
-              <li><a @click="changeComponent('Discard')">何切分析</a></li>
+              <li><a @click="changeComponent('Discard')">牌效率分析</a></li>
               <li><a @click="changeComponent('Upload')">牌谱分析</a></li>
             </ul>
           </details>
@@ -63,7 +63,7 @@
             <summary>学习</summary>
             <ul class="p-2 w-36">
               <li><a @click="changeComponent('ThreeHundred')">何切三百问</a></li>
-              <!-- <li><a @click="changeComponent('PureOnes')">清一色练习</a></li> -->
+              <li><a @click="changeComponent('PureOnesTenpai')">清一色听牌练习</a></li>
               <li><a @click="changeComponent('PointCalculation')">点数计算</a></li>
               <li><a @click="changeComponent('Guide')">入门及进阶路线</a></li>
               <li><a @click="changeComponent('Books')">战术书链接合集</a></li>

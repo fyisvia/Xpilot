@@ -8,7 +8,7 @@
 <template>
     <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
         <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
-            何切分析
+            牌效率分析
         </li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
             <div class="flex items-center gap-2 pb-4">
