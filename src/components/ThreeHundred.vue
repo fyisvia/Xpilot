@@ -92,7 +92,7 @@
       </div>
     </li>
     <li class="p-4 pb-2 text-xs md:text-base opacity-80 tracking-wide flex justify-end">
-      <div>⬆️直接点击选择答案，目前更新至180题</div>
+      <div>⬆️直接点击选择答案，目前更新至225题</div>
     </li>
 
     <li class="p-2 sm:p-4 pb-2 text-sm sm:text-base md:text-lg opacity-100 tracking-wide">
