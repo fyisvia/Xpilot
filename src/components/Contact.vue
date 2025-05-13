@@ -11,7 +11,7 @@
             联系作者
         </li><br>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
-            Email: admin@xpilot.top
+            Email: fyisvia@gmail.com
         </li><br>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
             <div class="flex items-center space-x-2">
