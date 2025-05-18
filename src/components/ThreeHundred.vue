@@ -1797,7 +1797,7 @@ const articles = ref([
   {
     id: 120,
     round: '东 1 局  东家  4 巡目',
-    images1: [z0, z0, z2, z0, z0, z0, z0],
+    images1: [z0, z0, m5, z0, z0, z0, z0],
     images2: [m2, m3, m4, m6, m7, m7, p2, p3, p4, p4, s6, s7, s8, s0],
     answerImg: p4,
     explanation: [
