@@ -11,7 +11,7 @@
             MahjongXpilot
         </li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
-            version: 1.1.0<br><br>
+            version: 1.1.1<br><br>
             Copyright © Fyisvia Virell. <br>
             All Rights Reserved.<br>
         </li>
@@ -23,6 +23,18 @@
                 </a>
             </div>
             欢迎帮忙review代码，提交bug和功能建议。<br><br>
+        </li>
+        <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
+            1.1.1 版本更新（20250521）<br>
+        </li>
+        <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
+            本次更新主要内容为：
+            <br><br>
+            1.新增牌效率分析的好型率显示。
+            <br><br>
+            2.增大了清一色听牌时选择随机难度时的难度。
+            <br><br>
+            3.修复部分收录内容错误的问题。
         </li>
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
             1.1.0 版本更新（20250503）<br>
@@ -37,8 +49,6 @@
             3.修复了部分UI问题。
             <br><br>
             4.修复了部分收录内容错误的问题。
-            <br><br>
-            如有其他任何问题或建议，欢迎发邮件至admin@xpilot.top进行反馈，帮助我进行改进。
         </li>
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
             1.0.1 版本更新（20250428）<br>
