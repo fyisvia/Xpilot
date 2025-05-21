@@ -167,8 +167,8 @@
                                     <!-- <th></th> -->
                                     <th class="text-center">切</th>
                                     <th class="text-center">进张</th>
-                                    <th class="text-center">总进张</th>
                                     <th class="text-center">好型率</th>
+                                    <th class="text-center">总进张</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -180,8 +180,8 @@
                                     <!-- <th>{{ idx + 1 }}</th> -->
                                     <td class="font-bold text-center">{{ tile }}</td>
                                     <td class="text-center">{{ Object.keys(result.improvements).join(', ') }}</td>
+                                    <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(0) }}%</td>
                                     <td class="font-bold text-center">{{ result.totalCount }}</td>
-                                    <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(1) }}%</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -646,7 +646,8 @@ const analyzeImprovement = (currentHand, currentTiles34) => {
         if (Object.keys(improvements).length > 0) {
             // 计算好型率
             const newHand = currentHand.filter((_, i) => i !== discardIndex);
-            const goodShapeRate = calculateGoodShapeRate(newHand, convertToTiles34Arr(newHand)) * 100;
+            const computedRate = calculateGoodShapeRate(newHand, convertToTiles34Arr(newHand)) * 100;
+            const goodShapeRate = computedRate < 2 ? 0 : computedRate;
             
             results[tileToDiscard] = { 
                 improvements, 

@@ -672,8 +672,14 @@ const initializeGame = () => {
         const shanten = calculateShanten(tempTiles34);
 
         if (shanten === 0 && getCorrectAnswer(initialHand).length !== 0) {
+            const correctCount = getCorrectAnswer(initialHand).length;
             if (difficulty.value === 0) {
-                validHand = true;
+                // 对简单手牌（待牌数为1或2）的处理，降低其出现概率
+                if (correctCount >= 1 && correctCount <= 2) {
+                    validHand = Math.random() < 0.15; // 仅15%概率接受简单手牌
+                } else {
+                    validHand = true;
+                }
             }
             if (difficulty.value === 1 && getCorrectAnswer(initialHand).length >= 1 && getCorrectAnswer(initialHand).length <= 2) {
                 validHand = true;
