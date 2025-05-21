@@ -143,6 +143,7 @@
                 <th class="text-center">切</th>
                 <th class="text-center">进张</th>
                 <th class="text-center">总进张</th>
+                <th class="text-center">好型率</th>
               </tr>
             </thead>
             <tbody>
@@ -155,6 +156,7 @@
                 <td class="font-bold text-center">{{ tile }}</td>
                 <td class="text-center">{{ Object.keys(result.improvements).join(', ') }}</td>
                 <td class="font-bold text-center">{{ result.totalCount }}</td>
+                <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(1) }}%</td>
               </tr>
             </tbody>
           </table>
@@ -4450,6 +4452,89 @@ const generateTiles = () => {
   return tiles
 }
 
+// 计算好型率的辅助函数
+const calculateGoodShapeRate = (hand, tiles34Arr) => {
+    const shanten = calculateShanten(tiles34Arr)
+    
+    // 如果已经听牌（向听数为0）
+    if (shanten === 0) {
+        // 分析进张
+        const allTiles = generateTiles()
+        const initialCountMap = allTiles.reduce((acc, tile) => {
+            acc[tile] = (acc[tile] || 0) + 1
+            return acc
+        }, {})
+        hand.forEach(tile => { initialCountMap[tile] = (initialCountMap[tile] || 0) - 1 })
+        
+        // 计算进牌种类及其总枚数
+        let waitTypes = new Set()
+        let waitCount = 0
+        Object.entries(initialCountMap).forEach(([tile, count]) => {
+            if (count <= 0) return
+            const tempHand = [...hand, tile]
+            const tempTiles34 = convertToTiles34Arr(tempHand)
+            const newShanten = calculateShanten(tempTiles34)
+            if (newShanten === -1) {
+                waitTypes.add(tile)
+                waitCount += count
+            }
+        })
+        
+        // 听牌类型数量大于1且总枚数大于4，认为是好型
+        return (waitTypes.size > 1 && waitCount > 4) ? 100 : 0
+    }
+    
+    // 如果向听数大于0
+    let totalPaths = 0
+    let goodShapePaths = 0
+    
+    // 获取所有可能的进张
+    const allTiles = generateTiles()
+    const initialCountMap = allTiles.reduce((acc, tile) => {
+        acc[tile] = (acc[tile] || 0) + 1
+        return acc
+    }, {})
+    hand.forEach(tile => { initialCountMap[tile] = (initialCountMap[tile] || 0) - 1 })
+    
+    // 对每个进张进行分析
+    Object.entries(initialCountMap).forEach(([tile, count]) => {
+        if (count <= 0) return
+        const tempHand = [...hand, tile]
+        const tempTiles34 = convertToTiles34Arr(tempHand)
+        const newShanten = calculateShanten(tempTiles34)
+        
+        if (newShanten < shanten) {
+            // 递归计算这条路径的好型率
+            // 需要模拟打出一张牌，保持手牌数量正确
+            let bestPathRate = 0;
+            
+            // 尝试打出每一张牌，找出最佳切牌选择
+            for (let i = 0; i < tempHand.length; i++) {
+                const discardHand = [...tempHand];
+                discardHand.splice(i, 1); // 打出一张牌
+                const discardTiles34 = convertToTiles34Arr(discardHand);
+                
+                // 确认向听数确实减少了
+                const discardShanten = calculateShanten(discardTiles34);
+                if (discardShanten < shanten) {
+                    const pathRate = calculateGoodShapeRate(discardHand, discardTiles34);
+                    bestPathRate = Math.max(bestPathRate, pathRate);
+                }
+            }
+            
+            // 根据剩余牌数加权计算
+            totalPaths += count;
+            goodShapePaths += (count * bestPathRate / 100);
+        }
+    })
+    
+    // 如果没有任何进张，返回0
+    if (totalPaths === 0) return 0
+    
+    // 返回加权平均的好型率
+    return (goodShapePaths / totalPaths)
+}
+
 // 分析进张
 const analyzeImprovement = (currentHand, currentTiles34) => {
   const results = {}
@@ -4480,7 +4565,15 @@ const analyzeImprovement = (currentHand, currentTiles34) => {
       }
     })
     if (Object.keys(improvements).length > 0) {
-      results[tileToDiscard] = { improvements, totalCount }
+                  // 计算好型率
+            const newHand = currentHand.filter((_, i) => i !== discardIndex);
+            const goodShapeRate = calculateGoodShapeRate(newHand, convertToTiles34Arr(newHand)) * 100;
+            
+            results[tileToDiscard] = { 
+                improvements, 
+                totalCount,
+                goodShapeRate
+            }
     }
   })
   return results
