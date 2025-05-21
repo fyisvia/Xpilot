@@ -139,7 +139,7 @@
           <table class="table table-sm w-full bg-base-100 rounded-lg">
             <thead>
               <tr>
-                <th></th>
+                <!-- <th></th> -->
                 <th class="text-center">切</th>
                 <th class="text-center">进张</th>
                 <th class="text-center">总进张</th>
@@ -152,7 +152,7 @@
                 :key="tile"
                 :class="idx % 2 === 1 ? 'hover:bg-base-300' : ''"
               >
-                <th>{{ idx + 1 }}</th>
+                <!-- <th>{{ idx + 1 }}</th> -->
                 <td class="font-bold text-center">{{ tile }}</td>
                 <td class="text-center">{{ Object.keys(result.improvements).join(', ') }}</td>
                 <td class="font-bold text-center">{{ result.totalCount }}</td>
