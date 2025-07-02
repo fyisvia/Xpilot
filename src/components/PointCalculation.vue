@@ -265,8 +265,8 @@ const generatePointsTable = () => {
         const dealerRow = [];
         const nonDealerRow = [];
 
-        dealerRow.push({ main: `${han}飜${han === 13 ? '+' : ''}`, sub: '', bgColor: 'bg-gray-200' });
-        nonDealerRow.push({ main: `${han}飜${han === 13 ? '+' : ''}`, sub: '', bgColor: 'bg-gray-200' });
+        dealerRow.push({ main: `${han}番${han === 13 ? '+' : ''}`, sub: '', bgColor: 'bg-gray-200' });
+        nonDealerRow.push({ main: `${han}番${han === 13 ? '+' : ''}`, sub: '', bgColor: 'bg-gray-200' });
 
         for (let fu of fuList) {
             const dealerPointsTsumo = calculatePoints(true, true, han, fu);
