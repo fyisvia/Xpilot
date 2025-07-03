@@ -45,12 +45,6 @@
 
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
             <div class="flex items-center gap-2 pb-4">
-            <!-- <input
-                type="radio"
-                name="radio-uploadmethod"
-                class="radio radio-xs"
-                checked="checked"
-            /> -->
             <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
                 输入手牌
             </span>
@@ -65,59 +59,6 @@
             autocomplete="off"
             />
         </li>
-
-        <!-- <li class="list-row flex flex-col gap-2">
-            <div class="flex items-center gap-2">
-                <input
-                    type="radio"
-                    name="radio-uploadmethod"
-                    class="radio radio-xs"
-                    checked="checked"
-                />
-                <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
-                    从表中选择
-                </span>
-            </div>
-            <input type="text" placeholder="Type here" class="input" />
-        </li>
-
-        <li class="p-4 pb-0 text-base opacity-100 tracking-wide">
-            <fieldset class="fieldset ml-0">
-                <legend class="text-base">场风</legend>
-                <select class="select ml-0">
-                    <option>东风</option>
-                    <option>南风</option>
-                    <option>西风</option>
-                    <option>北风</option>
-                </select>
-                <span class="label ml-3">Optional</span>
-            </fieldset>
-        </li>
-
-        <li class="p-4 pb-0 text-base opacity-100 tracking-wide">
-            <fieldset class="fieldset ml-0">
-                <legend class="text-base">自风</legend>
-                <select class="select ml-0">
-                    <option>东风</option>
-                    <option>南风</option>
-                    <option>西风</option>
-                    <option>北风</option>
-                </select>
-                <span class="label ml-3">Optional</span>
-            </fieldset>
-        </li>
-
-        <li class="p-4 pb-0 text-base opacity-100 tracking-wide">
-            <fieldset class="fieldset ml-0">
-                <legend class="text-base">语言</legend>
-                <select class="select ml-0">
-                    <option>English</option>
-                    <option>Chinese (simplified)</option>
-                    <option>Japanese</option>
-                </select>
-                <span class="label ml-3">Optional</span>
-            </fieldset>
-        </li> -->
 
         <li class="list-row flex flex-col gap-2">
             <div></div>
@@ -194,508 +135,175 @@
 
 <script setup>
 import { ref } from 'vue'
+import { Shanten } from '../utils/shanten'
 defineProps(["changeComponent"])
 
-// Shanten 模块定义
-class Shanten {
-    constructor() {
-        this.AGARI_STATE = -1
-        this.tiles = []
-        this.number_melds = 0
-        this.number_tatsu = 0
-        this.number_pairs = 0
-        this.number_jidahai = 0
-        this.number_characters = 0
-        this.number_isolated_tiles = 0
-        this.min_shanten = 0
-    }
-
-    calculateShanten(tiles34, useChiitoitsu = true, useKokushi = true) {
-        const results = [this.calculateShantenForRegularHand(tiles34)]
-        if (useChiitoitsu) results.push(this.calculateShantenForChiitoitsuHand(tiles34))
-        if (useKokushi) results.push(this.calculateShantenForKokushiHand(tiles34))
-        return Math.min(...results)
-    }
-
-    calculateShantenForChiitoitsuHand(tiles34) {
-        let pairs = 0, uniquePairs = 0
-        for (let i = 0; i < tiles34.length; i++) {
-            if (tiles34[i] >= 2) {
-                pairs++
-                if (tiles34[i] === 2) uniquePairs++
-            }
-        }
-        if (tiles34.filter(x => x === 2).length === 4 && tiles34.filter(x => x === 3).length === 2) return 1
-        if (tiles34.filter(x => x === 2).length === 5 && tiles34.filter(x => x === 4).length === 1) return 1
-        if (pairs === 7 && uniquePairs === 7) return this.AGARI_STATE
-        return 6 - pairs
-    }
-
-    calculateShantenForKokushiHand(tiles34) {
-        const indices = [...TERMINAL_INDICES, ...HONOR_INDICES]
-        let completedTerminals = 0, terminals = 0
-        for (const i of indices) {
-            if (tiles34[i] >= 2) completedTerminals++
-            if (tiles34[i] !== 0) terminals++
-        }
-        return 13 - terminals - (completedTerminals ? 1 : 0)
-    }
-
-    calculateShantenForRegularHand(tiles34) {
-        tiles34 = [...tiles34]
-        this._init(tiles34)
-        const countOfTiles = tiles34.reduce((sum, x) => sum + x, 0)
-        if (countOfTiles > 14) throw new Error(`Too many tiles = ${countOfTiles}`)
-        this._removeCharacterTiles(countOfTiles)
-        const initMentsu = Math.floor((14 - countOfTiles) / 3)
-        this._scan(initMentsu)
-        return this.min_shanten
-    }
-
-    _init(tiles) {
-        this.tiles = tiles
-        this.number_melds = 0
-        this.number_tatsu = 0
-        this.number_pairs = 0
-        this.number_jidahai = 0
-        this.number_characters = 0
-        this.number_isolated_tiles = 0
-        this.min_shanten = 8
-    }
-
-    _scan(initMentsu) {
-        this.number_characters = 0
-        for (let i = 0; i < 27; i++) {
-            this.number_characters |= (this.tiles[i] === 4) << i
-        }
-        this.number_melds += initMentsu
-        this._run(0)
-    }
-
-    _run(depth) {
-        if (this.min_shanten === this.AGARI_STATE) return
-        while (!this.tiles[depth]) {
-            depth++
-            if (depth >= 27) break
-        }
-        if (depth >= 27) return this._updateResult()
-        let i = depth
-        if (i > 8) i -= 9
-        if (i > 8) i -= 9
-
-        if (this.tiles[depth] === 4) {
-            this._increaseSet(depth)
-            if (i < 7 && this.tiles[depth + 2]) {
-                if (this.tiles[depth + 1]) {
-                    this._increaseSyuntsu(depth)
-                    this._run(depth + 1)
-                    this._decreaseSyuntsu(depth)
-                }
-                this._increaseTatsuSecond(depth)
-                this._run(depth + 1)
-                this._decreaseTatsuSecond(depth)
-            }
-            if (i < 8 && this.tiles[depth + 1]) {
-                this._increaseTatsuFirst(depth)
-                this._run(depth + 1)
-                this._decreaseTatsuFirst(depth)
-            }
-            this._increaseIsolatedTile(depth)
-            this._run(depth + 1)
-            this._decreaseIsolatedTile(depth)
-            this._decreaseSet(depth)
-            this._increasePair(depth)
-            if (i < 7 && this.tiles[depth + 2]) {
-                if (this.tiles[depth + 1]) {
-                    this._increaseSyuntsu(depth)
-                    this._run(depth)
-                    this._decreaseSyuntsu(depth)
-                }
-                this._increaseTatsuSecond(depth)
-                this._run(depth + 1)
-                this._decreaseTatsuSecond(depth)
-            }
-            if (i < 8 && this.tiles[depth + 1]) {
-                this._increaseTatsuFirst(depth)
-                this._run(depth + 1)
-                this._decreaseTatsuFirst(depth)
-            }
-            this._decreasePair(depth)
-        }
-
-        if (this.tiles[depth] === 3) {
-            this._increaseSet(depth)
-            this._run(depth + 1)
-            this._decreaseSet(depth)
-            this._increasePair(depth)
-            if (i < 7 && this.tiles[depth + 1] && this.tiles[depth + 2]) {
-                this._increaseSyuntsu(depth)
-                this._run(depth + 1)
-                this._decreaseSyuntsu(depth)
-            } else {
-                if (i < 7 && this.tiles[depth + 2]) {
-                    this._increaseTatsuSecond(depth)
-                    this._run(depth + 1)
-                    this._decreaseTatsuSecond(depth)
-                }
-                if (i < 8 && this.tiles[depth + 1]) {
-                    this._increaseTatsuFirst(depth)
-                    this._run(depth + 1)
-                    this._decreaseTatsuFirst(depth)
-                }
-            }
-            this._decreasePair(depth)
-            if (i < 7 && this.tiles[depth + 2] >= 2 && this.tiles[depth + 1] >= 2) {
-                this._increaseSyuntsu(depth)
-                this._increaseSyuntsu(depth)
-                this._run(depth)
-                this._decreaseSyuntsu(depth)
-                this._decreaseSyuntsu(depth)
-            }
-        }
-
-        if (this.tiles[depth] === 2) {
-            this._increasePair(depth)
-            this._run(depth + 1)
-            this._decreasePair(depth)
-            if (i < 7 && this.tiles[depth + 2] && this.tiles[depth + 1]) {
-                this._increaseSyuntsu(depth)
-                this._run(depth)
-                this._decreaseSyuntsu(depth)
-            }
-        }
-
-        if (this.tiles[depth] === 1) {
-            if (i < 6 && this.tiles[depth + 1] === 1 && this.tiles[depth + 2] && this.tiles[depth + 3] !== 4) {
-                this._increaseSyuntsu(depth)
-                this._run(depth + 2)
-                this._decreaseSyuntsu(depth)
-            } else {
-                this._increaseIsolatedTile(depth)
-                this._run(depth + 1)
-                this._decreaseIsolatedTile(depth)
-                if (i < 7 && this.tiles[depth + 2]) {
-                    if (this.tiles[depth + 1]) {
-                        this._increaseSyuntsu(depth)
-                        this._run(depth + 1)
-                        this._decreaseSyuntsu(depth)
-                    }
-                    this._increaseTatsuSecond(depth)
-                    this._run(depth + 1)
-                    this._decreaseTatsuSecond(depth)
-                }
-                if (i < 8 && this.tiles[depth + 1]) {
-                    this._increaseTatsuFirst(depth)
-                    this._run(depth + 1)
-                    this._decreaseTatsuFirst(depth)
-                }
-            }
-        }
-    }
-
-    _updateResult() {
-        let retShanten = 8 - this.number_melds * 2 - this.number_tatsu - this.number_pairs
-        let nMentsuKouho = this.number_melds + this.number_tatsu
-        if (this.number_pairs) nMentsuKouho += this.number_pairs - 1
-        else if (this.number_characters && this.number_isolated_tiles) {
-            if ((this.number_characters | this.number_isolated_tiles) === this.number_characters) retShanten += 1
-        }
-        if (nMentsuKouho > 4) retShanten += nMentsuKouho - 4
-        if (retShanten !== this.AGARI_STATE && retShanten < this.number_jidahai) retShanten = this.number_jidahai
-        if (retShanten < this.min_shanten) this.min_shanten = retShanten
-    }
-
-    _increaseSet(k) {
-        this.tiles[k] -= 3
-        this.number_melds += 1
-    }
-    _decreaseSet(k) {
-        this.tiles[k] += 3
-        this.number_melds -= 1
-    }
-    _increasePair(k) {
-        this.tiles[k] -= 2
-        this.number_pairs += 1
-    }
-    _decreasePair(k) {
-        this.tiles[k] += 2
-        this.number_pairs -= 1
-    }
-    _increaseSyuntsu(k) {
-        this.tiles[k] -= 1
-        this.tiles[k + 1] -= 1
-        this.tiles[k + 2] -= 1
-        this.number_melds += 1
-    }
-    _decreaseSyuntsu(k) {
-        this.tiles[k] += 1
-        this.tiles[k + 1] += 1
-        this.tiles[k + 2] += 1
-        this.number_melds -= 1
-    }
-    _increaseTatsuFirst(k) {
-        this.tiles[k] -= 1
-        this.tiles[k + 1] -= 1
-        this.number_tatsu += 1
-    }
-    _decreaseTatsuFirst(k) {
-        this.tiles[k] += 1
-        this.tiles[k + 1] += 1
-        this.number_tatsu -= 1
-    }
-    _increaseTatsuSecond(k) {
-        this.tiles[k] -= 1
-        this.tiles[k + 2] -= 1
-        this.number_tatsu += 1
-    }
-    _decreaseTatsuSecond(k) {
-        this.tiles[k] += 1
-        this.tiles[k + 2] += 1
-        this.number_tatsu -= 1
-    }
-    _increaseIsolatedTile(k) {
-        this.tiles[k] -= 1
-        this.number_isolated_tiles |= 1 << k
-    }
-    _decreaseIsolatedTile(k) {
-        this.tiles[k] += 1
-        this.number_isolated_tiles |= 1 << k
-    }
-    _removeCharacterTiles(nc) {
-        let number = 0, isolated = 0
-        for (let i = 27; i < 34; i++) {
-            if (this.tiles[i] === 4) {
-                this.number_melds += 1
-                this.number_jidahai += 1
-                number |= 1 << (i - 27)
-                isolated |= 1 << (i - 27)
-            }
-            if (this.tiles[i] === 3) this.number_melds += 1
-            if (this.tiles[i] === 2) this.number_pairs += 1
-            if (this.tiles[i] === 1) isolated |= 1 << (i - 27)
-        }
-        if (this.number_jidahai && nc % 3 === 2) this.number_jidahai -= 1
-        if (isolated) {
-            this.number_isolated_tiles |= 1 << 27
-            if ((number | isolated) === number) this.number_characters |= 1 << 27
-        }
-    }
-}
-
+// 常量
 const TERMINAL_INDICES = [0, 8, 9, 17, 18, 26]
 const HONOR_INDICES = [27, 28, 29, 30, 31, 32, 33]
 
-// Reactive states
+// 响应式状态
 const handInput = ref('')
 const showResult = ref(false)
 const shantenNum = ref(null)
 const improvementResults = ref({})
 const errorMessage = ref(null)
 
-// 将手牌转换为 tiles34Arr 格式
-const convertToTiles34Arr = (handTiles) => {
-    const tiles34Arr = new Array(34).fill(0)
-    handTiles.forEach(tile => {
-        const num = tile.replace(/\D/g, "")
-        const type = tile.slice(-1)
-        let index
-        if (type === "m") index = num === "0" ? 4 : parseInt(num, 10) - 1
-        else if (type === "p") index = 9 + (num === "0" ? 4 : parseInt(num, 10) - 1)
-        else if (type === "s") index = 18 + (num === "0" ? 4 : parseInt(num, 10) - 1)
-        else if (type === "z") index = 27 + (parseInt(num, 10) - 1)
-        if (index !== undefined) tiles34Arr[index]++
-    })
-    return tiles34Arr
+// 工具函数
+const convertToTiles34Arr = handTiles => {
+  const arr = Array(34).fill(0)
+  handTiles.forEach(tile => {
+    const num = tile.replace(/\D/g, "")
+    const type = tile.slice(-1)
+    let idx
+    if (type === "m") idx = num === "0" ? 4 : +num - 1
+    else if (type === "p") idx = 9 + (num === "0" ? 4 : +num - 1)
+    else if (type === "s") idx = 18 + (num === "0" ? 4 : +num - 1)
+    else if (type === "z") idx = 27 + (+num - 1)
+    if (idx !== undefined) arr[idx]++
+  })
+  return arr
 }
 
-// 计算向听数
-const calculateShanten = (tiles34Arr) => {
-    const shanten = new Shanten()
-    return shanten.calculateShanten(tiles34Arr)
-}
+const calculateShanten = tiles34Arr => new Shanten().calculateShanten(tiles34Arr)
 
-// 生成所有可能的牌
 const generateTiles = () => {
-    const types = ["m", "p", "s"], tiles = []
-    types.forEach(type => {
-        for (let num = 1; num <= 9; num++) {
-            if (num === 5) {
-                tiles.push(...Array(3).fill(`${num}${type}`))
-                tiles.push(`0${type}`)
-            } else {
-                tiles.push(...Array(4).fill(`${num}${type}`))
-            }
-        }
-    })
-    for (let num = 1; num <= 7; num++) tiles.push(...Array(4).fill(`${num}z`))
-    return tiles
+  const tiles = []
+  for (const type of ["m", "p", "s"]) {
+    for (let num = 1; num <= 9; num++) {
+      if (num === 5) {
+        tiles.push(...Array(3).fill(`5${type}`), `0${type}`)
+      } else {
+        tiles.push(...Array(4).fill(`${num}${type}`))
+      }
+    }
+  }
+  for (let num = 1; num <= 7; num++) tiles.push(...Array(4).fill(`${num}z`))
+  return tiles
 }
 
-// 计算好型率的辅助函数（加深度限制和记忆化）
+// 记忆化好型率计算
 const calculateGoodShapeRate = (() => {
-    const cache = new Map();
-    const MAX_DEPTH = 3; // 可根据实际调整，3~4体验较好
+  const cache = new Map()
+  const MAX_DEPTH = 3
+  function inner(hand, tiles34Arr, depth = 0) {
+    const key = hand.slice().sort().join(',') + `|${depth}`
+    if (cache.has(key)) return cache.get(key)
+    if (depth > MAX_DEPTH) return 0
 
-    function inner(hand, tiles34Arr, depth = 0) {
-        // 记忆化key：手牌+深度
-        const key = hand.slice().sort().join(',') + `|${depth}`;
-        if (cache.has(key)) return cache.get(key);
-
-        if (depth > MAX_DEPTH) return 0;
-
-        const shanten = calculateShanten(tiles34Arr);
-
-        // 听牌时直接判定
-        if (shanten === 0) {
-            const allTiles = generateTiles();
-            const initialCountMap = allTiles.reduce((acc, tile) => {
-                acc[tile] = (acc[tile] || 0) + 1;
-                return acc;
-            }, {});
-            hand.forEach(tile => { initialCountMap[tile] = (initialCountMap[tile] || 0) - 1; });
-
-            let waitTypes = new Set();
-            let waitCount = 0;
-            Object.entries(initialCountMap).forEach(([tile, count]) => {
-                if (count <= 0) return;
-                const tempHand = [...hand, tile];
-                const tempTiles34 = convertToTiles34Arr(tempHand);
-                const newShanten = calculateShanten(tempTiles34);
-                if (newShanten === -1) {
-                    waitTypes.add(tile);
-                    waitCount += count;
-                }
-            });
-            const result = (waitTypes.size > 1 && waitCount > 4) ? 100 : 0;
-            cache.set(key, result);
-            return result;
-        }
-
-        // 非听牌时
-        let totalPaths = 0, goodShapePaths = 0;
-        const allTiles = generateTiles();
-        const initialCountMap = allTiles.reduce((acc, tile) => {
-            acc[tile] = (acc[tile] || 0) + 1;
-            return acc;
-        }, {});
-        hand.forEach(tile => { initialCountMap[tile] = (initialCountMap[tile] || 0) - 1; });
-
-        Object.entries(initialCountMap).forEach(([tile, count]) => {
-            if (count <= 0) return;
-            const tempHand = [...hand, tile];
-            const tempTiles34 = convertToTiles34Arr(tempHand);
-            const newShanten = calculateShanten(tempTiles34);
-
-            if (newShanten < shanten) {
-                let bestPathRate = 0;
-                // 只尝试打出不同的牌，避免重复
-                const unique = new Set();
-                for (let i = 0; i < tempHand.length; i++) {
-                    if (unique.has(tempHand[i])) continue;
-                    unique.add(tempHand[i]);
-                    const discardHand = [...tempHand];
-                    discardHand.splice(i, 1);
-                    const discardTiles34 = convertToTiles34Arr(discardHand);
-                    const discardShanten = calculateShanten(discardTiles34);
-                    if (discardShanten < shanten) {
-                        const pathRate = inner(discardHand, discardTiles34, depth + 1);
-                        bestPathRate = Math.max(bestPathRate, pathRate);
-                    }
-                }
-                totalPaths += count;
-                goodShapePaths += (count * bestPathRate / 100);
-            }
-        });
-
-        const result = totalPaths === 0 ? 0 : (goodShapePaths / totalPaths);
-        cache.set(key, result);
-        return result;
-    }
-    return inner;
-})();
-
-// 分析进张
-const analyzeImprovement = (currentHand, currentTiles34) => {
-    const results = {}
-    const allTiles = generateTiles()
-    const initialCountMap = allTiles.reduce((acc, tile) => {
-        acc[tile] = (acc[tile] || 0) + 1
-        return acc
-    }, {})
-    currentHand.forEach(tile => { initialCountMap[tile] = (initialCountMap[tile] || 0) - 1 })
-
-    currentHand.forEach((tileToDiscard, discardIndex) => {
-        const newHand = currentHand.filter((_, i) => i !== discardIndex)
-        const newTiles34 = convertToTiles34Arr(newHand)
-        const originalShanten = calculateShanten(currentTiles34)
-        const improvements = {}
-        let totalCount = 0
-        Object.keys(initialCountMap).forEach(tile => {
-            if (initialCountMap[tile] <= 0) return
-            const tempHand = [...newHand, tile]
-            const tempTiles34 = convertToTiles34Arr(tempHand)
-            const newShanten = calculateShanten(tempTiles34)
-            if (newShanten < originalShanten) {
-                const count = initialCountMap[tile]
-                if (count > 0) {
-                    improvements[tile] = count
-                    totalCount += count
-                }
-            }
-        })
-        if (Object.keys(improvements).length > 0) {
-            // 计算好型率
-            const newHand = currentHand.filter((_, i) => i !== discardIndex);
-            const computedRate = calculateGoodShapeRate(newHand, convertToTiles34Arr(newHand)) * 100;
-            const goodShapeRate = computedRate < 2 ? 0 : computedRate;
-            
-            results[tileToDiscard] = { 
-                improvements, 
-                totalCount,
-                goodShapeRate
-            }
-        }
-    })
-    return results
-}
-
-// 解析手牌输入
-const parseHandTiles = (input) => {
-    const tiles = input.match(/(\d+)([mpsz])/g) || []
-    let handTiles = []
-    tiles.forEach(tile => {
-        const [_, numbers, type] = tile.match(/(\d+)([mpsz])/)
-        for (let i = 0; i < numbers.length; i++) handTiles.push(`${numbers[i]}${type}`)
-    })
-    if (handTiles.some(tile => ["8z", "9z", "0z"].includes(tile))) return null
-    const tileCount = handTiles.reduce((acc, tile) => {
-        acc[tile] = (acc[tile] || 0) + 1
-        return acc
-    }, {})
-    if (Object.values(tileCount).some(count => count >= 5)) return null
-    return handTiles
-}
-
-// 处理提交事件
-const handleSubmit = () => {
-    const input = handInput.value.trim()
-    if (!input) {
-        errorMessage.value = '请输入手牌'
-        showResult.value = true
-        return
-    }
-    const handTiles = parseHandTiles(input)
-    if (!handTiles) {
-        errorMessage.value = '手牌格式不正确或某牌数量过多'
-        showResult.value = true
-        return
-    }
-    const tiles34Arr = convertToTiles34Arr(handTiles)
     const shanten = calculateShanten(tiles34Arr)
-    shantenNum.value = shanten
-    const results = analyzeImprovement(handTiles, tiles34Arr)
-    improvementResults.value = results
+    if (shanten === 0) {
+      const allTiles = generateTiles()
+      const countMap = allTiles.reduce((acc, t) => (acc[t] = (acc[t] || 0) + 1, acc), {})
+      hand.forEach(t => countMap[t] = (countMap[t] || 0) - 1)
+      let waitTypes = new Set(), waitCount = 0
+      Object.entries(countMap).forEach(([tile, count]) => {
+        if (count <= 0) return
+        const tempHand = [...hand, tile]
+        const tempTiles34 = convertToTiles34Arr(tempHand)
+        if (calculateShanten(tempTiles34) === -1) {
+          waitTypes.add(tile)
+          waitCount += count
+        }
+      })
+      const result = (waitTypes.size > 1 && waitCount > 4) ? 100 : 0
+      cache.set(key, result)
+      return result
+    }
+
+    let totalPaths = 0, goodShapePaths = 0
+    const allTiles = generateTiles()
+    const countMap = allTiles.reduce((acc, t) => (acc[t] = (acc[t] || 0) + 1, acc), {})
+    hand.forEach(t => countMap[t] = (countMap[t] || 0) - 1)
+
+    Object.entries(countMap).forEach(([tile, count]) => {
+      if (count <= 0) return
+      const tempHand = [...hand, tile]
+      const tempTiles34 = convertToTiles34Arr(tempHand)
+      const newShanten = calculateShanten(tempTiles34)
+      if (newShanten < shanten) {
+        let bestPathRate = 0
+        const unique = new Set()
+        for (let i = 0; i < tempHand.length; i++) {
+          if (unique.has(tempHand[i])) continue
+          unique.add(tempHand[i])
+          const discardHand = tempHand.slice()
+          discardHand.splice(i, 1)
+          const discardTiles34 = convertToTiles34Arr(discardHand)
+          if (calculateShanten(discardTiles34) < shanten) {
+            bestPathRate = Math.max(bestPathRate, inner(discardHand, discardTiles34, depth + 1))
+          }
+        }
+        totalPaths += count
+        goodShapePaths += count * bestPathRate / 100
+      }
+    })
+    const result = totalPaths === 0 ? 0 : (goodShapePaths / totalPaths)
+    cache.set(key, result)
+    return result
+  }
+  return inner
+})()
+
+const analyzeImprovement = (currentHand, currentTiles34) => {
+  const results = {}
+  const allTiles = generateTiles()
+  const countMap = allTiles.reduce((acc, t) => (acc[t] = (acc[t] || 0) + 1, acc), {})
+  currentHand.forEach(t => countMap[t] = (countMap[t] || 0) - 1)
+  const originalShanten = calculateShanten(currentTiles34)
+
+  currentHand.forEach((tileToDiscard, discardIndex) => {
+    const newHand = currentHand.filter((_, i) => i !== discardIndex)
+    const newTiles34 = convertToTiles34Arr(newHand)
+    const improvements = {}
+    let totalCount = 0
+    Object.keys(countMap).forEach(tile => {
+      if (countMap[tile] <= 0) return
+      const tempHand = [...newHand, tile]
+      const tempTiles34 = convertToTiles34Arr(tempHand)
+      if (calculateShanten(tempTiles34) < originalShanten) {
+        improvements[tile] = countMap[tile]
+        totalCount += countMap[tile]
+      }
+    })
+    if (Object.keys(improvements).length) {
+      const goodShapeRate = Math.max(0, calculateGoodShapeRate(newHand, convertToTiles34Arr(newHand)) * 100)
+      results[tileToDiscard] = { improvements, totalCount, goodShapeRate }
+    }
+  })
+  return results
+}
+
+const parseHandTiles = input => {
+  const tiles = input.match(/(\d+)([mpsz])/g) || []
+  let handTiles = []
+  tiles.forEach(tile => {
+    const [_, numbers, type] = tile.match(/(\d+)([mpsz])/)
+    for (const n of numbers) handTiles.push(`${n}${type}`)
+  })
+  if (handTiles.some(tile => ["8z", "9z", "0z"].includes(tile))) return null
+  const tileCount = handTiles.reduce((acc, t) => (acc[t] = (acc[t] || 0) + 1, acc), {})
+  if (Object.values(tileCount).some(count => count >= 5)) return null
+  return handTiles
+}
+
+const handleSubmit = () => {
+  const input = handInput.value.trim()
+  if (!input) {
+    errorMessage.value = '请输入手牌'
     showResult.value = true
-    errorMessage.value = null
+    return
+  }
+  const handTiles = parseHandTiles(input)
+  if (!handTiles) {
+    errorMessage.value = '手牌格式不正确或某牌数量过多'
+    showResult.value = true
+    return
+  }
+  const tiles34Arr = convertToTiles34Arr(handTiles)
+  shantenNum.value = calculateShanten(tiles34Arr)
+  improvementResults.value = analyzeImprovement(handTiles, tiles34Arr)
+  showResult.value = true
+  errorMessage.value = null
 }
 </script>

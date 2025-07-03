@@ -11,7 +11,7 @@
             MahjongXpilot
         </li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
-            version: 1.1.1<br><br>
+            version: 1.1.2<br><br>
             Copyright © Fyisvia Virell. <br>
             All Rights Reserved.<br>
         </li>
@@ -23,6 +23,18 @@
                 </a>
             </div>
             欢迎帮忙review代码，提交bug和功能建议。<br><br>
+        </li>
+        <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
+            1.1.2 版本更新（20250703）<br>
+        </li>
+        <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
+            本次更新主要内容为：
+            <br><br>
+            1.修复派效率分析当手牌复杂时导致Shanten函数递归深度过大而导致栈溢出的问题。
+            <br><br>
+            2.新增清一色听牌时选择随机牌型的功能。
+            <br><br>
+            3.修复部分收录内容错误的问题。
         </li>
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
             1.1.1 版本更新（20250521）<br>
