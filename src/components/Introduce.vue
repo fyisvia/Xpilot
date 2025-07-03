@@ -30,7 +30,7 @@
         <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
             本次更新主要内容为：
             <br><br>
-            1.修复派效率分析当手牌复杂时导致Shanten函数递归深度过大而导致栈溢出的问题。
+            1.修复牌效率分析当手牌复杂时，Shanten函数递归深度过大而导致栈溢出的问题。
             <br><br>
             2.新增清一色听牌时选择随机牌型的功能。
             <br><br>
