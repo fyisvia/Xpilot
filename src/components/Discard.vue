@@ -65,70 +65,77 @@
             <button class="btn text-lg" @click="handleSubmit">提交</button>
         </li>
         <li v-if="showResult" class="p-4">
-            <div v-if="errorMessage" class="flex justify-center items-center mb-4">
-                <div class="text-lg font-semibold badge badge-error">
-                    <svg class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <g fill="currentColor">
-                            <rect x="1.972" y="11" width="20.056" height="2" transform="translate(-4.971 12) rotate(-45)" fill="currentColor" stroke-width="0"></rect>
-                            <path d="m12,23c-6.065,0-11-4.935-11-11S5.935,1,12,1s11,4.935,11,11-4.935,11-11,11Zm0-20C7.038,3,3,7.037,3,12s4.038,9,9,9,9-4.037,9-9S16.962,3,12,3Z" stroke-width="0" fill="currentColor"></path>
-                        </g>
-                    </svg>
-                    {{ errorMessage }}
-                </div>
+            <div v-if="loading" class="flex justify-center items-center my-8">
+                <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
+                计算中...
+            </span>
             </div>
-            <div v-else>
-                <div class="flex justify-center items-center mb-4">
-                    <div v-if="shantenNum === -1" class="text-lg font-semibold badge badge-success">
+            <template v-else>
+                <div v-if="errorMessage" class="flex justify-center items-center mb-4">
+                    <div class="text-lg font-semibold badge badge-error">
                         <svg class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt">
-                                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></circle>
-                                <polyline points="7 13 10 16 17 8" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></polyline>
+                            <g fill="currentColor">
+                                <rect x="1.972" y="11" width="20.056" height="2" transform="translate(-4.971 12) rotate(-45)" fill="currentColor" stroke-width="0"></rect>
+                                <path d="m12,23c-6.065,0-11-4.935-11-11S5.935,1,12,1s11,4.935,11,11-4.935,11-11,11Zm0-20C7.038,3,3,7.037,3,12s4.038,9,9,9,9-4.037,9-9S16.962,3,12,3Z" stroke-width="0" fill="currentColor"></path>
                             </g>
                         </svg>
-                        和牌
-                    </div>
-                    <div v-else-if="shantenNum === 0" class="text-lg font-semibold badge badge-success">
-                        <svg class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt">
-                                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></circle>
-                                <polyline points="7 13 10 16 17 8" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></polyline>
-                            </g>
-                        </svg>
-                        听牌
-                    </div>
-                    <div v-else class="text-lg font-semibold badge badge-info">
-                        {{ shantenNum }} 向听
+                        {{ errorMessage }}
                     </div>
                 </div>
-                <div v-if="shantenNum > 0" class="overflow-x-auto">
-                    <div class="responsive-table-wrapper">
-                        <table class="table table-sm w-full bg-base-100 rounded-lg">
-                            <thead>
-                                <tr>
-                                    <!-- <th></th> -->
-                                    <th class="text-center">切</th>
-                                    <th class="text-center">进张</th>
-                                    <th class="text-center">好型率</th>
-                                    <th class="text-center">总进张</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr
-                                    v-for="([tile, result], idx) in Object.entries(improvementResults).sort((a, b) => b[1].totalCount - a[1].totalCount)"
-                                    :key="tile"
-                                    :class="idx % 2 === 1 ? 'hover:bg-base-300' : ''"
-                                >
-                                    <!-- <th>{{ idx + 1 }}</th> -->
-                                    <td class="font-bold text-center">{{ tile }}</td>
-                                    <td class="text-center">{{ Object.keys(result.improvements).join(', ') }}</td>
-                                    <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(0) }}%</td>
-                                    <td class="font-bold text-center">{{ result.totalCount }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div v-else>
+                    <div class="flex justify-center items-center mb-4">
+                        <div v-if="shantenNum === -1" class="text-lg font-semibold badge badge-success">
+                            <svg class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt">
+                                    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></circle>
+                                    <polyline points="7 13 10 16 17 8" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></polyline>
+                                </g>
+                            </svg>
+                            和牌
+                        </div>
+                        <div v-else-if="shantenNum === 0" class="text-lg font-semibold badge badge-success">
+                            <svg class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt">
+                                    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></circle>
+                                    <polyline points="7 13 10 16 17 8" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></polyline>
+                                </g>
+                            </svg>
+                            听牌
+                        </div>
+                        <div v-else class="text-lg font-semibold badge badge-info">
+                            {{ shantenNum }} 向听
+                        </div>
+                    </div>
+                    <div v-if="shantenNum > 0" class="overflow-x-auto">
+                        <div class="responsive-table-wrapper">
+                            <table class="table table-sm w-full bg-base-100 rounded-lg">
+                                <thead>
+                                    <tr>
+                                        <!-- <th></th> -->
+                                        <th class="text-center">切</th>
+                                        <th class="text-center">进张</th>
+                                        <th class="text-center">好型率</th>
+                                        <th class="text-center">总进张</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        v-for="([tile, result], idx) in Object.entries(improvementResults).sort((a, b) => b[1].totalCount - a[1].totalCount)"
+                                        :key="tile"
+                                        :class="idx % 2 === 1 ? 'hover:bg-base-300' : ''"
+                                    >
+                                        <!-- <th>{{ idx + 1 }}</th> -->
+                                        <td class="font-bold text-center">{{ tile }}</td>
+                                        <td class="text-center">{{ Object.keys(result.improvements).join(', ') }}</td>
+                                        <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(0) }}%</td>
+                                        <td class="font-bold text-center">{{ result.totalCount }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </template>
         </li>
     </ul>
 </template>
@@ -148,6 +155,7 @@ const showResult = ref(false)
 const shantenNum = ref(null)
 const improvementResults = ref({})
 const errorMessage = ref(null)
+const loading = ref(false) // 新增
 
 // 工具函数
 const convertToTiles34Arr = handTiles => {
@@ -287,7 +295,7 @@ const parseHandTiles = input => {
   return handTiles
 }
 
-const handleSubmit = () => {
+const handleSubmit = async () => {
   const input = handInput.value.trim()
   if (!input) {
     errorMessage.value = '请输入手牌'
@@ -300,10 +308,13 @@ const handleSubmit = () => {
     showResult.value = true
     return
   }
+  loading.value = true // 开始加载
+  showResult.value = true
+  errorMessage.value = null
+  await new Promise(resolve => setTimeout(resolve, 10)) // 让 loading 有机会渲染
   const tiles34Arr = convertToTiles34Arr(handTiles)
   shantenNum.value = calculateShanten(tiles34Arr)
   improvementResults.value = analyzeImprovement(handTiles, tiles34Arr)
-  showResult.value = true
-  errorMessage.value = null
+  loading.value = false // 结束加载
 }
 </script>
