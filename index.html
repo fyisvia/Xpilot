@@ -24,14 +24,22 @@
     </script>
     <script>
       window.addEventListener('DOMContentLoaded', function () {
-      fetch('/images.json')
-        .then(response => response.json())
-        .then(images => {
-        images.forEach(src => {
-          const img = new Image();
-          img.src = '/public/' + src;
-        });
-        });
+        console.log('Starting image preload');
+        fetch('/images.json')
+          .then(response => {
+            if (!response.ok) throw new Error(`Failed to fetch images.json: ${response.status}`);
+            return response.json();
+          })
+          .then(images => {
+            console.log('Images list:', images);
+            images.forEach(src => {
+              const img = new Image();
+              img.src = '/' + src; // 去掉 /public/，直接使用 images.json 中的相对路径
+              img.onload = () => console.log(`Loaded: /${src}`);
+              img.onerror = () => console.error(`Failed to load: /${src}`);
+            });
+          })
+          .catch(error => console.error('Preload error:', error));
       });
     </script>
   </head>
