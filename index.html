@@ -24,7 +24,7 @@
     </script>
     <script>
       window.addEventListener('DOMContentLoaded', function () {
-      fetch('/public/images.json')
+      fetch('/images.json')
         .then(response => response.json())
         .then(images => {
         images.forEach(src => {
