@@ -22,6 +22,18 @@
 
       gtag('config', 'G-CY5Z3059E6');
     </script>
+    <script>
+      window.addEventListener('DOMContentLoaded', function () {
+      fetch('/public/images.json')
+        .then(response => response.json())
+        .then(images => {
+        images.forEach(src => {
+          const img = new Image();
+          img.src = '/public/' + src;
+        });
+        });
+      });
+    </script>
   </head>
   <body>
     <div id="app"></div>

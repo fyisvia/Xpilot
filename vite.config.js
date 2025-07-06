@@ -18,4 +18,9 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  build: {
+    rollupOptions: {
+      treeshake: true, // 显式开启摇树优化
+    },
+  },
 })
