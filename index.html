@@ -32,15 +32,28 @@
           })
           .then(images => {
             console.log('Images list:', images);
+            // 预加载时
+            window.preloadedImages = {};
             images.forEach(src => {
               const img = new Image();
               img.src = '/' + src; // 去掉 /public/，直接使用 images.json 中的相对路径
+              window.preloadedImages[src] = img;
               img.onload = () => console.log(`Loaded: /${src}`);
               img.onerror = () => console.error(`Failed to load: /${src}`);
             });
           })
           .catch(error => console.error('Preload error:', error));
       });
+
+      // 页面渲染时
+      function setImgElement(imgElement, src) {
+        const preImg = window.preloadedImages[src];
+        if (preImg && preImg.complete) {
+          imgElement.src = preImg.src; // 立即显示已加载图片
+        } else {
+          // imgElement.src = '/' + src; // 正常加载
+        }
+      }
     </script>
   </head>
   <body>
