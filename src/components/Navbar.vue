@@ -21,31 +21,31 @@
           <li>
             <a class="text-sm font-semibold">分析</a>
             <ul class="p-2">
-              <li><a class="text-sm" @click="changeComponent('Discard')">牌效率分析</a></li>
-              <li><a class="text-sm" @click="changeComponent('Upload')">牌谱分析</a></li>
+              <li><router-link to="/discard" class="link no-underline">牌效率分析</router-link></li>
+              <li><router-link to="/review" class="link no-underline">牌谱分析</router-link></li>
             </ul>
           </li>
           <li>
             <a class="text-sm font-semibold">学习</a>
             <ul class="p-2">
-              <li><a class="text-sm" @click="changeComponent('ThreeHundred')">何切三百问</a></li>
-              <li><a class="text-sm" @click="changeComponent('PureOnesTenpai')">清一色听牌练习</a></li>
-              <li><a class="text-sm" @click="changeComponent('PointCalculation')">点数计算练习</a></li>
-              <li><a class="text-sm" @click="changeComponent('Guide')">入门及进阶路线</a></li>
-              <li><a class="text-sm" @click="changeComponent('Books')">战术书链接合集</a></li>
+              <li><router-link to="/three-hundred" class="link no-underline">何切三百问</router-link></li>
+              <li><router-link to="/pure-ones-tenpai" class="link no-underline">清一色听牌练习</router-link></li>
+              <li><router-link to="/point-calculation" class="link no-underline">点数计算</router-link></li>
+              <li><router-link to="/guide" class="link no-underline">入门及进阶路线</router-link></li>
+              <li><router-link to="/books" class="link no-underline">战术书链接合集</router-link></li>
             </ul>
           </li>
           <li>
             <a class="text-sm font-semibold">其他</a>
             <ul class="p-2">
-              <li><a class="text-sm" @click="changeComponent('Contact')">关于作者</a></li>
-              <li><a class="text-sm" @click="changeComponent('Introduce')">关于本站</a></li>
-              <li><a class="text-sm" @click="changeComponent('WebDictionary')">其他网站</a></li>
+              <li><router-link to="/contact" class="link no-underline">关于作者</router-link></li>
+              <li><router-link to="/introduce" class="link no-underline">关于本站</router-link></li>
+              <li><router-link to="/web-dictionary" class="link no-underline">其他网站</router-link></li>
             </ul>
           </li>
         </ul>
       </div>
-      <a class="btn btn-ghost text-xl" @click="changeComponent('Home')">Xpilot</a>
+      <router-link to="/" class="btn btn-ghost text-xl no-underline">Xpilot</router-link>
     </div>
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1">
@@ -53,8 +53,8 @@
           <details>
             <summary>分析</summary>
             <ul class="p-2 w-32">
-              <li><a @click="changeComponent('Discard')">牌效率分析</a></li>
-              <li><a @click="changeComponent('Upload')">牌谱分析</a></li>
+              <li><router-link to="/discard" class="link no-underline">牌效率分析</router-link></li>
+              <li><router-link to="/review" class="link no-underline">牌谱分析</router-link></li>
             </ul>
           </details>
         </li>
@@ -62,11 +62,11 @@
           <details>
             <summary>学习</summary>
             <ul class="p-2 w-36">
-              <li><a @click="changeComponent('ThreeHundred')">何切三百问</a></li>
-              <li><a @click="changeComponent('PureOnesTenpai')">清一色听牌练习</a></li>
-              <li><a @click="changeComponent('PointCalculation')">点数计算</a></li>
-              <li><a @click="changeComponent('Guide')">入门及进阶路线</a></li>
-              <li><a @click="changeComponent('Books')">战术书链接合集</a></li>
+              <li><router-link to="/three-hundred" class="link no-underline">何切三百问</router-link></li>
+              <li><router-link to="/pure-ones-tenpai" class="link no-underline">清一色听牌练习</router-link></li>
+              <li><router-link to="/point-calculation" class="link no-underline">点数计算</router-link></li>
+              <li><router-link to="/guide" class="link no-underline">入门及进阶路线</router-link></li>
+              <li><router-link to="/books" class="link no-underline">战术书链接合集</router-link></li>
             </ul>
           </details>
         </li>
@@ -74,9 +74,9 @@
           <details>
             <summary>其他</summary>
             <ul class="p-2 w-32">
-              <li><a @click="changeComponent('Contact')">关于作者</a></li>
-              <li><a @click="changeComponent('Introduce')">关于本站</a></li>
-              <li><a @click="changeComponent('WebDictionary')">其他网站</a></li>
+              <li><router-link to="/contact" class="link no-underline">关于作者</router-link></li>
+              <li><router-link to="/introduce" class="link no-underline">关于本站</router-link></li>
+              <li><router-link to="/web-dictionary" class="link no-underline">其他网站</router-link></li>
             </ul>
           </details>
         </li>
@@ -89,7 +89,7 @@
           <div class="w-10 rounded-full">
             <img
               alt="Tailwind CSS Navbar component"
-              src="/public/photos/Profile.jpg"
+              src="/photos/Profile.jpg"
             />
           </div>
         </div>
@@ -98,10 +98,10 @@
           class="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-8 w-32 p-2 shadow"
         >
           <li>
-            <a class="justify-between" @click="changeComponent('Contact')">
+            <router-link to="/contact" class="justify-between no-underline">
               关于作者
               <!-- <span class="badge"></span> -->
-            </a>
+            </router-link>
           </li>
           <!-- <li><a>Settings</a></li> -->
           <!-- <li><a>Logout</a></li> -->
@@ -114,8 +114,6 @@
 <script setup>
 import { onMounted, onUnmounted } from 'vue'
 import ThemeToggle from "../components/ThemeToggle.vue";
-
-defineProps(['changeComponent'])
 
 const closeDropdowns = (event) => {
   const dropdowns = document.querySelectorAll('details[open]')
@@ -136,5 +134,4 @@ onUnmounted(() => {
   document.removeEventListener('click', closeDropdowns)
 })
 </script>
-
 
