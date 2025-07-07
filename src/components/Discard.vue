@@ -6,137 +6,139 @@
 // See the LICENSE file in the project root for full license information.
 
 <template>
-    <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
-        <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
-            牌效率分析
-        </li>
-        <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
-            <div class="flex items-center gap-2 pb-4">
-                <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
-                    <input type="checkbox" />
-                    <div class="collapse-title opacity-80">默认分析规则</div>
-                    <div class="collapse-content text-xs font-semibold opacity-60 mb-0">
-                        1. 默认考虑一般形式，七对子和国士无双。<br>
-                        2. 因为没有其他玩家和牌河，剩余枚数为最大值。<br>
-                        3. 不考虑巡目。<br>
-                        4. 好型的判断标准为听牌时进张数 > 4。
-                    </div>
-                </div>
-            </div>
-            <div class="flex items-center gap-2 pb-4">
-                <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
-                    <input type="checkbox" />
-                    <div class="collapse-title opacity-80">手牌表示方法</div>
-                    <div class="collapse-content text-xs font-semibold opacity-60 mb-0">
-                        " m " 表示万子，
-                        " p " 表示饼子，
-                        " s " 表示索子。<br>
-                        " z " 表示东南西北白发中，
-                        " 0 " 表示红五。<br>
-                        不需要输入副露的部分，但需要输入摸进的牌。<br>
-                        举例：<br>
-                        012m123p123s1156z。<br>
-                        如果123p为副露，则只输入012m123s1156z。<br>
-                        可以正常处理的手牌张数为5,8,11,14张。                    
-                    </div>
-                </div>
-            </div>
-        </li>
+  <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
+    <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
+      牌效率分析
+    </li>
+    <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
+      <div class="flex items-center gap-2 pb-4">
+        <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
+          <input type="checkbox" />
+          <div class="collapse-title opacity-80">默认分析规则</div>
+          <div class="collapse-content text-xs font-semibold opacity-60 mb-0">
+            1. 默认考虑一般形式，七对子和国士无双。<br>
+            2. 因为没有其他玩家和牌河，剩余枚数为最大值。<br>
+            3. 不考虑巡目。<br>
+            4. 好型的判断标准为听牌时进张数 > 4。
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 pb-4">
+        <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
+          <input type="checkbox" />
+          <div class="collapse-title opacity-80">手牌表示方法</div>
+          <div class="collapse-content text-xs font-semibold opacity-60 mb-0">
+            " m " 表示万子，
+            " p " 表示饼子，
+            " s " 表示索子。<br>
+            " z " 表示东南西北白发中，
+            " 0 " 表示红五。<br>
+            不需要输入副露的部分，但需要输入摸进的牌。<br>
+            举例：<br>
+            012m123p123s1156z。<br>
+            如果123p为副露，则只输入012m123s1156z。<br>
+            可以正常处理的手牌张数为5,8,11,14张。                    
+          </div>
+        </div>
+      </div>
+    </li>
 
-        <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
-            <div class="flex items-center gap-2 pb-4">
-            <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
-                输入手牌
-            </span>
-            </div>
+    <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
+      <div class="flex items-center gap-2 pb-4">
+        <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
+          输入手牌
+        </span>
+      </div>
 
-            <input
-            type="text"
-            v-model="handInput"
-            placeholder="123m456p789s1122z"
-            class="input w-full text-base py-3 px-4"
-            @keyup.enter="handleSubmit"
-            autocomplete="off"
-            />
-        </li>
+      <input
+        type="text"
+        v-model="handInput"
+        placeholder="123m456p789s1122z"
+        class="input w-full text-base py-3 px-4"
+        @keyup.enter="handleSubmit"
+        autocomplete="off"
+      />
+    </li>
 
-        <li class="list-row flex flex-col gap-2">
-            <div></div>
-            <button class="btn text-lg" @click="handleSubmit">提交</button>
-        </li>
-        <li v-if="showResult" class="p-4 flex justify-center">
-            <div v-if="loading" class="justify-center badge badge-accent flex items-center text-lg font-semibold">
-              <span class="custom-spinner mr-2"></span>
-              <span>计算中...</span>
+    <li class="list-row flex flex-col gap-2">
+      <div></div>
+      <button class="btn text-lg" @click="handleSubmit">提交</button>
+    </li>
+    <li v-if="showResult" class="p-4">
+      <div v-if="loading" class="flex justify-center items-center mb-4">
+        <div class="text-lg font-semibold badge badge-accent border border-accent">
+          <span class="custom-spinner mr-2"></span>
+          <span>计算中...</span>
+        </div>
+      </div>
+      <template v-else>
+        <div v-if="errorMessage" class="flex justify-center items-center mb-4">
+          <div class="text-lg font-semibold badge badge-error">
+            <svg class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <g fill="currentColor">
+                <rect x="1.972" y="11" width="20.056" height="2" transform="translate(-4.971 12) rotate(-45)" fill="currentColor" stroke-width="0"></rect>
+                <path d="m12,23c-6.065,0-11-4.935-11-11S5.935,1,12,1s11,4.935,11,11-4.935,11-11,11Zm0-20C7.038,3,3,7.037,3,12s4.038,9,9,9,9-4.037,9-9S16.962,3,12,3Z" stroke-width="0" fill="currentColor"></path>
+              </g>
+            </svg>
+            {{ errorMessage }}
+          </div>
+        </div>
+        <div v-else>
+          <div class="flex justify-center items-center mb-4">
+            <div v-if="shantenNum === -1" class="text-lg font-semibold badge badge-success">
+              <svg class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt">
+                  <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></circle>
+                  <polyline points="7 13 10 16 17 8" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></polyline>
+                </g>
+              </svg>
+              和牌
             </div>
-            <template v-else>
-                <div v-if="errorMessage" class="flex justify-center items-center mb-4">
-                    <div class="text-lg font-semibold badge badge-error">
-                        <svg class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                            <g fill="currentColor">
-                                <rect x="1.972" y="11" width="20.056" height="2" transform="translate(-4.971 12) rotate(-45)" fill="currentColor" stroke-width="0"></rect>
-                                <path d="m12,23c-6.065,0-11-4.935-11-11S5.935,1,12,1s11,4.935,11,11-4.935,11-11,11Zm0-20C7.038,3,3,7.037,3,12s4.038,9,9,9,9-4.037,9-9S16.962,3,12,3Z" stroke-width="0" fill="currentColor"></path>
-                            </g>
-                        </svg>
-                        {{ errorMessage }}
-                    </div>
-                </div>
-                <div v-else>
-                    <div class="flex justify-center items-center mb-4">
-                        <div v-if="shantenNum === -1" class="text-lg font-semibold badge badge-success">
-                            <svg class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt">
-                                    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></circle>
-                                    <polyline points="7 13 10 16 17 8" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></polyline>
-                                </g>
-                            </svg>
-                            和牌
-                        </div>
-                        <div v-else-if="shantenNum === 0" class="text-lg font-semibold badge badge-success">
-                            <svg class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt">
-                                    <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></circle>
-                                    <polyline points="7 13 10 16 17 8" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></polyline>
-                                </g>
-                            </svg>
-                            听牌
-                        </div>
-                        <div v-else class="text-lg font-semibold badge badge-info">
-                            {{ shantenNum }} 向听
-                        </div>
-                    </div>
-                    <div v-if="shantenNum > 0" class="overflow-x-auto">
-                        <div class="responsive-table-wrapper">
-                            <table class="table table-sm w-full bg-base-100 rounded-lg">
-                                <thead>
-                                    <tr>
-                                        <!-- <th></th> -->
-                                        <th class="text-center">切</th>
-                                        <th class="text-center">进张</th>
-                                        <th class="text-center">好型率</th>
-                                        <th class="text-center">总进张</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr
-                                        v-for="([tile, result], idx) in Object.entries(improvementResults).sort((a, b) => b[1].totalCount - a[1].totalCount)"
-                                        :key="tile"
-                                        :class="idx % 2 === 1 ? 'hover:bg-base-300' : ''"
-                                    >
-                                        <!-- <th>{{ idx + 1 }}</th> -->
-                                        <td class="font-bold text-center">{{ tile }}</td>
-                                        <td class="text-center">{{ Object.keys(result.improvements).join(', ') }}</td>
-                                        <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(0) }}%</td>
-                                        <td class="font-bold text-center">{{ result.totalCount }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </template>
-        </li>
-    </ul>
+            <div v-else-if="shantenNum === 0" class="text-lg font-semibold badge badge-success">
+              <svg class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt">
+                  <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></circle>
+                  <polyline points="7 13 10 16 17 8" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></polyline>
+                </g>
+              </svg>
+              听牌
+            </div>
+            <div v-else class="text-lg font-semibold badge badge-info">
+              {{ shantenNum }} 向听
+            </div>
+          </div>
+          <div v-if="shantenNum > 0" class="overflow-x-auto">
+            <div class="responsive-table-wrapper">
+              <table class="table table-sm w-full bg-base-100 rounded-lg">
+                <thead>
+                  <tr>
+                    <!-- <th></th> -->
+                    <th class="text-center">切</th>
+                    <th class="text-center">进张</th>
+                    <th class="text-center">好型率</th>
+                    <th class="text-center">总进张</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="([tile, result], idx) in Object.entries(improvementResults).sort((a, b) => b[1].totalCount - a[1].totalCount)"
+                    :key="tile"
+                    :class="idx % 2 === 1 ? 'hover:bg-base-300' : ''"
+                  >
+                    <!-- <th>{{ idx + 1 }}</th> -->
+                    <td class="font-bold text-center">{{ tile }}</td>
+                    <td class="text-center">{{ Object.keys(result.improvements).join(', ') }}</td>
+                    <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(0) }}%</td>
+                    <td class="font-bold text-center">{{ result.totalCount }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </template>
+    </li>
+  </ul>
 </template>
 
 <script setup>
