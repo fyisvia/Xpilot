@@ -42,14 +42,12 @@
         </div>
       </div>
     </li>
-
     <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
       <div class="flex items-center gap-2 pb-4">
         <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
           输入手牌
         </span>
       </div>
-
       <input
         type="text"
         v-model="handInput"
@@ -59,7 +57,6 @@
         autocomplete="off"
       />
     </li>
-
     <li class="list-row flex flex-col gap-2">
       <div></div>
       <button class="btn text-lg" @click="handleSubmit">提交</button>
