@@ -84,12 +84,12 @@
         </template>
       </div>
     </li>
-    <li class="p-4 pb-2 text-xs md:text-base opacity-80 tracking-wide flex justify-end">
+    <li class="p-4 pb-2 text-xs md:text-base opacity-80 tracking-wide flex justify-end mx-6">
       <div>⬆️直接点击选择答案</div>
     </li>
     <li class="p-2 sm:p-4 pb-2 text-sm sm:text-base md:text-lg opacity-100 tracking-wide">
       <div class="flex items-center gap-2 pb-4">
-        <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
+        <div class="collapse collapse-arrow bg-base-100 border-base-300 border mx-4">
           <input type="checkbox" v-model="isAnswerCollapsed"/>
           <div class="collapse-title text-lg md:text-xl font-semibold text-center">参考答案及解析</div>
           <div class="collapse-content text-sm sm:text-base md:text-lg mb-0">

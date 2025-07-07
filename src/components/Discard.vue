@@ -64,11 +64,10 @@
             <div></div>
             <button class="btn text-lg" @click="handleSubmit">提交</button>
         </li>
-        <li v-if="showResult" class="p-4">
-            <div v-if="loading" class="flex justify-center items-center my-8">
-                <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
-                计算中...
-            </span>
+        <li v-if="showResult" class="p-4 flex justify-center">
+            <div v-if="loading" class="justify-center badge badge-accent flex items-center text-lg font-semibold">
+              <span class="custom-spinner mr-2"></span>
+              <span>计算中...</span>
             </div>
             <template v-else>
                 <div v-if="errorMessage" class="flex justify-center items-center mb-4">
@@ -318,3 +317,18 @@ const handleSubmit = async () => {
   loading.value = false // 结束加载
 }
 </script>
+
+<style>
+  .custom-spinner {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid currentColor; /* 使用 currentColor 匹配父元素的文本颜色 */
+    border-top-color: transparent; /* 透明顶部边框制造旋转效果 */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+</style>
