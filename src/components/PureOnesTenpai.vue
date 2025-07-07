@@ -254,12 +254,26 @@ const calculateShanten = arr => new Shanten().calculateShanten(arr)
 const getCorrectAnswer = tiles => {
   const arr = convertToTiles34Arr(tiles)
   const res = []
+  const typeOffset = { m: 0, p: 9, s: 18 }[realTileType.value]
+  
+  // 创建新的 Shanten 实例来避免状态污染
+  const shantenCalculator = new Shanten()
+  
   for (let i = 0; i < 9; i++) {
-    if (arr[i + { m: 0, p: 9, s: 18 }[realTileType.value]] < 4) {
-      const tmp = arr.slice()
-      tmp[i + { m: 0, p: 9, s: 18 }[realTileType.value]]++
-      if (calculateShanten(tmp) === -1) {
-        res.push(i === 4 ? `5${realTileType.value}` : `${i + 1}${realTileType.value}`)
+    const tileIndex = i + typeOffset
+    // 确保手牌中该牌少于4张时才考虑添加
+    if (arr[tileIndex] < 4) {
+      const tmp = [...arr]  // 使用扩展运算符确保深拷贝
+      tmp[tileIndex]++
+      
+      // 重新计算向听数
+      const newShanten = shantenCalculator.calculateShantenForRegularHand(tmp)
+      if (newShanten === -1) {
+        if (i === 4) {
+          res.push(`5${realTileType.value}`)
+        } else {
+          res.push(`${i + 1}${realTileType.value}`)
+        }
       }
     }
   }
@@ -289,11 +303,16 @@ const initializeGame = () => {
     const arr = convertToTiles34Arr(hand)
     // 临时计算答案
     const res = []
+    const shantenCalculator = new Shanten()
+    const typeOffset = { m: 0, p: 9, s: 18 }[type]
+    
     for (let i = 0; i < 9; i++) {
-      if (arr[i + { m: 0, p: 9, s: 18 }[type]] < 4) {
-        const tmp = arr.slice()
-        tmp[i + { m: 0, p: 9, s: 18 }[type]]++
-        if (calculateShanten(tmp) === -1) {
+      const tileIndex = i + typeOffset
+      // 确保手牌中该牌少于4张时才考虑添加（包括有3张的情况）
+      if (arr[tileIndex] < 4) {
+        const tmp = [...arr]
+        tmp[tileIndex]++
+        if (shantenCalculator.calculateShantenForRegularHand(tmp) === -1) {
           res.push(i === 4 ? `5${type}` : `${i + 1}${type}`)
         }
       }
