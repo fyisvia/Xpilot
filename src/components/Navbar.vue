@@ -16,31 +16,31 @@
         </div>
         <ul
           tabindex="0"
-          class="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-3 w-44 p-2 shadow"
+          class="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-8 w-44 p-2 shadow"
         >
           <li>
-            <a class="text-sm font-semibold">分析</a>
+            <a class="text-base font-semibold">分析</a>
             <ul class="p-2">
-              <li><router-link to="/discard" class="link no-underline">牌效率分析</router-link></li>
-              <li><router-link to="/review" class="link no-underline">牌谱分析</router-link></li>
+              <li><router-link to="/discard" class="link no-underline text-sm">牌效率分析</router-link></li>
+              <li><router-link to="/review" class="link no-underline text-sm">牌谱分析</router-link></li>
             </ul>
           </li>
           <li>
-            <a class="text-sm font-semibold">学习</a>
+            <a class="text-base font-semibold">学习</a>
             <ul class="p-2">
-              <li><router-link to="/three-hundred" class="link no-underline">何切三百问</router-link></li>
-              <li><router-link to="/pure-ones-tenpai" class="link no-underline">清一色听牌练习</router-link></li>
-              <li><router-link to="/point-calculation" class="link no-underline">点数计算</router-link></li>
-              <li><router-link to="/guide" class="link no-underline">入门及进阶路线</router-link></li>
-              <li><router-link to="/books" class="link no-underline">战术书链接合集</router-link></li>
+              <li><router-link to="/three-hundred" class="link no-underline text-sm">何切三百问</router-link></li>
+              <li><router-link to="/pure-ones-tenpai" class="link no-underline text-sm">清一色听牌练习</router-link></li>
+              <li><router-link to="/point-calculation" class="link no-underline text-sm">点数计算</router-link></li>
+              <li><router-link to="/guide" class="link no-underline text-sm">入门及进阶路线</router-link></li>
+              <li><router-link to="/books" class="link no-underline text-sm">战术书链接合集</router-link></li>
             </ul>
           </li>
           <li>
-            <a class="text-sm font-semibold">其他</a>
+            <a class="text-base font-semibold">其他</a>
             <ul class="p-2">
-              <li><router-link to="/contact" class="link no-underline">关于作者</router-link></li>
-              <li><router-link to="/introduce" class="link no-underline">关于本站</router-link></li>
-              <li><router-link to="/web-dictionary" class="link no-underline">其他网站</router-link></li>
+              <li><router-link to="/contact" class="link no-underline text-sm">关于作者</router-link></li>
+              <li><router-link to="/introduce" class="link no-underline text-sm">关于本站</router-link></li>
+              <li><router-link to="/web-dictionary" class="link no-underline text-sm">其他网站</router-link></li>
             </ul>
           </li>
         </ul>
@@ -97,14 +97,7 @@
           tabindex="0"
           class="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-8 w-32 p-2 shadow"
         >
-          <li>
-            <router-link to="/contact" class="justify-between no-underline">
-              关于作者
-              <!-- <span class="badge"></span> -->
-            </router-link>
-          </li>
-          <!-- <li><a>Settings</a></li> -->
-          <!-- <li><a>Logout</a></li> -->
+          <li><router-link to="/contact" class="justify-between no-underline text-sm">关于作者</router-link></li>
         </ul>
       </div>
     </div>
