@@ -14,6 +14,10 @@
         <br>
         <router-view />
         <br>
+        <footer class="text-center text-gray-500 text-sm">
+          Copyright © Fyisvia Virell.
+        </footer>
+        <br>
       </div>
     </main>
   </div>
