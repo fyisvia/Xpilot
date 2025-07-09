@@ -12,65 +12,64 @@ export const HONOR_INDICES = [27, 28, 29, 30, 31, 32, 33];
 
 export class Shanten {
     constructor() {
-        this.AGARI_STATE = -1;
-        this.tiles = [];
-        this.number_melds = 0;
-        this.number_tatsu = 0;
-        this.number_pairs = 0;
-        this.number_jidahai = 0;
-        this.number_characters = 0;
-        this.number_isolated_tiles = 0;
-        this.min_shanten = 0;
-        // 记忆化缓存
-        this.cache = new Map();
+        this.AGARI_STATE = -1; // 和牌状态的标志，向听数为-1表示已经和牌
+        this.tiles = []; // 当前手牌的34种牌计数数组
+        this.number_melds = 0; // 面子的数量（如刻子、顺子）
+        this.number_tatsu = 0; // 搭子的数量（两张连续或间隔的牌）
+        this.number_pairs = 0; // 对子的数量
+        this.number_jidahai = 0; // 字牌的数量（用于国士无双的特殊处理）
+        this.number_characters = 0; // 字牌的位掩码表示
+        this.number_isolated_tiles = 0; // 孤张的位掩码表示
+        this.min_shanten = 0; // 当前最小向听数
+        this.cache = new Map(); // 记忆化缓存，用于优化递归计算
     }
 
     calculateShanten(tiles34, useChiitoitsu = true, useKokushi = true) {
-        // 优化：先计算特殊牌型，它们计算更快
+        // 先计算特殊牌型，它们计算更快
         const results = [];
         
-        if (useKokushi) results.push(this.calculateShantenForKokushiHand(tiles34));
-        if (useChiitoitsu) results.push(this.calculateShantenForChiitoitsuHand(tiles34));
+        if (useKokushi) results.push(this.calculateShantenForKokushiHand(tiles34)); // 计算国士无双的向听数
+        if (useChiitoitsu) results.push(this.calculateShantenForChiitoitsuHand(tiles34)); // 计算七对子向听数
         
-        // 如果特殊牌型已经是和了状态，无需计算常规牌型
+        // 如果特殊牌型已经是和牌状态，无需计算常规牌型
         if (!results.includes(this.AGARI_STATE)) {
-            results.push(this.calculateShantenForRegularHand(tiles34));
+            results.push(this.calculateShantenForRegularHand(tiles34)); // 计算常规牌型的向听数
         }
         
-        return Math.min(...results);
+        return Math.min(...results); // 返回最小的向听数
     }
 
     calculateShantenForChiitoitsuHand(tiles34) {
-        let pairs = 0, uniqueTiles = 0;
+        let pairs = 0, uniqueTiles = 0; // 对子的数量和不重复牌的数量
         
-        // 优化：一次遍历计算所有信息
+        // 遍历所有牌
         for (let i = 0; i < tiles34.length; i++) {
             if (tiles34[i] > 0) {
-                uniqueTiles++;
+                uniqueTiles++; // 统计不重复的牌
                 if (tiles34[i] >= 2) {
-                    pairs++;
+                    pairs++; // 统计对子数量
                 }
             }
         }
 
         // 七对子特殊情况的判断
-        if (uniqueTiles <= 7 && pairs === 7) return this.AGARI_STATE;
+        if (uniqueTiles <= 7 && pairs === 7) return this.AGARI_STATE; // 如果已经是七对子和牌状态，返回-1
         
         // 优化：直接计算向听数，无需额外判断特殊情况
         return Math.max(6 - pairs, 7 - uniqueTiles);
     }
 
     calculateShantenForKokushiHand(tiles34) {
-        const indices = [...TERMINAL_INDICES, ...HONOR_INDICES];
-        let uniqueTerminals = 0;
-        let hasPair = false;
+        const indices = [...TERMINAL_INDICES, ...HONOR_INDICES]; // 幺九牌和字牌的索引
+        let uniqueTerminals = 0; // 不重复的幺九牌数量
+        let hasPair = false; // 是否有对子
         
-        // 优化：一次遍历计算所有信息
+        // 遍历所有幺九牌和字牌
         for (const i of indices) {
             if (tiles34[i] > 0) {
-                uniqueTerminals++;
+                uniqueTerminals++; // 统计不重复的幺九牌
                 if (tiles34[i] >= 2 && !hasPair) {
-                    hasPair = true;
+                    hasPair = true; // 如果有对子，标记为true
                 }
             }
         }
@@ -80,46 +79,43 @@ export class Shanten {
     }
 
     calculateShantenForRegularHand(tiles34) {
-        // 复制数组，避免修改原始数据
-        tiles34 = [...tiles34];
-        this._init(tiles34);
+        tiles34 = [...tiles34]; // 复制数组，避免修改原始数据
+        this._init(tiles34); // 初始化状态变量
         
-        const countOfTiles = tiles34.reduce((sum, x) => sum + x, 0);
-        if (countOfTiles > 14) throw new Error(`Too many tiles = ${countOfTiles}`);
+        const countOfTiles = tiles34.reduce((sum, x) => sum + x, 0); // 计算手牌总数
+        if (countOfTiles > 14) throw new Error(`Too many tiles = ${countOfTiles}`); // 如果手牌超过14张，抛出异常
         
-        this._removeCharacterTiles(countOfTiles);
-        const initMentsu = Math.floor((14 - countOfTiles) / 3);
+        this._removeCharacterTiles(countOfTiles); // 处理字牌的特殊情况
+        const initMentsu = Math.floor((14 - countOfTiles) / 3); // 计算初始面子数量
         
-        // 清空缓存
-        this.cache.clear();
-        
-        this._scan(initMentsu);
-        return this.min_shanten;
+        this.cache.clear(); // 清空缓存
+        this._scan(initMentsu); // 开始递归扫描
+        return this.min_shanten; // 返回最小向听数
     }
 
     _init(tiles) {
-        this.tiles = tiles;
-        this.number_melds = 0;
-        this.number_tatsu = 0;
-        this.number_pairs = 0;
-        this.number_jidahai = 0;
-        this.number_characters = 0;
-        this.number_isolated_tiles = 0;
-        this.min_shanten = 8;
+        this.tiles = tiles; // 初始化手牌
+        this.number_melds = 0; // 初始化面子数量
+        this.number_tatsu = 0; // 初始化搭子数量
+        this.number_pairs = 0; // 初始化对子数量
+        this.number_jidahai = 0; // 初始化字牌数量
+        this.number_characters = 0; // 初始化字牌位掩码
+        this.number_isolated_tiles = 0; // 初始化孤张位掩码
+        this.min_shanten = 8; // 初始化最小向听数为8（最大可能值）
     }
 
     _scan(initMentsu) {
-        this.number_characters = 0;
+        this.number_characters = 0; // 初始化字牌位掩码
         
         // 优化：仅检查数牌部分
         for (let i = 0; i < 27; i++) {
             if (this.tiles[i] === 4) {
-                this.number_characters |= (1 << i);
+                this.number_characters |= (1 << i); // 更新字牌位掩码
             }
         }
         
-        this.number_melds += initMentsu;
-        this._run(0);
+        this.number_melds += initMentsu; // 加上初始面子数量
+        this._run(0); // 开始递归
     }
 
     _getCacheKey(depth) {
@@ -128,27 +124,23 @@ export class Shanten {
     }
 
     _run(depth) {
-        // 优化1: 提前终止条件
-        if (this.min_shanten === this.AGARI_STATE) return;
-        
-        // 优化2: 使用记忆化搜索
-        const cacheKey = this._getCacheKey(depth);
-        if (this.cache.has(cacheKey)) return;
-        
-        // 跳过空牌
+        if (this.min_shanten === this.AGARI_STATE) return; // 如果已经和牌，提前终止
+    
+        const cacheKey = this._getCacheKey(depth); // 获取当前状态的缓存键
+        if (this.cache.has(cacheKey)) return; // 如果状态已计算过，直接返回
+    
         while (depth < 27 && !this.tiles[depth]) {
-            depth++;
+            depth++; // 跳过空牌
         }
         
         if (depth >= 27) {
-            this._updateResult();
+            this._updateResult(); // 如果遍历完成，更新结果
             return;
         }
         
-        // 计算当前牌在其花色中的索引(0-8)
-        const i = depth % 9;
-        
-        // 根据不同数量的牌执行不同的处理逻辑
+        const i = depth % 9; // 当前牌在其花色中的索引
+    
+        // 根据当前牌的数量执行不同逻辑
         if (this.tiles[depth] === 4) {
             this._handleFourTiles(depth, i);
         } else if (this.tiles[depth] === 3) {
@@ -158,9 +150,8 @@ export class Shanten {
         } else if (this.tiles[depth] === 1) {
             this._handleOneTile(depth, i);
         }
-        
-        // 记录已处理过的状态
-        this.cache.set(cacheKey, true);
+    
+        this.cache.set(cacheKey, true); // 记录当前状态
     }
     
     // 优化：拆分_run方法为多个更小的方法，提高可读性和维护性
@@ -285,7 +276,7 @@ export class Shanten {
         }
     }
 
-    // 辅助方法保持不变
+    // 辅助方法
     _increaseSet(k) {
         this.tiles[k] -= 3;
         this.number_melds += 1;
@@ -340,7 +331,7 @@ export class Shanten {
     }
     _decreaseIsolatedTile(k) {
         this.tiles[k] += 1;
-        this.number_isolated_tiles &= ~(1 << k); // 修复：使用位清除而不是设置
+        this.number_isolated_tiles &= ~(1 << k); 
     }
     
     _removeCharacterTiles(nc) {

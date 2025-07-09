@@ -212,7 +212,8 @@ const calculateGoodShapeRate = (() => {
           waitCount += count
         }
       })
-      const result = (waitTypes.size > 1 && waitCount > 4) ? 100 : 0
+      // 返回0或1，表示0%或100%的好型率
+      const result = (waitTypes.size > 1 && waitCount > 4) ? 1 : 0
       cache.set(key, result)
       return result
     }
@@ -237,11 +238,12 @@ const calculateGoodShapeRate = (() => {
           discardHand.splice(i, 1)
           const discardTiles34 = convertToTiles34Arr(discardHand)
           if (calculateShanten(discardTiles34) < shanten) {
+            // 不再除以100，保持0-1的范围
             bestPathRate = Math.max(bestPathRate, inner(discardHand, discardTiles34, depth + 1))
           }
         }
         totalPaths += count
-        goodShapePaths += count * bestPathRate / 100
+        goodShapePaths += count * bestPathRate // 移除除以100
       }
     })
     const result = totalPaths === 0 ? 0 : (goodShapePaths / totalPaths)
@@ -273,6 +275,7 @@ const analyzeImprovement = (currentHand, currentTiles34) => {
       }
     })
     if (Object.keys(improvements).length) {
+      // 这里原本就是乘以100，现在是正确的
       const goodShapeRate = Math.max(0, calculateGoodShapeRate(newHand, convertToTiles34Arr(newHand)) * 100)
       results[tileToDiscard] = { improvements, totalCount, goodShapeRate }
     }
