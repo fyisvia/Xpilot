@@ -110,7 +110,7 @@
         <div class="flex flex-col items-center my-4">
             <div v-if="isTable" class="mt-4">
                 <img
-                    v-if="getTheme() === 'light'"
+                    v-if="theme === 'light'"
                     :src="PointTableJpg"
                     alt="点数表"
                     class="max-w-full rounded shadow"
@@ -128,10 +128,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import PointTableJpg from '/photos/PointsTable.jpg';
 import PointTableBLJpg from '/photos/PointsTableBL.jpg';
 
+// 点数计算核心算法
 const calculatePoints = (isDealer, isTsumo, han, fu) => {
     let basePoints;
 
@@ -174,6 +175,7 @@ const calculatePoints = (isDealer, isTsumo, han, fu) => {
     }
 };
 
+// 随机题目生成
 const generateQuestion = () => {
     let isDealer = Math.random() < 0.5;
     let isTsumo = Math.random() < 0.5;
@@ -255,76 +257,31 @@ const generateQuestion = () => {
     };
 };
 
-const generatePointsTable = () => {
-    const dealerTableRows = [];
-    const nonDealerTableRows = [];
-    const hanList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-    const fuList = [20, 25, 30, 40, 50, 60, 70, 80, 90, 100, 110];
-
-    for (let han of hanList) {
-        const dealerRow = [];
-        const nonDealerRow = [];
-
-        dealerRow.push({ main: `${han}番${han === 13 ? '+' : ''}`, sub: '', bgColor: 'bg-gray-200' });
-        nonDealerRow.push({ main: `${han}番${han === 13 ? '+' : ''}`, sub: '', bgColor: 'bg-gray-200' });
-
-        for (let fu of fuList) {
-            const dealerPointsTsumo = calculatePoints(true, true, han, fu);
-            const nonDealerPointsTsumo = calculatePoints(false, true, han, fu);
-            const dealerPointsRon = calculatePoints(true, false, han, fu);
-            const nonDealerPointsRon = calculatePoints(false, false, han, fu);
-
-            const getBackgroundColor = (points) => {
-                switch (points) {
-                    case 4000: return "bg-[#BBFFEE]";
-                    case 6000: return "bg-[#CCFF99]";
-                    case 8000: return "bg-[#FFFFBB]";
-                    case 12000: return "bg-[#FFDDAA]";
-                    case 16000: return "bg-[#FFCCCC]";
-                    default: return "bg-gray-200";
-                }
-            };
-
-            if ((han === 1 && fu === 20) || (han === 1 && fu === 25)) {
-                dealerRow.push({ main: '-', sub: '', bgColor: getBackgroundColor(dealerPointsTsumo.tsumo) });
-                nonDealerRow.push({ main: '-', sub: '', bgColor: getBackgroundColor(dealerPointsTsumo.tsumo) });
-            } else if (han === 1 && fu === 110) {
-                dealerRow.push({ main: dealerPointsRon.ron, sub: '(-)', bgColor: getBackgroundColor(dealerPointsTsumo.tsumo) });
-                nonDealerRow.push({ main: nonDealerPointsRon.ron, sub: '(-)', bgColor: getBackgroundColor(dealerPointsTsumo.tsumo) });
-            } else if (han >= 2 && fu === 20) {
-                dealerRow.push({ main: '-', sub: `(${dealerPointsTsumo.tsumo} ∀)`, bgColor: getBackgroundColor(dealerPointsTsumo.tsumo) });
-                nonDealerRow.push({ main: '-', sub: `(${nonDealerPointsTsumo.tsumo.nonDealer} / ${nonDealerPointsTsumo.tsumo.dealer})`, bgColor: getBackgroundColor(dealerPointsTsumo.tsumo) });
-            } else if (han === 2 && fu === 25) {
-                dealerRow.push({ main: dealerPointsRon.ron, sub: '(-)', bgColor: getBackgroundColor(dealerPointsTsumo.tsumo) });
-                nonDealerRow.push({ main: nonDealerPointsRon.ron, sub: '(-)', bgColor: getBackgroundColor(dealerPointsTsumo.tsumo) });
-            } else {
-                dealerRow.push({ main: dealerPointsRon.ron, sub: `(${dealerPointsTsumo.tsumo} ∀)`, bgColor: getBackgroundColor(dealerPointsTsumo.tsumo) });
-                nonDealerRow.push({ main: nonDealerPointsRon.ron, sub: `(${nonDealerPointsTsumo.tsumo.nonDealer} / ${nonDealerPointsTsumo.tsumo.dealer})`, bgColor: getBackgroundColor(dealerPointsTsumo.tsumo) });
-            }
-        }
-
-        dealerTableRows.push(dealerRow);
-        nonDealerTableRows.push(nonDealerRow);
-    }
-
-    return { dealerTableRows, nonDealerTableRows };
-};
-
 const question = ref(null);
 const userInput = ref({ dealer: "", nonDealer: "" });
 const isCorrect = ref(null);
 const showResult = ref(false);
 const isTable = ref(false);
-const { dealerTableRows, nonDealerTableRows } = generatePointsTable();
 
-const getTheme = () => {
-    return document.documentElement.getAttribute('data-theme') || 'light';
-};
-
+// 监听主题变化
+const getTheme = () => document.documentElement.getAttribute('data-theme') || 'light';
+const theme = ref(getTheme());
+let observer;
 onMounted(() => {
-    question.value = generateQuestion();
+  observer = new MutationObserver(muts => {
+    for (const m of muts) {
+      if (m.type === 'attributes' && m.attributeName === 'data-theme')
+        theme.value = getTheme();
+    }
+  });
+  observer.observe(document.documentElement, { attributes: true });
+  question.value = generateQuestion();
+});
+onUnmounted(() => {
+  observer.disconnect();
 });
 
+// 提交答案／下一题逻辑
 const checkAnswer = () => {
     const { correctPoints } = question.value;
     const { dealer, nonDealer } = userInput.value;
