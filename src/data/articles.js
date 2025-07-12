@@ -1332,7 +1332,7 @@ export const articles = [
   {
   id: 102,
     round: '东 1 局  西家  9 巡目',
-    images1: [z0, z0, z7, z0, z0, z0, z0],
+    images1: [z0, z0, s9, z0, z0, z0, z0],
     images2: [s1, s1, s2, s3, s0, s7, s7, s8, s8, s8, z3, z3, z3, s8],
     answerImg: s0,
     explanation: [
@@ -1512,7 +1512,7 @@ export const articles = [
     id: 116,
     round: '东 1 局  东家  7 巡目',
     images1: [z0, z0, s3, z0, z0, z0, z0],
-    images2: [m4, m5, m6, m6, m6, m7, p3, p4, p5, p6, s6, s7, s8, s8],
+    images2: [m4, m5, m6, m6, m6, m7, p3, p4, s5, s6, s6, s7, s8, s8],
     answerImg: m7,
     explanation: [
       '因', '为', s4, '是', '宝', '牌', '而', '急', '着', '打', '掉', s8, '的', '话', '，', m7, '就', '完', '全', '没', '用', '了', '。', 
