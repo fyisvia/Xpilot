@@ -21,11 +21,19 @@
       </div>
     </main>
   </div>
+  <WelcomeModal :show="showWelcomeModal" @close="closeWelcomeModal" />
 </template>
 
 <script setup>
 import Navbar from './components/Navbar.vue';
-import { onMounted, onBeforeUnmount } from 'vue';
+import WelcomeModal from './components/WelcomeModal.vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+
+const showWelcomeModal = ref(true);
+
+const closeWelcomeModal = () => {
+  showWelcomeModal.value = false;
+};
 
 onMounted(() => {
   const main = document.querySelector('main');
