@@ -131,26 +131,26 @@
             <div class="overflow-x-auto">
               <div class="responsive-table-wrapper">
                 <table class="table table-sm w-full bg-base-100 rounded-lg">
-              <thead>
-                <tr>
-                  <th class="text-center">切</th>
-                  <th class="text-center">进张</th>
-                  <th class="text-center">好型率</th>
-                  <th class="text-center">总进张</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="([tile, result], idx) in sortedImprovementResults"
-                  :key="tile"
-                  :class="idx % 2 === 1 ? 'hover:bg-base-300' : ''"
-                >
-                  <td class="font-bold text-center">{{ tile }}</td>
-                  <td class="text-center">{{ Object.keys(result.improvements).join(', ') }}</td>
-                  <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(0) }}%</td>
-                  <td class="font-bold text-center">{{ result.totalCount }}</td>
-                </tr>
-              </tbody>
+                  <thead>
+                    <tr>
+                      <th class="text-center">切</th>
+                      <th class="text-center">进张</th>
+                      <th class="text-center">好型率</th>
+                      <th class="text-center">总进张</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="([tile, result], idx) in sortedImprovementResults"
+                      :key="tile"
+                      :class="idx % 2 === 1 ? 'hover:bg-base-300' : ''"
+                    >
+                      <td class="font-bold text-center">{{ tile }}</td>
+                      <td class="text-center">{{ Object.keys(result.improvements).join(', ') }}</td>
+                      <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(0) }}%</td>
+                      <td class="font-bold text-center">{{ result.totalCount }}</td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </div>
