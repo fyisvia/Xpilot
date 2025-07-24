@@ -84,12 +84,12 @@
         </template>
       </div>
     </li>
-    <li class="p-4 pb-2 text-xs md:text-base opacity-80 tracking-wide flex justify-end mx-6">
+    <li class="p-4 pb-2 text-xs md:text-base opacity-80 tracking-wide flex justify-end mx-2">
       <div>⬆️直接点击选择答案</div>
     </li>
     <li class="p-2 sm:p-4 pb-2 text-sm sm:text-base md:text-lg opacity-100 tracking-wide">
       <div class="flex items-center gap-2 pb-4">
-        <div class="collapse collapse-arrow bg-base-100 border-base-300 border mx-4">
+        <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
           <input type="checkbox" v-model="isAnswerCollapsed"/>
           <div class="collapse-title text-lg md:text-xl font-semibold text-center">参考答案及解析</div>
           <div class="collapse-content text-sm sm:text-base md:text-lg mb-0">
@@ -123,33 +123,38 @@
           </div>
         </div>
       </div>
-      <div class="list-row flex flex-col gap-2">
-        <button class="btn text-base md:text-lg font-semibold bg-base-100" @click="handleSubmit">进张数分析</button>
-      </div>
-      <div class="overflow-x-auto" v-if="showResult">
-        <div class="responsive-table-wrapper">
-          <table class="table table-sm w-full bg-base-100 rounded-lg">
-            <thead>
-              <tr>
-                <th class="text-center">切</th>
-                <th class="text-center">进张</th>
-                <th class="text-center">好型率</th>
-                <th class="text-center">总进张</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="([tile, result], idx) in sortedImprovementResults"
-                :key="tile"
-                :class="idx % 2 === 1 ? 'hover:bg-base-300' : ''"
-              >
-                <td class="font-bold text-center">{{ tile }}</td>
-                <td class="text-center">{{ Object.keys(result.improvements).join(', ') }}</td>
-                <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(0) }}%</td>
-                <td class="font-bold text-center">{{ result.totalCount }}</td>
-              </tr>
-            </tbody>
-          </table>
+      <div class="flex items-center gap-2 pb-4">
+        <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
+          <input type="checkbox" v-model="showResult" @change="handleAnalysisToggle"/>
+          <div class="collapse-title text-lg md:text-xl font-semibold text-center">进张数分析</div>
+          <div class="collapse-content text-sm sm:text-base md:text-lg mb-0">
+            <div class="overflow-x-auto">
+              <div class="responsive-table-wrapper">
+                <table class="table table-sm w-full bg-base-100 rounded-lg">
+              <thead>
+                <tr>
+                  <th class="text-center">切</th>
+                  <th class="text-center">进张</th>
+                  <th class="text-center">好型率</th>
+                  <th class="text-center">总进张</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="([tile, result], idx) in sortedImprovementResults"
+                  :key="tile"
+                  :class="idx % 2 === 1 ? 'hover:bg-base-300' : ''"
+                >
+                  <td class="font-bold text-center">{{ tile }}</td>
+                  <td class="text-center">{{ Object.keys(result.improvements).join(', ') }}</td>
+                  <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(0) }}%</td>
+                  <td class="font-bold text-center">{{ result.totalCount }}</td>
+                </tr>
+              </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </li>
@@ -217,6 +222,12 @@ const showResult = ref(false)
 const shantenNum = ref(null)
 const improvementResults = ref({})
 const errorMessage = ref(null)
+
+const handleAnalysisToggle = () => {
+  if (showResult.value && Object.keys(improvementResults.value).length === 0) {
+    handleSubmit()
+  }
+}
 
 const sortedImprovementResults = computed(() =>
   Object.entries(improvementResults.value)
@@ -440,7 +451,6 @@ const handleSubmit = () => {
   const tiles34Arr = convertToTiles34Arr(handTiles)
   shantenNum.value = calculateShanten(tiles34Arr)
   improvementResults.value = analyzeImprovement(handTiles, tiles34Arr)
-  showResult.value = true
   errorMessage.value = null
 }
 
@@ -471,6 +481,7 @@ const handleImageClick = img => {
   } else {
     showMsg('回答错误！', isDark ? 'rgba(80, 80, 80, 0.65)' : 'rgba(0, 0, 0, 0.06)')
     isAnswerCollapsed.value = true
+    showResult.value = true
     handleSubmit()
   }
 }
