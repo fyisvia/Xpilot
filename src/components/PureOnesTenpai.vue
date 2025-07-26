@@ -260,7 +260,7 @@ const convertToTiles34Arr = tiles => {
 }
 
 // 计算向听数（封装Shanten工具）
-const calculateShanten = arr => new Shanten().calculateShanten(arr)
+const calculateShanten = arr => new Shanten().calculateShanten(arr, false, false)
 
 // 获取当前手牌的所有听牌（正确答案）
 const getCorrectAnswer = tiles => {
@@ -276,19 +276,10 @@ const getCorrectAnswer = tiles => {
     if (arr[tileIndex] < 4) {
       const tmp = [...arr];
       tmp[tileIndex]++;
-      const newShanten = shantenCalculator.calculateShanten(tmp);
+      const newShanten = shantenCalculator.calculateShanten(tmp, false, false);
       if (newShanten === -1) {
-        // 确保赤5和普通5都被正确处理
-        if (i === 4) {
-          if (!res.includes(`5${realTileType.value}`)) {
-            res.push(`5${realTileType.value}`);
-          }
-          if (!res.includes(`0${realTileType.value}`)) {
-            res.push(`0${realTileType.value}`);
-          }
-        } else {
-          res.push(`${i + 1}${realTileType.value}`);
-        }
+        // 听牌是5时，只将普通5作为答案
+        res.push(`${i + 1}${realTileType.value}`);
       }
     }
   }
@@ -327,7 +318,7 @@ const initializeGame = () => {
       if (arr[tileIndex] < 4) {
         const tmp = [...arr]
         tmp[tileIndex]++
-        if (shantenCalculator.calculateShanten(tmp) === -1) {
+        if (shantenCalculator.calculateShanten(tmp, false, false) === -1) {
           res.push(i === 4 ? `5${type}` : `${i + 1}${type}`)
         }
       }
@@ -384,12 +375,14 @@ const handleTileTypeChange = v => {
   initializeGame()
 }
 
-// 可选的所有待牌（1~9，赤5特殊处理）
-const possibleTiles = computed(() =>
-  Array.from({ length: 9 }, (_, i) =>
-    i === 4 ? `5${realTileType.value}` : `${i + 1}${realTileType.value}`
-  )
-)
+// 可选的所有待牌（1~9）
+const possibleTiles = computed(() => {
+    const tiles = [];
+    for (let i = 1; i <= 9; i++) {
+        tiles.push(`${i}${realTileType.value}`);
+    }
+    return tiles;
+});
 
 // 难度选项
 const difficultyOptions = [

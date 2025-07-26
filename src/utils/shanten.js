@@ -156,12 +156,12 @@ export class Shanten {
     
     // 优化：拆分_run方法为多个更小的方法，提高可读性和维护性
     _handleFourTiles(depth, i) {
-        // 作为刻子使用一种情况
+        // 作为刻子使用
         this._increaseSet(depth);
         this._trySequencePatterns(depth, i);
         this._decreaseSet(depth);
         
-        // 作为对子使用一种情况
+        // 作为对子 + 两个单张使用
         this._increasePair(depth);
         this._trySequencePatterns(depth, i);
         this._decreasePair(depth);
@@ -203,14 +203,6 @@ export class Shanten {
     }
     
     _handleOneTile(depth, i) {
-        // 优化：先检查是否可以形成顺子的特殊情况
-        if (i < 6 && this.tiles[depth + 1] === 1 && this.tiles[depth + 2] > 0 && this.tiles[depth + 3] !== 4) {
-            this._increaseSyuntsu(depth);
-            this._run(depth + 2);
-            this._decreaseSyuntsu(depth);
-            return;
-        }
-        
         // 作为孤张
         this._increaseIsolatedTile(depth);
         this._run(depth + 1);
