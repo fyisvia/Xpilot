@@ -104,7 +104,7 @@
               {{ shantenNum }} 向听
             </div>
           </div>
-          <div v-if="shantenNum > 0" class="overflow-x-auto">
+          <div v-if="shantenNum > -1" class="overflow-x-auto">
             <div class="responsive-table-wrapper">
               <table class="table table-sm w-full bg-base-100 rounded-lg">
                 <thead>
