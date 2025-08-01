@@ -197,7 +197,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { Shanten } from '../utils/shanten'
 import { articles as articlesRaw } from '../data/articles'
 
@@ -212,8 +212,31 @@ const pArr = Array.from({ length: 10 }, (_, i) => p(i))
 const sArr = Array.from({ length: 10 }, (_, i) => s(i))
 const zArr = Array.from({ length: 7 }, (_, i) => z(i + 1))
 
+// 从 localStorage 获取上次的题目ID，如果没有则默认为 0
+const getLastArticleIndex = () => {
+  try {
+    const savedId = localStorage.getItem('threehundred-current-id')
+    if (savedId) {
+      const index = parseInt(savedId) - 1
+      return index >= 0 && index < articlesRaw.length ? index : 0
+    }
+  } catch (error) {
+    console.warn('无法读取 localStorage:', error)
+  }
+  return 0
+}
+
+// 保存当前题目ID到 localStorage
+const saveCurrentIndex = (index) => {
+  try {
+    localStorage.setItem('threehundred-current-id', (index + 1).toString())
+  } catch (error) {
+    console.warn('无法保存到 localStorage:', error)
+  }
+}
+
 const articles = ref(articlesRaw)
-const currentIndex = ref(0)
+const currentIndex = ref(getLastArticleIndex())
 const isAnswerCollapsed = ref(false)
 const currentArticle = computed(() => articles.value[currentIndex.value])
 const jumpToId = ref('')
@@ -269,6 +292,19 @@ const jumpToArticle = () => {
   }
   jumpToId.value = ''
 }
+
+// 监听 currentIndex 变化，自动保存
+watch(currentIndex, (newIndex) => {
+  saveCurrentIndex(newIndex)
+})
+
+// 组件挂载时初始化
+onMounted(() => {
+  // 确保当前索引在有效范围内
+  if (currentIndex.value >= articles.value.length) {
+    currentIndex.value = 0
+  }
+})
 
 defineProps(['changeComponent'])
 
