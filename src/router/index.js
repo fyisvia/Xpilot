@@ -10,7 +10,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
     { path: '/', name: 'Home', component: () => import('../components/Home.vue') },
     { path: '/discard', name: 'Discard', component: () => import('../components/Discard.vue') },
-    { path: '/three-hundred', name: 'ThreeHundred', component: () => import('../components/ThreeHundred.vue') },
+    { path: '/three-hundred/:id?', name: 'ThreeHundred', component: () => import('../components/ThreeHundred.vue') },
     { path: '/pure-ones-tenpai', name: 'PureOnesTenpai', component: () => import('../components/PureOnesTenpai.vue') },
     { path: '/point-calculation', name: 'PointCalculation', component: () => import('../components/PointCalculation.vue') },
     { path: '/guide', name: 'Guide', component: () => import('../components/Guide.vue') },

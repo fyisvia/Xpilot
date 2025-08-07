@@ -39,14 +39,16 @@
   </template>
   
   <script setup>
-  import { ref, onMounted } from 'vue'
+  import { ref, onMounted, inject } from 'vue'
   
+  const emitter = inject('emitter')
   const isLightTheme = ref(true)
   
   function toggleTheme() {
     isLightTheme.value = !isLightTheme.value
     const theme = isLightTheme.value ? 'light' : 'dark'
     document.documentElement.setAttribute('data-theme', theme)
+    emitter.emit('theme-changed')
   }
   
   // Set initial theme on mount

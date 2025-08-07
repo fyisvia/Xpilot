@@ -198,8 +198,12 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { Shanten } from '../utils/shanten'
 import { articles as articlesRaw } from '../data/articles'
+
+const route = useRoute()
+const router = useRouter()
 
 const img = n => `/mahjongfiles/${n}.png`
 const m = n => img(`${n}m`)
@@ -212,8 +216,17 @@ const pArr = Array.from({ length: 10 }, (_, i) => p(i))
 const sArr = Array.from({ length: 10 }, (_, i) => s(i))
 const zArr = Array.from({ length: 7 }, (_, i) => z(i + 1))
 
-// 从 localStorage 获取上次的题目ID，如果没有则默认为 0
-const getLastArticleIndex = () => {
+// 从路由参数或 localStorage 获取初始题目ID
+const getInitialArticleIndex = () => {
+  // 优先使用路由参数
+  if (route.params.id) {
+    const id = parseInt(route.params.id)
+    if (id >= 1 && id <= articlesRaw.length) {
+      return id - 1
+    }
+  }
+  
+  // 其次使用 localStorage
   try {
     const savedId = localStorage.getItem('threehundred-current-id')
     if (savedId) {
@@ -226,17 +239,16 @@ const getLastArticleIndex = () => {
   return 0
 }
 
-// 保存当前题目ID到 localStorage
-const saveCurrentIndex = (index) => {
-  try {
-    localStorage.setItem('threehundred-current-id', (index + 1).toString())
-  } catch (error) {
-    console.warn('无法保存到 localStorage:', error)
+// 更新路由URL
+const updateRoute = (index) => {
+  const newId = index + 1
+  if (route.params.id !== newId.toString()) {
+    router.replace({ name: 'ThreeHundred', params: { id: newId } })
   }
 }
 
 const articles = ref(articlesRaw)
-const currentIndex = ref(getLastArticleIndex())
+const currentIndex = ref(getInitialArticleIndex())
 const isAnswerCollapsed = ref(false)
 const currentArticle = computed(() => articles.value[currentIndex.value])
 const jumpToId = ref('')
@@ -256,6 +268,15 @@ const sortedImprovementResults = computed(() =>
   Object.entries(improvementResults.value)
     .sort((a, b) => b[1].totalCount - a[1].totalCount)
 )
+
+// 添加保存当前索引的函数
+const saveCurrentIndex = (index) => {
+  try {
+    localStorage.setItem('threehundred-current-id', (index + 1).toString())
+  } catch (error) {
+    console.warn('无法保存到 localStorage:', error)
+  }
+}
 
 const resetAnalysis = () => {
   handInput.value = ''
@@ -293,9 +314,25 @@ const jumpToArticle = () => {
   jumpToId.value = ''
 }
 
-// 监听 currentIndex 变化，自动保存
+// 监听路由参数变化
+watch(() => route.params.id, (newId) => {
+  if (newId) {
+    const id = parseInt(newId)
+    if (id >= 1 && id <= articles.value.length) {
+      const newIndex = id - 1
+      if (newIndex !== currentIndex.value) {
+        currentIndex.value = newIndex
+        isAnswerCollapsed.value = false
+        resetAnalysis()
+      }
+    }
+  }
+})
+
+// 监听 currentIndex 变化，自动保存并更新路由
 watch(currentIndex, (newIndex) => {
   saveCurrentIndex(newIndex)
+  updateRoute(newIndex)
 })
 
 // 组件挂载时初始化
@@ -304,6 +341,8 @@ onMounted(() => {
   if (currentIndex.value >= articles.value.length) {
     currentIndex.value = 0
   }
+  // 初始化时更新路由
+  updateRoute(currentIndex.value)
 })
 
 defineProps(['changeComponent'])

@@ -78,3 +78,47 @@
   --depth: 1;
   --noise: 0;
 }
+
+/* Waline 自定义样式 */
+
+[data-theme="light"] #waline {
+  border-radius: 1rem;
+  background-color: #f8f8f8 !important;
+  padding: 1rem;
+}
+
+[data-theme="light"] #waline .wl-cards,
+[data-theme="light"] #waline .wl-card,
+[data-theme="light"] #waline .wl-comment,
+[data-theme="light"] #waline .wl-editor,
+[data-theme="light"] #waline .wl-panel,
+[data-theme="light"] #waline .wl-input,
+[data-theme="dark"] #waline .wl-textarea {
+  background-color: #f8f8f8 !important; /* 浅灰色背景 */
+  border: none !important; /* 移除内层元素的边框 */
+}
+
+[data-theme="light"] #waline .wl-card {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important; /* 评论之间的分隔线 */
+}
+
+[data-theme="dark"] #waline {
+  border-radius: 1rem;
+  background-color: #010515 !important;
+  padding: 1rem;
+}
+
+[data-theme="dark"] #waline .wl-cards,
+[data-theme="dark"] #waline .wl-card,
+[data-theme="dark"] #waline .wl-comment,
+[data-theme="dark"] #waline .wl-editor,
+[data-theme="dark"] #waline .wl-panel,
+[data-theme="dark"] #waline .wl-input,
+[data-theme="dark"] #waline .wl-textarea {
+  background-color: #010515 !important; /* 深蓝色背景 */
+  border: none !important; /* 移除内层元素的边框 */
+}
+
+[data-theme="dark"] #waline .wl-card {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important; /* 评论之间的分隔线 */
+}
