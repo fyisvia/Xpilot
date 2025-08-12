@@ -37,6 +37,12 @@
                 </a>
             </div>
         </li>
+        <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
+            赞助：
+        </li><br>
+        <li class="p-4 pb-2 text-base opacity-100 tracking-wide w-full sm:w-3/5">
+            <img src="/photos/QRcode.jpg" alt="" class="w-full h-auto">
+        </li>
         <br>
     </ul>
 </template>

@@ -5,270 +5,300 @@
 // any later version.
 // See the LICENSE file in the project root for full license information.
 
-// Shanten计算模块
+// 原有常量
+const TERMINAL_INDICES = [0, 8, 9, 17, 18, 26];
+const HONOR_INDICES   = [27, 28, 29, 30, 31, 32, 33];
 
-export const TERMINAL_INDICES = [0, 8, 9, 17, 18, 26];
-export const HONOR_INDICES = [27, 28, 29, 30, 31, 32, 33];
+// 统一常量
+const TILE_COUNT = 34;
+const NUMERAL_COUNT = 27;
+const HAND_MAX_TILES = 14;
+const MAX_SHANTEN = 8;
+const TERMINAL_HONOR_INDICES = [...TERMINAL_INDICES, ...HONOR_INDICES];
 
-export class Shanten {
+class Shanten {
     constructor() {
-        this.AGARI_STATE = -1; // 和牌状态的标志，向听数为-1表示已经和牌
-        this.tiles = []; // 当前手牌的34种牌计数数组
-        this.number_melds = 0; // 面子的数量（如刻子、顺子）
-        this.number_tatsu = 0; // 搭子的数量（两张连续或间隔的牌）
-        this.number_pairs = 0; // 对子的数量
-        this.number_jidahai = 0; // 字牌的数量（用于国士无双的特殊处理）
-        this.number_characters = 0; // 字牌的位掩码表示
-        this.number_isolated_tiles = 0; // 孤张的位掩码表示
-        this.min_shanten = 0; // 当前最小向听数
-        this.cache = new Map(); // 记忆化缓存，用于优化递归计算
+        this.AGARI_STATE = -1;
+
+        // 运行期变量（每次计算前通过 _init 重置）
+        this.tiles = [];                    // 当前 34 张牌的计数数组
+        this.number_melds = 0;              // 面子数（顺子/刻子）
+        this.number_tatsu = 0;              // 搭子数（两面/嵌张/边张候选，按本实现的定义）
+        this.number_pairs = 0;              // 对子数
+        this.number_jidahai = 0;            // 字牌相关（用于特殊修正）
+        this.number_characters = 0;         // 数牌 0~26 中 4 张的位集（以及第 27 位用于综合标记）
+        this.number_isolated_tiles = 0;     // 孤张位集（含第 27 位用于字牌整体标记）
+        this.min_shanten = 0;               // 当前最小向听数
+        this._workTiles = new Array(TILE_COUNT); // 复用的工作数组，避免频繁分配
     }
 
+    // 统一对外入口
+    // tiles34: 长度 34 的数组
+    // useChiitoitsu / useKokushi：是否包含七对子与国士无双的计算
     calculateShanten(tiles34, useChiitoitsu = true, useKokushi = true) {
-        // 先计算特殊牌型，它们计算更快
-        const results = [];
-        
-        if (useKokushi) results.push(this.calculateShantenForKokushiHand(tiles34)); // 计算国士无双的向听数
-        if (useChiitoitsu) results.push(this.calculateShantenForChiitoitsuHand(tiles34)); // 计算七对子向听数
-        
-        // 如果特殊牌型已经是和牌状态，无需计算常规牌型
-        if (!results.includes(this.AGARI_STATE)) {
-            results.push(this.calculateShantenForRegularHand(tiles34)); // 计算常规牌型的向听数
+        // 优化：先算特殊形，若已和牌可跳过复杂递归
+        const shantenResults = [];
+        if (useChiitoitsu) {
+            const s = this.calculateShantenForChiitoitsuHand(tiles34);
+            shantenResults.push(s);
+            if (s === this.AGARI_STATE) return this.AGARI_STATE;
         }
-        
-        return Math.min(...results); // 返回最小的向听数
+        if (useKokushi) {
+            const s = this.calculateShantenForKokushiHand(tiles34);
+            shantenResults.push(s);
+            if (s === this.AGARI_STATE) return this.AGARI_STATE;
+        }
+        // 一般形最后算（与原最终最小值一致）
+        shantenResults.push(this.calculateShantenForRegularHand(tiles34));
+        return Math.min(...shantenResults);
     }
 
+    // 七对子向听：
+    // 统计 >=2 的牌作为 pairs
+    // uniquePairs 仅统计正好 2 张的不同对子
+    // 特殊情形：4 个 x2 + 2 个 x3 -> 向听 1
+    //           5 个 x2 + 1 个 x4 -> 向听 1
+    // 达成条件：7 个不同的唯一对子（每种恰好 2 张） -> 和牌
     calculateShantenForChiitoitsuHand(tiles34) {
-        let pairs = 0, uniqueTiles = 0; // 对子的数量和不重复牌的数量
-        
-        // 遍历所有牌
-        for (let i = 0; i < tiles34.length; i++) {
-            if (tiles34[i] > 0) {
-                uniqueTiles++; // 统计不重复的牌
-                if (tiles34[i] >= 2) {
-                    pairs++; // 统计对子数量
-                }
-            }
+        // 单次循环统计，避免多次 filter
+        let cnt2 = 0, cnt3 = 0, cnt4 = 0;
+        for (let i = 0; i < TILE_COUNT; i++) {
+            const c = tiles34[i];
+            if (c === 2) cnt2++;
+            else if (c === 3) cnt3++;
+            else if (c === 4) cnt4++;
         }
-
-        // 七对子特殊情况的判断
-        if (uniqueTiles <= 7 && pairs === 7) return this.AGARI_STATE; // 如果已经是七对子和牌状态，返回-1
-        
-        // 优化：直接计算向听数，无需额外判断特殊情况
-        return Math.max(6 - pairs, 7 - uniqueTiles);
+        // 特殊情况保持原逻辑判定
+        if (cnt2 === 4 && cnt3 === 2) return 1;
+        if (cnt2 === 5 && cnt4 === 1) return 1;
+        // 7 对必须全部是恰好 2 张
+        if (cnt2 === 7) return this.AGARI_STATE;
+        const pairs = cnt2 + cnt3 + cnt4; // >=2 的牌种数
+        return 6 - pairs;
     }
 
+    // 国士无双向听：
+    // 统计 13 种幺九牌中出现的种类数 terminals
+    // 若其中存在一个种类达到 >=2（即完成一对），则多减 1
     calculateShantenForKokushiHand(tiles34) {
-        const indices = [...TERMINAL_INDICES, ...HONOR_INDICES]; // 幺九牌和字牌的索引
-        let uniqueTerminals = 0; // 不重复的幺九牌数量
-        let hasPair = false; // 是否有对子
-        
-        // 遍历所有幺九牌和字牌
-        for (const i of indices) {
-            if (tiles34[i] > 0) {
-                uniqueTerminals++; // 统计不重复的幺九牌
-                if (tiles34[i] >= 2 && !hasPair) {
-                    hasPair = true; // 如果有对子，标记为true
+        // 使用预合并数组 TERMINAL_HONOR_INDICES，避免每次展开
+        let terminals = 0;
+        let hasPair = false;
+        for (const i of TERMINAL_HONOR_INDICES) {
+            const c = tiles34[i];
+            if (c > 0) {
+                terminals++;
+                if (!hasPair && c >= 2) hasPair = true;
+            }
+        }
+        return 13 - terminals - (hasPair ? 1 : 0);
+    }
+
+    // 一般形向听
+    calculateShantenForRegularHand(tiles34) {
+        // 复用缓冲数组，避免 [...tiles34]
+        for (let i = 0; i < TILE_COUNT; i++) this._workTiles[i] = tiles34[i];
+        this._init(this._workTiles);
+
+        // 微优化：for 累加替代 reduce
+        let countOfTiles = 0;
+        for (let i = 0; i < TILE_COUNT; i++) countOfTiles += tiles34[i];
+        if (countOfTiles > HAND_MAX_TILES) {
+            throw new Error(`Too many tiles = ${countOfTiles}`);
+        }
+
+        // 处理字牌（风牌/三元牌）的面子、对子与孤张
+        this._removeCharacterTiles(countOfTiles);
+
+        // initMentsu：用于补足手牌不足 14 张时的“虚拟面子”占位
+        const initMentsu = Math.floor((14 - countOfTiles) / 3);
+        this._scan(initMentsu);
+
+        return this.min_shanten;
+    }
+
+    // 初始化运行期变量
+    _init(tiles) {
+        this.tiles = tiles;
+        this.number_melds = 0;
+        this.number_tatsu = 0;
+        this.number_pairs = 0;
+        this.number_jidahai = 0;
+        this.number_characters = 0;
+        this.number_isolated_tiles = 0;
+        this.min_shanten = MAX_SHANTEN;
+    }
+
+    // 预处理数牌的 4 张集合标记，并启动递归
+    _scan(initMentsu) {
+        this.number_characters = 0;
+        for (let i = 0; i < NUMERAL_COUNT; i++) {
+            this.number_characters |= (this.tiles[i] === 4) << i;
+        }
+        this.number_melds += initMentsu;
+        this._run(0);
+    }
+
+    // 递归搜索
+    _run(depth) {
+        if (this.min_shanten === this.AGARI_STATE) return;
+        while (depth < NUMERAL_COUNT && this.tiles[depth] === 0) depth++;
+        if (depth >= NUMERAL_COUNT) return this._updateResult();
+
+        const tiles = this.tiles;          // 局部缓存引用
+        const i = depth % 9;
+        const tc = tiles[depth];
+        const t1 = tiles[depth + 1];
+        const t2 = tiles[depth + 2];
+        const t3 = tiles[depth + 3];
+
+        // 4 张
+        if (tc === 4) {
+            this._increaseSet(depth);
+            if (i < 7 && t2) {
+                if (t1) {
+                    this._increaseSyuntsu(depth);
+                    this._run(depth + 1);
+                    this._decreaseSyuntsu(depth);
+                }
+                this._increaseTatsuSecond(depth);
+                this._run(depth + 1);
+                this._decreaseTatsuSecond(depth);
+            }
+            if (i < 8 && t1) {
+                this._increaseTatsuFirst(depth);
+                this._run(depth + 1);
+                this._decreaseTatsuFirst(depth);
+            }
+            this._increaseIsolatedTile(depth);
+            this._run(depth + 1);
+            this._decreaseIsolatedTile(depth);
+            this._decreaseSet(depth);
+
+            this._increasePair(depth);
+            if (i < 7 && t2) {
+                if (t1) {
+                    this._increaseSyuntsu(depth);
+                    this._run(depth);
+                    this._decreaseSyuntsu(depth);
+                }
+                this._increaseTatsuSecond(depth);
+                this._run(depth + 1);
+                this._decreaseTatsuSecond(depth);
+            }
+            if (i < 8 && t1) {
+                this._increaseTatsuFirst(depth);
+                this._run(depth + 1);
+                this._decreaseTatsuFirst(depth);
+            }
+            this._decreasePair(depth);
+        }
+
+        // 3 张
+        if (tc === 3) {
+            this._increaseSet(depth);
+            this._run(depth + 1);
+            this._decreaseSet(depth);
+
+            this._increasePair(depth);
+            if (i < 7 && t1 && t2) {
+                this._increaseSyuntsu(depth);
+                this._run(depth + 1);
+                this._decreaseSyuntsu(depth);
+            } else {
+                if (i < 7 && t2) {
+                    this._increaseTatsuSecond(depth);
+                    this._run(depth + 1);
+                    this._decreaseTatsuSecond(depth);
+                }
+                if (i < 8 && t1) {
+                    this._increaseTatsuFirst(depth);
+                    this._run(depth + 1);
+                    this._decreaseTatsuFirst(depth);
+                }
+            }
+            this._decreasePair(depth);
+
+            // 两个顺子（如 3 3 3 与后面 4 4 / 5 5 等）情况
+            if (i < 7 && tiles[depth + 2] >= 2 && tiles[depth + 1] >= 2) {
+                this._increaseSyuntsu(depth);
+                this._increaseSyuntsu(depth);
+                this._run(depth);
+                this._decreaseSyuntsu(depth);
+                this._decreaseSyuntsu(depth);
+            }
+        }
+
+        // 2 张
+        if (tc === 2) {
+            this._increasePair(depth);
+            this._run(depth + 1);
+            this._decreasePair(depth);
+            if (i < 7 && t2 && t1) {
+                this._increaseSyuntsu(depth);
+                this._run(depth);
+                this._decreaseSyuntsu(depth);
+            }
+        }
+
+        // 1 张
+        if (tc === 1) {
+            // 特殊快速组合：1 1 X 且后续不为 4
+            if (i < 6 && t1 === 1 && t2 && t3 !== 4) {
+                this._increaseSyuntsu(depth);
+                this._run(depth + 2);
+                this._decreaseSyuntsu(depth);
+            } else {
+                this._increaseIsolatedTile(depth);
+                this._run(depth + 1);
+                this._decreaseIsolatedTile(depth);
+
+                if (i < 7 && t2) {
+                    if (t1) {
+                        this._increaseSyuntsu(depth);
+                        this._run(depth + 1);
+                        this._decreaseSyuntsu(depth);
+                    }
+                    this._increaseTatsuSecond(depth);
+                    this._run(depth + 1);
+                    this._decreaseTatsuSecond(depth);
+                }
+                if (i < 8 && t1) {
+                    this._increaseTatsuFirst(depth);
+                    this._run(depth + 1);
+                    this._decreaseTatsuFirst(depth);
                 }
             }
         }
-        
-        // 国士无双需要13种幺九牌，加1个对子
-        return 13 - uniqueTerminals - (hasPair ? 1 : 0);
     }
 
-    calculateShantenForRegularHand(tiles34) {
-        tiles34 = [...tiles34]; // 复制数组，避免修改原始数据
-        this._init(tiles34); // 初始化状态变量
-        
-        const countOfTiles = tiles34.reduce((sum, x) => sum + x, 0); // 计算手牌总数
-        if (countOfTiles > 14) throw new Error(`Too many tiles = ${countOfTiles}`); // 如果手牌超过14张，抛出异常
-        
-        this._removeCharacterTiles(countOfTiles); // 处理字牌的特殊情况
-        const initMentsu = Math.floor((14 - countOfTiles) / 3); // 计算初始面子数量
-        
-        this.cache.clear(); // 清空缓存
-        this._scan(initMentsu); // 开始递归扫描
-        return this.min_shanten; // 返回最小向听数
-    }
-
-    _init(tiles) {
-        this.tiles = tiles; // 初始化手牌
-        this.number_melds = 0; // 初始化面子数量
-        this.number_tatsu = 0; // 初始化搭子数量
-        this.number_pairs = 0; // 初始化对子数量
-        this.number_jidahai = 0; // 初始化字牌数量
-        this.number_characters = 0; // 初始化字牌位掩码
-        this.number_isolated_tiles = 0; // 初始化孤张位掩码
-        this.min_shanten = 8; // 初始化最小向听数为8（最大可能值）
-    }
-
-    _scan(initMentsu) {
-        this.number_characters = 0; // 初始化字牌位掩码
-        
-        // 优化：仅检查数牌部分
-        for (let i = 0; i < 27; i++) {
-            if (this.tiles[i] === 4) {
-                this.number_characters |= (1 << i); // 更新字牌位掩码
-            }
-        }
-        
-        this.number_melds += initMentsu; // 加上初始面子数量
-        this._run(0); // 开始递归
-    }
-
-    _getCacheKey(depth) {
-        // 创建一个唯一标识当前状态的键
-        return `${depth}-${this.number_melds}-${this.number_tatsu}-${this.number_pairs}-${this.number_isolated_tiles}`;
-    }
-
-    _run(depth) {
-        if (this.min_shanten === this.AGARI_STATE) return; // 如果已经和牌，提前终止
-    
-        const cacheKey = this._getCacheKey(depth); // 获取当前状态的缓存键
-        if (this.cache.has(cacheKey)) return; // 如果状态已计算过，直接返回
-    
-        while (depth < 27 && !this.tiles[depth]) {
-            depth++; // 跳过空牌
-        }
-        
-        if (depth >= 27) {
-            this._updateResult(); // 如果遍历完成，更新结果
-            return;
-        }
-        
-        const i = depth % 9; // 当前牌在其花色中的索引
-    
-        // 根据当前牌的数量执行不同逻辑
-        if (this.tiles[depth] === 4) {
-            this._handleFourTiles(depth, i);
-        } else if (this.tiles[depth] === 3) {
-            this._handleThreeTiles(depth, i);
-        } else if (this.tiles[depth] === 2) {
-            this._handleTwoTiles(depth, i);
-        } else if (this.tiles[depth] === 1) {
-            this._handleOneTile(depth, i);
-        }
-    
-        this.cache.set(cacheKey, true); // 记录当前状态
-    }
-    
-    // 优化：拆分_run方法为多个更小的方法，提高可读性和维护性
-    _handleFourTiles(depth, i) {
-        // 作为刻子使用
-        this._increaseSet(depth);
-        this._trySequencePatterns(depth, i);
-        this._decreaseSet(depth);
-        
-        // 作为对子 + 两个单张使用
-        this._increasePair(depth);
-        this._trySequencePatterns(depth, i);
-        this._decreasePair(depth);
-    }
-    
-    _handleThreeTiles(depth, i) {
-        // 作为刻子
-        this._increaseSet(depth);
-        this._run(depth + 1);
-        this._decreaseSet(depth);
-        
-        // 作为对子+单张
-        this._increasePair(depth);
-        this._trySequencePatterns(depth, i);
-        this._decreasePair(depth);
-        
-        // 特殊情况：检查是否可以形成两个顺子
-        if (i < 7 && this.tiles[depth + 1] >= 2 && this.tiles[depth + 2] >= 2) {
-            this._increaseSyuntsu(depth);
-            this._increaseSyuntsu(depth);
-            this._run(depth);
-            this._decreaseSyuntsu(depth);
-            this._decreaseSyuntsu(depth);
-        }
-    }
-    
-    _handleTwoTiles(depth, i) {
-        // 作为对子
-        this._increasePair(depth);
-        this._run(depth + 1);
-        this._decreasePair(depth);
-        
-        // 尝试形成顺子
-        if (i < 7 && this.tiles[depth + 1] > 0 && this.tiles[depth + 2] > 0) {
-            this._increaseSyuntsu(depth);
-            this._run(depth);
-            this._decreaseSyuntsu(depth);
-        }
-    }
-    
-    _handleOneTile(depth, i) {
-        // 作为孤张
-        this._increaseIsolatedTile(depth);
-        this._run(depth + 1);
-        this._decreaseIsolatedTile(depth);
-        
-        this._trySequencePatterns(depth, i);
-    }
-    
-    // 优化：抽取共用的顺子相关尝试逻辑
-    _trySequencePatterns(depth, i) {
-        // 尝试形成顺子
-        if (i < 7 && this.tiles[depth + 1] > 0 && this.tiles[depth + 2] > 0) {
-            this._increaseSyuntsu(depth);
-            this._run(depth + 1);
-            this._decreaseSyuntsu(depth);
-        } 
-        // 尝试形成搭子(二间搭)
-        else if (i < 7 && this.tiles[depth + 2] > 0) {
-            this._increaseTatsuSecond(depth);
-            this._run(depth + 1);
-            this._decreaseTatsuSecond(depth);
-        }
-        
-        // 尝试形成搭子(两连张)
-        if (i < 8 && this.tiles[depth + 1] > 0) {
-            this._increaseTatsuFirst(depth);
-            this._run(depth + 1);
-            this._decreaseTatsuFirst(depth);
-        }
-    }
-
+    // 依据当前统计更新最小向听
     _updateResult() {
-        // 优化：直接计算向听数
         let retShanten = 8 - this.number_melds * 2 - this.number_tatsu - this.number_pairs;
-        
-        // 计算完成面子和搭子的总数
         let nMentsuKouho = this.number_melds + this.number_tatsu;
-        
-        // 处理对子情况
+
         if (this.number_pairs) {
             nMentsuKouho += this.number_pairs - 1;
-        } 
-        // 处理字牌和孤张情况
-        else if (this.number_characters && this.number_isolated_tiles) {
+        } else if (this.number_characters && this.number_isolated_tiles) {
             if ((this.number_characters | this.number_isolated_tiles) === this.number_characters) {
                 retShanten += 1;
             }
         }
-        
-        // 处理超过4组面子/搭子的情况
+
         if (nMentsuKouho > 4) {
             retShanten += nMentsuKouho - 4;
         }
-        
-        // 考虑打出牌的数量
+
         if (retShanten !== this.AGARI_STATE && retShanten < this.number_jidahai) {
             retShanten = this.number_jidahai;
         }
-        
-        // 更新最小向听数
+
         if (retShanten < this.min_shanten) {
             this.min_shanten = retShanten;
         }
     }
 
-    // 辅助方法
+    // 以下为修改牌数组及计数的辅助函数
     _increaseSet(k) {
         this.tiles[k] -= 3;
         this.number_melds += 1;
@@ -323,11 +353,15 @@ export class Shanten {
     }
     _decreaseIsolatedTile(k) {
         this.tiles[k] += 1;
-        this.number_isolated_tiles &= ~(1 << k); 
+        // 修复：恢复孤张需清除位（原实现 |= 导致位无法回退）
+        this.number_isolated_tiles &= ~(1 << k);
     }
-    
+
+    // 处理字牌(27~33)：统计面子 / 对子 / 孤张，并做相应位表示
     _removeCharacterTiles(nc) {
-        let number = 0, isolated = 0;
+        let number = 0;
+        let isolated = 0;
+
         for (let i = 27; i < 34; i++) {
             if (this.tiles[i] === 4) {
                 this.number_melds += 1;
@@ -335,14 +369,30 @@ export class Shanten {
                 number |= 1 << (i - 27);
                 isolated |= 1 << (i - 27);
             }
-            if (this.tiles[i] === 3) this.number_melds += 1;
-            if (this.tiles[i] === 2) this.number_pairs += 1;
-            if (this.tiles[i] === 1) isolated |= 1 << (i - 27);
+            if (this.tiles[i] === 3) {
+                this.number_melds += 1;
+            }
+            if (this.tiles[i] === 2) {
+                this.number_pairs += 1;
+            }
+            if (this.tiles[i] === 1) {
+                isolated |= 1 << (i - 27);
+            }
         }
-        if (this.number_jidahai && nc % 3 === 2) this.number_jidahai -= 1;
+
+        // 调整国士/七对冲突时的字牌惩罚
+        if (this.number_jidahai && nc % 3 === 2) {
+            this.number_jidahai -= 1;
+        }
+
         if (isolated) {
             this.number_isolated_tiles |= 1 << 27;
-            if ((number | isolated) === number) this.number_characters |= 1 << 27;
+            if ((number | isolated) === number) {
+                this.number_characters |= 1 << 27;
+            }
         }
     }
 }
+
+export { Shanten, TERMINAL_INDICES, HONOR_INDICES };
+export default Shanten;

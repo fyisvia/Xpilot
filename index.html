@@ -53,7 +53,7 @@ See the LICENSE file in the project root for full license information.
             window.preloadedImages = {};
             images.forEach(src => {
               const img = new Image();
-              img.src = '/' + src; // 去掉 /public/，直接使用 images.json 中的相对路径
+              img.src = '/' + src; // 直接使用 images.json 中的相对路径
               window.preloadedImages[src] = img;
               img.onload = () => console.log(`Loaded: /${src}`);
               img.onerror = () => console.error(`Failed to load: /${src}`);

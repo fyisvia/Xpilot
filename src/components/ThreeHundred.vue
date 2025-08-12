@@ -380,64 +380,109 @@ const generateTiles = () => {
   return tiles
 }
 
-// 记忆化好型率计算
+// 好型率分析
+const ALL_TILES = generateTiles()
+const BASE_COUNT_MAP = (() => {
+  const m = {}
+  for (const t of ALL_TILES) m[t] = (m[t] || 0) + 1
+  return m
+})()
+const UNIQUE_TILES = Object.keys(BASE_COUNT_MAP)
+
+// tile -> 34 索引映射（避免反复正则与分支）
+const TILE_TO_INDEX = (() => {
+  const map = {}
+  const numIdx = (num, type) => {
+    if (type === 'm') return num === 0 ? 4 : num - 1
+    if (type === 'p') return 9 + (num === 0 ? 4 : num - 1)
+    if (type === 's') return 18 + (num === 0 ? 4 : num - 1)
+    if (type === 'z') return 27 + (num - 1)
+  }
+  for (const type of ['m','p','s']) {
+    for (let n = 1; n <= 9; n++) {
+      if (n === 5) {
+        map[`5${type}`] = numIdx(5, type)
+        map[`0${type}`] = numIdx(0, type)
+      } else {
+        map[`${n}${type}`] = numIdx(n, type)
+      }
+    }
+  }
+  for (let n = 1; n <= 7; n++) map[`${n}z`] = numIdx(n,'z')
+  return map
+})()
+
+// 构建当前手牌计数（字符串层面，用于剩余牌推算）
+function buildHandCountMap(hand) {
+  const cnt = {}
+  for (const t of hand) cnt[t] = (cnt[t] || 0) + 1
+  return cnt
+}
+
+// 生成剩余可用牌计数（不复制大对象，只按需要计算）
+function remainingCounts(handCount) {
+  const res = {}
+  for (const tile of UNIQUE_TILES) {
+    const left = BASE_COUNT_MAP[tile] - (handCount[tile] || 0)
+    if (left > 0) res[tile] = left
+  }
+  return res
+}
+
+// 记忆化好型率计算（保持原逻辑，减少重复构造与排序）
 const calculateGoodShapeRate = (() => {
   const cache = new Map()
   const MAX_DEPTH = 3
   function inner(hand, tiles34Arr, depth = 0) {
-    const key = hand.slice().sort().join(',') + `|${depth}`
+    const key = tiles34Arr.join(',') + '|' + depth
     if (cache.has(key)) return cache.get(key)
     if (depth > MAX_DEPTH) return 0
 
     const shanten = calculateShanten(tiles34Arr)
     if (shanten === 0) {
-      const allTiles = generateTiles()
-      const countMap = allTiles.reduce((acc, t) => (acc[t] = (acc[t] || 0) + 1, acc), {})
-      hand.forEach(t => countMap[t] = (countMap[t] || 0) - 1)
+      const handCount = buildHandCountMap(hand)
+      const rem = remainingCounts(handCount)
       let waitTypes = new Set(), waitCount = 0
-      Object.entries(countMap).forEach(([tile, count]) => {
-        if (count <= 0) return
+      for (const [tile, count] of Object.entries(rem)) {
         const tempHand = [...hand, tile]
         const tempTiles34 = convertToTiles34Arr(tempHand)
         if (calculateShanten(tempTiles34) === -1) {
           waitTypes.add(tile)
           waitCount += count
         }
-      })
-      // 返回0或1，表示0%或100%的好型率
+      }
       const result = (waitTypes.size > 1 && waitCount > 4) ? 1 : 0
       cache.set(key, result)
       return result
     }
 
-    let totalPaths = 0, goodShapePaths = 0
-    const allTiles = generateTiles()
-    const countMap = allTiles.reduce((acc, t) => (acc[t] = (acc[t] || 0) + 1, acc), {})
-    hand.forEach(t => countMap[t] = (countMap[t] || 0) - 1)
+    const handCount = buildHandCountMap(hand)
+    const rem = remainingCounts(handCount)
 
-    Object.entries(countMap).forEach(([tile, count]) => {
-      if (count <= 0) return
+    let totalPaths = 0, goodShapePaths = 0
+    for (const [tile, count] of Object.entries(rem)) {
       const tempHand = [...hand, tile]
       const tempTiles34 = convertToTiles34Arr(tempHand)
       const newShanten = calculateShanten(tempTiles34)
       if (newShanten < shanten) {
         let bestPathRate = 0
-        const unique = new Set()
+        const seen = new Set()
         for (let i = 0; i < tempHand.length; i++) {
-          if (unique.has(tempHand[i])) continue
-          unique.add(tempHand[i])
+          const dTile = tempHand[i]
+            // 去重
+          if (seen.has(dTile)) continue
+          seen.add(dTile)
           const discardHand = tempHand.slice()
-          discardHand.splice(i, 1)
+          discardHand.splice(i,1)
           const discardTiles34 = convertToTiles34Arr(discardHand)
           if (calculateShanten(discardTiles34) < shanten) {
-            // 不再除以100，保持0-1的范围
             bestPathRate = Math.max(bestPathRate, inner(discardHand, discardTiles34, depth + 1))
           }
         }
         totalPaths += count
-        goodShapePaths += count * bestPathRate // 移除除以100
+        goodShapePaths += count * bestPathRate
       }
-    })
+    }
     const result = totalPaths === 0 ? 0 : (goodShapePaths / totalPaths)
     cache.set(key, result)
     return result
@@ -445,30 +490,36 @@ const calculateGoodShapeRate = (() => {
   return inner
 })()
 
+// 提效率分析
 const analyzeImprovement = (currentHand, currentTiles34) => {
   const results = {}
-  const allTiles = generateTiles()
-  const countMap = allTiles.reduce((acc, t) => (acc[t] = (acc[t] || 0) + 1, acc), {})
-  currentHand.forEach(t => countMap[t] = (countMap[t] || 0) - 1)
   const originalShanten = calculateShanten(currentTiles34)
+  const globalHandCount = buildHandCountMap(currentHand)
 
   currentHand.forEach((tileToDiscard, discardIndex) => {
+    // 构建去掉该牌后的手牌
     const newHand = currentHand.filter((_, i) => i !== discardIndex)
+    // 更新计数（局部复制一次，避免全量重算）
+    const newHandCount = { ...globalHandCount }
+    newHandCount[tileToDiscard]--
+    if (newHandCount[tileToDiscard] === 0) delete newHandCount[tileToDiscard]
+
     const newTiles34 = convertToTiles34Arr(newHand)
+    const rem = remainingCounts(newHandCount)
+
     const improvements = {}
     let totalCount = 0
-    Object.keys(countMap).forEach(tile => {
-      if (countMap[tile] <= 0) return
+    for (const [tile, count] of Object.entries(rem)) {
       const tempHand = [...newHand, tile]
       const tempTiles34 = convertToTiles34Arr(tempHand)
       if (calculateShanten(tempTiles34) < originalShanten) {
-        improvements[tile] = countMap[tile]
-        totalCount += countMap[tile]
+        improvements[tile] = count
+        totalCount += count
       }
-    })
-    if (Object.keys(improvements).length) {
-      // 这里原本就是乘以100，现在是正确的
-      const goodShapeRate = Math.max(0, calculateGoodShapeRate(newHand, convertToTiles34Arr(newHand)) * 100)
+    }
+
+    if (totalCount > 0) {
+      const goodShapeRate = Math.max(0, calculateGoodShapeRate(newHand, newTiles34) * 100)
       results[tileToDiscard] = { improvements, totalCount, goodShapeRate }
     }
   })

@@ -11,7 +11,7 @@
             MahjongXpilot
         </li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
-            version: 1.1.2<br><br>
+            version: 1.1.3<br><br>
             Copyright © Fyisvia Virell. <br>
             All Rights Reserved.<br>
         </li>
@@ -23,6 +23,16 @@
                 </a>
             </div>
             欢迎帮忙review代码，提交bug和功能建议。<br><br>
+        </li>
+        <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
+            1.1.3 版本更新（20250812）<br>
+        </li>
+        <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
+            本次更新主要内容为：
+            <br><br>
+            1.修复Shanten函数在特定情况下有误的问题。
+            <br><br>
+            2.优化牌效率分析对于用户输入手牌的处理逻辑，新增对无摸进牌情况下的进张分析。
         </li>
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
             1.1.2 版本更新（20250703）<br>
