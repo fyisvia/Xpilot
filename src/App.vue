@@ -66,7 +66,7 @@ const initWaline = async () => {
     const { init } = await import('https://unpkg.com/@waline/client@v3/dist/waline.js');
     walineInstance = init({
       el: '#waline',
-      serverURL: 'https://waline.fyisvia.com',
+      serverURL: 'https://waline.fyisvia.cn',
       path: route.path, // 使用当前路由路径
       lang: 'zh-CN',
       dark: 'html[data-theme="dark"]',
