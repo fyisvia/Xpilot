@@ -23,6 +23,7 @@
                         class="input w-60 text-base py-2 px-3"
                         autocomplete="off"
                         @keyup.enter="checkAnswer"
+                        :aria-label="`输入${question.isDealer ? '庄家' : '子家'}自摸总点（All）`"
                     />
                     <span>点 All</span>
                 </div>
@@ -33,6 +34,7 @@
                         class="input w-60 text-base py-2 px-3"
                         autocomplete="off"
                         @keyup.enter="checkAnswer"
+                        aria-label="输入庄家荣和点数"
                     />
                     <span>点</span>
                 </div>
@@ -43,6 +45,7 @@
                         class="input w-60 text-base py-2 px-3"
                         placeholder="子家"
                         autocomplete="off"
+                        aria-label="输入非庄家支付点数"
                     />
                     <span>点</span>
                     <div class="w-full"></div>
@@ -53,6 +56,7 @@
                         placeholder="庄家"
                         autocomplete="off"
                         @keyup.enter="checkAnswer"
+                        aria-label="输入庄家支付点数"
                     />
                     <span>点</span>
                 </div>
@@ -63,6 +67,7 @@
                         class="input w-60 text-base py-2 px-3"
                         autocomplete="off"
                         @keyup.enter="checkAnswer"
+                        aria-label="输入子家荣和点数"
                     />
                     <span>点</span>
                 </div>
@@ -72,7 +77,7 @@
             <div class="flex justify-between my-2.5 gap-4" v-if="question">
                 
                 <div class="flex items-center gap-2">
-                    <input type="checkbox" v-model="isTable" class="toggle my-1" />
+                    <input type="checkbox" v-model="isTable" class="toggle my-1" aria-label="显示点数表" />
                     <span class="text-sm sm:text-base my-1 font-semibold">点数表</span>
                 </div>
                 <div class="flex-1 flex justify-center">

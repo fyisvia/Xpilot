@@ -56,6 +56,7 @@
         class="input w-full text-base py-3 px-4"
         @keyup.enter="handleSubmit"
         autocomplete="off"
+        aria-label="输入手牌"
       />
     </li>
     <li class="list-row flex flex-col gap-2">

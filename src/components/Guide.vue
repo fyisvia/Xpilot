@@ -10,7 +10,7 @@
         <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
             <div class="text-lg font-semibold">{{ guideData.title }}</div>
         </li>
-        <br>
+        <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
         <li class="p-4 pb-2 opacity-100 tracking-wide">
             <div class="pl-8 flex items-center space-x-2">
                 <span>{{ guideData.disclaimer }}</span>
@@ -49,12 +49,11 @@
                 </div>
             </template>
         </li>
-        <br>
+        <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
     </ul>
 </template>
 
 <script setup>
 import { guideData } from '../data/guides.js';
-
 defineProps(['changeComponent']);
 </script>

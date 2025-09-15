@@ -25,6 +25,7 @@
                     name="radio-uploadmethod"
                     class="radio radio-xs"
                     checked="checked"
+                    aria-label="使用牌谱URL"
                 />
                 <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
                     牌谱 URL (天凤，雀魂)
@@ -34,7 +35,7 @@
                 <span class="label" style="flex-shrink: 0; margin-right: 8px;">
                     https://
                 </span>
-                <input type="text" placeholder="URL" style="flex-grow: 1;" />
+                <input type="text" placeholder="URL" style="flex-grow: 1;" aria-label="牌谱URL" />
             </label>
         </li>
 
@@ -45,12 +46,13 @@
                     name="radio-uploadmethod"
                     class="radio radio-xs"
                     checked="checked"
+                    aria-label="使用 Riichi City Log ID"
                 />
                 <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
                     Riichi City log ID
                 </span>
             </div>
-            <input type="text" placeholder="Type here" class="input" />
+            <input type="text" placeholder="Type here" class="input" aria-label="Riichi City log ID" />
         </li>
 
         <li class="list-row flex flex-col gap-2">
@@ -60,18 +62,19 @@
                     name="radio-uploadmethod"
                     class="radio radio-xs"
                     checked="checked"
+                    aria-label="使用 Hime Mahjong Log ID"
                 />
                 <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
                     Hime Mahjong log ID
                 </span>
             </div>
-            <input type="text" placeholder="Type here" class="input" />
+            <input type="text" placeholder="Type here" class="input" aria-label="Hime Mahjong log ID" />
         </li>
 
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
             <fieldset class="fieldset ml-0">
                 <legend class="text-base">模型</legend>
-                <select class="select ml-0">
+                <select class="select ml-0" aria-label="选择模型">
                     <option>Xpilot-1.0</option>
                     <!-- <option>Xpilot-2.0</option>
                     <option>Xpilot-2.1</option> -->
@@ -83,7 +86,7 @@
         <li class="p-4 pb-0 text-base opacity-100 tracking-wide">
             <fieldset class="fieldset ml-0">
                 <legend class="text-base">语言</legend>
-                <select class="select ml-0">
+                <select class="select ml-0" aria-label="选择语言">
                     <option>English</option>
                     <option>Chinese (simplified)</option>
                     <option>Japanese</option>

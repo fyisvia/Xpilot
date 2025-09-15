@@ -9,10 +9,12 @@
     <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-8">
         <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
             联系作者
-        </li><br>
+        </li>
+        <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
             Email: fyisvia@gmail.com
-        </li><br>
+        </li>
+        <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
             <div class="flex items-center space-x-2">
                 <span>Github主页：</span>
@@ -39,10 +41,11 @@
         </li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
             赞助：
-        </li><br>
-        <li class="p-4 pb-2 text-base opacity-100 tracking-wide w-full sm:w-3/5">
-            <img src="/photos/QRcode.jpg" alt="" class="w-full h-auto">
         </li>
-        <br>
+        <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
+        <li class="p-4 pb-2 text-base opacity-100 tracking-wide w-full sm:w-3/5">
+            <img src="/photos/QRcode.jpg" alt="赞助二维码" class="w-full h-auto">
+        </li>
+        <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
     </ul>
 </template>

@@ -5,16 +5,12 @@
 // any later version.
 // See the LICENSE file in the project root for full license information.
 
-<script setup>
-import { books } from '../data/books'
-</script>
-
 <template>
   <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
     <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
       <div class="text-lg font-semibold">战术书链接合集</div>
     </li>
-    <br>
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
     <li class="p-4 pb-2 opacity-100 tracking-wide">
       <div class="pl-8 flex items-center space-x-2">
         <span>声明：本文中的资料整理仅出于非商业性的学习交流目的，一切权利归原作者所有，请支持原作者/译者。</span>
@@ -43,6 +39,10 @@ import { books } from '../data/books'
         </div>
       </div>
     </li>
-    <br>
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
   </ul>
 </template>
+
+<script setup>
+import { books } from '../data/books'
+</script>

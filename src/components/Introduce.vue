@@ -100,6 +100,6 @@
             4.已知问题：<br>
             作为 rc 版本，可能存在连接不稳定、部分功能和UI未完善或偶现崩溃的问题。何切分析的预期打点功能和何切三百问的收录还没有完成，后续会尽快更新，同时牌谱分析功能也在开发中。
         </li>
-        <br>
+        <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
     </ul>
 </template>

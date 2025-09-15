@@ -10,7 +10,7 @@
     <li class="p-2 sm:p-4 pb-2 text-lg sm:text-xl md:text-2xl opacity-100 tracking-wide font-semibold">
       No. {{ currentArticle.id }}
     </li>
-    <br>
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
     <li class="p-4 sm:p-4 pb-2 text-lg sm:text-xl md:text-2xl opacity-100 tracking-wide">
       <div class="flex flex-col items-start">
         <a class="mb-2">[ {{ currentArticle.round }} ]</a>
@@ -29,7 +29,7 @@
         </div>
       </div>
     </li>
-    <br>
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
     <li class="p-2 sm:p-4 pb-2 text-xs sm:text-sm md:text-base opacity-100 tracking-wide">
       <div class="flex flex-nowrap justify-start" style="gap: 0;">
         <template v-for="(img, index) in currentArticle.images2" :key="img + '-' + index">
@@ -44,6 +44,7 @@
               class="absolute inset-0 w-full h-full opacity-0 hover:opacity-50 transition-opacity duration-300"
               @click="handleImageClick(img)"
               tabindex="-1"
+              aria-label="选择答案"
               style="pointer-events: auto;"
             ></button>
           </div>
@@ -158,7 +159,7 @@
         </div>
       </div>
     </li>
-    <br>
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
     <li class="list-row flex flex-row justify-between items-center gap-2 w-full">
       <button
         class="btn btn-sm text-sm sm:text-base px-4"
@@ -192,7 +193,7 @@
         下一题
       </button>
     </li>
-    <br>
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
   </ul>
 </template>
 
