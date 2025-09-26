@@ -52,7 +52,7 @@
       </div>
     </li>
 
-    <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
+    <li v-if="shantenDisplayMode !== 'hidden' && shantenNum !== null" aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
 
     <li
       v-if="shantenDisplayMode !== 'hidden' && shantenNum !== null"
@@ -74,7 +74,9 @@
       </div>
     </li>
 
-    <li aria-hidden="true" role="presentation" class="p-0 m-0 h-4 sm:h-0"></li>
+    <li class="p-4 pb-2 opacity-100 tracking-wide text-base sm:text-lg font-semibold">
+      <span>手牌</span>
+    </li>
 
     <li class="p-2 sm:p-4 pb-2 text-xs sm:text-sm md:text-base opacity-100 tracking-wide">
       <div

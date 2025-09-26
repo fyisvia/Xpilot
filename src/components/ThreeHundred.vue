@@ -12,7 +12,7 @@
       何切三百问
     </li>
     <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
-    <li class="p-2 sm:p-4 pb-2 text-lg sm:text-xl opacity-100 tracking-wide">
+    <li class="p-4 pb-2 text-lg sm:text-xl opacity-100 tracking-wide">
       No. {{ currentArticle.id }}
     </li>
     <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
