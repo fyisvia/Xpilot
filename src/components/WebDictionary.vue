@@ -7,6 +7,7 @@
 
 <template>
   <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
     <li class="p-4 pb-2 text-lg font-semibold tracking-wide">其他网站</li>
     <br>
     <li v-for="site in sites" :key="site.name" class="list-row">
@@ -27,7 +28,7 @@
         </button>
       </a>
     </li>
-    <br>
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
   </ul>
 </template>
 

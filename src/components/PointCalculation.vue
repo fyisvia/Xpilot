@@ -7,6 +7,11 @@
 
 <template>
     <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-0 sm:px-8">
+        <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
+        <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
+            点数计算练习
+        </li>
+        <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide flex justify-center">
             <div v-if="question">
                 <div>

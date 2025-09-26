@@ -7,6 +7,7 @@
 
 <template>
   <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
     <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
       <div class="text-lg font-semibold">战术书链接合集</div>
     </li>
@@ -39,7 +40,7 @@
         </div>
       </div>
     </li>
-    <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
   </ul>
 </template>
 

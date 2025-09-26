@@ -7,7 +7,7 @@
 
 <template>
   <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
-    <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
     <li class="list-row">
       <div></div>
       <div>
@@ -56,6 +56,25 @@
       </div>
       <RouterLink to="/three-hundred" class="no-underline" style="text-decoration: none;" aria-label="前往 何切三百问">
         <button class="btn btn-square btn-ghost" aria-label="前往 何切三百问">
+        <svg class="size-[1.8em]" viewBox="0 0 24 24">
+          <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
+            <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
+          </g>
+        </svg>
+        </button>
+      </RouterLink>
+    </li>
+
+    <li class="list-row">
+      <div></div>
+      <div>
+        <RouterLink to="/efficiency-train" class="no-underline" style="text-decoration: none;" aria-label="前往 牌效率练习">
+        <div class="text-sm font-semibold">牌效率练习</div>
+        <div class="text-xs uppercase opacity-80">练习各种情况下分析在牌效率角度下的最优解。</div>
+        </RouterLink>
+      </div>
+      <RouterLink to="/efficiency-train" class="no-underline" style="text-decoration: none;" aria-label="前往 牌效率听牌练习">
+        <button class="btn btn-square btn-ghost" aria-label="前往 牌效率练习">
         <svg class="size-[1.8em]" viewBox="0 0 24 24">
           <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
             <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
@@ -159,7 +178,7 @@
         </button>
       </RouterLink>
     </li>
-    <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
   </ul>
 </template>
 

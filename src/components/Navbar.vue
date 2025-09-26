@@ -30,7 +30,8 @@
             <ul class="p-2">
               <li><router-link to="/three-hundred" class="link no-underline text-sm">何切三百问</router-link></li>
               <li><router-link to="/pure-ones-tenpai" class="link no-underline text-sm">清一色听牌练习</router-link></li>
-              <li><router-link to="/point-calculation" class="link no-underline text-sm">点数计算</router-link></li>
+              <li><router-link to="/point-calculation" class="link no-underline text-sm">点数计算练习</router-link></li>
+              <li><router-link to="/efficiency-train" class="link no-underline text-sm">牌效率练习</router-link></li>
               <li><router-link to="/guide" class="link no-underline text-sm">入门及进阶路线</router-link></li>
               <li><router-link to="/books" class="link no-underline text-sm">战术书链接合集</router-link></li>
             </ul>
@@ -52,7 +53,7 @@
         <li>
           <details>
             <summary>分析</summary>
-            <ul class="p-2 w-32">
+            <ul class="p-2 w-32 top-[calc(100%+1.2rem)]">
               <li><router-link to="/discard" class="link no-underline">牌效率分析</router-link></li>
               <li><router-link to="/review" class="link no-underline">牌谱分析</router-link></li>
             </ul>
@@ -61,10 +62,11 @@
         <li>
           <details>
             <summary>学习</summary>
-            <ul class="p-2 w-36">
+            <ul class="p-2 w-36 top-[calc(100%+1.2rem)]">
               <li><router-link to="/three-hundred" class="link no-underline">何切三百问</router-link></li>
               <li><router-link to="/pure-ones-tenpai" class="link no-underline">清一色听牌练习</router-link></li>
-              <li><router-link to="/point-calculation" class="link no-underline">点数计算</router-link></li>
+              <li><router-link to="/point-calculation" class="link no-underline">点数计算练习</router-link></li>
+              <li><router-link to="/efficiency-train" class="link no-underline">牌效率练习</router-link></li>
               <li><router-link to="/guide" class="link no-underline">入门及进阶路线</router-link></li>
               <li><router-link to="/books" class="link no-underline">战术书链接合集</router-link></li>
             </ul>
@@ -73,7 +75,7 @@
         <li>
           <details>
             <summary>其他</summary>
-            <ul class="p-2 w-32">
+            <ul class="p-2 w-32 top-[calc(100%+1.2rem)]">
               <li><router-link to="/contact" class="link no-underline">关于作者</router-link></li>
               <li><router-link to="/introduce" class="link no-underline">关于本站</router-link></li>
               <li><router-link to="/web-dictionary" class="link no-underline">其他网站</router-link></li>

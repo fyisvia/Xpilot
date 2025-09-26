@@ -7,11 +7,16 @@
 
 <template>
   <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-full px-2 sm:px-8">
-    <li class="p-2 sm:p-4 pb-2 text-lg sm:text-xl md:text-2xl opacity-100 tracking-wide font-semibold">
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
+    <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
+      何切三百问
+    </li>
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
+    <li class="p-2 sm:p-4 pb-2 text-lg sm:text-xl opacity-100 tracking-wide">
       No. {{ currentArticle.id }}
     </li>
     <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
-    <li class="p-4 sm:p-4 pb-2 text-lg sm:text-xl md:text-2xl opacity-100 tracking-wide">
+    <li class="p-4 sm:p-4 pb-2 text-lg sm:text-xl opacity-100 tracking-wide">
       <div class="flex flex-col items-start">
         <a class="mb-2">[ {{ currentArticle.round }} ]</a>
         <div class="flex flex-row space-x-0">
@@ -29,7 +34,7 @@
         </div>
       </div>
     </li>
-    <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
+    <!-- <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li> -->
     <li class="p-2 sm:p-4 pb-2 text-xs sm:text-sm md:text-base opacity-100 tracking-wide">
       <div class="flex flex-nowrap justify-start" style="gap: 0;">
         <template v-for="(img, index) in currentArticle.images2" :key="img + '-' + index">
@@ -193,7 +198,7 @@
         下一题
       </button>
     </li>
-    <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
   </ul>
 </template>
 

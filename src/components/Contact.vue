@@ -7,6 +7,7 @@
 
 <template>
     <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-8">
+        <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
         <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
             联系作者
         </li>
@@ -46,6 +47,6 @@
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide w-full sm:w-3/5">
             <img src="/photos/QRcode.jpg" alt="赞助二维码" class="w-full h-auto">
         </li>
-        <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
+        <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
     </ul>
 </template>

@@ -7,11 +7,12 @@
 
 <template>
     <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-8">
+        <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
         <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
             MahjongXpilot
         </li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
-            version: 1.1.3<br><br>
+            version: 1.2.0<br><br>
             Copyright © Fyisvia Virell. <br>
             All Rights Reserved.<br>
         </li>
@@ -23,6 +24,16 @@
                 </a>
             </div>
             欢迎帮忙review代码，提交bug和功能建议。<br><br>
+        </li>
+        <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
+            1.2.0 版本更新（20250926）<br>
+        </li>
+        <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
+            本次更新主要内容为：
+            <br><br>
+            1.新增牌效率练习的功能。
+            <br><br>
+            2.优化了部分UI界面。
         </li>
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
             1.1.3 版本更新（20250812）<br>
@@ -100,6 +111,6 @@
             4.已知问题：<br>
             作为 rc 版本，可能存在连接不稳定、部分功能和UI未完善或偶现崩溃的问题。何切分析的预期打点功能和何切三百问的收录还没有完成，后续会尽快更新，同时牌谱分析功能也在开发中。
         </li>
-        <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
+        <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
     </ul>
 </template>

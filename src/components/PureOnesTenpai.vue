@@ -9,6 +9,14 @@
   <!-- 外层列表容器，包含所有功能区域 -->
   <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
 
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
+
+    <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
+      清一色听牌练习
+    </li>
+
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
+
     <!-- 设置区域：选择难度和牌型 -->
     <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
       <div class="flex flex-col sm:flex-row sm:items-center sm:gap-8">
@@ -186,6 +194,7 @@
         </a>
       </div>
     </li>
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
   </ul>
 </template>
 
