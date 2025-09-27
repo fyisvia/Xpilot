@@ -187,7 +187,7 @@
                       :class="idx % 2 === 1 ? 'hover:bg-base-300' : ''"
                     >
                       <td class="font-bold text-center">{{ tile }}</td>
-                      <td class="text-center">{{ Object.keys(result.improvements).join(', ') }}</td>
+                      <td class="text-center">{{ formatImprovements(result.improvements) }}</td>
                       <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(0) }}%</td>
                       <td class="font-bold text-center">{{ result.totalCount }}</td>
                     </tr>
@@ -315,6 +315,10 @@ const sortTiles = (tiles) => {
     return na - nb
   })
 }
+
+// 渲染进张时进行稳定排序（避免受 Object.keys 插入顺序影响）
+const formatImprovements = (improvements) =>
+  sortTiles(Object.keys(improvements)).join(', ')
 
 // 手牌 -> 紧凑字符串（UI展示用）
 const convertToTilesStr = (tiles) => {
@@ -590,7 +594,8 @@ const initializeGame = () => {
     const deck = finalPack.deck
     const initialHand = finalPack.hand14
 
-    baseCountMap.value = buildCountMap(deck)
+    // 修复：用“未洗牌的有序全牌集”来构建计数映射，保证键顺序稳定
+    baseCountMap.value = buildCountMap(generateTiles(tileSetMode.value))
     tilesWall.value = deck.slice(14)
 
     const sorted13 = sortTiles(initialHand.slice(0, 13))
