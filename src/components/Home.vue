@@ -30,20 +30,20 @@
     <li class="list-row">
       <div></div>
       <div>
-        <RouterLink to="/review" class="no-underline" style="text-decoration: none;" aria-label="前往 牌谱分析（未完成）">
-        <div class="text-sm font-semibold">牌谱分析（未完成）</div>
-        <div class="text-xs uppercase opacity-80">结合Xpilot-1.0模型分析雀魂等平台牌谱。</div>
-        </RouterLink>
+        <a href="https://review.bigcoach.work/" class="no-underline" style="text-decoration: none;" aria-label="前往 牌谱分析" target="_blank" rel="noopener noreferrer">
+          <div class="text-sm font-semibold">牌谱分析</div>
+          <div class="text-xs uppercase opacity-80">结合Xpilot-1.0模型分析雀魂等平台牌谱。</div>
+        </a>
       </div>
-      <RouterLink to="/review" class="no-underline" style="text-decoration: none;" aria-label="前往 牌谱分析（未完成）">
-        <button class="btn btn-square btn-ghost" aria-label="前往 牌谱分析（未完成）">
-        <svg class="size-[1.8em]" viewBox="0 0 24 24">
-          <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
-            <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
-          </g>
-        </svg>
+      <a href="https://review.bigcoach.work/" class="no-underline" style="text-decoration: none;" aria-label="前往 牌谱分析" target="_blank" rel="noopener noreferrer">
+        <button class="btn btn-square btn-ghost" aria-label="前往 牌谱分析">
+          <svg class="size-[1.8em]" viewBox="0 0 24 24">
+            <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
+              <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
+            </g>
+          </svg>
         </button>
-      </RouterLink>
+      </a>
     </li>
 
     <li class="list-row">
