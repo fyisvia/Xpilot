@@ -32,7 +32,7 @@
       <div>
         <a href="https://review.bigcoach.work/" class="no-underline" style="text-decoration: none;" aria-label="前往 牌谱分析" target="_blank" rel="noopener noreferrer">
           <div class="text-sm font-semibold">牌谱分析</div>
-          <div class="text-xs uppercase opacity-80">结合Xpilot-1.0模型分析雀魂等平台牌谱。</div>
+          <div class="text-xs uppercase opacity-80">由Skyler开发的AI牌谱复盘分析网站</div>
         </a>
       </div>
       <a href="https://review.bigcoach.work/" class="no-underline" style="text-decoration: none;" aria-label="前往 牌谱分析" target="_blank" rel="noopener noreferrer">
