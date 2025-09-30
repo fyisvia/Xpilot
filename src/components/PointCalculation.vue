@@ -15,7 +15,7 @@
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide flex justify-center">
             <div v-if="question">
                 <div>
-                    {{ question.isDealer ? "庄家" : "子家" }} {{ question.isTsumo ? "自摸" : "荣和" }} {{ question.han }} 番 {{ question.fu }} 符
+                    {{ question.isDealer ? "庄家" : "子家" }} {{ question.isTsumo ? "自摸" : "荣和" }} {{ question.han }} 番 {{ question.fu }} 符 {{ question.honba }} 本场
                 </div>
             </div>
         </li>
@@ -142,8 +142,8 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import PointTableJpg from '/photos/PointsTable.jpg';
 import PointTableBLJpg from '/photos/PointsTableBL.jpg';
 
-// 点数计算核心算法
-const calculatePoints = (isDealer, isTsumo, han, fu) => {
+// 点数计算核心算法（加入本场加点）
+const calculatePoints = (isDealer, isTsumo, han, fu, honba = 0) => {
     let basePoints;
 
     if (han >= 13) {
@@ -167,22 +167,48 @@ const calculatePoints = (isDealer, isTsumo, han, fu) => {
 
     if (isDealer) {
         if (isTsumo) {
-            const points = Math.ceil((basePoints * 2) / 100) * 100;
+            let points = Math.ceil((basePoints * 2) / 100) * 100;
+            points += honba * 100; // 自摸 All 加本场*100
             return { tsumo: points, ron: null };
         } else {
-            const points = Math.ceil((basePoints * 6) / 100) * 100;
+            let points = Math.ceil((basePoints * 6) / 100) * 100;
+            points += honba * 300; // 荣和加本场*300
             return { tsumo: null, ron: points };
         }
     } else {
         if (isTsumo) {
-            const dealerPoints = Math.ceil((basePoints * 2) / 100) * 100;
-            const nonDealerPoints = Math.ceil(basePoints / 100) * 100;
+            let dealerPoints = Math.ceil((basePoints * 2) / 100) * 100;
+            let nonDealerPoints = Math.ceil(basePoints / 100) * 100;
+            dealerPoints += honba * 100;     // 自摸每家均加本场*100
+            nonDealerPoints += honba * 100;
             return { tsumo: { dealer: dealerPoints, nonDealer: nonDealerPoints }, ron: null };
         } else {
-            const points = Math.ceil((basePoints * 4) / 100) * 100;
+            let points = Math.ceil((basePoints * 4) / 100) * 100;
+            points += honba * 300; // 荣和加本场*300
             return { tsumo: null, ron: points };
         }
     }
+};
+
+// 生成本场数（30%为0，30%为1，20%为2，10%为3，10%为4-8随机）
+const generateHonba = () => {
+    const r = Math.random();
+    if (r < 0.35) return 0;
+    if (r < 0.7) return 1;
+    if (r < 0.85) return 2;
+    if (r < 0.9) return 3;
+    return Math.floor(Math.random() * 5) + 4; // 4-8
+};
+
+// 符数加权随机：20/30/40 占 70%（各25%、25%、20%），50-110 共占 30%（均分）
+const generateFu = () => {
+    const r = Math.random();
+    if (r < 0.3) return 20;
+    if (r < 0.6) return 30;
+    if (r < 0.8) return 40;
+    // 剩余 30%：从 50,60,70,80,90,100,110 均匀选择
+    const idx = Math.floor(Math.random() * 7); // 0..6
+    return 50 + idx * 10;
 };
 
 // 随机题目生成
@@ -209,7 +235,8 @@ const generateQuestion = () => {
         }
         fu = 25;
     } else {
-        fu = Math.floor(Math.random() * 10) * 10 + 20;
+        // 原先均匀 20~110 改为加权随机，降低 50 符及以上概率
+        fu = generateFu();
 
         if (fu === 20) {
             isTsumo = true;
@@ -255,7 +282,8 @@ const generateQuestion = () => {
         }
     }
 
-    const correctPoints = calculatePoints(isDealer, isTsumo, han, fu);
+    const honba = generateHonba();
+    const correctPoints = calculatePoints(isDealer, isTsumo, han, fu, honba);
 
     return {
         isDealer,
@@ -263,6 +291,7 @@ const generateQuestion = () => {
         han,
         fu,
         isChiitoitsu,
+        honba,
         correctPoints,
     };
 };

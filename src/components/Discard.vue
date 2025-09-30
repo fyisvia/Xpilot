@@ -55,11 +55,71 @@
         v-model="handInput"
         placeholder="123m456p789s1122z"
         class="input w-full text-base py-3 px-4"
-        @keyup.enter="handleSubmit"
+        @keyup.enter="handleEnter"
+        @blur="syncSelectedTilesFromText"
+        @change="syncSelectedTilesFromText"
         autocomplete="off"
         aria-label="输入手牌"
       />
     </li>
+
+    <!-- 新增：图片选牌面板 -->
+    <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
+      <div class="flex items-center gap-2 pb-4">
+        <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
+          点击图片添加手牌
+        </span>
+      </div>
+      <div class="flex flex-col gap-2">
+        <div
+          v-for="tp in ['m','p','s','z']"
+          :key="'row-' + tp"
+          class="flex items-center gap-2"
+        >
+          <div class="flex flex-nowrap w-full" style="gap: calc((100% / 14) * (4 / 9));">
+            <img
+              v-for="tile in paletteBySuit[tp]"
+              :key="'opt-' + tile"
+              :src="tileSrc(tile)"
+              :alt="tile"
+              class="object-contain rounded cursor-pointer hover:scale-105 transition"
+              :style="{ width: 'calc(100% / 14)', height: 'auto' }"
+              @click="addTile(tile)"
+              :aria-label="`添加 ${tile}`"
+            />
+          </div>
+        </div>
+      </div>
+    </li>
+
+    <!-- 新增：已选手牌展示与操作 -->
+    <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
+      <div class="flex items-center justify-between mb-2">
+        <div class="flex items-center gap-2 pb-4">
+          <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
+            已选手牌（{{ selectedTiles.length }}/14）
+          </span>
+        </div>
+        <div class="flex items-center gap-2 self-start -mt-1">
+          <button class="btn btn-sm text-sm sm:text-base px-4" @click="undoTile" :disabled="selectedTiles.length === 0">撤销一张</button>
+          <button class="btn btn-sm text-sm sm:text-base px-4" @click="clearTiles" :disabled="selectedTiles.length === 0">清空</button>
+        </div>
+      </div>
+      <div class="flex flex-wrap" style="gap: 0px;">
+        <template v-for="(t, idx) in selectedTiles" :key="'sel-' + t + '-' + idx">
+          <img
+            :src="tileSrc(t)"
+            :alt="t"
+            class="object-contain rounded cursor-pointer hover:opacity-80 transition"
+            :style="{ width: 'calc(100% / 14)', height: 'auto' }"
+            @click="removeTileAt(idx)"
+            :aria-label="`移除 ${t}`"
+            title="点击移除该牌"
+          />
+        </template>
+      </div>
+    </li>
+
     <li class="list-row flex flex-col gap-2">
       <div></div>
       <button class="btn text-lg" @click="handleSubmit">提交</button>
@@ -144,7 +204,7 @@
 
 <script setup>
 // 导入与 Props
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { Shanten } from '../utils/shanten'
 defineProps(["changeComponent"])
 
@@ -156,6 +216,49 @@ const improvementResults = ref({})
 const errorMessage = ref(null)
 const loading = ref(false)
 const showTable = ref(false)
+
+// 新增：图片选牌相关状态与工具
+const selectedTiles = ref([]) // ['1m','2m',...]
+const tileSrc = (tile) => `/mahjongfiles/${tile}.png`
+// 紧凑字符串（与其它页面一致的展示方式）
+const convertToTilesStr = (tiles) => {
+  const grouped = { m: [], p: [], s: [], z: [] }
+  const numVal = (n) => (n === '0' ? 5.5 : +n)
+  for (const t of tiles) {
+    const tp = t.slice(-1)
+    const n = t[0]
+    grouped[tp].push(n)
+  }
+  let res = ''
+  for (const tp of ['m', 'p', 's', 'z']) {
+    if (!grouped[tp].length) continue
+    grouped[tp].sort((a, b) => numVal(a) - numVal(b))
+    res += grouped[tp].join('') + tp
+  }
+  return res
+}
+
+// 新增：统一排序工具（m < p < s < z；'0' 视作 5.5）
+const TYPE_ORDER = { m: 0, p: 1, s: 2, z: 3 }
+const numValGlobal = (n) => (n === '0' ? 5.5 : +n)
+const compareTiles = (a, b) => {
+  const ta = a.slice(-1), tb = b.slice(-1)
+  if (TYPE_ORDER[ta] !== TYPE_ORDER[tb]) return TYPE_ORDER[ta] - TYPE_ORDER[tb]
+  const na = numValGlobal(a[0]), nb = numValGlobal(b[0])
+  return na - nb
+}
+const sortSelectedTiles = () => {
+  // 赋新数组以触发视图更新
+  selectedTiles.value = [...selectedTiles.value].sort(compareTiles)
+}
+
+// 牌盘（含赤5；字牌无赤）
+const paletteBySuit = {
+  m: ['1m','2m','3m','4m','5m','0m','6m','7m','8m','9m'],
+  p: ['1p','2p','3p','4p','5p','0p','6p','7p','8p','9p'],
+  s: ['1s','2s','3s','4s','5s','0s','6s','7s','8s','9s'],
+  z: ['1z','2z','3z','4z','5z','6z','7z']
+}
 
 // 基础常量与映射 (初始化即执行)
 // 便于后续扩展或调试的索引集合（当前逻辑中未直接使用）
@@ -254,6 +357,28 @@ const parseHandTiles = input => {
   return handTiles
 }
 
+// 新增：图片选牌操作
+const addTile = (tile) => {
+  if (selectedTiles.value.length >= 14) return
+  const cnt = selectedTiles.value.reduce((acc, t) => (t === tile ? acc + 1 : acc), 0)
+  if (cnt >= (BASE_COUNT_MAP[tile] || 0)) return
+  selectedTiles.value.push(tile)
+  // 新增：点击图片输入后自动排序
+  sortSelectedTiles()
+}
+const removeTileAt = (idx) => {
+  if (idx >= 0 && idx < selectedTiles.value.length) selectedTiles.value.splice(idx, 1)
+}
+const undoTile = () => {
+  if (selectedTiles.value.length) selectedTiles.value.pop()
+}
+const clearTiles = () => { selectedTiles.value = [] }
+
+// 双向观感：选牌变化时同步到文本框（紧凑字符串）
+watch(selectedTiles, (tiles) => {
+  handInput.value = convertToTilesStr(tiles)
+}, { deep: true })
+
 // 进阶计算函数
 // 好型率 (递归 + 记忆化)
 const calculateGoodShapeRate = (() => {
@@ -274,7 +399,7 @@ const calculateGoodShapeRate = (() => {
         const tempTiles34 = convertToTiles34Arr(tempHand)
         if (calculateShanten(tempTiles34) === -1) {
           waitTypes.add(tile)
-            waitCount += count
+          waitCount += count
         }
       }
       const result = (waitTypes.size > 1 && waitCount > 4) ? 1 : 0
@@ -376,21 +501,33 @@ function buildPreDrawResults(hand, tiles34Arr, currentShanten) {
   return results
 }
 
-// 主流程入口：提交处理
+// 主流程入口：提交处理（优先使用图片选牌）
 const handleSubmit = async () => {
-  const input = handInput.value.trim()
-  if (!input) {
-    errorMessage.value = '请输入手牌'
-    showResult.value = true
-    return
-  }
-  const handTiles = parseHandTiles(input)
-  if (!handTiles) {
-    errorMessage.value = '手牌格式不正确或某牌数量过多'
-    showResult.value = true
-    return
+  // 1) 优先使用图片选牌
+  let handTiles = selectedTiles.value.length > 0 ? [...selectedTiles.value] : null
+
+  // 2) 如未选牌则使用文本输入
+  if (!handTiles || handTiles.length === 0) {
+    const input = handInput.value.trim()
+    if (!input) {
+      errorMessage.value = '请输入手牌，或通过上方图片选牌'
+      showResult.value = true
+      showTable.value = false
+      improvementResults.value = {}
+      return
+    }
+    const parsed = parseHandTiles(input)
+    if (!parsed) {
+      errorMessage.value = '手牌格式不正确或某牌数量过多'
+      showResult.value = true
+      showTable.value = false
+      improvementResults.value = {}
+      return
+    }
+    handTiles = parsed
   }
 
+  // 3) 基本长度校验
   const count = handTiles.length
   if (count % 3 === 0) {
     errorMessage.value = '手牌格式不正确或某牌数量过多'
@@ -417,6 +554,24 @@ const handleSubmit = async () => {
   }
 
   loading.value = false
+}
+
+// 新增：将文本输入同步到“已选手牌”图片区
+const syncSelectedTilesFromText = () => {
+  const input = handInput.value?.trim()
+  if (!input) return
+  const parsed = parseHandTiles(input)
+  if (parsed) {
+    selectedTiles.value = parsed
+    // 新增：文本同步后也按统一规则排序
+    sortSelectedTiles()
+  }
+}
+
+// 新增：回车包装，先同步再提交
+const handleEnter = () => {
+  syncSelectedTilesFromText()
+  handleSubmit()
 }
 
 // 调用链总结
