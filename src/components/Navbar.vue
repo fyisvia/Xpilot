@@ -22,7 +22,7 @@
             <a class="text-base font-semibold">分析</a>
             <ul class="p-2">
               <li><router-link to="/discard" class="link no-underline text-sm">牌效率分析</router-link></li>
-              <li><a href="https://review.bigcoach.work/" class="link no-underline text-sm" target="_blank" rel="noopener noreferrer">牌谱分析</a></li>
+              <li><router-link to="/review" class="link no-underline text-sm">牌谱分析</router-link></li>
             </ul>
           </li>
           <li>
@@ -55,7 +55,7 @@
             <summary>分析</summary>
             <ul class="p-2 w-32 top-[calc(100%+1.2rem)]">
               <li><router-link to="/discard" class="link no-underline">牌效率分析</router-link></li>
-              <li><a href="https://review.bigcoach.work/" class="link no-underline" target="_blank" rel="noopener noreferrer">牌谱分析</a></li>
+              <li><router-link to="/review" class="link no-underline">牌谱分析</router-link></li>
             </ul>
           </details>
         </li>

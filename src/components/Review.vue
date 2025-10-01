@@ -9,91 +9,88 @@
     <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
         <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
         <li class="p-4 pb-2 text-lg opacity-100 tracking-wide font-semibold">
-            牌谱分析（未完成）
+            牌谱分析
+        </li>
+
+        <li class="p-4 pb-0 text-base opacity-100 tracking-wide">
+            <div class="mb-2">鸣谢:</div>
+            <div class="text-xs font-semibold opacity-60 mb-2 ml-3">
+                此系统由Skyler提供支持与维护，源地址：
+            <a href="https://review.bigcoach.work/" target="_blank" rel="noopener">
+                <button class="btn-sm btn-link">Link</button>
+            </a>
+            </div>
         </li>
 
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
             <div class="mb-2">提示:</div>
-            <div class="text-xs font-semibold opacity-60 mb-2 ml-6">1. 只能分析四麻牌谱</div>
-            <div class="text-xs font-semibold opacity-60 mb-2 ml-6">2. 仅适用于标准公式战规则</div>
-            <div class="text-xs font-semibold opacity-60 mb-2 ml-6">3. 使用Xpilot模型时，仅适用于南场半庄战</div>
-        </li>
-
-        <li class="list-row flex flex-col gap-2">
-            <div class="flex items-center gap-2">
-                <input
-                    type="radio"
-                    name="radio-uploadmethod"
-                    class="radio radio-xs"
-                    checked="checked"
-                    aria-label="使用牌谱URL"
-                />
-                <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
-                    牌谱 URL (天凤，雀魂)
-                </span>
-            </div>
-            <label class="input flex w-full" style="display: flex; width: 100%;">
-                <span class="label" style="flex-shrink: 0; margin-right: 8px;">
-                    https://
-                </span>
-                <input type="text" placeholder="URL" style="flex-grow: 1;" aria-label="牌谱URL" />
-            </label>
-        </li>
-
-        <li class="list-row flex flex-col gap-2">
-            <div class="flex items-center gap-2">
-                <input
-                    type="radio"
-                    name="radio-uploadmethod"
-                    class="radio radio-xs"
-                    checked="checked"
-                    aria-label="使用 Riichi City Log ID"
-                />
-                <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
-                    Riichi City log ID
-                </span>
-            </div>
-            <input type="text" placeholder="Type here" class="input" aria-label="Riichi City log ID" />
-        </li>
-
-        <li class="list-row flex flex-col gap-2">
-            <div class="flex items-center gap-2">
-                <input
-                    type="radio"
-                    name="radio-uploadmethod"
-                    class="radio radio-xs"
-                    checked="checked"
-                    aria-label="使用 Hime Mahjong Log ID"
-                />
-                <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
-                    Hime Mahjong log ID
-                </span>
-            </div>
-            <input type="text" placeholder="Type here" class="input" aria-label="Hime Mahjong log ID" />
+            <div class="text-xs font-semibold opacity-60 mb-2 ml-3">1. 三人麻将不支持高级模式。</div>
+            <div class="text-xs font-semibold opacity-60 mb-2 ml-3">2. 四人麻将的高级模式默认KillerDucky风格，输出更详细和铳数据，需要等待1~2分钟，普通模式速度较快。</div>
         </li>
 
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
             <fieldset class="fieldset ml-0">
-                <legend class="text-base">模型</legend>
-                <select class="select ml-0" aria-label="选择模型">
-                    <option>Xpilot-1.0</option>
-                    <!-- <option>Xpilot-2.0</option>
-                    <option>Xpilot-2.1</option> -->
-                </select>
-                <span class="label ml-3">Optional</span>
+                <legend class=" text-base">输入牌谱URL或ID</legend>
+                <input type="text" class="input" placeholder="" />
+                <p class="label ml-3">
+                    自动检测天凤、雀魂、麻雀一番街等格式的四/三麻对局
+                </p>
             </fieldset>
         </li>
 
-        <li class="p-4 pb-0 text-base opacity-100 tracking-wide">
+        <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
             <fieldset class="fieldset ml-0">
-                <legend class="text-base">语言</legend>
-                <select class="select ml-0" aria-label="选择语言">
-                    <option>English</option>
-                    <option>Chinese (simplified)</option>
-                    <option>Japanese</option>
+                <legend class="text-base">分析视角</legend>
+                <select class="select ml-0" aria-label="选择模型">
+                    <option>自动检测（由牌谱链接推断）</option>
+                    <option>东起</option>
+                    <option>南起</option>
+                    <option>西起</option>
+                    <option>北起（三麻牌谱不适用）</option>
                 </select>
-                <span class="label ml-3">Optional</span>
             </fieldset>
+        </li>
+
+        
+        <!-- 设置区域：选择难引擎和模式 -->
+        <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:gap-8">
+                <!-- 四麻分析引擎 -->
+                <fieldset class="fieldset ml-0 mt-0 flex-1 sm:mt-0">
+                    <legend class="text-base">四麻分析引擎</legend>
+                    <select class="select ml-0" aria-label="选择模型">
+                        <option>Zeus</option>
+                        <option>Balance</option>
+                        <option>Aggressive</option>
+                        <option>Defensive</option>
+                    </select>
+                </fieldset>
+                <!-- 三麻分析引擎 -->
+                <fieldset class="fieldset ml-0 mt-4 flex-1 sm:mt-0">
+                    <legend class="text-base">三麻分析引擎</legend>
+                    <select class="select ml-0" aria-label="选择模型">
+                        <option>三叉戟</option>
+                    </select>
+                </fieldset>
+            </div>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:gap-8">
+                <!-- 界面风格 -->
+                <fieldset class="fieldset ml-0 mt-4 flex-1">
+                    <legend class="text-base">界面风格</legend>
+                    <select class="select ml-0" aria-label="选择模型">
+                        <option>经典风格</option>
+                        <option>KillerDucky风格（测试版）</option>
+                    </select>
+                </fieldset>
+                <!-- 分析模式 -->
+                <fieldset class="fieldset ml-0 mt-4 flex-1 sm:mt-4">
+                    <legend class="text-base">分析模式</legend>
+                    <select class="select ml-0" aria-label="选择语言">
+                        <option>标准模式</option>
+                        <option>高级模式</option>
+                    </select>
+                </fieldset>
+            </div>
         </li>
 
         <li class="list-row flex flex-col gap-2">

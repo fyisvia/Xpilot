@@ -30,20 +30,20 @@
     <li class="list-row">
       <div></div>
       <div>
-        <a href="https://review.bigcoach.work/" class="no-underline" style="text-decoration: none;" aria-label="前往 牌谱分析" target="_blank" rel="noopener noreferrer">
-          <div class="text-sm font-semibold">牌谱分析</div>
-          <div class="text-xs uppercase opacity-80">由Skyler开发的AI牌谱复盘分析网站</div>
-        </a>
+        <RouterLink to="/review" class="no-underline" style="text-decoration: none;" aria-label="前往 牌谱分析（未完成）">
+        <div class="text-sm font-semibold">牌谱分析</div>
+        <div class="text-xs uppercase opacity-80">由Skyler开发并维护，用Zeus等模型分析牌谱。</div>
+        </RouterLink>
       </div>
-      <a href="https://review.bigcoach.work/" class="no-underline" style="text-decoration: none;" aria-label="前往 牌谱分析" target="_blank" rel="noopener noreferrer">
-        <button class="btn btn-square btn-ghost" aria-label="前往 牌谱分析">
-          <svg class="size-[1.8em]" viewBox="0 0 24 24">
-            <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
-              <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
-            </g>
-          </svg>
+      <RouterLink to="/review" class="no-underline" style="text-decoration: none;" aria-label="前往 牌谱分析（未完成）">
+        <button class="btn btn-square btn-ghost" aria-label="前往 牌谱分析（未完成）">
+        <svg class="size-[1.8em]" viewBox="0 0 24 24">
+          <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
+            <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
+          </g>
+        </svg>
         </button>
-      </a>
+      </RouterLink>
     </li>
 
     <li class="list-row">
@@ -51,7 +51,7 @@
       <div>
         <RouterLink to="/three-hundred" class="no-underline" style="text-decoration: none;" aria-label="前往 何切三百问">
         <div class="text-sm font-semibold">何切三百问</div>
-        <div class="text-xs uppercase opacity-80">《麻将杰作“何切”300选》的线上练习</div>
+        <div class="text-xs uppercase opacity-80">《麻将杰作“何切”300选》的线上练习。</div>
         </RouterLink>
       </div>
       <RouterLink to="/three-hundred" class="no-underline" style="text-decoration: none;" aria-label="前往 何切三百问">
