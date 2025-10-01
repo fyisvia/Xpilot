@@ -12,7 +12,7 @@
             MahjongXpilot
         </li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
-            version: 1.2.1<br><br>
+            version: 1.3.0<br><br>
             Copyright © Fyisvia Virell. <br>
             All Rights Reserved.<br>
         </li>
@@ -24,6 +24,16 @@
                 </a>
             </div>
             欢迎帮忙review代码，提交bug和功能建议。<br><br>
+        </li>
+        <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
+            1.3.0 版本更新（20251001）<br>
+        </li>
+        <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
+            本次更新主要内容为：
+            <br><br>
+            1.新增牌谱分析功能。
+            <br><br>
+            2.优化了部分UI界面。
         </li>
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
             1.2.1 版本更新（20250930）<br>

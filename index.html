@@ -33,46 +33,118 @@ See the LICENSE file in the project root for full license information.
     <!-- Umami -->
     <script defer src="https://analytics.fyisvia.cn/script.js" data-website-id="e1e9da33-3f75-4857-9870-26faa4d293c5"></script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      // 基于 Blob 的全站预加载 + 自动替换
+      (function () {
+        if (window.__imagesPreloadStarted) return;
+        window.__imagesPreloadStarted = true;
 
-      gtag('config', 'G-CY5Z3059E6');
-    </script>
-    <script>
-      window.addEventListener('DOMContentLoaded', function () {
-        console.log('Starting image preload');
-        fetch('/images.json')
-          .then(response => {
-            if (!response.ok) throw new Error(`Failed to fetch images.json: ${response.status}`);
-            return response.json();
-          })
-          .then(images => {
-            console.log('Images list:', images);
-            // 预加载时
-            window.preloadedImages = {};
-            images.forEach(src => {
-              const img = new Image();
-              img.src = '/' + src; // 直接使用 images.json 中的相对路径
-              window.preloadedImages[src] = img;
-              img.onload = () => console.log(`Loaded: /${src}`);
-              img.onerror = () => console.error(`Failed to load: /${src}`);
-            });
-          })
-          .catch(error => console.error('Preload error:', error));
-      });
-
-      // 页面渲染时
-      function setImgElement(imgElement, src) {
-        const preImg = window.preloadedImages[src];
-        if (preImg && preImg.complete) {
-          imgElement.src = preImg.src; // 立即显示已加载图片
-        } else {
-          imgElement.src = '/' + src; // 正常加载
+        // 相对 key 规范化：去掉 origin 与开头的 '/'
+        function toKey(src) {
+          try {
+            if (!src) return '';
+            if (src.startsWith('blob:')) return '';
+            if (/^https?:\/\//i.test(src)) {
+              var u = new URL(src, location.origin);
+              return u.pathname.replace(/^\//, '');
+            }
+            return src.replace(/^\//, '');
+          } catch { return ''; }
         }
-      }
+
+        // 映射：相对路径 => blob:URL
+        window.preloadedURLMap = window.preloadedURLMap || Object.create(null);
+        // 兜底：相对路径 => Image 实例（如 Blob 失败时）
+        window.preloadedImages = window.preloadedImages || Object.create(null);
+
+        // 统一取图
+        window.getPreloadedSrc = function(rel) {
+          var key = toKey(rel);
+          if (!key) return '';
+          var blob = window.preloadedURLMap[key];
+          if (blob) return blob;
+          var img = window.preloadedImages[key];
+          if (img && img.complete) return img.src;
+          return '/' + key;
+        };
+
+        // 尝试将 <img> 的 src 替换为预加载的 Blob URL
+        function swapIfPreloaded(img) {
+          if (!(img instanceof HTMLImageElement)) return;
+          var raw = img.getAttribute('src') || img.src;
+          var key = toKey(raw);
+          if (!key) return;
+          var blob = window.preloadedURLMap[key];
+          if (blob && img.src !== blob) {
+            img.src = blob;
+          }
+        }
+
+        // 启动预加载（尽早执行）
+        window.preloadImagesPromise = fetch('/images.json')
+          .then(function (r) {
+            if (!r.ok) throw new Error('Failed to fetch images.json: ' + r.status);
+            return r.json();
+          })
+          .then(function (list) {
+            var uniq = Array.from(new Set(list.map(toKey).filter(Boolean)));
+            return Promise.all(uniq.map(function (key) {
+              if (window.preloadedURLMap[key] || window.preloadedImages[key]) return null;
+              return fetch('/' + key, { cache: 'force-cache' })
+                .then(function (resp) {
+                  if (!resp.ok) throw new Error('fetch fail ' + key);
+                  return resp.blob();
+                })
+                .then(function (blob) {
+                  var url = URL.createObjectURL(blob);
+                  window.preloadedURLMap[key] = url;
+                })
+                .catch(function () {
+                  // Blob 失败则用 Image 预热作兜底
+                  var img = new Image();
+                  img.src = '/' + key;
+                  window.preloadedImages[key] = img;
+                });
+            }));
+          })
+          .then(function () {
+            // 首次扫描已有 IMG
+            document.querySelectorAll('img[src]').forEach(swapIfPreloaded);
+          })
+          .catch(function (err) {
+            console.error('Preload error:', err);
+          });
+
+        // 监听后续 DOM 变更，自动替换 img[src]
+        var mo = new MutationObserver(function (muts) {
+          for (var m of muts) {
+            if (m.type === 'attributes' && m.attributeName === 'src' && m.target instanceof HTMLImageElement) {
+              swapIfPreloaded(m.target);
+            } else if (m.type === 'childList') {
+              m.addedNodes && m.addedNodes.forEach(function (n) {
+                if (n.nodeType !== 1) return;
+                if (n.tagName === 'IMG') swapIfPreloaded(n);
+                n.querySelectorAll && n.querySelectorAll('img[src]').forEach(swapIfPreloaded);
+              });
+            }
+          }
+        });
+        mo.observe(document.documentElement, { subtree: true, childList: true, attributes: true, attributeFilter: ['src'] });
+
+        // 页面卸载时释放 Blob URL
+        window.addEventListener('beforeunload', function () {
+          var map = window.preloadedURLMap || {};
+          for (var k in map) {
+            try { URL.revokeObjectURL(map[k]); } catch {}
+          }
+        });
+      })();
     </script>
   </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>

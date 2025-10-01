@@ -70,7 +70,8 @@
           点击图片添加手牌
         </span>
       </div>
-      <div class="flex flex-col gap-2">
+      <!-- 等待预加载完成后再渲染图片，避免重复加载 -->
+      <div class="flex flex-col gap-2" v-if="preloadedReady">
         <div
           v-for="tp in ['m','p','s','z']"
           :key="'row-' + tp"
@@ -203,8 +204,9 @@
 </template>
 
 <script setup>
+
 // 导入与 Props
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { Shanten } from '../utils/shanten'
 defineProps(["changeComponent"])
 
@@ -217,9 +219,19 @@ const errorMessage = ref(null)
 const loading = ref(false)
 const showTable = ref(false)
 
+// 新增：预加载就绪标记
+const preloadedReady = ref(false)
+
 // 新增：图片选牌相关状态与工具
 const selectedTiles = ref([]) // ['1m','2m',...]
-const tileSrc = (tile) => `/mahjongfiles/${tile}.png`
+const tileSrc = (tile) => {
+  const rel = `mahjongfiles/${tile}.png`
+  if (typeof window !== 'undefined' && typeof window.getPreloadedSrc === 'function') {
+    return window.getPreloadedSrc(rel)
+  }
+  return '/' + rel
+}
+
 // 紧凑字符串（与其它页面一致的展示方式）
 const convertToTilesStr = (tiles) => {
   const grouped = { m: [], p: [], s: [], z: [] }
@@ -573,6 +585,16 @@ const handleEnter = () => {
   syncSelectedTilesFromText()
   handleSubmit()
 }
+
+// 等待全局预加载完成后再显示牌面图片，尽量复用预加载缓存
+onMounted(() => {
+  const p = window.preloadImagesPromise
+  if (p && typeof p.then === 'function') {
+    p.finally(() => { preloadedReady.value = true })
+  } else {
+    preloadedReady.value = true
+  }
+})
 
 // 调用链总结
 </script>
