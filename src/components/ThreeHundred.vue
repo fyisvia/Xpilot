@@ -9,11 +9,11 @@
   <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-full px-2 sm:px-8">
     <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
     <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
-      何切三百问
+      {{ t('threeHundred.title') }}
     </li>
     <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
     <li class="p-4 pb-2 text-lg sm:text-xl opacity-100 tracking-wide">
-      No. {{ currentArticle.id }}
+      {{ t('threeHundred.labels.no') }} {{ currentArticle.id }}
     </li>
     <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
     <li class="p-4 sm:p-4 pb-2 text-lg sm:text-xl opacity-100 tracking-wide">
@@ -49,7 +49,7 @@
               class="absolute inset-0 w-full h-full opacity-0 hover:opacity-50 transition-opacity duration-300"
               @click="handleImageClick(img)"
               tabindex="-1"
-              aria-label="选择答案"
+              :aria-label="t('threeHundred.aria.selectAnswer')"
               style="pointer-events: auto;"
             ></button>
           </div>
@@ -91,13 +91,15 @@
       </div>
     </li>
     <li class="p-4 pb-2 text-xs md:text-base opacity-80 tracking-wide flex justify-end mx-2">
-      <div>⬆️直接点击选择答案</div>
+      <div>{{ t('threeHundred.ui.clickHint') }}</div>
     </li>
     <li class="p-2 sm:p-4 pb-2 text-sm sm:text-base md:text-lg opacity-100 tracking-wide">
       <div class="flex items-center gap-2 pb-4">
         <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
           <input type="checkbox" v-model="isAnswerCollapsed"/>
-          <div class="collapse-title text-base md:text-xl font-semibold text-center  pl-12">参考答案及解析</div>
+          <div class="collapse-title text-base md:text-xl font-semibold text-center  pl-12">
+            {{ t('threeHundred.answer.title') }}
+          </div>
           <div class="collapse-content text-sm sm:text-base md:text-lg mb-0">
             <img
               :src="currentArticle.answerImg"
@@ -109,7 +111,7 @@
               }"
             >
             <br>
-            <a class="opacity-100">解析:</a>
+            <a class="opacity-100">{{ t('threeHundred.answer.explanationTitle') }}</a>
             <br>
             <div class="inline-flex flex-wrap items-center gap-1 text-justify" style="text-wrap: balance; word-break: keep-all;">
               <template v-for="(part, idx) in currentArticle.explanation" :key="idx">
@@ -132,17 +134,19 @@
       <div class="flex items-center gap-2 pb-4">
         <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
           <input type="checkbox" v-model="showResult" @change="handleAnalysisToggle"/>
-            <div class="collapse-title text-base md:text-xl font-semibold text-center pl-12">进张数分析</div>
+            <div class="collapse-title text-base md:text-xl font-semibold text-center pl-12">
+              {{ t('threeHundred.analysis.title') }}
+            </div>
           <div class="collapse-content text-sm sm:text-base md:text-lg mb-0">
             <div class="overflow-x-auto">
               <div class="responsive-table-wrapper">
                 <table class="table table-sm w-full bg-base-100 rounded-lg">
                   <thead>
                     <tr>
-                      <th class="text-center">切</th>
-                      <th class="text-center">进张</th>
-                      <th class="text-center">好型率</th>
-                      <th class="text-center">总进张</th>
+                      <th class="text-center">{{ t('threeHundred.table.cut') }}</th>
+                      <th class="text-center">{{ t('threeHundred.table.improvements') }}</th>
+                      <th class="text-center">{{ t('threeHundred.table.goodShapeRate') }}</th>
+                      <th class="text-center">{{ t('threeHundred.table.total') }}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -171,7 +175,7 @@
         :disabled="currentIndex === 0"
         @click="prevArticle"
       >
-        上一题
+        {{ t('threeHundred.buttons.prev') }}
       </button>
       <div class="flex items-center gap-2">
         <input
@@ -180,14 +184,13 @@
           min="1"
           :max="articles.length"
           class="input input-bordered input-sm w-16 text-sm sm:text-base"
-          placeholder="编号"
           @keyup.enter="jumpToArticle"
         >
         <button
           class="btn btn-sm text-sm sm:text-base px-4"
           @click="jumpToArticle"
         >
-          跳转
+          {{ t('threeHundred.buttons.jump') }}
         </button>
       </div>
       <button
@@ -195,7 +198,7 @@
         :disabled="currentIndex === articles.length - 1"
         @click="nextArticle"
       >
-        下一题
+        {{ t('threeHundred.buttons.next') }}
       </button>
     </li>
     <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
@@ -207,6 +210,9 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Shanten } from '../utils/shanten'
 import { articles as articlesRaw } from '../data/articles'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const route = useRoute()
 const router = useRouter()
@@ -315,7 +321,7 @@ const jumpToArticle = () => {
     isAnswerCollapsed.value = false
     resetAnalysis()
   } else {
-    alert('请输入有效的编号')
+    alert(t('threeHundred.messages.invalidId'))
   }
   jumpToId.value = ''
 }
@@ -576,7 +582,7 @@ const handleSubmit = () => {
   handInput.value = handString
   const handTiles = parseHandTiles(handString)
   if (!handTiles) {
-    errorMessage.value = '手牌格式不正确或某牌数量过多'
+    errorMessage.value = t('threeHundred.messages.invalidHand')
     showResult.value = true
     return
   }
@@ -608,10 +614,10 @@ const handleImageClick = img => {
     setTimeout(() => document.body.removeChild(div), 900)
   }
   if (img === currentArticle.value.answerImg) {
-    showMsg('回答正确！', isDark ? 'rgba(80, 120, 180, 0.8)' : 'rgba(120, 180, 255, 0.25)')
+    showMsg(t('threeHundred.result.correct'), isDark ? 'rgba(80, 120, 180, 0.8)' : 'rgba(120, 180, 255, 0.25)')
     nextArticle()
   } else {
-    showMsg('回答错误！', isDark ? 'rgba(80, 80, 80, 0.65)' : 'rgba(0, 0, 0, 0.06)')
+    showMsg(t('threeHundred.result.wrong'), isDark ? 'rgba(80, 80, 80, 0.65)' : 'rgba(0, 0, 0, 0.06)')
     isAnswerCollapsed.value = true
     showResult.value = true
     handleSubmit()

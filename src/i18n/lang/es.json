@@ -1,0 +1,493 @@
+{
+  "review": {
+    "title": "Análisis de Partidas",
+    "thanks": "Agradecimientos:",
+    "thanksDesc": "Mantenido y provisto por Skyler. Fuente:",
+    "link": "Enlace",
+    "hint": "Consejos:",
+    "hint1": "1. El mahjong de 3 jugadores no admite el modo avanzado.",
+    "hint2": "2. En 4 jugadores, el modo avanzado usa por defecto el estilo KillerDucky, con salida más detallada y datos de Ron. Puede tardar 1–2 minutos. El modo estándar es más rápido.",
+    "input": {
+      "legend": "Introduce la URL o ID de la partida",
+      "help": "Detecta automáticamente partidas 4/3 jugadores de Tenhou, Majsoul, Mahjong Ichibangai, etc.",
+      "toastEmpty": "Por favor introduce primero una URL o ID de la partida"
+    },
+    "options": {
+      "viewpointLegend": "Perspectiva",
+      "auto": "Detección automática",
+      "east": "Asiento Este",
+      "south": "Asiento Sur",
+      "west": "Asiento Oeste",
+      "north": "Asiento Norte (no aplicable en 3P)",
+      "langLegend": "Idioma",
+      "langZh": "简体中文",
+      "langEn": "English",
+      "langJa": "日本語",
+      "langKo": "한국어",
+      "engine4pLegend": "Motor 4P",
+      "engine3pLegend": "Motor 3P",
+      "engine3pDefault": "Trident",
+      "uiLegend": "Estilo UI",
+      "uiClassic": "Clásico",
+      "uiNew": "Estilo KillerDucky (beta)",
+      "modeLegend": "Modo de análisis",
+      "modeStandard": "Estándar",
+      "modeAdvanced": "Avanzado"
+    },
+    "aria": {
+      "selectModel": "Seleccionar modelo",
+      "selectLang": "Seleccionar idioma"
+    },
+    "submit": "Enviar"
+  },
+  "discard": {
+    "title": "Análisis de Eficiencia de Fichas",
+    "collapses": {
+      "rules": {
+        "title": "Reglas de análisis por defecto",
+        "l1": "1. Se consideran forma estándar, Seven Pairs y Thirteen Orphans.",
+        "l2": "2. Al no haber oponentes ni río de descartes, las cuentas restantes se toman como máximas.",
+        "l3": "3. No se considera el número de mano (honba/turnos) salvo indicación.",
+        "l4": "4. Se considera 'buena forma' en tenpai cuando el total de fichas de victoria > 4."
+      },
+      "notation": {
+        "title": "Notación de la mano",
+        "l1": "\"m\" significa Manzu (wan),",
+        "l2": "\"p\" significa Pinzu (sou),",
+        "l3": "\"s\" significa Souzu (bamboo).",
+        "l4": "\"z\" significa honor/dragones (Este, Sur, Oeste, Norte, Blanco, Verde, Rojo).",
+        "l5": "\"0\" significa cinco rojo (aka dora).",
+        "l6": "No es necesario introducir los melds (furos); la ficha robada es opcional.",
+        "l7": "Si se proporciona la ficha robada, se analizarán todas las opciones de descarte.",
+        "l8": "Si no, sólo se calculan las mejoras y la tasa de buena forma de la mano actual.",
+        "l9": "Ejemplo:",
+        "l10": "012m123p123s1156z.",
+        "l11": "Si 123p está abierto, introduce 012m123s1156z."
+      }
+    },
+    "input": {
+      "label": "Introduce la mano",
+      "placeholder": "123m456p789s1122z"
+    },
+    "palette": {
+      "title": "Haz clic en las imágenes para añadir fichas"
+    },
+    "selected": {
+      "title": "Fichas seleccionadas ({count}/14)",
+      "undo": "Deshacer una",
+      "clear": "Limpiar"
+    },
+    "a11y": {
+      "add": "Añadir {tile}",
+      "remove": "Eliminar {tile}"
+    },
+    "submit": "Enviar",
+    "loading": "Calculando...",
+    "error": {
+      "empty": "Por favor introduce una mano o usa las imágenes superiores",
+      "format": "Formato de mano inválido o demasiadas copias de una ficha"
+    },
+    "result": {
+      "he": "Mahjong",
+      "tenpai": "Tenpai",
+      "shanten": "{n} Shanten"
+    },
+    "table": {
+      "cut": "Descartar",
+      "improvements": "Mejoras",
+      "goodShapeRate": "Buena forma",
+      "total": "Total"
+    }
+  },
+  "home": {
+    "cards": {
+      "discard": {
+        "title": "Análisis de Eficiencia de Fichas",
+        "desc": "Analiza las cuentas de mejora para distintos descartes.",
+        "aria": "Ir a Análisis de Eficiencia"
+      },
+      "review": {
+        "title": "Análisis de Partidas",
+        "desc": "Mantenido por Skyler. Analiza replay con Zeus y otros modelos.",
+        "aria": "Ir a Análisis de Partidas"
+      },
+      "threeHundred": {
+        "title": "300 Nanikiru",
+        "desc": "Práctica en línea de 'Mahjong Masterpiece: 300 Nanikiru'.",
+        "aria": "Ir a 300 Nanikiru"
+      },
+      "efficiencyTrain": {
+        "title": "Entrenamiento de Eficiencia",
+        "desc": "Practica encontrar la mejor opción desde la perspectiva de eficiencia de fichas.",
+        "aria": "Ir a Entrenamiento de Eficiencia"
+      },
+      "pureOnesTenpai": {
+        "title": "Práctica Tenpai Chinitsu",
+        "desc": "Ejercicios rápidos para tenpai en chinitsu menzen.",
+        "aria": "Ir a Práctica Tenpai Chinitsu"
+      },
+      "pointCalc": {
+        "title": "Práctica de Cálculo de Puntos",
+        "desc": "Calcula puntos para distintas combinaciones de han/fu.",
+        "aria": "Ir a Práctica de Puntos"
+      },
+      "guide": {
+        "title": "De Principiante a Avanzado",
+        "desc": "Ruta de aprendizaje recomendada para Riichi Mahjong.",
+        "aria": "Ir a Ruta de Aprendizaje"
+      },
+      "books": {
+        "title": "Colección de Libros",
+        "desc": "Enlaces recopilados a traducciones CN y obras locales en Bilibili.",
+        "aria": "Ir a Colección de Libros"
+      },
+      "webDictionary": {
+        "title": "Otros Sitios",
+        "desc": "Lista de sitios útiles para riichi mahjong.",
+        "aria": "Ir a Otros Sitios"
+      }
+    }
+  },
+  "webDictionary": {
+    "title": "Otros Sitios",
+    "sites": {
+      "mortal": {
+        "name": "Mortal AI",
+        "desc": "Sitio de análisis de partidas por el autor de Mortal; analiza logs con Mortal y otros modelos."
+      },
+      "naga": {
+        "name": "NAGA AI",
+        "desc": "Sitio de revisión usando el modelo NAGA. Ligeramente más preciso, pero sin interfaz en chino."
+      },
+      "discardSimulator": {
+        "name": "Simulador de Descartes de Mahjong",
+        "desc": "Un simulador más completo de 'qué descartar'; proyecto open-source en C++."
+      },
+      "gsz": {
+        "name": "Partidas de Club Mahjong (Formula Matches)",
+        "desc": "Healthy Mahjong Union: directorio y resultados de partidas oficiales offline."
+      },
+      "amaeKoromo": {
+        "name": "Amae-Koromo (Registros de Mahjong Soul)",
+        "desc": "Base de datos no oficial de Mahjong Soul con partidas diarias (Gold y superiores) y estadísticas."
+      }
+    }
+  },
+  "navbar": {
+    "groups": {
+      "analysis": "Análisis",
+      "learn": "Aprender",
+      "more": "Más"
+    },
+    "items": {
+      "discard": "Análisis de Eficiencia",
+      "review": "Análisis de Partidas",
+      "threeHundred": "300 Nanikiru",
+      "pureOnesTenpai": "Práctica Tenpai Chinitsu",
+      "pointCalc": "Práctica de Puntos",
+      "efficiencyTrain": "Entrenamiento de Eficiencia",
+      "guide": "De Principiante a Avanzado",
+      "books": "Colección de Libros",
+      "contact": "Sobre el Autor",
+      "introduce": "Acerca del Sitio",
+      "webDictionary": "Otros Sitios"
+    },
+    "aria": {
+      "openMenu": "Abrir menú de navegación",
+      "langSwitch": "Cambiar idioma",
+      "userAvatarAlt": "Avatar de usuario"
+    },
+    "lang": {
+      "zhCN": "简体中文",
+      "zhTW": "繁體中文",
+      "en": "English",
+      "ja": "日本語",
+      "ko": "한국어",
+      "fr": "Français",
+      "es": "Español"
+    }
+  },
+  "pureOnesTenpai": {
+    "title": "Práctica Tenpai Chinitsu",
+    "settings": {
+      "difficultyLegend": "Dificultad",
+      "tileTypeLegend": "Palo",
+      "waitCountPrefix": "Fichas de victoria: "
+    },
+    "handTitle": "Mano",
+    "pickAnswerTitle": "Elige la respuesta",
+    "actions": {
+      "resetStats": "Restablecer estadísticas",
+      "submit": "Enviar",
+      "submitted": "Enviado",
+      "newHand": "Nueva mano"
+    },
+    "result": {
+      "correct": "Correcto",
+      "wrong": "Incorrecto",
+      "correctAnswer": "Respuesta correcta:"
+    },
+    "stats": {
+      "accuracy": "Precisión: {percent} %",
+      "summary": "(Correctas: {correct} / Total: {total})"
+    },
+    "articles": {
+      "title": "Artículos relacionados",
+      "item1": "1. 'Mahjong Study: Tile Efficiency' 5-3 Encontrar waits para menzen Chinitsu",
+      "link": "Enlace"
+    },
+    "options": {
+      "difficulty": {
+        "0": { "label": "Sin límite", "range": "Cualquiera" },
+        "1": { "label": "Fácil", "range": "1 ~ 2" },
+        "2": { "label": "Normal", "range": "3 ~ 4" },
+        "3": { "label": "Difícil", "range": "5 +" }
+      },
+      "tileType": {
+        "random": "Aleatorio",
+        "m": "Manzu",
+        "p": "Pinzu",
+        "s": "Souzu"
+      }
+    }
+  },
+  "pointCalc": {
+    "title": "Práctica de Cálculo de Puntos",
+    "roles": {
+      "dealer": "Dealer",
+      "nonDealer": "Non-dealer"
+    },
+    "winTypes": {
+      "tsumo": "Tsumo",
+      "ron": "Ron"
+    },
+    "labels": {
+      "points": "puntos",
+      "pointsAll": "puntos All",
+      "pointTable": "Tabla de puntos"
+    },
+    "actions": {
+      "submit": "Enviar",
+      "next": "Siguiente"
+    },
+    "question": {
+      "summary": "{role} {win} {han} han {fu} fu {honba} honba"
+    },
+    "aria": {
+      "showTable": "Mostrar tabla de puntos",
+      "inputDealerAll": "Introduce total (All) del dealer al tsumo",
+      "inputDealerRon": "Introduce puntos del dealer al ron",
+      "inputNonDealerTsumoNonDealer": "Introduce pago del non-dealer (tsumo)",
+      "inputNonDealerTsumoDealer": "Introduce pago al dealer (tsumo)",
+      "inputNonDealerRon": "Introduce puntos de ron del non-dealer"
+    },
+    "result": {
+      "correct": "Correcto",
+      "wrong": "Incorrecto",
+      "correctAnswer": "Respuesta correcta:"
+    },
+    "images": {
+      "alt": {
+        "tableLight": "Tabla de puntos",
+        "tableDark": "Tabla de puntos (oscura)"
+      }
+    },
+    "placeholders": {
+      "dealer": "Dealer",
+      "nonDealer": "Non-dealer"
+    }
+  },
+  "efficiencyTrain": {
+    "title": "Entrenamiento de Eficiencia",
+    "settings": {
+      "shantenDisplayLegend": "Mostrar Shanten",
+      "tileSetLegend": "Conjunto de fichas"
+    },
+    "options": {
+      "shantenDisplay": {
+        "hidden": "Ocultar",
+        "full": "Mostrar Shanten",
+        "tenpaiOnly": "Sólo Tenpai/noTenpai"
+      },
+      "tileSet": {
+        "noHonor": "Sin honores",
+        "withHonor": "Con honores",
+        "m": "Chinitsu: Manzu",
+        "p": "Chinitsu: Pinzu",
+        "s": "Chinitsu: Souzu"
+      }
+    },
+    "status": {
+      "mahjong": "¡Mahjong!!",
+      "tenpai": "Tenpai",
+      "noten": "No tenpai",
+      "shanten": "{n} Shanten"
+    },
+    "ui": {
+      "handTitle": "Mano",
+      "clickHint": "⬆️ Pulsa arriba para seleccionar una respuesta"
+    },
+    "analysis": {
+      "title": "Análisis de mejoras"
+    },
+    "table": {
+      "cut": "Descartar",
+      "improvements": "Mejoras",
+      "goodShapeRate": "Buena forma",
+      "total": "Total"
+    },
+    "buttons": {
+      "prev": "Anterior",
+      "next": "Siguiente"
+    },
+    "result": {
+      "correctAnswersTitle": "Todas las respuestas correctas:",
+      "messages": {
+        "errShantenBack": "Error: Shanten retrocede",
+        "correct": "Correcto",
+        "wrongNotMax": "Incorrecto: no es la máxima mejora"
+      }
+    }
+  },
+  "threeHundred": {
+    "title": "300 Nanikiru",
+    "labels": {
+      "no": "No."
+    },
+    "ui": {
+      "clickHint": "⬆️ Pulsa arriba para seleccionar una respuesta"
+    },
+    "answer": {
+      "title": "Respuesta y Explicación",
+      "explanationTitle": "Explicación:"
+    },
+    "analysis": {
+      "title": "Análisis de mejoras"
+    },
+    "table": {
+      "cut": "Descartar",
+      "improvements": "Mejoras",
+      "goodShapeRate": "Buena forma",
+      "total": "Total"
+    },
+    "buttons": {
+      "prev": "Anterior",
+      "next": "Siguiente",
+      "jump": "Ir a"
+    },
+    "messages": {
+      "invalidId": "Por favor introduce un ID válido",
+      "invalidHand": "Cadena de mano inválida o demasiadas copias de una ficha"
+    },
+    "result": {
+      "correct": "¡Correcto!",
+      "wrong": "¡Incorrecto!"
+    },
+    "aria": {
+      "selectAnswer": "Seleccionar respuesta"
+    }
+  },
+  "contact": {
+    "title": "Contacto",
+    "email": "Email: {email}",
+    "links": {
+      "github": "GitHub:",
+      "bilibili": "Bilibili:",
+      "xiaoheihe": "XiaoHeiHe:"
+    },
+    "link": "Enlace",
+    "donate": "Patrocinar:",
+    "qrcodeAlt": "Código QR para donación"
+  },
+  "introduce": {
+    "title": "MahjongXpilot",
+    "versionLine": "versión: {version}",
+    "copyrightLine": "Copyright © Fyisvia Virell.",
+    "rightsLine": "Todos los derechos reservados.",
+    "repoLabel": "Repositorio GitHub:",
+    "repoLinkText": "Enlace",
+    "repoWelcome": "Bienvenido a revisar el código, reportar bugs y sugerir mejoras.",
+    "changelog": {
+      "common": {
+        "intro": "Novedades:"
+      },
+      "v130": {
+        "title": "Versión 1.3.0 (2025-10-01)",
+        "i1": "1. Añadida función de análisis de partidas.",
+        "i2": "2. Mejoras en la interfaz de usuario."
+      },
+      "v121": {
+        "title": "Versión 1.2.1 (2025-09-30)",
+        "i1": "1. Añadida entrada por clic en imágenes en Eficiencia de Fichas.",
+        "i2": "2. Añadido honba en el cálculo de puntos."
+      },
+      "v120": {
+        "title": "Versión 1.2.0 (2025-09-26)",
+        "i1": "1. Añadido Entrenamiento de Eficiencia.",
+        "i2": "2. Mejoras en la UI."
+      },
+      "v113": {
+        "title": "Versión 1.1.3 (2025-08-12)",
+        "i1": "1. Corregido error en Shanten en casos específicos.",
+        "i2": "2. Mejorada la gestión de entrada en Eficiencia de Fichas; añadido análisis sin ficha robada."
+      },
+      "v112": {
+        "title": "Versión 1.1.2 (2025-07-03)",
+        "i1": "1. Corregido desbordamiento de pila por recursión profunda de Shanten en manos complejas.",
+        "i2": "2. Añadida selección aleatoria de palo para Tenpai Chinitsu.",
+        "i3": "3. Correcciones en contenidos recopilados."
+      },
+      "v111": {
+        "title": "Versión 1.1.1 (2025-05-21)",
+        "i1": "1. Añadida tasa de buena forma en Eficiencia de Fichas.",
+        "i2": "2. Incrementada la dificultad en modo aleatorio para Tenpai Chinitsu.",
+        "i3": "3. Correcciones en contenidos recopilados."
+      },
+      "v110": {
+        "title": "Versión 1.1.0 (2025-05-03)",
+        "i1": "1. Añadida práctica Tenpai Chinitsu.",
+        "i2": "2. Añadida pantalla de inicio.",
+        "i3": "3. Correcciones en UI.",
+        "i4": "4. Correcciones en contenidos recopilados."
+      },
+      "v101": {
+        "title": "Versión 1.0.1 (2025-04-28)",
+        "i1": "1. Corregido tartamudeo en scroll vertical en móviles.",
+        "i2": "2. Correcciones en UI."
+      },
+      "rc": {
+        "title": "Resumen Version 1.0.1-rc (2025-04-27)",
+        "preamble": "Me complace anunciar Xpilot 1.0.1-rc. Xpilot es una web app para Riichi Mahjong, diseñada para ofrecer una experiencia estable y fácil de usar. Esta RC incluye:",
+        "s1": "1. Funcionalidades básicas:",
+        "s1b": "Análisis de 'qué descartar', práctica 300 Nanikiru, tabla de puntos y ejercicios, y listado de tutoriales.",
+        "s2": "2. Interfaz de usuario:",
+        "s2b": "Interfaz limpia y minimalista para una rápida incorporación.",
+        "s3": "3. Compatibilidad multiplataforma:",
+        "s3b": "Optimizado para escritorio y móvil.",
+        "s4": "4. Problemas conocidos:",
+        "s4b": "Como RC puede haber inestabilidad en conexiones, funciones/UI incompletas o cierres puntuales. El cálculo de valor esperado en el análisis de descartes y la cobertura completa de 300 Nanikiru están en desarrollo; el análisis de partidas también está en desarrollo."
+      }
+    }
+  },
+  "guide": {
+    "title": "De Principiante a Avanzado",
+    "disclaimer": "Aviso: los materiales recopilados aquí son para estudio y intercambio no comercial. Todos los derechos pertenecen a los autores originales. Por favor, apoya a los autores/traductores.",
+    "beginner": "Principiante",
+    "advanced": "Avanzado"
+  },
+  "booksPage": {
+    "title": "Colección de Libros",
+    "disclaimer": "Aviso: los materiales aquí recopilados son para estudio e intercambio no comercial. Todos los derechos pertenecen a los autores. Por favor, apoya a los autores/traductores.",
+    "sortNote": "Los artículos están ordenados por la primera letra del pinyin.",
+    "referenceText": "Esta colección se basa en el trabajo del uploader de Bilibili {upname}",
+    "contact": "Para reclamaciones de derechos, por favor escribe a {email}"
+  },
+  "books": {
+    "categories": {
+      "汉化日语战术书": "Libros tácticos japoneses (trad. chino)",
+      "其他汉化日语资料": "Otros materiales japoneses (trad. chino)",
+      "国内作者内容": "Obras de autores locales",
+      "三麻相关资料": "Materiales sobre 3P Mahjong"
+    }
+  }
+}

@@ -9,127 +9,112 @@
     <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-8">
         <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
         <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
-            MahjongXpilot
+            {{ $t('introduce.title') }}
         </li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
-            version: 1.3.0<br><br>
-            Copyright © Fyisvia Virell. <br>
-            All Rights Reserved.<br>
+            {{ $t('introduce.versionLine', { version: '1.3.0' }) }}<br><br>
+            {{ $t('introduce.copyrightLine') }} <br>
+            {{ $t('introduce.rightsLine') }}<br>
         </li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
             <div class="flex items-center space-x-2">
-                <span>Github项目地址：</span>
+                <span>{{ $t('introduce.repoLabel') }}</span>
                 <a href="https://github.com/fyisvia/Xpilot" target="_blank" rel="noopener">
-                    <button class="btn btn-link">Link</button>
+                    <button class="btn btn-link">{{ $t('introduce.repoLinkText') }}</button>
                 </a>
             </div>
-            欢迎帮忙review代码，提交bug和功能建议。<br><br>
+            {{ $t('introduce.repoWelcome') }}<br><br>
         </li>
+
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
-            1.3.0 版本更新（20251001）<br>
+            {{ $t('introduce.changelog.v130.title') }}<br>
         </li>
         <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
-            本次更新主要内容为：
-            <br><br>
-            1.新增牌谱分析功能。
-            <br><br>
-            2.优化了部分UI界面。
+            {{ $t('introduce.changelog.common.intro') }}<br><br>
+            {{ $t('introduce.changelog.v130.i1') }}<br><br>
+            {{ $t('introduce.changelog.v130.i2') }}
         </li>
+
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
-            1.2.1 版本更新（20250930）<br>
+            {{ $t('introduce.changelog.v121.title') }}<br>
         </li>
         <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
-            本次更新主要内容为：
-            <br><br>
-            1.新增在牌效率中点击图片输入的方式。
-            <br><br>
-            2.在点数计算中引入本场。
+            {{ $t('introduce.changelog.common.intro') }}<br><br>
+            {{ $t('introduce.changelog.v121.i1') }}<br><br>
+            {{ $t('introduce.changelog.v121.i2') }}
         </li>
+
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
-            1.2.0 版本更新（20250926）<br>
+            {{ $t('introduce.changelog.v120.title') }}<br>
         </li>
         <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
-            本次更新主要内容为：
-            <br><br>
-            1.新增牌效率练习的功能。
-            <br><br>
-            2.优化了部分UI界面。
+            {{ $t('introduce.changelog.common.intro') }}<br><br>
+            {{ $t('introduce.changelog.v120.i1') }}<br><br>
+            {{ $t('introduce.changelog.v120.i2') }}
         </li>
+
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
-            1.1.3 版本更新（20250812）<br>
+            {{ $t('introduce.changelog.v113.title') }}<br>
         </li>
         <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
-            本次更新主要内容为：
-            <br><br>
-            1.修复Shanten函数在特定情况下有误的问题。
-            <br><br>
-            2.优化牌效率分析对于用户输入手牌的处理逻辑，新增对无摸进牌情况下的进张分析。
+            {{ $t('introduce.changelog.common.intro') }}<br><br>
+            {{ $t('introduce.changelog.v113.i1') }}<br><br>
+            {{ $t('introduce.changelog.v113.i2') }}
         </li>
+
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
-            1.1.2 版本更新（20250703）<br>
+            {{ $t('introduce.changelog.v112.title') }}<br>
         </li>
         <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
-            本次更新主要内容为：
-            <br><br>
-            1.修复牌效率分析当手牌复杂时，Shanten函数递归深度过大而导致栈溢出的问题。
-            <br><br>
-            2.新增清一色听牌时选择随机牌型的功能。
-            <br><br>
-            3.修复部分收录内容错误的问题。
+            {{ $t('introduce.changelog.common.intro') }}<br><br>
+            {{ $t('introduce.changelog.v112.i1') }}<br><br>
+            {{ $t('introduce.changelog.v112.i2') }}<br><br>
+            {{ $t('introduce.changelog.v112.i3') }}
         </li>
+
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
-            1.1.1 版本更新（20250521）<br>
+            {{ $t('introduce.changelog.v111.title') }}<br>
         </li>
         <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
-            本次更新主要内容为：
-            <br><br>
-            1.新增牌效率分析的好型率显示。
-            <br><br>
-            2.增大了清一色听牌时选择随机难度时的难度。
-            <br><br>
-            3.修复部分收录内容错误的问题。
+            {{ $t('introduce.changelog.common.intro') }}<br><br>
+            {{ $t('introduce.changelog.v111.i1') }}<br><br>
+            {{ $t('introduce.changelog.v111.i2') }}<br><br>
+            {{ $t('introduce.changelog.v111.i3') }}
         </li>
+
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
-            1.1.0 版本更新（20250503）<br>
+            {{ $t('introduce.changelog.v110.title') }}<br>
         </li>
         <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
-            本次更新主要内容为：
-            <br><br>
-            1.新增清一色听牌练习功能。
-            <br><br>
-            2.新增首页。
-            <br><br>
-            3.修复了部分UI问题。
-            <br><br>
-            4.修复了部分收录内容错误的问题。
+            {{ $t('introduce.changelog.common.intro') }}<br><br>
+            {{ $t('introduce.changelog.v110.i1') }}<br><br>
+            {{ $t('introduce.changelog.v110.i2') }}<br><br>
+            {{ $t('introduce.changelog.v110.i3') }}<br><br>
+            {{ $t('introduce.changelog.v110.i4') }}
         </li>
+
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
-            1.0.1 版本更新（20250428）<br>
+            {{ $t('introduce.changelog.v101.title') }}<br>
         </li>
         <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
-            本次更新主要内容为：
-            <br><br>
-            1.修复了在移动端页面垂直滑动时的卡顿问题。
-            <br><br>
-            2.修复了部分UI问题。
+            {{ $t('introduce.changelog.common.intro') }}<br><br>
+            {{ $t('introduce.changelog.v101.i1') }}<br><br>
+            {{ $t('introduce.changelog.v101.i2') }}
         </li>
+
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
-            1.0.1 - rc 版本简介（20250427）<br>
+            {{ $t('introduce.changelog.rc.title') }}<br>
         </li>
         <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
-            我很高兴宣布 Xpilot Version 1.0.1-rc 的发布。Xpilot作为专为日本麻将（Riichi Mahjong）设计的功能性网页端，致力于日麻爱好者提供稳定、易用的体验。本次 rc 版本为用户带来了以下主要功能：
-            <br><br>
-            1.基础功能支持：<br>  
-            实现了基本的手牌何切分析功能，何切三百问的练习功能，点数速查和计算练习功能，以及教程列表查看功能。<br>
-            <br><br>
-            2.用戶界面：<br> 
-            提供了一个简洁直观的用户界面，设计上偏向简约风格，方便用户快速上手。包括基本的手牌何切分析、何切三百问、点数计算和教程列表查看功能。
-            <br><br>
-            3.跨平台兼容性：<br>
-            本版本适配pc端页面和移动端页面。
-            <br><br>
-            4.已知问题：<br>
-            作为 rc 版本，可能存在连接不稳定、部分功能和UI未完善或偶现崩溃的问题。何切分析的预期打点功能和何切三百问的收录还没有完成，后续会尽快更新，同时牌谱分析功能也在开发中。
+            {{ $t('introduce.changelog.rc.preamble') }}<br><br>
+            {{ $t('introduce.changelog.rc.s1') }}<br>  
+            {{ $t('introduce.changelog.rc.s1b') }}<br><br>
+            {{ $t('introduce.changelog.rc.s2') }}<br> 
+            {{ $t('introduce.changelog.rc.s2b') }}<br><br>
+            {{ $t('introduce.changelog.rc.s3') }}<br>
+            {{ $t('introduce.changelog.rc.s3b') }}<br><br>
+            {{ $t('introduce.changelog.rc.s4') }}<br>
+            {{ $t('introduce.changelog.rc.s4b') }}
         </li>
         <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
     </ul>

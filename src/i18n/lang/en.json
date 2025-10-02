@@ -1,0 +1,494 @@
+{
+  "review": {
+    "title": "Game Review",
+    "thanks": "Acknowledgements:",
+    "thanksDesc": "Powered and maintained by Skyler. Source:",
+    "link": "Link",
+    "hint": "Tips:",
+    "hint1": "1. 3-player mahjong does not support Advanced mode.",
+    "hint2": "2. For 4-player mahjong, Advanced mode uses the KillerDucky style by default with more detailed output and Ron data. It may take about 1–2 minutes. Standard mode is faster.",
+    "input": {
+      "legend": "Enter replay URL or ID",
+      "help": "Automatically detects 4/3-player replays from Tenhou, Majsoul, Mahjong Ichibangai, etc.",
+      "toastEmpty": "Please enter a replay URL or ID first"
+    },
+    "options": {
+      "viewpointLegend": "Viewpoint",
+      "auto": "Auto detect",
+      "east": "East seat",
+      "south": "South seat",
+      "west": "West seat",
+      "north": "North seat (Unavailable in 3P)",
+      "langLegend": "Language",
+      "langZh": "简体中文",
+      "langEn": "English",
+      "langJa": "日本語",
+      "langKo": "한국어",
+      "engine4pLegend": "4-player engine",
+      "engine3pLegend": "3-player engine",
+      "engine3pDefault": "Trident",
+      "uiLegend": "UI style",
+      "uiClassic": "Classic",
+      "uiNew": "KillerDucky style (beta)",
+      "modeLegend": "Analysis mode",
+      "modeStandard": "Standard",
+      "modeAdvanced": "Advanced"
+    },
+    "aria": {
+      "selectModel": "Select model",
+      "selectLang": "Select language"
+    },
+    "submit": "Submit"
+  },
+  "discard": {
+    "title": "Tile Efficiency Analysis",
+    "collapses": {
+      "rules": {
+        "title": "Default Analysis Rules",
+        "l1": "1. The calculation considers standard hand, Seven Pairs, and Thirteen Orphans.",
+        "l2": "2. Since there are no opponents or discards, remaining counts are the maximum.",
+        "l3": "3. Turn number is ignored.",
+        "l4": "4. A “good shape” at tenpai means total winning tiles > 4."
+      },
+      "notation": {
+        "title": "Hand Notation",
+        "l1": "\"m\" means Manzu,",
+        "l2": "\"p\" means Pinzu,",
+        "l3": "\"s\" means Souzu.",
+        "l4": "\"z\" means winds/dragons (East, South, West, North, White, Green, Red).",
+        "l5": "\"0\" means red five.",
+        "l6": "You do not need to input melds; the drawn tile is optional.",
+        "l7": "If a drawn tile is provided, all discard choices will be analyzed.",
+        "l8": "If not, only current hand improvements and good-shape rate are computed.",
+        "l9": "Example:",
+        "l10": "012m123p123s1156z.",
+        "l11": "If 123p is melded, input 012m123s1156z instead."
+      }
+    },
+    "input": {
+      "label": "Input Hand",
+      "placeholder": "123m456p789s1122z"
+    },
+    "palette": {
+      "title": "Click tiles to add"
+    },
+    "selected": {
+      "title": "Selected tiles ({count}/14)",
+      "undo": "Undo",
+      "clear": "Clear"
+    },
+    "a11y": {
+      "add": "Add {tile}",
+      "remove": "Remove {tile}"
+    },
+    "submit": "Submit",
+    "loading": "Calculating...",
+    "error": {
+      "empty": "Please input a hand",
+      "format": "Invalid hand format"
+    },
+    "result": {
+      "he": "Mahjong",
+      "tenpai": "Tenpai",
+      "shanten": "{n} Shanten"
+    },
+    "table": {
+      "cut": "Discard",
+      "improvements": "Improvements",
+      "goodShapeRate": "Good Shape",
+      "total": "Total"
+    }
+  },
+  "home": {
+    "cards": {
+      "discard": {
+        "title": "Tile Efficiency Analysis",
+        "desc": "Analyze improvement counts under different discards.",
+        "aria": "Go to Tile Efficiency Analysis"
+      },
+      "review": {
+        "title": "Game Review",
+        "desc": "Maintained by Skyler. Analyze replays with Zeus and other models.",
+        "aria": "Go to Game Review"
+      },
+      "threeHundred": {
+        "title": "300 Nanikiru",
+        "desc": "Online practice for 'Mahjong Masterpiece: 300 Nanikiru'.",
+        "aria": "Go to 300 Nanikiru"
+      },
+      "efficiencyTrain": {
+        "title": "Tile Efficiency Drills",
+        "desc": "Practice finding optimal choices from a tile-efficiency perspective.",
+        "aria": "Go to Tile Efficiency Drills"
+      },
+      "pureOnesTenpai": {
+        "title": "Chinitsu Tenpai Practice",
+        "desc": "Quick analysis drills for menzen Chinitsu tenpai.",
+        "aria": "Go to Chinitsu Tenpai Practice"
+      },
+      "pointCalc": {
+        "title": "Point Calculation Practice",
+        "desc": "Calculate points for various han/fu combinations.",
+        "aria": "Go to Point Calculation Practice"
+      },
+      "guide": {
+        "title": "Beginner to Advanced",
+        "desc": "A reference learning path from beginner to advanced riichi.",
+        "aria": "Go to the Learning Path"
+      },
+      "books": {
+        "title": "Books Collection",
+        "desc": "Collected links to CN translations and local works on Bilibili.",
+        "aria": "Go to Books Collection"
+      },
+      "webDictionary": {
+        "title": "Other Websites",
+        "desc": "A list of useful riichi mahjong websites.",
+        "aria": "Go to Other Websites"
+      }
+    }
+  },
+  "webDictionary": {
+    "title": "Other Sites",
+    "sites": {
+      "mortal": {
+        "name": "Mortal AI",
+        "desc": "Game review site by Mortal’s author; analyzes logs using Mortal and other models."
+      },
+      "naga": {
+        "name": "NAGA AI",
+        "desc": "NAGA AI review site using the NAGA model. Slightly more accurate, but no Chinese UI."
+      },
+      "discardSimulator": {
+        "name": "Mahjong Discard Simulator",
+        "desc": "A more complete 'what-to-discard' simulator; open-source and written in C++."
+      },
+      "gsz": {
+        "name": "Mahjong Club Formula Matches",
+        "desc": "Healthy Mahjong Union: offline formula-match club directory and results."
+      },
+      "amaeKoromo": {
+        "name": "Amae-Koromo (Mahjong Soul Logs)",
+        "desc": "Third-party Mahjong Soul log database with daily games (Gold Room and above) and statistics."
+      }
+    }
+  },
+  "navbar": {
+    "groups": {
+      "analysis": "Analysis",
+      "learn": "Learn",
+      "more": "More"
+    },
+    "items": {
+      "discard": "Tile Efficiency Analysis",
+      "review": "Game Review",
+      "threeHundred": "300 Nanikiru",
+      "pureOnesTenpai": "Chinitsu Tenpai Practice",
+      "pointCalc": "Point Calculation Practice",
+      "efficiencyTrain": "Tile Efficiency Drills",
+      "guide": "Beginner to Advanced",
+      "books": "Books Collection",
+      "contact": "About the Author",
+      "introduce": "About This Site",
+      "webDictionary": "Other Websites"
+    },
+    "aria": {
+      "openMenu": "Open navigation menu",
+      "langSwitch": "Change language",
+      "userAvatarAlt": "User avatar"
+    },
+    "lang": {
+      "zhCN": "简体中文",
+      "zhTW": "繁體中文",
+      "en": "English",
+      "ja": "日本語",
+      "ko": "한국어",
+      "fr": "Français",
+      "es": "Español"
+    }
+  },
+  "pureOnesTenpai": {
+    "title": "Chinitsu Tenpai Practice",
+    "settings": {
+      "difficultyLegend": "Difficulty",
+      "tileTypeLegend": "Suit",
+      "waitCountPrefix": "Winning tiles: "
+    },
+    "handTitle": "Hand",
+    "pickAnswerTitle": "Choose Answer",
+    "actions": {
+      "resetStats": "Reset Stats",
+      "submit": "Submit",
+      "submitted": "Submitted",
+      "newHand": "New Hand"
+    },
+    "result": {
+      "correct": "Correct",
+      "wrong": "Wrong",
+      "correctAnswer": "Correct Answer:"
+    },
+    "stats": {
+      "accuracy": "Accuracy: {percent} %",
+      "summary": "(Correct: {correct} / Total: {total})"
+    },
+    "articles": {
+      "title": "Related Articles",
+      "item1": "1. 'Mahjong Study: Tile Efficiency' 5-3 Finding waits for menzen Chinitsu",
+      "link": "Link"
+    },
+    "options": {
+      "difficulty": {
+        "0": { "label": "No limit", "range": "Any" },
+        "1": { "label": "Easy", "range": "1 ~ 2" },
+        "2": { "label": "Normal", "range": "3 ~ 4" },
+        "3": { "label": "Hard", "range": "5 +" }
+      },
+      "tileType": {
+        "random": "Random",
+        "m": "Manzu",
+        "p": "Pinzu",
+        "s": "Souzu"
+      }
+    }
+  },
+  "pointCalc": {
+    "title": "Point Calculation Practice",
+    "roles": {
+      "dealer": "Dealer",
+      "nonDealer": "Non-dealer"
+    },
+    "winTypes": {
+      "tsumo": "Tsumo",
+      "ron": "Ron"
+    },
+    "labels": {
+      "points": "points",
+      "pointsAll": "points All",
+      "pointTable": "Point Table"
+    },
+    "actions": {
+      "submit": "Submit",
+      "next": "Next"
+    },
+    "question": {
+      "summary": "{role} {win} {han} han {fu} fu {honba} honba"
+    },
+    "aria": {
+      "showTable": "Show point table",
+      "inputDealerAll": "Enter dealer tsumo total (All)",
+      "inputDealerRon": "Enter dealer ron points",
+      "inputNonDealerTsumoNonDealer": "Enter non-dealer payment",
+      "inputNonDealerTsumoDealer": "Enter dealer payment",
+      "inputNonDealerRon": "Enter non-dealer ron points"
+    },
+    "result": {
+      "correct": "Correct",
+      "wrong": "Wrong",
+      "correctAnswer": "Correct Answer:"
+    },
+    "images": {
+      "alt": {
+        "tableLight": "Point Table",
+        "tableDark": "Point Table (dark)"
+      }
+    },
+    "placeholders": {
+      "dealer": "Dealer",
+      "nonDealer": "Non-dealer"
+    }
+  },
+  "efficiencyTrain": {
+    "title": "Tile Efficiency Drills",
+    "settings": {
+      "shantenDisplayLegend": "Shanten display",
+      "tileSetLegend": "Tile set"
+    },
+    "options": {
+      "shantenDisplay": {
+        "hidden": "Hidden",
+        "full": "Show shanten",
+        "tenpaiOnly": "Tenpai or not"
+      },
+      "tileSet": {
+        "noHonor": "No honors",
+        "withHonor": "With honors",
+        "m": "Chinitsu: Manzu",
+        "p": "Chinitsu: Pinzu",
+        "s": "Chinitsu: Souzu"
+      }
+    },
+    "status": {
+      "mahjong": "Mahjong!!",
+      "tenpai": "Tenpai",
+      "noten": "Noten",
+      "shanten": "{n} shanten"
+    },
+    "ui": {
+      "handTitle": "Hand",
+      "clickHint": "⬆️ Tap above to choose an answer"
+    },
+    "analysis": {
+      "title": "Improvement analysis"
+    },
+    "table": {
+      "cut": "Discard",
+      "improvements": "Improvements",
+      "goodShapeRate": "Good shape",
+      "total": "Total"
+    },
+    "buttons": {
+      "prev": "Previous",
+      "next": "Next"
+    },
+    "result": {
+      "correctAnswersTitle": "All correct answers:",
+      "messages": {
+        "errShantenBack": "Wrong: shanten goes backward",
+        "correct": "Correct",
+        "wrongNotMax": "Wrong: not the maximum improvements"
+      }
+    }
+  },
+  "threeHundred": {
+    "title": "300 Nanikiru",
+    "labels": {
+      "no": "No."
+    },
+    "ui": {
+      "clickHint": "⬆️ Tap above to choose an answer"
+    },
+    "answer": {
+      "title": "Answer & Explanation",
+      "explanationTitle": "解析："
+    },
+    "analysis": {
+      "title": "Improvement analysis"
+    },
+    "table": {
+      "cut": "Discard",
+      "improvements": "Improvements",
+      "goodShapeRate": "Good shape",
+      "total": "Total"
+    },
+    "buttons": {
+      "prev": "Previous",
+      "next": "Next",
+      "jump": "Jump"
+    },
+    "messages": {
+      "invalidId": "Please enter a valid ID",
+      "invalidHand": "Invalid hand string or too many copies of a tile"
+    },
+    "result": {
+      "correct": "Correct!",
+      "wrong": "Wrong!"
+    },
+    "aria": {
+      "selectAnswer": "Select answer"
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "email": "Email: {email}",
+    "links": {
+      "github": "GitHub:",
+      "bilibili": "Bilibili:",
+      "xiaoheihe": "XiaoHeiHe:"
+    },
+    "link": "Link",
+    "donate": "Sponsor:",
+    "qrcodeAlt": "Donation QR code"
+  },
+  "introduce": {
+    "title": "MahjongXpilot",
+    "versionLine": "version: {version}",
+    "copyrightLine": "Copyright © Fyisvia Virell.",
+    "rightsLine": "All Rights Reserved.",
+    "repoLabel": "GitHub repo:",
+    "repoLinkText": "Link",
+    "repoWelcome": "Welcome to review code, report bugs, and suggest features.",
+    "changelog": {
+      "common": {
+        "intro": "Highlights:"
+      },
+      "v130": {
+        "title": "Version 1.3.0 (2025-10-01)",
+        "i1": "1. Added game review feature.",
+        "i2": "2. UI refinements."
+      },
+      "v121": {
+        "title": "Version 1.2.1 (2025-09-30)",
+        "i1": "1. Added click-to-input via tile images in Tile Efficiency.",
+        "i2": "2. Added honba to point calculation."
+      },
+      "v120": {
+        "title": "Version 1.2.0 (2025-09-26)",
+        "i1": "1. Added Tile Efficiency Drills.",
+        "i2": "2. UI refinements."
+      },
+      "v113": {
+        "title": "Version 1.1.3 (2025-08-12)",
+        "i1": "1. Fixed incorrect Shanten in edge cases.",
+        "i2": "2. Improved Tile Efficiency input handling; added improvements analysis without a drawn tile."
+      },
+      "v112": {
+        "title": "Version 1.1.2 (2025-07-03)",
+        "i1": "1. Fixed stack overflow from deep Shanten recursion on complex hands.",
+        "i2": "2. Added random pattern selection for Chinitsu tenpai questions.",
+        "i3": "3. Fixed several collected content issues."
+      },
+      "v111": {
+        "title": "Version 1.1.1 (2025-05-21)",
+        "i1": "1. Added good-shape rate in Tile Efficiency analysis.",
+        "i2": "2. Increased difficulty for random mode in Chinitsu tenpai.",
+        "i3": "3. Fixed several collected content issues."
+      },
+      "v110": {
+        "title": "Version 1.1.0 (2025-05-03)",
+        "i1": "1. Added Chinitsu tenpai practice.",
+        "i2": "2. Added Home page.",
+        "i3": "3. Fixed several UI issues.",
+        "i4": "4. Fixed several collected content issues."
+      },
+      "v101": {
+        "title": "Version 1.0.1 (2025-04-28)",
+        "i1": "1. Fixed stutter on vertical scrolling on mobile.",
+        "i2": "2. Fixed several UI issues."
+      },
+      "rc": {
+        "title": "Version 1.0.1-rc Overview (2025-04-27)",
+        "preamble": "I'm pleased to announce the release of Xpilot 1.0.1-rc. Xpilot is a functional web app for Riichi Mahjong, aiming to offer a stable and easy-to-use experience. This RC includes:",
+        "s1": "1. Core features:",
+        "s1b": "What-to-discard analysis, 300 Nanikiru practice, point table and calculation drills, and tutorials list.",
+        "s2": "2. User interface:",
+        "s2b": "A clean, minimal interface for quick onboarding, covering the core features above.",
+        "s3": "3. Cross‑platform compatibility:",
+        "s3b": "Optimized for both desktop and mobile.",
+        "s4": "4. Known issues:",
+        "s4b": "As an RC, there may be unstable connections, incomplete features/UI, or occasional crashes. Expected value scoring in discard analysis and full 300 Nanikiru coverage are pending; game review is under development."
+      }
+    }
+  },
+      "guide": {
+        "title": "Beginner to Advanced",
+        "disclaimer": "Disclaimer: The materials listed here are collected for non‑commercial study and exchange only. All rights belong to the original authors/translators. Please support them.",
+        "beginner": "Beginner",
+        "advanced": "Advanced"
+
+  },
+  "booksPage": {
+    "title": "Books Collection",
+    "disclaimer": "Disclaimer: The materials listed here are collected for non‑commercial study and exchange only. All rights belong to the original authors/translators. Please support them.",
+    "sortNote": "Items are sorted by the first letter of their pinyin.",
+    "referenceText": "This collection is referenced from Bilibili uploader {upname}",
+    "contact": "For takedown, please email {email}"
+  },
+  "books": {
+    "categories": {
+      "汉化日语战术书": "Translated Japanese Strategy Books",
+      "其他汉化日语资料": "Other Translated Japanese Materials",
+      "国内作者内容": "Works by Chinese Authors",
+      "三麻相关资料": "Three‑player Mahjong Materials"
+    }
+  }
+}

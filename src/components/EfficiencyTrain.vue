@@ -11,16 +11,16 @@
     <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
 
     <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
-      牌效率练习
+      {{ t('efficiencyTrain.title') }}
     </li>
     <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
 
     <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
       <div class="flex flex-col sm:flex-row sm:items-center sm:gap-8">
         <fieldset class="fieldset ml-0 flex-1">
-          <legend class="text-base">向听显示</legend>
+          <legend class="text-base">{{ t('efficiencyTrain.settings.shantenDisplayLegend') }}</legend>
           <select
-            class="select ml-0"
+            class="select ml-0 w-full sm:w-auto"
             v-model="shantenDisplayMode"
             @change="handleShantenDisplayChange(shantenDisplayMode)"
           >
@@ -34,9 +34,9 @@
           </select>
         </fieldset>
         <fieldset class="fieldset ml-0 flex-1 mt-4 sm:mt-0">
-          <legend class="text-base">牌堆类型</legend>
+          <legend class="text-base">{{ t('efficiencyTrain.settings.tileSetLegend') }}</legend>
           <select
-            class="select ml-0"
+            class="select ml-0 w-full sm:w-auto"
             v-model="tileSetMode"
             @change="handleTileSetChange(tileSetMode)"
           >
@@ -60,22 +60,22 @@
     >
       <div class="badge badge-neutral text-lg font-semibold">
         <div v-if="shantenNum === -1">
-          和牌!!
+          {{ t('efficiencyTrain.status.mahjong') }}
         </div>
         <div v-else-if="shantenNum === 0">
-          听牌
+          {{ t('efficiencyTrain.status.tenpai') }}
         </div>
         <div v-else-if="shantenDisplayMode === 'full'">
-          {{ shantenNum }} 向听
+          {{ t('efficiencyTrain.status.shanten', { n: shantenNum }) }}
         </div>
         <div v-else>
-          未听牌
+          {{ t('efficiencyTrain.status.noten') }}
         </div>
       </div>
     </li>
 
     <li class="p-4 pb-2 opacity-100 tracking-wide text-base sm:text-lg font-semibold">
-      <span>手牌</span>
+      <span>{{ t('efficiencyTrain.ui.handTitle') }}</span>
     </li>
 
     <li class="p-2 sm:p-4 pb-2 text-xs sm:text-sm md:text-base opacity-100 tracking-wide">
@@ -104,7 +104,7 @@
     </li>
     
     <li class="p-4 pb-2 text-xs md:text-base opacity-80 tracking-wide flex justify-end mx-2">
-      <div>⬆️直接点击选择答案</div>
+      <div>{{ t('efficiencyTrain.ui.clickHint') }}</div>
     </li>
 
     <li v-if="lastDiscardResult" class="p-2">
@@ -122,10 +122,10 @@
               <path d="m12,23c-6.065,0-11-4.935-11-11S5.935,1,12,1s11,4.935,11,11-4.935,11-11,11Zm0-20C7.038,3,3,7.037,3,12s4.038,9,9,9,9-4.037,9-9S16.962,3,12,3Z" stroke-width="0" fill="currentColor"></path>
             </g>
           </svg>
-          {{ lastDiscardResult.message }}
+          {{ t(lastDiscardResult.messageKey) }}
         </div>
         <div class="flex flex-col items-center gap-2 w-full">
-          <div class="text-base opacity-80">所有正确的答案是：</div>
+          <div class="text-base opacity-80">{{ t('efficiencyTrain.result.correctAnswersTitle') }}</div>
           <div class="flex flex-wrap justify-center items-center w-full" style="gap: 0;">
             <div
               v-for="tile in lastDiscardResult.correctChoices"
@@ -153,13 +153,13 @@
         :disabled="currentIndex === 0"
         @click="prevQuestion"
       >
-        上一题
+        {{ t('efficiencyTrain.buttons.prev') }}
       </button>
       <button
         class="btn btn-sm text-sm sm:text-base px-4"
         @click="nextQuestion"
       >
-        下一题
+        {{ t('efficiencyTrain.buttons.next') }}
       </button>
     </li>
 
@@ -167,17 +167,17 @@
       <div class="flex items-center gap-2 pb-4">
         <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
           <input type="checkbox" v-model="showResult" @change="handleAnalysisToggle"/>
-          <div class="collapse-title text-base sm:text-lg font-semibold text-center pl-12">进张数分析</div>
+          <div class="collapse-title text-base sm:text-lg font-semibold text-center pl-12">{{ t('efficiencyTrain.analysis.title') }}</div>
           <div class="collapse-content text-sm sm:text-base md:text-lg mb-0">
             <div class="overflow-x-auto">
               <div class="responsive-table-wrapper">
                 <table class="table table-sm w-full bg-base-100 rounded-lg">
                   <thead>
                     <tr>
-                      <th class="text-center">切</th>
-                      <th class="text-center">进张</th>
-                      <th class="text-center">好型率</th>
-                      <th class="text-center">总进张</th>
+                      <th class="text-center">{{ t('efficiencyTrain.table.cut') }}</th>
+                      <th class="text-center">{{ t('efficiencyTrain.table.improvements') }}</th>
+                      <th class="text-center">{{ t('efficiencyTrain.table.goodShapeRate') }}</th>
+                      <th class="text-center">{{ t('efficiencyTrain.table.total') }}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -203,9 +203,11 @@
 </template>
 
 <script setup>
-
 import { ref, computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Shanten } from '../utils/shanten'
+
+const { t } = useI18n()
 
 // 统一的图片路径函数
 const tileSrc = (tile) => `/mahjongfiles/${tile}.png`
@@ -228,19 +230,19 @@ const questions = ref([])                   // [{ hand: string[], baseCount: Rec
 const currentIndex = ref(0)                 // 当前题目索引
 const prevTileSetMode = ref(tileSetMode.value) // 最近一次选择的牌堆类型（用于变更时触发重开题）
 
-// -------------------- 选项常量 --------------------
-const shantenDisplayOptions = [
-  { value: 'hidden', label: '不显示' },
-  { value: 'full', label: '显示向听数' },
-  { value: 'tenpaiOnly', label: '仅显示是否听牌' }
-]
-const tileSetOptions = [
-  { value: 'noHonor', label: '不包含字牌' },
-  { value: 'withHonor', label: '包含字牌' },
-  { value: 'm', label: '清一色：万子' },
-  { value: 'p', label: '清一色：筒子' },
-  { value: 's', label: '清一色：索子' }
-]
+// -------------------- 选项常量（国际化） --------------------
+const shantenDisplayOptions = computed(() => [
+  { value: 'hidden', label: t('efficiencyTrain.options.shantenDisplay.hidden') },
+  { value: 'full', label: t('efficiencyTrain.options.shantenDisplay.full') },
+  { value: 'tenpaiOnly', label: t('efficiencyTrain.options.shantenDisplay.tenpaiOnly') }
+])
+const tileSetOptions = computed(() => [
+  { value: 'noHonor', label: t('efficiencyTrain.options.tileSet.noHonor') },
+  { value: 'withHonor', label: t('efficiencyTrain.options.tileSet.withHonor') },
+  { value: 'm', label: t('efficiencyTrain.options.tileSet.m') },
+  { value: 'p', label: t('efficiencyTrain.options.tileSet.p') },
+  { value: 's', label: t('efficiencyTrain.options.tileSet.s') }
+])
 
 // -------------------- 公共计算/常量 --------------------
 let goodShapeCache = new Map()
@@ -504,7 +506,7 @@ const evaluateDiscardChoice = (discardedTile, results) => {
     lastDiscardResult.value = {
       type: 'invalid',
       isCorrect: false,
-      message: '错误：向听数后退',
+      messageKey: 'efficiencyTrain.result.messages.errShantenBack',
       correctChoices: [],
       discardedTile
     }
@@ -519,7 +521,7 @@ const evaluateDiscardChoice = (discardedTile, results) => {
     lastDiscardResult.value = {
       type: 'invalid',
       isCorrect: false,
-      message: '错误：向听数后退',
+      messageKey: 'efficiencyTrain.result.messages.errShantenBack',
       correctChoices,
       discardedTile
     }
@@ -530,7 +532,7 @@ const evaluateDiscardChoice = (discardedTile, results) => {
     lastDiscardResult.value = {
       type: 'best',
       isCorrect: true,
-      message: '正确',
+      messageKey: 'efficiencyTrain.result.messages.correct',
       correctChoices,
       discardedTile
     }
@@ -540,7 +542,7 @@ const evaluateDiscardChoice = (discardedTile, results) => {
   lastDiscardResult.value = {
     type: 'suboptimal',
     isCorrect: false,
-    message: '错误：并非最多进张',
+    messageKey: 'efficiencyTrain.result.messages.wrongNotMax',
     correctChoices,
     discardedTile
   }

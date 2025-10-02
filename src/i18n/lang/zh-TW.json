@@ -1,0 +1,493 @@
+{
+    "review": {
+        "title": "牌譜解析",
+        "thanks": "鳴謝:",
+        "thanksDesc": "本系統由 Skyler 提供並維護，原始來源：",
+        "link": "連結",
+        "hint": "提示:",
+        "hint1": "1. 三人麻將不支援高級模式。",
+        "hint2": "2. 四人麻將的高級模式預設使用 KillerDucky 風格，輸出更詳細且含放銃資料，可能需等待 1–2 分鐘；標準模式速度較快。",
+        "input": {
+            "legend": "輸入牌譜 URL 或 ID",
+            "help": "自動偵測天鳳、雀魂、麻雀一番街等格式的四/三麻對局",
+            "toastEmpty": "請先輸入牌譜 URL 或 ID"
+        },
+        "options": {
+            "viewpointLegend": "視角",
+            "auto": "自動偵測（由牌譜連結推斷）",
+            "east": "東家",
+            "south": "南家",
+            "west": "西家",
+            "north": "北家（3麻不適用）",
+            "langLegend": "語言",
+            "langZh": "简体中文",
+            "langEn": "English",
+            "langJa": "日本語",
+            "langKo": "한국어",
+            "engine4pLegend": "四麻分析引擎",
+            "engine3pLegend": "三麻分析引擎",
+            "engine3pDefault": "三叉戟",
+            "uiLegend": "介面風格",
+            "uiClassic": "經典",
+            "uiNew": "KillerDucky 風格（測試）",
+            "modeLegend": "分析模式",
+            "modeStandard": "標準",
+            "modeAdvanced": "進階"
+        },
+        "aria": {
+            "selectModel": "選擇模型",
+            "selectLang": "選擇語言"
+        },
+        "submit": "送出"
+    },
+    "discard": {
+        "title": "牌效率分析",
+        "collapses": {
+            "rules": {
+                "title": "預設分析規則",
+                "l1": "1. 計算同時考慮一般形式、七對子與國士無雙。",
+                "l2": "2. 因為沒有其他玩家與牌河，剩餘枚數視為最大值。",
+                "l3": "3. 不考慮巡目。",
+                "l4": "4. 好型判斷：聽牌時進張數 > 4。"
+            },
+            "notation": {
+                "title": "手牌表示法",
+                "l1": "\"m\" 表示萬子，",
+                "l2": "\"p\" 表示筒子，",
+                "l3": "\"s\" 表示索子。",
+                "l4": "\"z\" 表示字牌（東南西北白發中）。",
+                "l5": "\"0\" 表示赤五。",
+                "l6": "不必輸入副露部分，可選擇是否輸入摸進的牌。",
+                "l7": "輸入摸進牌時，會分析所有切牌選項。",
+                "l8": "不輸入摸進牌時，只計算當前手牌的進張與好型率。",
+                "l9": "範例：",
+                "l10": "012m123p123s1156z。",
+                "l11": "若 123p 為副露，則輸入 012m123s1156z。"
+            }
+        },
+        "input": {
+            "label": "輸入手牌",
+            "placeholder": "123m456p789s1122z"
+        },
+        "palette": {
+            "title": "點擊圖片加入手牌"
+        },
+        "selected": {
+            "title": "已選手牌（{count}/14）",
+            "undo": "撤銷一張",
+            "clear": "清空"
+        },
+        "a11y": {
+            "add": "加入 {tile}",
+            "remove": "移除 {tile}"
+        },
+        "submit": "送出",
+        "loading": "計算中...",
+        "error": {
+            "empty": "請輸入手牌，或使用上方圖片選牌",
+            "format": "手牌格式不正確或某牌數量過多"
+        },
+        "result": {
+            "he": "和牌",
+            "tenpai": "聽牌",
+            "shanten": "{n} 向聽"
+        },
+        "table": {
+            "cut": "切",
+            "improvements": "進張",
+            "goodShapeRate": "好型率",
+            "total": "總進張"
+        }
+    },
+    "home": {
+        "cards": {
+            "discard": {
+                "title": "牌效率分析",
+                "desc": "分析不同打牌下的進張數。",
+                "aria": "前往 牌效率分析"
+            },
+            "review": {
+                "title": "牌譜解析",
+                "desc": "由 Skyler 維護。使用 Zeus 等模型分析牌譜。",
+                "aria": "前往 牌譜解析"
+            },
+            "threeHundred": {
+                "title": "何切三百問",
+                "desc": "《麻雀傑作「何切」300選》的線上練習。",
+                "aria": "前往 何切三百問"
+            },
+            "efficiencyTrain": {
+                "title": "牌效率練習",
+                "desc": "練習從牌效率角度找出最適解。",
+                "aria": "前往 牌效率練習"
+            },
+            "pureOnesTenpai": {
+                "title": "清一色聽牌練習",
+                "desc": "練習門清清一色的聽牌快速判斷。",
+                "aria": "前往 清一色聽牌練習"
+            },
+            "pointCalc": {
+                "title": "點數計算練習",
+                "desc": "計算各種番符下的點數。",
+                "aria": "前往 點數計算練習"
+            },
+            "guide": {
+                "title": "入門到進階",
+                "desc": "從入門到進階的學習路線參考。",
+                "aria": "前往 學習路線"
+            },
+            "books": {
+                "title": "戰術書連結合集",
+                "desc": "整理 Bilibili 上的中文譯本與國內作品連結。",
+                "aria": "前往 戰術書連結合集"
+            },
+            "webDictionary": {
+                "title": "其他網站",
+                "desc": "有用的日麻網站列表。",
+                "aria": "前往 其他網站"
+            }
+        }
+    },
+    "webDictionary": {
+        "title": "其他網站",
+        "sites": {
+            "mortal": {
+                "name": "Mortal AI",
+                "desc": "Mortal 作者的牌譜檢討網站；使用 Mortal 等模型分析牌譜。"
+            },
+            "naga": {
+                "name": "NAGA AI",
+                "desc": "使用 NAGA 模型的牌譜檢討網站。精確度較高，但無中文介面。"
+            },
+            "discardSimulator": {
+                "name": "麻將丟牌模擬器",
+                "desc": "更完整的何切模擬器，C++ 開源專案。"
+            },
+            "gsz": {
+                "name": "雀莊公式戰",
+                "desc": "健康麻將聯合：離線公式戰雀莊導航與戰績。"
+            },
+            "amaeKoromo": {
+                "name": "雀魂牌譜屋（Amae-Koromo）",
+                "desc": "雀魂第三方牌譜資料庫，提供金之間以上的每日對局與統計。"
+            }
+        }
+    },
+    "navbar": {
+        "groups": {
+            "analysis": "分析",
+            "learn": "學習",
+            "more": "其他"
+        },
+        "items": {
+            "discard": "牌效率分析",
+            "review": "牌譜解析",
+            "threeHundred": "何切三百問",
+            "pureOnesTenpai": "清一色聽牌練習",
+            "pointCalc": "點數計算練習",
+            "efficiencyTrain": "牌效率練習",
+            "guide": "入門及進階路線",
+            "books": "戰術書連結合集",
+            "contact": "關於作者",
+            "introduce": "關於本站",
+            "webDictionary": "其他網站"
+        },
+        "aria": {
+            "openMenu": "開啟導覽選單",
+            "langSwitch": "切換語言",
+            "userAvatarAlt": "使用者頭像"
+        },
+        "lang": {
+            "zhCN": "简体中文",
+            "zhTW": "繁體中文",
+            "en": "English",
+            "ja": "日本語",
+            "ko": "한국어",
+            "fr": "Français",
+            "es": "Español"
+        }
+    },
+    "pureOnesTenpai": {
+        "title": "清一色聽牌練習",
+        "settings": {
+            "difficultyLegend": "難度",
+            "tileTypeLegend": "牌種",
+            "waitCountPrefix": "聽牌數："
+        },
+        "handTitle": "手牌",
+        "pickAnswerTitle": "選擇答案",
+        "actions": {
+            "resetStats": "重置統計",
+            "submit": "送出答案",
+            "submitted": "已送出",
+            "newHand": "新手牌"
+        },
+        "result": {
+            "correct": "正確",
+            "wrong": "錯誤",
+            "correctAnswer": "正確答案："
+        },
+        "stats": {
+            "accuracy": "正確率：{percent} %",
+            "summary": "（正確：{correct} / 總題數：{total}）"
+        },
+        "articles": {
+            "title": "相關文章",
+            "item1": "1.《麻將學習·牌效率》5-3 尋找門前清一色的待牌",
+            "link": "連結"
+        },
+        "options": {
+            "difficulty": {
+                "0": { "label": "不限制", "range": "任意" },
+                "1": { "label": "簡單", "range": "1 ~ 2" },
+                "2": { "label": "普通", "range": "3 ~ 4" },
+                "3": { "label": "困難", "range": "5 +" }
+            },
+            "tileType": {
+                "random": "隨機",
+                "m": "萬子",
+                "p": "筒子",
+                "s": "索子"
+            }
+        }
+    },
+    "pointCalc": {
+        "title": "點數計算練習",
+        "roles": {
+            "dealer": "親",
+            "nonDealer": "子"
+        },
+        "winTypes": {
+            "tsumo": "自摸",
+            "ron": "榮和"
+        },
+        "labels": {
+            "points": "點",
+            "pointsAll": "點 全部",
+            "pointTable": "點數表"
+        },
+        "actions": {
+            "submit": "提交答案",
+            "next": "下一題"
+        },
+        "question": {
+            "summary": "{role} {win} {han} 番 {fu} 符 {honba} 本場"
+        },
+        "aria": {
+            "showTable": "顯示點數表",
+            "inputDealerAll": "輸入親家自摸總點（All）",
+            "inputDealerRon": "輸入親家榮和點數",
+            "inputNonDealerTsumoNonDealer": "輸入子家所付點數",
+            "inputNonDealerTsumoDealer": "輸入親家所付點數",
+            "inputNonDealerRon": "輸入子家榮和點數"
+        },
+        "result": {
+            "correct": "正確",
+            "wrong": "錯誤",
+            "correctAnswer": "正確答案："
+        },
+        "images": {
+            "alt": {
+                "tableLight": "點數表",
+                "tableDark": "點數表（深色）"
+            }
+        },
+        "placeholders": {
+            "dealer": "親",
+            "nonDealer": "子"
+        }
+    },
+    "efficiencyTrain": {
+        "title": "牌效率練習",
+        "settings": {
+            "shantenDisplayLegend": "向聽顯示",
+            "tileSetLegend": "牌山類型"
+        },
+        "options": {
+            "shantenDisplay": {
+                "hidden": "不顯示",
+                "full": "顯示向聽數",
+                "tenpaiOnly": "僅顯示是否聽牌"
+            },
+            "tileSet": {
+                "noHonor": "不含字牌",
+                "withHonor": "含字牌",
+                "m": "清一色：萬子",
+                "p": "清一色：筒子",
+                "s": "清一色：索子"
+            }
+        },
+        "status": {
+            "mahjong": "和牌!!",
+            "tenpai": "聽牌",
+            "noten": "未聽牌",
+            "shanten": "{n} 向聽"
+        },
+        "ui": {
+            "handTitle": "手牌",
+            "clickHint": "⬆️ 直接點擊選擇答案"
+        },
+        "analysis": {
+            "title": "進張數分析"
+        },
+        "table": {
+            "cut": "切",
+            "improvements": "進張",
+            "goodShapeRate": "好形率",
+            "total": "總進張"
+        },
+        "buttons": {
+            "prev": "上一題",
+            "next": "下一題"
+        },
+        "result": {
+            "correctAnswersTitle": "所有正確的答案為：",
+            "messages": {
+                "errShantenBack": "錯誤：向聽數後退",
+                "correct": "正確",
+                "wrongNotMax": "錯誤：非最多進張"
+            }
+        }
+    },
+    "threeHundred": {
+        "title": "何切三百問",
+        "labels": {
+            "no": "No."
+        },
+        "ui": {
+            "clickHint": "⬆️ 直接點擊上方牌選擇答案"
+        },
+        "answer": {
+            "title": "參考答案與解析",
+            "explanationTitle": "解析："
+        },
+        "analysis": {
+            "title": "進張數分析"
+        },
+        "table": {
+            "cut": "切",
+            "improvements": "進張",
+            "goodShapeRate": "好形率",
+            "total": "總進張"
+        },
+        "buttons": {
+            "prev": "上一題",
+            "next": "下一題",
+            "jump": "跳轉"
+        },
+        "messages": {
+            "invalidId": "請輸入有效編號",
+            "invalidHand": "手牌字串不正確或某牌數量過多"
+        },
+        "result": {
+            "correct": "回答正確！",
+            "wrong": "回答錯誤！"
+        },
+        "aria": {
+            "selectAnswer": "選擇答案"
+        }
+    },
+    "contact": {
+        "title": "聯絡作者",
+        "email": "Email: {email}",
+        "links": {
+            "github": "Github 主頁：",
+            "bilibili": "Bilibili 主頁：",
+            "xiaoheihe": "小黑盒 主頁："
+        },
+        "link": "連結",
+        "donate": "贊助：",
+        "qrcodeAlt": "贊助 QR 碼"
+    },
+    "introduce": {
+        "title": "MahjongXpilot",
+        "versionLine": "version: {version}",
+        "copyrightLine": "Copyright © Fyisvia Virell.",
+        "rightsLine": "All Rights Reserved.",
+        "repoLabel": "Github 專案：",
+        "repoLinkText": "連結",
+        "repoWelcome": "歡迎協助 code review、回報 bug 與提出功能建議。",
+        "changelog": {
+            "common": {
+                "intro": "本次更新重點："
+            },
+            "v130": {
+                "title": "1.3.0 版本更新（2025-10-01）",
+                "i1": "1. 新增牌譜解析功能。",
+                "i2": "2. 優化部分 UI。"
+            },
+            "v121": {
+                "title": "1.2.1 版本更新（2025-09-30）",
+                "i1": "1. 在牌效率新增以圖點擊輸入功能。",
+                "i2": "2. 在點數計算中加入本場概念。"
+            },
+            "v120": {
+                "title": "1.2.0 版本更新（2025-09-26）",
+                "i1": "1. 新增牌效率練習功能。",
+                "i2": "2. 優化部分 UI。"
+            },
+            "v113": {
+                "title": "1.1.3 版本更新（2025-08-12）",
+                "i1": "1. 修正特定情況下的向聽計算錯誤。",
+                "i2": "2. 改善牌效率輸入處理，新增無摸進牌情況的進張分析。"
+            },
+            "v112": {
+                "title": "1.1.2 版本更新（2025-07-03）",
+                "i1": "1. 修正複雜手牌時向聽遞歸深度過大導致的堆疊溢位問題。",
+                "i2": "2. 在清一色聽牌練習加入隨機牌種選項。",
+                "i3": "3. 修正部分收錄內容錯誤。"
+            },
+            "v111": {
+                "title": "1.1.1 版本更新（2025-05-21）",
+                "i1": "1. 在牌效率分析新增好形率顯示。",
+                "i2": "2. 提升清一色聽牌隨機難度的挑戰度。",
+                "i3": "3. 修正部分收錄內容錯誤。"
+            },
+            "v110": {
+                "title": "1.1.0 版本更新（2025-05-03）",
+                "i1": "1. 新增清一色聽牌練習功能。",
+                "i2": "2. 新增首頁。",
+                "i3": "3. 修正部分 UI 問題。",
+                "i4": "4. 修正部分收錄內容錯誤。"
+            },
+            "v101": {
+                "title": "1.0.1 版本更新（2025-04-28）",
+                "i1": "1. 修正行動端垂直滾動時的卡頓。",
+                "i2": "2. 修正部分 UI 問題。"
+            },
+            "rc": {
+                "title": "1.0.1 - rc 版本簡介（2025-04-27）",
+                "preamble": "很高興宣布 Xpilot 1.0.1-rc 釋出。Xpilot 為專注於日麻（Riichi Mahjong）的功能性網頁應用，目標提供穩定且易用的體驗。本 RC 含：",
+                "s1": "1. 基本功能：",
+                "s1b": "何切解析、何切 300 問練習、點數表與計算練習，以及教學列表。",
+                "s2": "2. 使用者介面：",
+                "s2b": "採用簡潔直觀的 UI，便於快速上手。",
+                "s3": "3. 跨平台相容：",
+                "s3b": "為桌面與行動裝置優化。",
+                "s4": "4. 已知問題：",
+                "s4b": "由於為 RC，可能存在連線不穩定、功能/介面未完善或偶發崩潰。何切的期望值評分與 300 問完整收錄尚在規劃；牌譜解析功能也還在開發中。"
+            }
+        }
+    },
+    "guide": {
+        "title": "入門到進階",
+        "disclaimer": "聲明：本頁資料彙整僅供非商業性學習交流使用，所有權利歸原作者所有，請支持原作者/譯者。",
+        "beginner": "入門",
+        "advanced": "進階"
+    },
+    "booksPage": {
+        "title": "戰術書連結合集",
+        "disclaimer": "聲明：本頁資料彙整僅供非商業性學習交流使用，所有權利歸原作者/譯者所有，請支持原作者/譯者。",
+        "sortNote": "以下文章依拼音首字排序。",
+        "referenceText": "本合集參考自 Bilibili 投稿者 {upname}",
+        "contact": "若有侵權請寄信至 {email}"
+    },
+    "books": {
+        "categories": {
+            "汉化日语战术书": "日語戰術書（漢化）",
+            "其他汉化日语资料": "其他日語資料（漢化）",
+            "国内作者内容": "國內作者作品",
+            "三麻相关资料": "三麻相關資料"
+        }
+    }
+}

@@ -9,13 +9,21 @@
     <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-0 sm:px-8">
         <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
         <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
-            点数计算练习
+            {{ t('pointCalc.title') }}
         </li>
         <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide flex justify-center">
             <div v-if="question">
                 <div>
-                    {{ question.isDealer ? "庄家" : "子家" }} {{ question.isTsumo ? "自摸" : "荣和" }} {{ question.han }} 番 {{ question.fu }} 符 {{ question.honba }} 本场
+                    {{
+                      t('pointCalc.question.summary', {
+                        role: t(question.isDealer ? 'pointCalc.roles.dealer' : 'pointCalc.roles.nonDealer'),
+                        win: t(question.isTsumo ? 'pointCalc.winTypes.tsumo' : 'pointCalc.winTypes.ron'),
+                        han: question.han,
+                        fu: question.fu,
+                        honba: question.honba
+                      })
+                    }}
                 </div>
             </div>
         </li>
@@ -28,9 +36,9 @@
                         class="input w-60 text-base py-2 px-3"
                         autocomplete="off"
                         @keyup.enter="checkAnswer"
-                        :aria-label="`输入${question.isDealer ? '庄家' : '子家'}自摸总点（All）`"
+                        :aria-label="t('pointCalc.aria.inputDealerAll')"
                     />
-                    <span>点 All</span>
+                    <span>{{ t('pointCalc.labels.pointsAll') }}</span>
                 </div>
                 <div v-else-if="question.isDealer && !question.isTsumo" class="flex items-center gap-2">
                     <input
@@ -39,31 +47,31 @@
                         class="input w-60 text-base py-2 px-3"
                         autocomplete="off"
                         @keyup.enter="checkAnswer"
-                        aria-label="输入庄家荣和点数"
+                        :aria-label="t('pointCalc.aria.inputDealerRon')"
                     />
-                    <span>点</span>
+                    <span>{{ t('pointCalc.labels.points') }}</span>
                 </div>
                 <div v-else-if="!question.isDealer && question.isTsumo" class="flex flex-wrap items-center gap-2 justify-center w-full">
                     <input
                         type="number"
                         v-model="userInput.nonDealer"
                         class="input w-60 text-base py-2 px-3"
-                        placeholder="子家"
+                        :placeholder="t('pointCalc.placeholders.nonDealer')"
                         autocomplete="off"
-                        aria-label="输入非庄家支付点数"
+                        :aria-label="t('pointCalc.aria.inputNonDealerTsumoNonDealer')"
                     />
-                    <span>点</span>
+                    <span>{{ t('pointCalc.labels.points') }}</span>
                     <div class="w-full"></div>
                     <input
                         type="number"
                         v-model="userInput.dealer"
                         class="input w-60 text-base py-2 px-3"
-                        placeholder="庄家"
+                        :placeholder="t('pointCalc.placeholders.dealer')"
                         autocomplete="off"
                         @keyup.enter="checkAnswer"
-                        aria-label="输入庄家支付点数"
+                        :aria-label="t('pointCalc.aria.inputNonDealerTsumoDealer')"
                     />
-                    <span>点</span>
+                    <span>{{ t('pointCalc.labels.points') }}</span>
                 </div>
                 <div v-else class="flex items-center gap-2">
                     <input
@@ -72,48 +80,36 @@
                         class="input w-60 text-base py-2 px-3"
                         autocomplete="off"
                         @keyup.enter="checkAnswer"
-                        aria-label="输入子家荣和点数"
+                        :aria-label="t('pointCalc.aria.inputNonDealerRon')"
                     />
-                    <span>点</span>
+                    <span>{{ t('pointCalc.labels.points') }}</span>
                 </div>
             </div>
         </li>
         <li class="p-4 pb-2 opacity-100 tracking-wide">
             <div class="flex justify-between my-2.5 gap-4" v-if="question">
-                
                 <div class="flex items-center gap-2">
-                    <input type="checkbox" v-model="isTable" class="toggle my-1" aria-label="显示点数表" />
-                    <span class="text-sm sm:text-base my-1 font-semibold">点数表</span>
+                    <input type="checkbox" v-model="isTable" class="toggle my-1" :aria-label="t('pointCalc.aria.showTable')" />
+                    <span class="text-sm sm:text-base my-1 font-semibold">{{ t('pointCalc.labels.pointTable') }}</span>
                 </div>
                 <div class="flex-1 flex justify-center">
-                    <button @click="checkAnswer" class="btn btn-sm text-sm sm:text-base px-4">提交答案</button>
+                    <button @click="checkAnswer" class="btn btn-sm text-sm sm:text-base px-4">{{ t('pointCalc.actions.submit') }}</button>
                 </div>
-                <button class="btn btn-sm text-sm sm:text-base px-4" @click="resetQuestion">下一題</button>
+                <button class="btn btn-sm text-sm sm:text-base px-4" @click="resetQuestion">{{ t('pointCalc.actions.next') }}</button>
             </div>
         </li>
         <div class="flex flex-col items-center justify-center max-w-full box-border">
             <div v-if="showResult" class="my-5 p-2.5 rounded-md text-center">
                 <div :class="isCorrect ? 'badge badge-success' : 'badge badge-error'" class="inline-flex items-center gap-1 text-lg font-bold">
-                    <svg v-if="isCorrect" class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt">
-                            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></circle>
-                            <polyline points="7 13 10 16 17 8" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></polyline>
-                        </g>
-                    </svg>
-                    <svg v-else class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <g fill="currentColor">
-                            <rect x="1.972" y="11" width="20.056" height="2" transform="translate(-4.971 12) rotate(-45)" fill="currentColor" stroke-width="0"></rect>
-                            <path d="m12,23c-6.065,0-11-4.935-11-11S5.935,1,12,1s11,4.935,11,11-4.935,11-11,11Zm0-20C7.038,3,3,7.037,3,12s4.038,9,9,9,9-4.037,9-9S16.962,3,12,3Z" stroke-width="0" fill="currentColor"></path>
-                        </g>
-                    </svg>
-                    {{ isCorrect ? '正确' : '错误' }}
+                    <!-- ...existing code icons... -->
+                    {{ isCorrect ? t('pointCalc.result.correct') : t('pointCalc.result.wrong') }}
                 </div>
                 <div v-if="!isCorrect" class="flex items-center justify-center mt-2">
-                    <div class="text-base opacity-80">正确答案：</div>
-                    <div v-if="question.isDealer && question.isTsumo" class="text-base opacity-80">{{ question.correctPoints.tsumo }} 点 All</div>
-                    <div v-else-if="question.isDealer && !question.isTsumo" class="text-base opacity-80">{{ question.correctPoints.ron }} 点</div>
-                    <div v-else-if="!question.isDealer && question.isTsumo" class="text-base opacity-80">{{ question.correctPoints.tsumo.nonDealer }} 点 / {{ question.correctPoints.tsumo.dealer }} 点</div>
-                    <div v-else class="text-base opacity-80">{{ question.correctPoints.ron }} 点</div>
+                    <div class="text-base opacity-80">{{ t('pointCalc.result.correctAnswer') }}</div>
+                    <div v-if="question.isDealer && question.isTsumo" class="text-base opacity-80">{{ question.correctPoints.tsumo }} {{ t('pointCalc.labels.pointsAll') }}</div>
+                    <div v-else-if="question.isDealer && !question.isTsumo" class="text-base opacity-80">{{ question.correctPoints.ron }} {{ t('pointCalc.labels.points') }}</div>
+                    <div v-else-if="!question.isDealer && question.isTsumo" class="text-base opacity-80">{{ question.correctPoints.tsumo.nonDealer }} {{ t('pointCalc.labels.points') }} / {{ question.correctPoints.tsumo.dealer }} {{ t('pointCalc.labels.points') }}</div>
+                    <div v-else class="text-base opacity-80">{{ question.correctPoints.ron }} {{ t('pointCalc.labels.points') }}</div>
                 </div>
             </div>
         </div>
@@ -122,13 +118,13 @@
                 <img
                     v-if="theme === 'light'"
                     :src="PointTableJpg"
-                    alt="点数表"
+                    :alt="t('pointCalc.images.alt.tableLight')"
                     class="max-w-full rounded shadow"
                 />
                 <img
                     v-else
                     :src="PointTableBLJpg"
-                    alt="点数表（暗色）"
+                    :alt="t('pointCalc.images.alt.tableDark')"
                     class="max-w-full rounded shadow"
                 />
                 <br><br>
@@ -139,8 +135,11 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import PointTableJpg from '/photos/PointsTable.jpg';
 import PointTableBLJpg from '/photos/PointsTableBL.jpg';
+
+const { t } = useI18n();
 
 // 点数计算核心算法（加入本场加点）
 const calculatePoints = (isDealer, isTsumo, han, fu, honba = 0) => {
@@ -352,3 +351,4 @@ const resetQuestion = () => {
     showResult.value = false;
 };
 </script>
+

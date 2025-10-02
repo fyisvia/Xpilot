@@ -6,10 +6,8 @@
 // See the LICENSE file in the project root for full license information.
 
 export const guideData = {
-  title: "入门到进阶",
-  disclaimer: "声明：本文中的资料整理仅出于非商业性的学习交流目的，一切权利归原作者所有。",
+  // removed top-level title/disclaimer — these are now provided via i18n
   beginner: {
-    title: "入门",
     resources: [
       {
         id: 1,
@@ -26,7 +24,6 @@ export const guideData = {
     ]
   },
   advanced: {
-    title: "进阶",
     categories: [
       {
         id: 1,

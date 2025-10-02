@@ -11,13 +11,13 @@
     <li class="list-row">
       <div></div>
       <div>
-        <RouterLink to="/discard" class="no-underline" style="text-decoration: none;" aria-label="前往 牌效率分析">
-        <div class="text-sm font-semibold">牌效率分析</div>
-        <div class="text-xs uppercase opacity-80">分析手牌在不同切牌情况下的进张数。</div>
+        <RouterLink to="/discard" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.discard.aria')">
+        <div class="text-sm font-semibold">{{ t('home.cards.discard.title') }}</div>
+        <div class="text-xs opacity-80">{{ t('home.cards.discard.desc') }}</div>
         </RouterLink>
       </div>
-      <RouterLink to="/discard" class="no-underline" style="text-decoration: none;" aria-label="前往 牌效率分析">
-        <button class="btn btn-square btn-ghost" aria-label="前往 牌效率分析">
+      <RouterLink to="/discard" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.discard.aria')">
+        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.discard.aria')">
         <svg class="size-[1.8em]" viewBox="0 0 24 24">
           <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
             <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
@@ -30,13 +30,13 @@
     <li class="list-row">
       <div></div>
       <div>
-        <RouterLink to="/review" class="no-underline" style="text-decoration: none;" aria-label="前往 牌谱分析（未完成）">
-        <div class="text-sm font-semibold">牌谱分析</div>
-        <div class="text-xs uppercase opacity-80">由Skyler开发并维护，用Zeus等模型分析牌谱。</div>
+        <RouterLink to="/review" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.review.aria')">
+        <div class="text-sm font-semibold">{{ t('home.cards.review.title') }}</div>
+        <div class="text-xs opacity-80">{{ t('home.cards.review.desc') }}</div>
         </RouterLink>
       </div>
-      <RouterLink to="/review" class="no-underline" style="text-decoration: none;" aria-label="前往 牌谱分析（未完成）">
-        <button class="btn btn-square btn-ghost" aria-label="前往 牌谱分析（未完成）">
+      <RouterLink to="/review" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.review.aria')">
+        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.review.aria')">
         <svg class="size-[1.8em]" viewBox="0 0 24 24">
           <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
             <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
@@ -49,13 +49,13 @@
     <li class="list-row">
       <div></div>
       <div>
-        <RouterLink to="/three-hundred" class="no-underline" style="text-decoration: none;" aria-label="前往 何切三百问">
-        <div class="text-sm font-semibold">何切三百问</div>
-        <div class="text-xs uppercase opacity-80">《麻将杰作“何切”300选》的线上练习。</div>
+        <RouterLink to="/three-hundred" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.threeHundred.aria')">
+        <div class="text-sm font-semibold">{{ t('home.cards.threeHundred.title') }}</div>
+        <div class="text-xs opacity-80">{{ t('home.cards.threeHundred.desc') }}</div>
         </RouterLink>
       </div>
-      <RouterLink to="/three-hundred" class="no-underline" style="text-decoration: none;" aria-label="前往 何切三百问">
-        <button class="btn btn-square btn-ghost" aria-label="前往 何切三百问">
+      <RouterLink to="/three-hundred" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.threeHundred.aria')">
+        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.threeHundred.aria')">
         <svg class="size-[1.8em]" viewBox="0 0 24 24">
           <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
             <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
@@ -68,13 +68,13 @@
     <li class="list-row">
       <div></div>
       <div>
-        <RouterLink to="/efficiency-train" class="no-underline" style="text-decoration: none;" aria-label="前往 牌效率练习">
-        <div class="text-sm font-semibold">牌效率练习</div>
-        <div class="text-xs uppercase opacity-80">练习各种情况下分析在牌效率角度下的最优解。</div>
+        <RouterLink to="/efficiency-train" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.efficiencyTrain.aria')">
+        <div class="text-sm font-semibold">{{ t('home.cards.efficiencyTrain.title') }}</div>
+        <div class="text-xs opacity-80">{{ t('home.cards.efficiencyTrain.desc') }}</div>
         </RouterLink>
       </div>
-      <RouterLink to="/efficiency-train" class="no-underline" style="text-decoration: none;" aria-label="前往 牌效率听牌练习">
-        <button class="btn btn-square btn-ghost" aria-label="前往 牌效率练习">
+      <RouterLink to="/efficiency-train" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.efficiencyTrain.aria')">
+        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.efficiencyTrain.aria')">
         <svg class="size-[1.8em]" viewBox="0 0 24 24">
           <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
             <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
@@ -87,13 +87,13 @@
     <li class="list-row">
       <div></div>
       <div>
-        <RouterLink to="/pure-ones-tenpai" class="no-underline" style="text-decoration: none;" aria-label="前往 清一色听牌练习">
-        <div class="text-sm font-semibold">清一色听牌练习</div>
-        <div class="text-xs uppercase opacity-80">练习门清清一色的听牌快速分析。</div>
+        <RouterLink to="/pure-ones-tenpai" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.pureOnesTenpai.aria')">
+        <div class="text-sm font-semibold">{{ t('home.cards.pureOnesTenpai.title') }}</div>
+        <div class="text-xs opacity-80">{{ t('home.cards.pureOnesTenpai.desc') }}</div>
         </RouterLink>
       </div>
-      <RouterLink to="/pure-ones-tenpai" class="no-underline" style="text-decoration: none;" aria-label="前往 清一色听牌练习">
-        <button class="btn btn-square btn-ghost" aria-label="前往 清一色听牌练习">
+      <RouterLink to="/pure-ones-tenpai" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.pureOnesTenpai.aria')">
+        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.pureOnesTenpai.aria')">
         <svg class="size-[1.8em]" viewBox="0 0 24 24">
           <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
             <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
@@ -106,13 +106,13 @@
     <li class="list-row">
       <div></div>
       <div>
-        <RouterLink to="/point-calculation" class="no-underline" style="text-decoration: none;" aria-label="前往 点数计算练习">
-        <div class="text-sm font-semibold">点数计算练习</div>
-        <div class="text-xs uppercase opacity-80">计算在各种番数符数下的点数计算。</div>
+        <RouterLink to="/point-calculation" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.pointCalc.aria')">
+        <div class="text-sm font-semibold">{{ t('home.cards.pointCalc.title') }}</div>
+        <div class="text-xs opacity-80">{{ t('home.cards.pointCalc.desc') }}</div>
         </RouterLink>
       </div>
-      <RouterLink to="/point-calculation" class="no-underline" style="text-decoration: none;" aria-label="前往 点数计算练习">
-        <button class="btn btn-square btn-ghost" aria-label="前往 点数计算练习">
+      <RouterLink to="/point-calculation" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.pointCalc.aria')">
+        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.pointCalc.aria')">
         <svg class="size-[1.8em]" viewBox="0 0 24 24">
           <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
             <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
@@ -125,13 +125,13 @@
     <li class="list-row">
       <div></div>
       <div>
-        <RouterLink to="/guide" class="no-underline" style="text-decoration: none;" aria-label="前往 入门到进阶">
-        <div class="text-sm font-semibold">入门到进阶</div>
-        <div class="text-xs uppercase opacity-80">日麻从入门到进阶的参考学习路线。</div>
+        <RouterLink to="/guide" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.guide.aria')">
+        <div class="text-sm font-semibold">{{ t('home.cards.guide.title') }}</div>
+        <div class="text-xs opacity-80">{{ t('home.cards.guide.desc') }}</div>
         </RouterLink>
       </div>
-      <RouterLink to="/guide" class="no-underline" style="text-decoration: none;" aria-label="前往 入门到进阶">
-        <button class="btn btn-square btn-ghost" aria-label="前往 入门到进阶">
+      <RouterLink to="/guide" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.guide.aria')">
+        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.guide.aria')">
         <svg class="size-[1.8em]" viewBox="0 0 24 24">
           <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
             <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
@@ -144,13 +144,13 @@
     <li class="list-row">
       <div></div>
       <div>
-        <RouterLink to="/books" class="no-underline" style="text-decoration: none;" aria-label="前往 公式书合集">
-        <div class="text-sm font-semibold">公式书合集</div>
-        <div class="text-xs uppercase opacity-80">整理了目前b站上大部分的中文译本及国内作品。</div>
+        <RouterLink to="/books" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.books.aria')">
+        <div class="text-sm font-semibold">{{ t('home.cards.books.title') }}</div>
+        <div class="text-xs opacity-80">{{ t('home.cards.books.desc') }}</div>
         </RouterLink>
       </div>
-      <RouterLink to="/books" class="no-underline" style="text-decoration: none;" aria-label="前往 公式书合集">
-        <button class="btn btn-square btn-ghost" aria-label="前往 公式书合集">
+      <RouterLink to="/books" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.books.aria')">
+        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.books.aria')">
         <svg class="size-[1.8em]" viewBox="0 0 24 24">
           <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
             <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
@@ -163,13 +163,13 @@
     <li class="list-row">
       <div></div>
       <div>
-        <RouterLink to="/web-dictionary" class="no-underline" style="text-decoration: none;" aria-label="前往 其他网站">
-        <div class="text-sm font-semibold">其他网站</div>
-        <div class="text-xs uppercase opacity-80">整理了其他几个日麻的功能性网站。</div>
+        <RouterLink to="/web-dictionary" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.webDictionary.aria')">
+        <div class="text-sm font-semibold">{{ t('home.cards.webDictionary.title') }}</div>
+        <div class="text-xs opacity-80">{{ t('home.cards.webDictionary.desc') }}</div>
         </RouterLink>
       </div>
-      <RouterLink to="/web-dictionary" class="no-underline" style="text-decoration: none;" aria-label="前往 其他网站">
-        <button class="btn btn-square btn-ghost" aria-label="前往 其他网站">
+      <RouterLink to="/web-dictionary" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.webDictionary.aria')">
+        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.webDictionary.aria')">
         <svg class="size-[1.8em]" viewBox="0 0 24 24">
           <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
             <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
@@ -184,6 +184,8 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 </script>
 
 <style scoped>

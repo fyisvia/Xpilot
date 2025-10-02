@@ -8,15 +8,15 @@
 <template>
   <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
     <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
-    <li class="p-4 pb-2 text-lg font-semibold tracking-wide">其他网站</li>
+    <li class="p-4 pb-2 text-lg font-semibold tracking-wide">{{ t('webDictionary.title') }}</li>
     <br>
-    <li v-for="site in sites" :key="site.name" class="list-row">
+    <li v-for="site in sites" :key="site.key" class="list-row">
       <div>
-        <img class="size-10 rounded-box object-contain" :src="site.img" />
+        <img class="size-10 rounded-box object-contain" :src="site.img" :alt="t(`webDictionary.sites.${site.key}.name`)"/>
       </div>
       <div>
-        <div class="text-sm font-semibold">{{ site.name }}</div>
-        <div class="text-xs uppercase opacity-80">{{ site.desc }}</div>
+        <div class="text-sm font-semibold">{{ t(`webDictionary.sites.${site.key}.name`) }}</div>
+        <div class="text-xs opacity-80">{{ t(`webDictionary.sites.${site.key}.desc`) }}</div>
       </div>
       <a :href="site.url" target="_blank" rel="noopener">
         <button class="btn btn-square btn-ghost">
@@ -34,4 +34,7 @@
 
 <script setup>
 import { sites } from '../data/sites'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 </script>

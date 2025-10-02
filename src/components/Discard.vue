@@ -9,37 +9,37 @@
   <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
     <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
     <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
-      牌效率分析
+      {{ t('discard.title') }}
     </li>
     <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
       <div class="flex items-center gap-2 pb-4">
         <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
           <input type="checkbox" />
-          <div class="collapse-title opacity-80">默认分析规则</div>
+          <div class="collapse-title opacity-80">{{ t('discard.collapses.rules.title') }}</div>
           <div class="collapse-content text-xs font-semibold opacity-60 mb-0">
-            1. 默认考虑一般形式，七对子和国士无双。<br>
-            2. 因为没有其他玩家和牌河，剩余枚数为最大值。<br>
-            3. 不考虑巡目。<br>
-            4. 好型的判断标准为听牌时进张数 > 4。
+            {{ t('discard.collapses.rules.l1') }}<br>
+            {{ t('discard.collapses.rules.l2') }}<br>
+            {{ t('discard.collapses.rules.l3') }}<br>
+            {{ t('discard.collapses.rules.l4') }}
           </div>
         </div>
       </div>
       <div class="flex items-center gap-2 pb-4">
         <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
           <input type="checkbox" />
-          <div class="collapse-title opacity-80">手牌表示方法</div>
+          <div class="collapse-title opacity-80">{{ t('discard.collapses.notation.title') }}</div>
           <div class="collapse-content text-xs font-semibold opacity-60 mb-0">
-            " m " 表示万子，
-            " p " 表示饼子，
-            " s " 表示索子。<br>
-            " z " 表示东南西北白发中，
-            " 0 " 表示红五。<br>
-            不需要输入副露的部分，可以选择是否输入摸进的牌。<br>
-            输入摸进的牌时，计算内容包括各种切牌的分析。<br>
-            不输入摸进的牌时，计算内容只当前手牌的进张和好型率。<br>
-            举例：<br>
-            012m123p123s1156z。<br>
-            如果123p为副露，则只输入012m123s1156z。                  
+            {{ t('discard.collapses.notation.l1') }}
+            {{ t('discard.collapses.notation.l2') }}
+            {{ t('discard.collapses.notation.l3') }}<br>
+            {{ t('discard.collapses.notation.l4') }}<br>
+            {{ t('discard.collapses.notation.l5') }}<br>
+            {{ t('discard.collapses.notation.l6') }}<br>
+            {{ t('discard.collapses.notation.l7') }}<br>
+            {{ t('discard.collapses.notation.l8') }}<br>
+            {{ t('discard.collapses.notation.l9') }}<br>
+            {{ t('discard.collapses.notation.l10') }}<br>
+            {{ t('discard.collapses.notation.l11') }}
           </div>
         </div>
       </div>
@@ -47,30 +47,29 @@
     <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
       <div class="flex items-center gap-2 pb-4">
         <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
-          输入手牌
+          {{ t('discard.input.label') }}
         </span>
       </div>
       <input
         type="text"
         v-model="handInput"
-        placeholder="123m456p789s1122z"
+        :placeholder="t('discard.input.placeholder')"
         class="input w-full text-base py-3 px-4"
         @keyup.enter="handleEnter"
         @blur="syncSelectedTilesFromText"
         @change="syncSelectedTilesFromText"
         autocomplete="off"
-        aria-label="输入手牌"
+        :aria-label="t('discard.input.label')"
       />
     </li>
 
-    <!-- 新增：图片选牌面板 -->
+    <!-- 图片选牌面板 -->
     <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
       <div class="flex items-center gap-2 pb-4">
         <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
-          点击图片添加手牌
+          {{ t('discard.palette.title') }}
         </span>
       </div>
-      <!-- 等待预加载完成后再渲染图片，避免重复加载 -->
       <div class="flex flex-col gap-2" v-if="preloadedReady">
         <div
           v-for="tp in ['m','p','s','z']"
@@ -86,36 +85,36 @@
               class="object-contain rounded cursor-pointer hover:scale-105 transition"
               :style="{ width: 'calc(100% / 14)', height: 'auto' }"
               @click="addTile(tile)"
-              :aria-label="`添加 ${tile}`"
+              :aria-label="t('discard.a11y.add', { tile })"
             />
           </div>
         </div>
       </div>
     </li>
 
-    <!-- 新增：已选手牌展示与操作 -->
+    <!-- 已选手牌 -->
     <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
       <div class="flex items-center justify-between mb-2">
         <div class="flex items-center gap-2 pb-4">
           <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
-            已选手牌（{{ selectedTiles.length }}/14）
+            {{ t('discard.selected.title', { count: selectedTiles.length }) }}
           </span>
         </div>
         <div class="flex items-center gap-2 self-start -mt-1">
-          <button class="btn btn-sm text-sm sm:text-base px-4" @click="undoTile" :disabled="selectedTiles.length === 0">撤销一张</button>
-          <button class="btn btn-sm text-sm sm:text-base px-4" @click="clearTiles" :disabled="selectedTiles.length === 0">清空</button>
+          <button class="btn btn-sm text-sm sm:text-base px-4" @click="undoTile" :disabled="selectedTiles.length === 0">{{ t('discard.selected.undo') }}</button>
+          <button class="btn btn-sm text-sm sm:text-base px-4" @click="clearTiles" :disabled="selectedTiles.length === 0">{{ t('discard.selected.clear') }}</button>
         </div>
       </div>
       <div class="flex flex-wrap" style="gap: 0px;">
-        <template v-for="(t, idx) in selectedTiles" :key="'sel-' + t + '-' + idx">
+        <template v-for="(tTile, idx) in selectedTiles" :key="'sel-' + tTile + '-' + idx">
           <img
-            :src="tileSrc(t)"
-            :alt="t"
+            :src="tileSrc(tTile)"
+            :alt="tTile"
             class="object-contain rounded cursor-pointer hover:opacity-80 transition"
             :style="{ width: 'calc(100% / 14)', height: 'auto' }"
             @click="removeTileAt(idx)"
-            :aria-label="`移除 ${t}`"
-            title="点击移除该牌"
+            :aria-label="t('discard.a11y.remove', { tile: tTile })"
+            :title="t('discard.a11y.remove', { tile: tTile })"
           />
         </template>
       </div>
@@ -123,13 +122,13 @@
 
     <li class="list-row flex flex-col gap-2">
       <div></div>
-      <button class="btn text-lg" @click="handleSubmit">提交</button>
+      <button class="btn text-lg" @click="handleSubmit">{{ t('discard.submit') }}</button>
     </li>
     <li v-if="showResult" class="p-4">
       <div v-if="loading" class="flex justify-center items-center mb-4">
         <div class="text-lg font-semibold badge badge-accent border border-accent">
           <span class="custom-spinner mr-2"></span>
-          <span>计算中...</span>
+          <span>{{ t('discard.loading') }}</span>
         </div>
       </div>
       <template v-else>
@@ -153,7 +152,7 @@
                   <polyline points="7 13 10 16 17 8" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></polyline>
                 </g>
               </svg>
-              和牌
+              {{ t('discard.result.he') }}
             </div>
             <div v-else-if="shantenNum === 0" class="text-lg font-semibold badge badge-success">
               <svg class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -162,10 +161,10 @@
                   <polyline points="7 13 10 16 17 8" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></polyline>
                 </g>
               </svg>
-              听牌
+              {{ t('discard.result.tenpai') }}
             </div>
             <div v-else class="text-lg font-semibold badge badge-info">
-              {{ shantenNum }} 向听
+              {{ t('discard.result.shanten', { n: shantenNum }) }}
             </div>
           </div>
           <div v-if="showTable" class="overflow-x-auto">
@@ -173,11 +172,10 @@
               <table class="table table-sm w-full bg-base-100 rounded-lg">
                 <thead>
                   <tr>
-                    <!-- <th></th> -->
-                    <th class="text-center">切</th>
-                    <th class="text-center">进张</th>
-                    <th class="text-center">好型率</th>
-                    <th class="text-center">总进张</th>
+                    <th class="text-center">{{ t('discard.table.cut') }}</th>
+                    <th class="text-center">{{ t('discard.table.improvements') }}</th>
+                    <th class="text-center">{{ t('discard.table.goodShapeRate') }}</th>
+                    <th class="text-center">{{ t('discard.table.total') }}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -186,7 +184,6 @@
                     :key="tile"
                     :class="idx % 2 === 1 ? 'hover:bg-base-300' : ''"
                   >
-                    <!-- <th>{{ idx + 1 }}</th> -->
                     <td class="font-bold text-center">{{ tile }}</td>
                     <td class="text-center">{{ Object.keys(result.improvements).join(', ') }}</td>
                     <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(0) }}%</td>
@@ -204,11 +201,13 @@
 </template>
 
 <script setup>
-
 // 导入与 Props
 import { ref, watch, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Shanten } from '../utils/shanten'
 defineProps(["changeComponent"])
+
+const { t } = useI18n()
 
 // 响应式状态
 const handInput = ref('')
@@ -222,8 +221,9 @@ const showTable = ref(false)
 // 新增：预加载就绪标记
 const preloadedReady = ref(false)
 
-// 新增：图片选牌相关状态与工具
-const selectedTiles = ref([]) // ['1m','2m',...]
+// 图片选牌相关
+const selectedTiles = ref([])
+// 统一图片路径
 const tileSrc = (tile) => {
   const rel = `mahjongfiles/${tile}.png`
   if (typeof window !== 'undefined' && typeof window.getPreloadedSrc === 'function') {
@@ -303,9 +303,9 @@ const UNIQUE_TILES = Object.keys(BASE_COUNT_MAP)
 const TILE_TO_INDEX = (() => {
   const map = {}
   const numIdx = (num, type) => {
-    if (type === 'm') return num === 0 ? 4 : num - 1
-    if (type === 'p') return 9 + (num === 0 ? 4 : num - 1)
-    if (type === 's') return 18 + (num === 0 ? 4 : num - 1)
+    if (type === 'm') return num === '0' ? 4 : num - 1
+    if (type === 'p') return 9 + (num === '0' ? 4 : num - 1)
+    if (type === 's') return 18 + (num === '0' ? 4 : num - 1)
     if (type === 'z') return 27 + (num - 1)
   }
   for (const type of ['m','p','s']) {
@@ -518,11 +518,11 @@ const handleSubmit = async () => {
   // 1) 优先使用图片选牌
   let handTiles = selectedTiles.value.length > 0 ? [...selectedTiles.value] : null
 
-  // 2) 如未选牌则使用文本输入
+  // 2) 文本输入
   if (!handTiles || handTiles.length === 0) {
     const input = handInput.value.trim()
     if (!input) {
-      errorMessage.value = '请输入手牌，或通过上方图片选牌'
+      errorMessage.value = t('discard.error.empty')
       showResult.value = true
       showTable.value = false
       improvementResults.value = {}
@@ -530,7 +530,7 @@ const handleSubmit = async () => {
     }
     const parsed = parseHandTiles(input)
     if (!parsed) {
-      errorMessage.value = '手牌格式不正确或某牌数量过多'
+      errorMessage.value = t('discard.error.format')
       showResult.value = true
       showTable.value = false
       improvementResults.value = {}
@@ -539,10 +539,9 @@ const handleSubmit = async () => {
     handTiles = parsed
   }
 
-  // 3) 基本长度校验
   const count = handTiles.length
   if (count % 3 === 0) {
-    errorMessage.value = '手牌格式不正确或某牌数量过多'
+    errorMessage.value = t('discard.error.format')
     showResult.value = true
     showTable.value = false
     improvementResults.value = {}
@@ -568,19 +567,18 @@ const handleSubmit = async () => {
   loading.value = false
 }
 
-// 新增：将文本输入同步到“已选手牌”图片区
+// 同步文本到选牌
 const syncSelectedTilesFromText = () => {
   const input = handInput.value?.trim()
   if (!input) return
   const parsed = parseHandTiles(input)
   if (parsed) {
     selectedTiles.value = parsed
-    // 新增：文本同步后也按统一规则排序
     sortSelectedTiles()
   }
 }
 
-// 新增：回车包装，先同步再提交
+// 回车触发
 const handleEnter = () => {
   syncSelectedTilesFromText()
   handleSubmit()

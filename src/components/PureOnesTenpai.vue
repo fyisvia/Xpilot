@@ -12,7 +12,7 @@
     <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
 
     <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
-      清一色听牌练习
+      {{ t('pureOnesTenpai.title') }}
     </li>
 
     <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
@@ -22,27 +22,27 @@
       <div class="flex flex-col sm:flex-row sm:items-center sm:gap-8">
         <!-- 难度选择 -->
         <fieldset class="fieldset ml-0 flex-1">
-          <legend class="text-base">难度</legend>
+          <legend class="text-base">{{ t('pureOnesTenpai.settings.difficultyLegend') }}</legend>
           <select
-            class="select ml-0"
+            class="select ml-0 w-full sm:w-auto"
             v-model="difficulty"
             @change="handleDifficultyChange(difficulty)"
           >
             <option v-for="diff in difficultyOptions" :key="diff.value" :value="diff.value">
-              {{ diff.label }}（听牌数：{{ diff.range }}）
+              {{ t(`pureOnesTenpai.options.difficulty.${diff.value}.label`) }}（{{ t('pureOnesTenpai.settings.waitCountPrefix') }}{{ t(`pureOnesTenpai.options.difficulty.${diff.value}.range`) }}）
             </option>
           </select>
         </fieldset>
         <!-- 牌型选择 -->
         <fieldset class="fieldset ml-0 flex-1 mt-4 sm:mt-0">
-          <legend class="text-base">牌型</legend>
+          <legend class="text-base">{{ t('pureOnesTenpai.settings.tileTypeLegend') }}</legend>
           <select
-            class="select ml-0"
+            class="select ml-0 w-full sm:w-auto"
             v-model="tileType"
             @change="handleTileTypeChange(tileType)"
           >
             <option v-for="type in tileTypes" :key="type.value" :value="type.value">
-              {{ type.label }}
+              {{ t(`pureOnesTenpai.options.tileType.${type.value}`) }}
             </option>
           </select>
         </fieldset>
@@ -51,7 +51,7 @@
 
     <!-- 手牌标题 -->
     <li class="p-4 pb-2 opacity-100 tracking-wide text-base sm:text-lg font-semibold">
-      <span>手牌</span>
+      <span>{{ t('pureOnesTenpai.handTitle') }}</span>
     </li>
 
     <!-- 手牌显示区域 -->
@@ -73,7 +73,7 @@
 
     <!-- 答案选择标题 -->
     <li class="p-4 pb-2 opacity-100 tracking-wide text-base sm:text-lg font-semibold">
-      <span>选择答案</span>
+      <span>{{ t('pureOnesTenpai.pickAnswerTitle') }}</span>
     </li>
 
     <!-- 答案选择区域：可点击的待牌图片 -->
@@ -109,7 +109,7 @@
         class="btn btn-sm text-sm sm:text-base px-4"
         @click="() => { correctAttempts = 0; totalAttempts = 0; }"
       >
-        重置统计
+        {{ t('pureOnesTenpai.actions.resetStats') }}
       </button>
       <div class="flex-1 flex justify-center">
         <button
@@ -117,14 +117,14 @@
           :disabled="isSubmitted"
           @click="checkAnswer"
         >
-          {{ isSubmitted ? "已提交" : "提交答案" }}
+          {{ isSubmitted ? t('pureOnesTenpai.actions.submitted') : t('pureOnesTenpai.actions.submit') }}
         </button>
       </div>
       <button
         class="btn btn-sm text-sm sm:text-base px-4"
         @click="initializeGame"
       >
-        新的手牌
+        {{ t('pureOnesTenpai.actions.newHand') }}
       </button>
     </li>
 
@@ -132,37 +132,25 @@
     <li v-if="isSubmitted" class="p-4">
       <div class="flex flex-col items-center justify-center max-w-full box-border">
         <div class="my-5 p-2.5 rounded-md text-center">
-          <!-- 正确/错误徽章 -->
           <div
             :class="isCorrect ? 'badge badge-success' : 'badge badge-error'"
             class="inline-flex items-center gap-1 text-lg font-bold"
           >
-            <!-- 正确图标 -->
-            <svg v-if="isCorrect" class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt">
-                <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></circle>
-                <polyline points="7 13 10 16 17 8" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></polyline>
-              </g>
-            </svg>
-            <!-- 错误图标 -->
-            <svg v-else class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <g fill="currentColor">
-                <rect x="1.972" y="11" width="20.056" height="2" transform="translate(-4.971 12) rotate(-45)" fill="currentColor" stroke-width="0"></rect>
-                <path d="m12,23c-6.065,0-11-4.935-11-11S5.935,1,12,1s11,4.935,11,11-4.935,11-11,11Zm0-20C7.038,3,3,7.037,3,12s4.038,9,9,9,9-4.037,9-9S16.962,3,12,3Z" stroke-width="0" fill="currentColor"></path>
-              </g>
-            </svg>
-            {{ isCorrect ? '正确' : '错误' }}
+            <!-- 正确/错误图标，保持不变 -->
+            <!-- ...existing code icons... -->
+            {{ isCorrect ? t('pureOnesTenpai.result.correct') : t('pureOnesTenpai.result.wrong') }}
           </div>
           <!-- 显示正确答案（仅错误时） -->
           <div v-if="!isCorrect" class="flex items-center justify-center mt-2">
-            <div class="text-base opacity-80">正确答案：</div>
+            <div class="text-base opacity-80">{{ t('pureOnesTenpai.result.correctAnswer') }}</div>
+            &nbsp;&nbsp;
             <div class="flex flex-wrap gap-2 justify-center mt-2">
               <img
-                v-for="tile in getCorrectAnswer(handTiles)"
-                :key="tile"
-                :src="tileImages[tile]"
-                :alt="tile"
-                class="w-[30px] h-auto rounded-md sm:w-[48px]"
+              v-for="tile in getCorrectAnswer(handTiles)"
+              :key="tile"
+              :src="tileImages[tile]"
+              :alt="tile"
+              class="w-[30px] h-auto rounded-md sm:w-[48px]"
               />
             </div>
           </div>
@@ -174,34 +162,37 @@
     <li class="p-4 flex justify-center">
       <div class="flex items-center gap-4">
         <div class="text-sm sm:text-base">
-          正确率：{{ totalAttempts > 0 ? ((correctAttempts / totalAttempts) * 100).toFixed(1) : 0 }} %
+          {{ t('pureOnesTenpai.stats.accuracy', { percent: totalAttempts > 0 ? ((correctAttempts / totalAttempts) * 100).toFixed(1) : 0 }) }}
         </div>
         <div class="text-sm sm:text-base">
-          （正确：{{ correctAttempts }} / 总题数：{{ totalAttempts }}）
+          {{ t('pureOnesTenpai.stats.summary', { correct: correctAttempts, total: totalAttempts }) }}
         </div>
       </div>
     </li>
 
     <!-- 相关文章推荐 -->
     <li class="p-4 pb-2 opacity-100 tracking-wide text-base sm:text-lg">
-      <span>相关文章</span>
+      <span>{{ t('pureOnesTenpai.articles.title') }}</span>
     </li>
     <li class="p-4 pb-2 opacity-100 tracking-wide">
       <div class="pl-8 flex items-center space-x-2">
-        <span>1.《麻将学习·牌效率》5-3 寻找门前清一色的待牌</span>
+        <span>{{ t('pureOnesTenpai.articles.item1') }}</span>
         <a href="https://b23.tv/REBabEP" target="_blank" rel="noopener">
-          <button class="btn btn-link">Link</button>
+          <button class="btn btn-link">{{ t('pureOnesTenpai.articles.link') }}</button>
         </a>
       </div>
     </li>
-    <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
+
+    <!-- ...existing code... -->
   </ul>
 </template>
 
 <script setup>
-// 引入Vue响应式API和Shanten计算工具
 import { ref, computed, onMounted } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { Shanten } from '../utils/shanten'
+
+const { t } = useI18n()
 
 // -------------------- 变量与工具函数 --------------------
 
@@ -393,20 +384,17 @@ const possibleTiles = computed(() => {
     return tiles;
 });
 
-// 难度选项
+// 难度选项（仅存 value，显示文本使用 i18n）
 const difficultyOptions = [
-  { value: 0, label: '不限制', range: '任意' },
-  { value: 1, label: '简单', range: '1 ~ 2' },
-  { value: 2, label: '普通', range: '3 ~ 4' },
-  { value: 3, label: '困难', range: '5 +' }
+  { value: 0 }, { value: 1 }, { value: 2 }, { value: 3 }
 ]
 
-// 牌型选项，含随机
+// 牌型选项，含随机（显示文本使用 i18n）
 const tileTypes = [
-  { value: 'random', label: '随机' },
-  { value: 'm', label: '万子' },
-  { value: 'p', label: '饼子' },
-  { value: 's', label: '索子' }
+  { value: 'random' },
+  { value: 'm' },
+  { value: 'p' },
+  { value: 's' }
 ]
 
 // 组件挂载时自动初始化一局

@@ -43,36 +43,45 @@
 
 <script setup>
 import Navbar from './components/Navbar.vue';
-import { onMounted, onBeforeUnmount, nextTick, watch, inject } from 'vue';
+import { onMounted, onBeforeUnmount, nextTick, watch, inject, VueElement } from 'vue';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 let walineInstance = null;
 const route = useRoute();
 const emitter = inject('emitter');
+const { t, locale } = useI18n();
+
+// map i18n -> Waline lang（仅 zhCN/zhTW/en 有对应，其余回退 en）
+const toWalineLang = (l) => {
+  switch (l) {
+    case 'zhCN': return 'zh-CN';
+    case 'zhTW': return 'zh-TW';
+    case 'en':   return 'en';
+    default:     return 'en'; // fr/es/ja/ko 等一律显示为英语
+  }
+};
 
 // 初始化 Waline 的函数
 const initWaline = async () => {
-  // 如果已有实例，先销毁
   if (walineInstance && walineInstance.destroy) {
     walineInstance.destroy();
   }
-  
   await nextTick();
-  
-  // 检查元素是否存在
+
   const walineElement = document.querySelector('#waline');
   if (!walineElement) {
     console.log('Waline element not found, skipping initialization');
     return;
   }
-  
+
   try {
     const { init } = await import('https://unpkg.com/@waline/client@v3/dist/waline.js');
     walineInstance = init({
       el: '#waline',
       serverURL: 'https://waline.fyisvia.cn',
-      path: route.path, // 使用当前路由路径
-      lang: 'zh-CN',
+      path: route.path,
+      lang: toWalineLang(locale.value),
       dark: 'html[data-theme="dark"]',
     });
   } catch (error) {
@@ -89,28 +98,23 @@ const updateWalineTheme = () => {
 onMounted(async () => {
   const main = document.querySelector('main');
   const updateHeight = () => {
-    // 使用视口高度减去导航栏高度，并考虑底部安全区域
-    const navHeight = window.innerWidth >= 640 ? 80 : 64; // 响应式导航栏高度 (16px/20px)
+    const navHeight = window.innerWidth >= 640 ? 80 : 64;
     main.style.height = `calc(100vh - ${navHeight}px)`;
-    
-    // 防止iOS底部白边
     document.documentElement.style.height = '100%';
     document.body.style.height = '100%';
     document.body.style.overscrollBehavior = 'none';
   };
-  
+
   updateHeight();
   window.addEventListener('resize', updateHeight);
   window.addEventListener('orientationchange', updateHeight);
-  
-  // 防止iOS橡皮筋效果导致的问题
+
   document.body.addEventListener('touchmove', function(e) {
     if(e.target === document.body) {
       e.preventDefault();
     }
   }, { passive: false });
 
-  // 初始化 Waline
   await initWaline();
 
   emitter.on('theme-changed', updateWalineTheme);
@@ -121,13 +125,19 @@ watch(() => route.path, async () => {
   await initWaline();
 });
 
+// 监听站点语言变化，联动 Waline 语言
+watch(() => locale.value, (newLang) => {
+  if (walineInstance && walineInstance.update) {
+    walineInstance.update({ lang: toWalineLang(newLang) });
+  }
+});
+
 onBeforeUnmount(() => {
   window.removeEventListener('resize', updateHeight);
   window.removeEventListener('orientationchange', updateHeight);
-  
+
   emitter.off('theme-changed', updateWalineTheme);
 
-  // 销毁 Waline 实例
   if (walineInstance && walineInstance.destroy) {
     walineInstance.destroy();
   }
