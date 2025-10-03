@@ -112,13 +112,13 @@
         "aria": "牌譜解析へ"
       },
       "threeHundred": {
-        "title": "何切り300問",
-        "desc": "『麻雀傑作「何切り」300選』のオンライン練習。",
-        "aria": "何切り300問へ"
+        "title": "何切る300問",
+        "desc": "『麻雀傑作「何切る」300選』のオンライン練習。",
+        "aria": "何切る300問へ"
       },
       "efficiencyTrain": {
         "title": "牌効率練習",
-        "desc": "牌効率の観点から最善手を訓練。",
+        "desc": "牌効率の観点から最善手を選ぶ訓練。",
         "aria": "牌効率練習へ"
       },
       "pureOnesTenpai": {
@@ -182,7 +182,7 @@
     "items": {
       "discard": "牌効率解析",
       "review": "牌譜解析",
-      "threeHundred": "何切り300問",
+      "threeHundred": "何切る300問",
       "pureOnesTenpai": "清一色聴牌練習",
       "pointCalc": "点数計算練習",
       "efficiencyTrain": "牌効率練習",
@@ -350,7 +350,7 @@
     }
   },
   "threeHundred": {
-    "title": "何切り300問",
+    "title": "何切る300問",
     "labels": {
       "no": "No."
     },
