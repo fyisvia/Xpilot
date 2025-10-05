@@ -49,6 +49,25 @@
     <li class="list-row">
       <div></div>
       <div>
+        <RouterLink to="/hand-point-calculator" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.handPointCalculator.aria')">
+          <div class="text-sm font-semibold">{{ t('home.cards.handPointCalculator.title') }}</div>
+          <div class="text-xs opacity-80">{{ t('home.cards.handPointCalculator.desc') }}</div>
+        </RouterLink>
+      </div>
+      <RouterLink to="/hand-point-calculator" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.handPointCalculator.aria')">
+        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.handPointCalculator.aria')">
+          <svg class="size-[1.8em]" viewBox="0 0 24 24">
+            <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
+              <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
+            </g>
+          </svg>
+        </button>
+      </RouterLink>
+    </li>
+
+    <li class="list-row">
+      <div></div>
+      <div>
         <RouterLink to="/three-hundred" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.threeHundred.aria')">
         <div class="text-sm font-semibold">{{ t('home.cards.threeHundred.title') }}</div>
         <div class="text-xs opacity-80">{{ t('home.cards.threeHundred.desc') }}</div>
@@ -56,6 +75,25 @@
       </div>
       <RouterLink to="/three-hundred" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.threeHundred.aria')">
         <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.threeHundred.aria')">
+        <svg class="size-[1.8em]" viewBox="0 0 24 24">
+          <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
+            <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
+          </g>
+        </svg>
+        </button>
+      </RouterLink>
+    </li>
+    
+    <li class="list-row">
+      <div></div>
+      <div>
+        <RouterLink to="/pure-ones-tenpai" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.pureOnesTenpai.aria')">
+        <div class="text-sm font-semibold">{{ t('home.cards.pureOnesTenpai.title') }}</div>
+        <div class="text-xs opacity-80">{{ t('home.cards.pureOnesTenpai.desc') }}</div>
+        </RouterLink>
+      </div>
+      <RouterLink to="/pure-ones-tenpai" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.pureOnesTenpai.aria')">
+        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.pureOnesTenpai.aria')">
         <svg class="size-[1.8em]" viewBox="0 0 24 24">
           <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
             <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
@@ -87,25 +125,6 @@
     <li class="list-row">
       <div></div>
       <div>
-        <RouterLink to="/pure-ones-tenpai" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.pureOnesTenpai.aria')">
-        <div class="text-sm font-semibold">{{ t('home.cards.pureOnesTenpai.title') }}</div>
-        <div class="text-xs opacity-80">{{ t('home.cards.pureOnesTenpai.desc') }}</div>
-        </RouterLink>
-      </div>
-      <RouterLink to="/pure-ones-tenpai" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.pureOnesTenpai.aria')">
-        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.pureOnesTenpai.aria')">
-        <svg class="size-[1.8em]" viewBox="0 0 24 24">
-          <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
-            <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
-          </g>
-        </svg>
-        </button>
-      </RouterLink>
-    </li>
-
-    <li class="list-row">
-      <div></div>
-      <div>
         <RouterLink to="/point-calculation" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.pointCalc.aria')">
         <div class="text-sm font-semibold">{{ t('home.cards.pointCalc.title') }}</div>
         <div class="text-xs opacity-80">{{ t('home.cards.pointCalc.desc') }}</div>
@@ -122,6 +141,26 @@
       </RouterLink>
     </li>
 
+    <!-- 新增：手牌点数计算练习 -->
+    <li class="list-row">
+      <div></div>
+      <div>
+        <RouterLink to="/hand-point-calc" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.handPointCalc.aria')">
+          <div class="text-sm font-semibold">{{ t('home.cards.handPointCalc.title') }}</div>
+          <div class="text-xs opacity-80">{{ t('home.cards.handPointCalc.desc') }}</div>
+        </RouterLink>
+      </div>
+      <RouterLink to="/hand-point-calc" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.handPointCalc.aria')">
+        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.handPointCalc.aria')">
+          <svg class="size-[1.8em]" viewBox="0 0 24 24">
+            <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
+              <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
+            </g>
+          </svg>
+        </button>
+      </RouterLink>
+    </li>
+    
     <li class="list-row">
       <div></div>
       <div>

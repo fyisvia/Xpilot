@@ -12,7 +12,7 @@
             {{ $t('introduce.title') }}
         </li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
-            {{ $t('introduce.versionLine', { version: '1.3.0' }) }}<br><br>
+            {{ $t('introduce.versionLine', { version: '1.4.0' }) }}<br><br>
             {{ $t('introduce.copyrightLine') }} <br>
             {{ $t('introduce.rightsLine') }}<br>
         </li>
@@ -24,6 +24,16 @@
                 </a>
             </div>
             {{ $t('introduce.repoWelcome') }}<br><br>
+        </li>
+
+        <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">
+            {{ $t('introduce.changelog.v140.title') }}<br>
+        </li>
+        <li class="p-4 pb-2 text-sm opacity-100 tracking-wide pl-6">
+            {{ $t('introduce.changelog.common.intro') }}<br><br>
+            {{ $t('introduce.changelog.v140.i1') }}<br><br>
+            {{ $t('introduce.changelog.v140.i2') }}<br><br>
+            {{ $t('introduce.changelog.v140.i3') }}
         </li>
 
         <li class="p-4 pb-2 text-sm font-semibold opacity-100 tracking-wide">

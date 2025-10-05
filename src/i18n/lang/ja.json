@@ -145,6 +145,16 @@
         "title": "その他のサイト",
         "desc": "便利なリーチ麻雀サイトのまとめ。",
         "aria": "その他のサイトへ"
+      },
+      "handPointCalc": {
+        "title": "手牌点数計算練習",
+        "desc": "手牌から役・符・点数を判定する練習。",
+        "aria": "手牌点数計算練習へ"
+      },
+      "handPointCalculator": {
+        "title": "手牌点数計算機",
+        "desc": "手牌を入力して役・符・点数を計算。",
+        "aria": "手牌点数計算機へ"
       }
     }
   },
@@ -190,7 +200,9 @@
       "books": "戦術書リンク集",
       "contact": "作者について",
       "introduce": "当サイトについて",
-      "webDictionary": "その他のサイト"
+      "webDictionary": "その他のサイト",
+      "handPointCalc": "手牌点数計算練習",
+      "handPointCalculator": "手牌点数計算機"
     },
     "aria": {
       "openMenu": "ナビゲーションメニューを開く",
@@ -268,7 +280,8 @@
     },
     "actions": {
       "submit": "解答する",
-      "next": "次の問題"
+      "next": "次の問題",
+      "prev": "前の問題"
     },
     "question": {
       "summary": "{role} {win} {han} 翻 {fu} 符 {honba} 本場"
@@ -295,6 +308,119 @@
     "placeholders": {
       "dealer": "親",
       "nonDealer": "子"
+    }
+  },
+  "handpointcalculation": {
+    "title": "手牌点数計算練習",
+    "summary": "{round}場{seat} {win}",
+    "labels": {
+      "doraIndicators": "ドラ表示牌",
+      "uraDoraIndicators": "裏ドラ表示牌",
+      "hanPrefix": "翻数：",
+      "fuPrefix": "符数：",
+      "hanTotal": "合計 {han} 翻",
+      "ansHanTotal": " {han}翻",
+      "baseFu20": "基本 20 符",
+      "menzenRon10": "門前ロン +10 符",
+      "tsumo2": "ツモ +2 符",
+      "waitTanki2": "単騎待ち +2 符",
+      "waitPenchan2": "辺張待ち +2 符",
+      "waitKanchan2": "嵌張待ち +2 符",
+      "fuTotalExact": "合計 {fu} 符",
+      "ansFuTotal": " {fu}符",
+      "fuTotalRaw": "合計 {fu} 符",
+      "yakumanTimes": "{n}倍 役満",
+      "pinfuTsumo20": "平和ツモ 20 符",
+      "chowThirtyFu": "副露平和形は 30 符"
+    },
+    "badges": {
+      "riichi": "立直",
+      "daburuRiichi": "ダブル立直",
+      "ippatsu": "一発",
+      "haitei": "海底撈月",
+      "houtei": "河底撈魚",
+      "rinshan": "嶺上開花",
+      "chankan": "槍槓"
+    },
+    "meldFu": {
+      "sequence": "順子 {fu} 符",
+      "tripletClosedSimple": "中張暗刻 {fu} 符",
+      "tripletClosedTerminal": "ヤオ九暗刻 {fu} 符",
+      "tripletOpenSimple": "中張明刻 {fu} 符",
+      "tripletOpenTerminal": "ヤオ九明刻 {fu} 符",
+      "kongOpenSimple": "中張明槓 {fu} 符",
+      "kongOpenTerminal": "ヤオ九明槓 {fu} 符",
+      "kongClosedSimple": "中張暗槓 {fu} 符",
+      "kongClosedTerminal": "ヤオ九暗槓 {fu} 符",
+      "pairRoundWind": "場風雀頭 {fu} 符",
+      "pairSeatWind": "自風雀頭 {fu} 符",
+      "pairDoubleWind": "連風雀頭 {fu} 符",
+      "pairDragons": "三元牌雀頭 {fu} 符",
+      "pairNonYaku": "役牌以外の雀頭 {fu} 符"
+    },
+    "hanLines": {
+      "riichi": "立直 1 翻",
+      "daburuRiichi": "ダブル立直 2 翻",
+      "ippatsu": "一発 1 翻",
+      "haitei": "海底撈月 1 翻",
+      "houtei": "河底撈魚 1 翻",
+      "rinshan": "嶺上開花 1 翡",
+      "chankan": "槍槓 1 翡",
+      "tanyao": "断么九 1 翡",
+      "roundEast": "場風 東 1 翻",
+      "roundSouth": "場風 南 1 翻",
+      "roundWest": "場風 西 1 翻",
+      "seatEast": "自風 東 1 翻",
+      "seatSouth": "自風 南 1 翻",
+      "seatWest": "自風 西 1 翡",
+      "seatNorth": "自風 北 1 翡",
+      "haku": "白 1 翡",
+      "hatsu": "發 1 翡",
+      "chun": "中 1 翡",
+      "menzenTsumo": "門前清自摸和 1 翡",
+      "pinfu": "平和 1 翡",
+      "iipeikou": "一盃口 1 翡",
+      "toitoi": "対々和 2 翡",
+      "sanankou": "三暗刻 2 翡",
+      "sankantsu": "三槓子 2 翡",
+      "sanshokuDoko": "三色同刻 2 翡",
+      "honrouto": "混老頭 2 翡",
+      "shouSangen": "小三元 2 翡",
+      "sanshokuDoujunMenzen": "三色同順 2 翡",
+      "sanshokuDoujunOpen": "三色同順（副露）1 翡",
+      "ittsuMenzen": "一気通貫 2 翡",
+      "ittsuOpen": "一気通貫（副露）1 翡",
+      "chantaMenzen": "混全帯么九 2 翡",
+      "chantaOpen": "混全帯么九（副露）1 翡",
+      "honitsuMenzen": "混一色 3 翡",
+      "honitsuOpen": "混一色（副露）2 翡",
+      "junchanMenzen": "純全帯么九 3 翡",
+      "junchanOpen": "純全帯么九（副露）2 翡",
+      "ryanpeikou": "二盃口 3 翡",
+      "chinitsuMenzen": "清一色 6 翡",
+      "chinitsuOpen": "清一色（副露）5 翡",
+      "dora": "ドラ {n} 翡",
+      "akaDora": "赤ドラ {n} 翡",
+      "uraDora": "裏ドラ {n} 翡"
+    },
+    "yakuman": {
+      "daisangen": "大三元 役満",
+      "shousuushii": "小四喜 役満",
+      "daisushi": "大四喜 ダブル役満",
+      "tsuuiisou": "字一色 役満",
+      "ryuuiisou": "緑一色 役満",
+      "chinroutou": "清老頭 役満",
+      "suuankou": "四暗刻 役満",
+      "suuankouTanki": "四暗刻単騎 ダブル役満",
+      "chuurenPoutou": "九蓮宝燈 役満",
+      "junseiChuurenPoutou": "純正九蓮宝燈 ダブル役満",
+      "suukantsu": "四槓子 役満"
+    },
+    "winds": {
+      "east": "東",
+      "south": "南",
+      "west": "西",
+      "north": "北"
     }
   },
   "efficiencyTrain": {
@@ -411,6 +537,12 @@
       "common": {
         "intro": "今回の主な更新内容："
       },
+      "v140": {
+        "title": "バージョン 1.4.0（2025-10-06）",
+        "i1": "1. 手牌点数計算機を追加。",
+        "i2": "2. 手牌点数計算練習を追加。",
+        "i3": "3. 多言語対応を完了。"
+      },
       "v130": {
         "title": "バージョン 1.3.0（2025-10-01）",
         "i1": "1. 牌譜解析機能を追加。",
@@ -488,6 +620,22 @@
       "其他汉化日语资料": "その他の日本語資料（中国語訳）",
       "国内作者内容": "中国国内作者の作品",
       "三麻相关资料": "三麻関連資料"
+    }
+  },
+  "handpointcalculator": {
+    "title": "手牌点数計算機",
+    "roundWind": "場風",
+    "seatWind": "自風",
+    "chiipon": "チー／ポン（セミコロン区切り）",
+    "kan": "カン（形式：明槓／暗槓:5m；セミコロン区切り）",
+    "closedHand": "門前の手牌（副露を含まない、赤五は0m／0p／0s）",
+    "winningTile": "和了牌",
+    "clear": "クリア",
+    "commit": "送信",
+    "error": {
+      "invalidTiles": "入力された門前の手牌または和了牌が無効です",
+      "cannotDecompose": "手牌を分解できません。入力内容を確認してください",
+      "noValidWinningShape": "有効な和了形がありません。入力内容を確認してください"
     }
   }
 }

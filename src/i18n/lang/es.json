@@ -145,6 +145,16 @@
         "title": "Otros Sitios",
         "desc": "Lista de sitios útiles para riichi mahjong.",
         "aria": "Ir a Otros Sitios"
+      },
+      "handPointCalc": {
+        "title": "Práctica de cálculo de puntos de mano",
+        "desc": "Practica determinar yaku, fu y puntos a partir de una mano completa.",
+        "aria": "Ir a Práctica de cálculo de puntos de mano"
+      },
+      "handPointCalculator": {
+        "title": "Calculadora de puntos de mano",
+        "desc": "Introduce una mano para calcular yaku/fu/puntos.",
+        "aria": "Ir a Calculadora de puntos de mano"
       }
     }
   },
@@ -190,7 +200,9 @@
       "books": "Colección de Libros",
       "contact": "Sobre el Autor",
       "introduce": "Acerca del Sitio",
-      "webDictionary": "Otros Sitios"
+      "webDictionary": "Otros Sitios",
+      "handPointCalc": "Práctica de cálculo de puntos de mano",
+      "handPointCalculator": "Calculadora de puntos de mano"
     },
     "aria": {
       "openMenu": "Abrir menú de navegación",
@@ -268,7 +280,8 @@
     },
     "actions": {
       "submit": "Enviar",
-      "next": "Siguiente"
+      "next": "Siguiente",
+      "prev": "Anterior"
     },
     "question": {
       "summary": "{role} {win} {han} han {fu} fu {honba} honba"
@@ -295,6 +308,119 @@
     "placeholders": {
       "dealer": "Dealer",
       "nonDealer": "Non-dealer"
+    }
+  },
+  "handpointcalculation": {
+    "title": "Práctica de cálculo de puntos de mano",
+    "summary": "{round} ronda, {seat} {win}",
+    "labels": {
+      "doraIndicators": "Indicadores de dora",
+      "uraDoraIndicators": "Indicadores de ura-dora",
+      "hanPrefix": "Han:",
+      "fuPrefix": "Fu:",
+      "hanTotal": "Total {han} han",
+      "ansHanTotal": " {han}han",
+      "baseFu20": "Base 20 fu",
+      "menzenRon10": "Ron cerrado +10 fu",
+      "tsumo2": "Tsumo +2 fu",
+      "waitTanki2": "Espera tanki +2 fu",
+      "waitPenchan2": "Espera penchan +2 fu",
+      "waitKanchan2": "Espera kanchan +2 fu",
+      "fuTotalExact": "Total {fu} fu",
+      "ansFuTotal": " {fu}fu",
+      "fuTotalRaw": "Total {fu} fu",
+      "yakumanTimes": "{n}× yakuman",
+      "pinfuTsumo20": "Pinfu tsumo 20 fu",
+      "chowThirtyFu": "Forma tipo pinfu abierta cuenta 30 fu"
+    },
+    "badges": {
+      "riichi": "Riichi",
+      "daburuRiichi": "Doble riichi",
+      "ippatsu": "Ippatsu",
+      "haitei": "Haitei",
+      "houtei": "Houtei",
+      "rinshan": "Rinshan",
+      "chankan": "Chankan"
+    },
+    "meldFu": {
+      "sequence": "Secuencia {fu} fu",
+      "tripletClosedSimple": "Trío cerrado (simples) {fu} fu",
+      "tripletClosedTerminal": "Trío cerrado (terminal/honor) {fu} fu",
+      "tripletOpenSimple": "Trío abierto (simples) {fu} fu",
+      "tripletOpenTerminal": "Trío abierto (terminal/honor) {fu} fu",
+      "kongOpenSimple": "Kong abierto (simples) {fu} fu",
+      "kongOpenTerminal": "Kong abierto (terminal/honor) {fu} fu",
+      "kongClosedSimple": "Kong cerrado (simples) {fu} fu",
+      "kongClosedTerminal": "Kong cerrado (terminal/honor) {fu} fu",
+      "pairRoundWind": "Pareja de viento de ronda {fu} fu",
+      "pairSeatWind": "Pareja de viento propio {fu} fu",
+      "pairDoubleWind": "Pareja de doble viento {fu} fu",
+      "pairDragons": "Pareja de dragones {fu} fu",
+      "pairNonYaku": "Pareja sin yaku {fu} fu"
+    },
+    "hanLines": {
+      "riichi": "Riichi 1 han",
+      "daburuRiichi": "Doble riichi 2 han",
+      "ippatsu": "Ippatsu 1 han",
+      "haitei": "Haitei 1 han",
+      "houtei": "Houtei 1 han",
+      "rinshan": "Rinshan 1 han",
+      "chankan": "Chankan 1 han",
+      "tanyao": "Tanyao 1 han",
+      "roundEast": "Viento de ronda Este 1 han",
+      "roundSouth": "Viento de ronda Sur 1 han",
+      "roundWest": "Viento de ronda Oeste 1 han",
+      "seatEast": "Viento propio Este 1 han",
+      "seatSouth": "Viento propio Sur 1 han",
+      "seatWest": "Viento propio Oeste 1 han",
+      "seatNorth": "Viento propio Norte 1 han",
+      "haku": "Blanco 1 han",
+      "hatsu": "Verde 1 han",
+      "chun": "Rojo 1 han",
+      "menzenTsumo": "Menzen tsumo 1 han",
+      "pinfu": "Pinfu 1 han",
+      "iipeikou": "Iipeikou 1 han",
+      "toitoi": "Toitoi 2 han",
+      "sanankou": "San ankou 2 han",
+      "sankantsu": "San kantsu 2 han",
+      "sanshokuDoko": "Sanshoku dōkō 2 han",
+      "honrouto": "Honroutou 2 han",
+      "shouSangen": "Shou sangen 2 han",
+      "sanshokuDoujunMenzen": "Sanshoku dōjun 2 han",
+      "sanshokuDoujunOpen": "Sanshoku dōjun (abierto) 1 han",
+      "ittsuMenzen": "Ittsu 2 han",
+      "ittsuOpen": "Ittsu (abierto) 1 han",
+      "chantaMenzen": "Chanta 2 han",
+      "chantaOpen": "Chanta (abierto) 1 han",
+      "honitsuMenzen": "Honitsu 3 han",
+      "honitsuOpen": "Honitsu (abierto) 2 han",
+      "junchanMenzen": "Junchan 3 han",
+      "junchanOpen": "Junchan (abierto) 2 han",
+      "ryanpeikou": "Ryanpeikou 3 han",
+      "chinitsuMenzen": "Chinitsu 6 han",
+      "chinitsuOpen": "Chinitsu (abierto) 5 han",
+      "dora": "Dora {n} han",
+      "akaDora": "Dora roja {n} han",
+      "uraDora": "Ura-dora {n} han"
+    },
+    "yakuman": {
+      "daisangen": "Daisangen Yakuman",
+      "shousuushii": "Shousuushii Yakuman",
+      "daisushi": "Daisuusii Doble Yakuman",
+      "tsuuiisou": "Tsuuiisou Yakuman",
+      "ryuuiisou": "Ryuuiisou Yakuman",
+      "chinroutou": "Chinroutou Yakuman",
+      "suuankou": "Suuankou Yakuman",
+      "suuankouTanki": "Suuankou tanki Doble Yakuman",
+      "chuurenPoutou": "Chuuren poutou Yakuman",
+      "junseiChuurenPoutou": "Junsei chuuren poutou Doble Yakuman",
+      "suukantsu": "Suukantsu Yakuman"
+    },
+    "winds": {
+      "east": "Este",
+      "south": "Sur",
+      "west": "Oeste",
+      "north": "Norte"
     }
   },
   "efficiencyTrain": {
@@ -411,6 +537,12 @@
       "common": {
         "intro": "Novedades:"
       },
+      "v140": {
+        "title": "Versión 1.4.0 (2025-10-06)",
+        "i1": "1. Añadida la Calculadora de puntos de mano.",
+        "i2": "2. Añadida la Práctica de cálculo de puntos de mano.",
+        "i3": "3. Adaptación multilingüe completada."
+      },
       "v130": {
         "title": "Versión 1.3.0 (2025-10-01)",
         "i1": "1. Añadida función de análisis de partidas.",
@@ -488,6 +620,22 @@
       "其他汉化日语资料": "Otros materiales japoneses (trad. chino)",
       "国内作者内容": "Obras de autores locales",
       "三麻相关资料": "Materiales sobre 3P Mahjong"
+    }
+  },
+  "handpointcalculator": {
+    "title": "Calculadora de puntos de mano",
+    "roundWind": "Viento de la ronda",
+    "seatWind": "Viento del asiento",
+    "chiipon": "Chi / Pon (separados por punto y coma)",
+    "kan": "Kan (formato: minkan/ankan:5m; separados por punto y coma)",
+    "closedHand": "Mano cerrada (sin melds abiertos; los cinco rojos son 0m/0p/0s)",
+    "winningTile": "Ficha ganadora",
+    "clear": "Limpiar",
+    "commit": "Enviar",
+    "error": {
+      "invalidTiles": "La mano cerrada o la ficha ganadora introducida no es válida",
+      "cannotDecompose": "No se puede descomponer la mano. Por favor, verifica la entrada",
+      "noValidWinningShape": "No hay una forma válida de ganar. Por favor, verifica la entrada"
     }
   }
 }

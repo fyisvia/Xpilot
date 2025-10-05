@@ -145,6 +145,16 @@
         "title": "기타 사이트",
         "desc": "유용한 리치 마작 웹사이트 목록.",
         "aria": "기타 사이트로 이동"
+      },
+      "handPointCalc": {
+        "title": "패 점수 계산 연습",
+        "desc": "완전한 손패에서 역/부/점수를 판정하는 연습.",
+        "aria": "패 점수 계산 연습으로 이동"
+      },
+      "handPointCalculator": {
+        "title": "패 점수 계산기",
+        "desc": "손패를 입력해 역/부/점수를 계산.",
+        "aria": "패 점수 계산기로 이동"
       }
     }
   },
@@ -190,7 +200,9 @@
       "books": "전술서 링크 모음",
       "contact": "저자 정보",
       "introduce": "사이트 소개",
-      "webDictionary": "기타 사이트"
+      "webDictionary": "기타 사이트",
+      "handPointCalc": "패 점수 계산 연습",
+      "handPointCalculator": "패 점수 계산기"
     },
     "aria": {
       "openMenu": "네비게이션 메뉴 열기",
@@ -268,7 +280,8 @@
     },
     "actions": {
       "submit": "제출",
-      "next": "다음"
+      "next": "다음",
+      "prev": "이전"
     },
     "question": {
       "summary": "{role} {win} {han} 한(翻) {fu} 부(符) {honba} 혼바"
@@ -295,6 +308,119 @@
     "placeholders": {
       "dealer": "오야",
       "nonDealer": "자(子)"
+    }
+  },
+  "handpointcalculation": {
+    "title": "패 점수 계산 연습",
+    "summary": "{round}장 {seat} {win}",
+    "labels": {
+      "doraIndicators": "도라 표시패",
+      "uraDoraIndicators": "우라도라 표시패",
+      "hanPrefix": "한수:",
+      "fuPrefix": "부수:",
+      "hanTotal": "합계 {han} 한",
+      "ansHanTotal": " {han}한",
+      "baseFu20": "기본 20부",
+      "menzenRon10": "문전 론 +10부",
+      "tsumo2": "츠모 +2부",
+      "waitTanki2": "단기 대기 +2부",
+      "waitPenchan2": "펜찬 대기 +2부",
+      "waitKanchan2": "칸찬 대기 +2부",
+      "fuTotalExact": "합계 {fu} 부",
+      "ansFuTotal": " {fu}부",
+      "fuTotalRaw": "합계 {fu} 부",
+      "yakumanTimes": "역만 {n}배",
+      "pinfuTsumo20": "핑후 츠모 20부",
+      "chowThirtyFu": "후로 핑후형은 30부로 계산"
+    },
+    "badges": {
+      "riichi": "리치",
+      "daburuRiichi": "더블 리치",
+      "ippatsu": "일발",
+      "haitei": "해저로월",
+      "houtei": "하저로어",
+      "rinshan": "영상개화",
+      "chankan": "창깡"
+    },
+    "meldFu": {
+      "sequence": "순자 {fu} 부",
+      "tripletClosedSimple": "중장 암각 {fu} 부",
+      "tripletClosedTerminal": "요구(么九) 암각 {fu} 부",
+      "tripletOpenSimple": "중장 명각 {fu} 부",
+      "tripletOpenTerminal": "요구(么九) 명각 {fu} 부",
+      "kongOpenSimple": "중장 명깡 {fu} 부",
+      "kongOpenTerminal": "요구(么九) 명깡 {fu} 부",
+      "kongClosedSimple": "중장 암깡 {fu} 부",
+      "kongClosedTerminal": "요구(么九) 암깡 {fu} 부",
+      "pairRoundWind": "장풍 작두 {fu} 부",
+      "pairSeatWind": "자풍 작두 {fu} 부",
+      "pairDoubleWind": "연풍 작두 {fu} 부",
+      "pairDragons": "삼원패 작두 {fu} 부",
+      "pairNonYaku": "역패 아님 작두 {fu} 부"
+    },
+    "hanLines": {
+      "riichi": "리치 1 한",
+      "daburuRiichi": "더블 리치 2 한",
+      "ippatsu": "일발 1 한",
+      "haitei": "해저로월 1 한",
+      "houtei": "하저로어 1 한",
+      "rinshan": "영상개화 1 한",
+      "chankan": "창깡 1 한",
+      "tanyao": "탕야오 1 한",
+      "roundEast": "장풍 동 1 한",
+      "roundSouth": "장풍 남 1 한",
+      "roundWest": "장풍 서 1 한",
+      "seatEast": "자풍 동 1 한",
+      "seatSouth": "자풍 남 1 한",
+      "seatWest": "자풍 서 1 한",
+      "seatNorth": "자풍 북 1 한",
+      "haku": "백 1 한",
+      "hatsu": "발 1 한",
+      "chun": "중 1 한",
+      "menzenTsumo": "문전 자모화 1 한",
+      "pinfu": "핑후 1 한",
+      "iipeikou": "이페코 1 한",
+      "toitoi": "또이또이 2 한",
+      "sanankou": "삼암각 2 한",
+      "sankantsu": "삼깡자 2 한",
+      "sanshokuDoko": "삼색동각 2 한",
+      "honrouto": "혼노두 2 한",
+      "shouSangen": "소삼원 2 한",
+      "sanshokuDoujunMenzen": "삼색동순 2 한",
+      "sanshokuDoujunOpen": "삼색동순(후로) 1 한",
+      "ittsuMenzen": "일기통관 2 한",
+      "ittsuOpen": "일기통관(후로) 1 한",
+      "chantaMenzen": "혼전대요구 2 한",
+      "chantaOpen": "혼전대요구(후로) 1 한",
+      "honitsuMenzen": "혼일색 3 한",
+      "honitsuOpen": "혼일색(후로) 2 한",
+      "junchanMenzen": "순전대요구 3 한",
+      "junchanOpen": "순전대요구(후로) 2 한",
+      "ryanpeikou": "량페코 3 한",
+      "chinitsuMenzen": "청일색 6 한",
+      "chinitsuOpen": "청일색(후로) 5 한",
+      "dora": "도라 {n} 한",
+      "akaDora": "적도라 {n} 한",
+      "uraDora": "우라도라 {n} 한"
+    },
+    "yakuman": {
+      "daisangen": "대삼원 역만",
+      "shousuushii": "소사희 역만",
+      "daisushi": "대사희 더블 역만",
+      "tsuuiisou": "자일색 역만",
+      "ryuuiisou": "녹일색 역만",
+      "chinroutou": "청노두 역만",
+      "suuankou": "사암각 역만",
+      "suuankouTanki": "사암각 단기 더블 역만",
+      "chuurenPoutou": "구련보등 역만",
+      "junseiChuurenPoutou": "순정 구련보등 더블 역만",
+      "suukantsu": "사깡자 역만"
+    },
+    "winds": {
+      "east": "동",
+      "south": "남",
+      "west": "서",
+      "north": "북"
     }
   },
   "efficiencyTrain": {
@@ -411,6 +537,12 @@
       "common": {
         "intro": "이번 업데이트 주요 내용:"
       },
+      "v140": {
+        "title": "버전 1.4.0 (2025-10-06)",
+        "i1": "1. 패 점수 계산기 추가.",
+        "i2": "2. 패 점수 계산 연습 추가.",
+        "i3": "3. 다국어(i18n) 지원 완료."
+      },
       "v130": {
         "title": "버전 1.3.0 (2025-10-01)",
         "i1": "1. 국면(牌譜) 분석 기능 추가.",
@@ -488,6 +620,22 @@
       "其他汉化日语资料": "기타 일본어 자료(중문 번역)",
       "国内作者内容": "국내 저자 자료",
       "三麻相关资料": "3인 마작 관련 자료"
+    }
+  },
+  "handpointcalculator": {
+    "title": "패 점수 계산기",
+    "roundWind": "장풍",
+    "seatWind": "자풍",
+    "chiipon": "치／퐁 (세미콜론으로 구분)",
+    "kan": "깡 (형식: 명깡／암깡:5m; 세미콜론으로 구분)",
+    "closedHand": "멘젠 패 (부루 없음, 아카고는 0m／0p／0s)",
+    "winningTile": "화패",
+    "clear": "초기화",
+    "commit": "제출",
+    "error": {
+      "invalidTiles": "입력한 멘젠 패 또는 화패가 올바르지 않습니다",
+      "cannotDecompose": "패를 분해할 수 없습니다. 입력을 확인하세요",
+      "noValidWinningShape": "유효한 화료 형식이 없습니다. 입력을 확인하세요"
     }
   }
 }
