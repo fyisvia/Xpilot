@@ -145,12 +145,12 @@
     <li class="list-row">
       <div></div>
       <div>
-        <RouterLink to="/hand-point-calc" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.handPointCalc.aria')">
+        <RouterLink to="/hand-point-calculation" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.handPointCalc.aria')">
           <div class="text-sm font-semibold">{{ t('home.cards.handPointCalc.title') }}</div>
           <div class="text-xs opacity-80">{{ t('home.cards.handPointCalc.desc') }}</div>
         </RouterLink>
       </div>
-      <RouterLink to="/hand-point-calc" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.handPointCalc.aria')">
+      <RouterLink to="/hand-point-calculation" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.handPointCalc.aria')">
         <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.handPointCalc.aria')">
           <svg class="size-[1.8em]" viewBox="0 0 24 24">
             <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">

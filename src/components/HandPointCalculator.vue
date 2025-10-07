@@ -246,8 +246,24 @@ function parseTileSingle(s) {
   return tile
 }
 function parseIndicators(s) {
-  return (s || '').split(/[,\s，；;]+/).map(x => x.trim()).filter(Boolean)
-    .map(parseTileSingle).filter(Boolean)
+  // 新实现：整串扫描，支持 "1s4p"、"1s,4p"、"12m" 等写法
+  const res = []
+  const str = (s || '').trim()
+  if (!str) return res
+  const regex = /(\d+)([mpsz])/gi
+  for (const m of str.matchAll(regex)) {
+    const digits = m[1]
+    const suit = m[2].toLowerCase()
+    for (const ch of digits) {
+      // 单张展开
+      if (!/^[0-9]$/.test(ch)) continue
+      const tile = `${ch}${suit}`
+      // 过滤无效字牌指示
+      if (tile === '0z' || tile === '8z' || tile === '9z') continue
+      res.push(tile)
+    }
+  }
+  return res
 }
 
 // 吃/碰：分号分隔；不写 chii/pon，自动判定（连续为吃，三同为碰；字牌仅允许碰）
@@ -338,8 +354,10 @@ function calculateFu(hand) {
   const windMap = { 'east':'1z', 'south':'2z', 'west':'3z', 'north':'4z' }
 
   hand.melds.forEach((m, i) => {
-    if (m.type === 'handshuntsu') meldFuMessage.push({ fu: 0, key: 'handpointcalculation.meldFu.sequence' })
-    if (m.type === 'handkouutsu') {
+    // 互斥判断 + 杠牌增加长度保护
+    if (m.type === 'handshuntsu') {
+      meldFuMessage.push({ fu: 0, key: 'handpointcalculation.meldFu.sequence' })
+    } else if (m.type === 'handkouutsu') {
       const isTh = m.tiles.some(t => terminalsAndHonours.includes(t))
       if (hand.isTsumo) {
         fu += isTh ? 8 : 4
@@ -353,26 +371,23 @@ function calculateFu(hand) {
           meldFuMessage.push({ fu: isTh?8:4, key: isTh ? 'handpointcalculation.meldFu.tripletClosedTerminal' : 'handpointcalculation.meldFu.tripletClosedSimple' })
         }
       }
-    }
-    if (m.type === 'handtoitsu') {
+    } else if (m.type === 'handtoitsu') {
       if (windMap[hand.roundWind] === m.tiles[0] && windMap[hand.seatWind] !== m.tiles[0]) { fu += 2; meldFuMessage.push({ fu: 2, key: 'handpointcalculation.meldFu.pairRoundWind' }); isPairAddFu = true }
       else if (windMap[hand.roundWind] !== m.tiles[0] && windMap[hand.seatWind] === m.tiles[0]) { fu += 2; meldFuMessage.push({ fu: 2, key: 'handpointcalculation.meldFu.pairSeatWind' }); isPairAddFu = true }
       else if (windMap[hand.roundWind] === m.tiles[0] && windMap[hand.seatWind] === m.tiles[0]) { fu += 4; meldFuMessage.push({ fu: 4, key: 'handpointcalculation.meldFu.pairDoubleWind' }); isPairAddFu = true }
       else if (m.tiles.some(t => ['5z','6z','7z'].includes(t))) { fu += 2; meldFuMessage.push({ fu: 2, key: 'handpointcalculation.meldFu.pairDragons' }); isPairAddFu = true }
       else { meldFuMessage.push({ fu: 0, key: 'handpointcalculation.meldFu.pairNonYaku' }); isPairAddFu = false }
-    }
-    if (m.type === 'chii') meldFuMessage.push({ fu: 0, key: 'handpointcalculation.meldFu.sequence' })
-    if (m.type === 'pon') {
+    } else if (m.type === 'chii') {
+      meldFuMessage.push({ fu: 0, key: 'handpointcalculation.meldFu.sequence' })
+    } else if (m.type === 'pon' && m.tiles.length === 3) {
       const isTh = m.tiles.some(t => terminalsAndHonours.includes(t))
       fu += isTh ? 4 : 2
       meldFuMessage.push({ fu: isTh?4:2, key: isTh ? 'handpointcalculation.meldFu.tripletOpenTerminal' : 'handpointcalculation.meldFu.tripletOpenSimple' })
-    }
-    if (m.type === 'minkan') {
+    } else if (m.type === 'minkan' && m.tiles.length === 4) {
       const isTh = m.tiles.some(t => terminalsAndHonours.includes(t))
       fu += isTh ? 16 : 8
       meldFuMessage.push({ fu: isTh?16:8, key: isTh ? 'handpointcalculation.meldFu.kongOpenTerminal' : 'handpointcalculation.meldFu.kongOpenSimple' })
-    }
-    if (m.type === 'ankan') {
+    } else if (m.type === 'ankan' && m.tiles.length === 4) {
       const isTh = m.tiles.some(t => terminalsAndHonours.includes(t))
       fu += isTh ? 32 : 16
       meldFuMessage.push({ fu: isTh?32:16, key: isTh ? 'handpointcalculation.meldFu.kongClosedTerminal' : 'handpointcalculation.meldFu.kongClosedSimple' })
