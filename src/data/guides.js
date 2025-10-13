@@ -27,17 +27,23 @@ export const guideData = {
     categories: [
       {
         id: 1,
-        name: "牌效",
+        name: "基础篇",
         resources: [
           {
             id: 1,
-            title: "《麻将技术教科书：有效率的和牌方法》小林刚/井出洋介",
-            link: "https://www.bilibili.com/read/readlist/rl480264",
+            title: "《初学者の运气》小菅紅",
+            link: "https://www.bilibili.com/read/readlist/rl819010",
             isExternal: true
           },
           {
             id: 2,
-            title: "《麻将学习·牌效率》G·Uzaku",
+            title: "《麻将的教科书——完美算点》日本Pro麻将连盟",
+            link: "https://www.bilibili.com/read/readlist/rl481924",
+            isExternal: true
+          },
+          {
+            id: 3,
+            title: "《麻将学习·牌效率》G·ウザク",
             link: "https://www.bilibili.com/read/readlist/rl509592",
             isExternal: true
           }
@@ -52,24 +58,49 @@ export const guideData = {
             title: "《统计学麻将战术》みーにん",
             link: "https://www.bilibili.com/read/readlist/rl97988",
             isExternal: true
+          },
+          {
+            id: 2,
+            title: "《麻将 铁攻的条件》平澤元気",
+            link: "https://www.bilibili.com/read/readlist/rl257506",
+            isExternal: true
+          },
+          {
+            id: 3,
+            title: "《凶介带你一起升凤》钱默吟",
+            link: "https://space.bilibili.com/7499393/lists/992145",
+            isExternal: true
           }
         ]
       },
       {
         id: 3,
-        name: "防守",
+        name: "策略战术",
         resources: [
           {
             id: 1,
-            title: "《麻将技术教科书：不会放铳的打法》小林刚/井出洋介",
-            link: "https://www.bilibili.com/read/readlist/rl398453",
+            title: "《麻将强者的0秒思考》前半/后半",
+            link: "https://www.bilibili.com/read/readlist/rl265065",
+            link: "https://www.bilibili.com/read/readlist/rl550974",
+            isExternal: true
+          },
+          {
+            id: 2,
+            title: "《用数据读牌》平澤元気",
+            link: "https://www.bilibili.com/read/readlist/rl595010",
+            isExternal: true
+          },
+          {
+            id: 3,
+            title: "《序盘的铁战略》钱默吟",
+            link: "https://www.bilibili.com/read/readlist/rl230215",
             isExternal: true
           }
         ]
       },
       {
         id: 4,
-        name: "何切",
+        name: "综合选修",
         resources: [
           {
             id: 1,
@@ -80,14 +111,32 @@ export const guideData = {
           },
           {
             id: 2,
-            title: "《麻将定式\"何切\"301选》福地诚/G·Uzaku",
-            link: "https://www.bilibili.com/read/readlist/rl493079",
+            title: "《铳率原理》連鎖",
+            link: "https://www.bilibili.com/read/readlist/rl514081",
             isExternal: true
           },
           {
             id: 3,
-            title: "《麻将的二择》みーにん、梶本琢程",
-            link: "https://www.bilibili.com/read/readlist/rl116320",
+            title: "《麻将——多面听分析》纯全三色对对和",
+            link: "https://www.bilibili.com/read/readlist/rl119817",
+            isExternal: true
+          },
+          {
+            id: 4,
+            title: "《2+6枚复合型精细牌效》雪见yukimi",
+            link: "https://zhuanlan.zhihu.com/p/63218895",
+            isExternal: true
+          },
+          {
+            id: 5,
+            title: "《现代麻雀最新理论》雀ゴロK",
+            link: "https://www.bilibili.com/read/readlist/rl333253",
+            isExternal: true
+          },
+          {
+            id: 6,
+            title: "《麻雀数理研究会》",
+            link: "https://note.com/mahjong_math",
             isExternal: true
           }
         ]
