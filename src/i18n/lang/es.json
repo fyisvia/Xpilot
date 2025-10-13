@@ -136,6 +136,10 @@
         "desc": "Ruta de aprendizaje recomendada para Riichi Mahjong.",
         "aria": "Ir a Ruta de Aprendizaje"
       },
+      "terms": {
+        "title": "Diccionario de Términos Básicos",
+        "desc": "Consulta rápida de terminología riichi común."
+      },
       "books": {
         "title": "Colección de Libros",
         "desc": "Enlaces recopilados a traducciones CN y obras locales en Bilibili.",
@@ -202,7 +206,8 @@
       "introduce": "Acerca del Sitio",
       "webDictionary": "Otros Sitios",
       "handPointCalc": "Práctica de cálculo de puntos de mano",
-      "handPointCalculator": "Calculadora de puntos de mano"
+      "handPointCalculator": "Calculadora de puntos de mano",
+      "basicTerms": "Diccionario de Términos Básicos"
     },
     "aria": {
       "openMenu": "Abrir menú de navegación",

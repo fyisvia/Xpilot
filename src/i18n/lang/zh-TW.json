@@ -136,6 +136,10 @@
                 "desc": "從入門到進階的學習路線參考。",
                 "aria": "前往 學習路線"
             },
+            "terms": {
+                "title": "基本術語詞典",
+                "desc": "快速查閱常見日麻術語說明。"
+            },
             "books": {
                 "title": "戰術書連結合集",
                 "desc": "整理 Bilibili 上的中文譯本與國內作品連結。",
@@ -202,7 +206,8 @@
             "introduce": "關於本站",
             "webDictionary": "其他網站",
             "handPointCalc": "手牌點數計算練習",
-            "handPointCalculator": "手牌點數計算機"
+            "handPointCalculator": "手牌點數計算機",
+            "basicTerms": "基本術語詞典"
         },
         "aria": {
             "openMenu": "開啟導覽選單",

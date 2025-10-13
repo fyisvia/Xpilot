@@ -13,7 +13,7 @@
         </li>
         <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
-            {{ $t('contact.email', { email: 'fyisvia@gmail.com' }) }}
+            {{ $t('contact.email', { email: 'contact@fyisvia.com' }) }}
         </li>
         <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">

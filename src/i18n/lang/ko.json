@@ -136,6 +136,10 @@
         "desc": "리치 마작 학습 경로 안내.",
         "aria": "학습 경로로 이동"
       },
+      "terms": {
+        "title": "기본 용어 사전",
+        "desc": "주요 리치 마작 용어를 빠르게 확인합니다."
+      },
       "books": {
         "title": "전술서 링크 모음",
         "desc": "Bilibili의 중국어 번역 및 국내 저작 링크 정리.",
@@ -202,7 +206,8 @@
       "introduce": "사이트 소개",
       "webDictionary": "기타 사이트",
       "handPointCalc": "패 점수 계산 연습",
-      "handPointCalculator": "패 점수 계산기"
+      "handPointCalculator": "패 점수 계산기",
+      "basicTerms": "기본 용어 사전"
     },
     "aria": {
       "openMenu": "네비게이션 메뉴 열기",

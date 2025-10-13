@@ -17,6 +17,7 @@ const routes = [
     { path: '/hand-point-calculation', name: 'HandPointCalculation', component: () => import('../components/HandPointCalculation.vue') },
     { path: '/hand-point-calculator', name: 'HandPointCalculator', component: () => import('../components/HandPointCalculator.vue') },
     { path: '/guide', name: 'Guide', component: () => import('../components/Guide.vue') },
+    { path: '/basic-terms', name: 'BasicTerms', component: () => import('../components/BasicTerms.vue') },
     { path: '/books', name: 'Books', component: () => import('../components/Books.vue') },
     { path: '/contact', name: 'Contact', component: () => import('../components/Contact.vue') },
     { path: '/introduce', name: 'Introduce', component: () => import('../components/Introduce.vue') },

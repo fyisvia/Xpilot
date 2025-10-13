@@ -136,6 +136,10 @@
         "desc": "A reference learning path from beginner to advanced riichi.",
         "aria": "Go to the Learning Path"
       },
+      "terms": {
+        "title": "Basic Terms Dictionary",
+        "desc": "Quick reference for common riichi terminology."
+      },
       "books": {
         "title": "Books Collection",
         "desc": "Collected links to CN translations and local works on Bilibili.",
@@ -202,7 +206,8 @@
       "introduce": "About This Site",
       "webDictionary": "Other Websites",
       "handPointCalc": "Hand Point Calculation Practice",
-      "handPointCalculator": "Hand Point Calculator"
+      "handPointCalculator": "Hand Point Calculator",
+      "basicTerms": "Basic Terms Dictionary"
     },
     "aria": {
       "openMenu": "Open navigation menu",

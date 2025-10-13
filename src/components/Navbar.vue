@@ -42,6 +42,7 @@
               <li><router-link to="/point-calculation" class="link no-underline text-sm">{{ $t('navbar.items.pointCalc') }}</router-link></li>
               <li><router-link to="/hand-point-calculation" class="link no-underline text-sm">{{ $t('navbar.items.handPointCalc') }}</router-link></li>
               <li><router-link to="/guide" class="link no-underline text-sm">{{ $t('navbar.items.guide') }}</router-link></li>
+              <li><router-link to="/basic-terms" class="link no-underline text-sm">{{ $t('navbar.items.basicTerms') }}</router-link></li>
               <li><router-link to="/books" class="link no-underline text-sm">{{ $t('navbar.items.books') }}</router-link></li>
             </ul>
           </li>
@@ -79,6 +80,7 @@
               <li><router-link to="/point-calculation" class="link no-underline">{{ $t('navbar.items.pointCalc') }}</router-link></li>
               <li><router-link to="/hand-point-calculation" class="link no-underline">{{ $t('navbar.items.handPointCalc') }}</router-link></li>
               <li><router-link to="/guide" class="link no-underline">{{ $t('navbar.items.guide') }}</router-link></li>
+              <li><router-link to="/basic-terms" class="link no-underline">{{ $t('navbar.items.basicTerms') }}</router-link></li>
               <li><router-link to="/books" class="link no-underline">{{ $t('navbar.items.books') }}</router-link></li>
             </ul>
           </details>
