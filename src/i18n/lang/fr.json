@@ -138,7 +138,8 @@
       },
       "terms": {
         "title": "Dictionnaire des termes de base",
-        "desc": "Référence rapide des principaux termes de riichi."
+        "desc": "Référence rapide des principaux termes de riichi.",
+        "aria": "Aller au dictionnaire des termes de base"
       },
       "books": {
         "title": "Collection de livres",

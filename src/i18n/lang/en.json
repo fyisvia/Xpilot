@@ -138,7 +138,8 @@
       },
       "terms": {
         "title": "Basic Terms Dictionary",
-        "desc": "Quick reference for common riichi terminology."
+        "desc": "Quick reference for common riichi terminology.",
+        "aria": "Go to Basic Terms Dictionary"
       },
       "books": {
         "title": "Books Collection",

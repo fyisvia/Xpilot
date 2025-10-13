@@ -138,7 +138,8 @@
       },
       "terms": {
         "title": "Diccionario de Términos Básicos",
-        "desc": "Consulta rápida de terminología riichi común."
+        "desc": "Consulta rápida de terminología riichi común.",
+        "aria": "Ir al Diccionario de Términos Básicos"
       },
       "books": {
         "title": "Colección de Libros",

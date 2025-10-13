@@ -138,7 +138,8 @@
             },
             "terms": {
                 "title": "基本術語詞典",
-                "desc": "快速查閱常見日麻術語說明。"
+                "desc": "快速查閱常見日麻術語說明。",
+                "aria": "前往 基本術語詞典"
             },
             "books": {
                 "title": "戰術書連結合集",
@@ -595,7 +596,7 @@
             "ittsuMenzen": "一氣通貫 2 番",
             "ittsuOpen": "一氣通貫副露 1 番",
             "chantaMenzen": "混全帶么九 2 番",
-            "chantaOpen": "混全帶么九副露 1 番",
+            "chantaOpen": "混全帶么九副露 1 當",
             "honitsuMenzen": "混一色 3 番",
             "honitsuOpen": "混一色副露 2 番",
             "junchanMenzen": "純全帶么九 3 番",

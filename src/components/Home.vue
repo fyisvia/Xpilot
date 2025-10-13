@@ -183,13 +183,13 @@
     <li class="list-row">
       <div></div>
       <div>
-        <RouterLink to="/guide" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.guide.aria')">
+        <RouterLink to="/basic-terms" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.terms.aria')">
         <div class="text-sm font-semibold">{{ t('home.cards.terms.title') }}</div>
         <div class="text-xs opacity-80">{{ t('home.cards.terms.desc') }}</div>
         </RouterLink>
       </div>
-      <RouterLink to="/guide" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.guide.aria')">
-        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.guide.aria')">
+      <RouterLink to="/basic-terms" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.terms.aria')">
+        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.terms.aria')">
         <svg class="size-[1.8em]" viewBox="0 0 24 24">
           <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
             <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
