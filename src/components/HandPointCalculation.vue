@@ -670,9 +670,9 @@ function exposedKongTiles(tiles) {
   result.push([tiles[0], `-${tiles[1]}`, tiles[2], tiles[3]])
   result.push([tiles[0], tiles[1], tiles[2], `-${tiles[3]}`])
   const asV = (t) => (t === '0m' || t === '0p' || t === '0s') ? `v${t}` : `=${t}`
-  result.push([asV(tiles[0]), tiles[1], tiles[2]])
-  result.push([tiles[0], asV(tiles[1]), tiles[2]])
-  result.push([tiles[0], tiles[1], asV(tiles[2])])
+  result.push([asV(tiles[0]), tiles[1], tiles[2], tiles[3]])
+  result.push([tiles[0], asV(tiles[1]), tiles[2], tiles[3]])
+  result.push([tiles[0], tiles[1], asV(tiles[2]), tiles[3]])
   return result[Math.floor(randomNumber.value * result.length)]
 }
 function concealedKongImgs(tiles) {

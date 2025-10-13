@@ -123,7 +123,7 @@
             <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
 
     <!-- 操作 -->
-    <li class="list-row flex flex-row justify-center items-center gap-2 w-full">
+    <li class="list-row flex flex-row justify-center items-center gap-6 w-full">
       <button class="btn btn-sm text-sm sm:text-base px-4" @click="handleSubmit">{{ t('handpointcalculator.commit') }}</button>
       <button class="btn btn-sm text-sm sm:text-base px-4" @click="reset">{{ t('handpointcalculator.clear') }}</button>
     </li>
