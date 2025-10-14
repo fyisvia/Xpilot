@@ -416,7 +416,8 @@
     },
     "link": "Link",
     "donate": "赞助：",
-    "qrcodeAlt": "赞助二维码"
+    "qrcodeAlt": "赞助二维码",
+    "qrcodeNote": "非常感谢各位的支持，请在备注中写下昵称或者联系方式。"
   },
   "introduce": {
     "title": "MahjongXpilot",
@@ -426,6 +427,7 @@
     "repoLabel": "Github项目地址：",
     "repoLinkText": "Link",
     "repoWelcome": "欢迎帮忙review代码，提交bug和功能建议。",
+    "specialThanksTitle": "特别鸣谢",
     "changelog": {
       "common": {
         "intro": "本次更新主要内容为："

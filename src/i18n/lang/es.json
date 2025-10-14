@@ -529,7 +529,8 @@
     },
     "link": "Enlace",
     "donate": "Patrocinar:",
-    "qrcodeAlt": "Código QR para donación"
+    "qrcodeAlt": "Código QR para donación",
+    "qrcodeNote": "Muchas gracias a todos por su apoyo. Deja tu apodo o información de contacto en la nota, por favor."
   },
   "introduce": {
     "title": "MahjongXpilot",
@@ -539,6 +540,11 @@
     "repoLabel": "Repositorio GitHub:",
     "repoLinkText": "Enlace",
     "repoWelcome": "Bienvenido a revisar el código, reportar bugs y sugerir mejoras.",
+    "specialThanksTitle": "Agradecimientos especiales",
+    "specialThanks": {
+      "title": "Agradecimientos especiales",
+      "desc": "Gracias a los contribuyentes y a quienes han reportado errores y sugerido mejoras."
+    },
     "changelog": {
       "common": {
         "intro": "Novedades:"

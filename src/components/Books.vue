@@ -27,7 +27,7 @@
         </a>
       </div>
       <div class="pl-8 flex items-center space-x-2">
-        <span>{{ t('booksPage.contact', { email: 'fyisvia@gmail.com' }) }}</span>
+        <span>{{ t('booksPage.contact', { email: 'contact@fyisvia.com' }) }}</span>
       </div>
       <br>
       <div v-for="category in books" :key="category.category">

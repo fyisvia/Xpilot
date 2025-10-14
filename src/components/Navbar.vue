@@ -49,7 +49,6 @@
           <li>
             <a class="text-base font-semibold">{{ $t('navbar.groups.more') }}</a>
             <ul class="p-2 w-max whitespace-nowrap">
-              <li><router-link to="/contact" class="link no-underline text-sm">{{ $t('navbar.items.contact') }}</router-link></li>
               <li><router-link to="/introduce" class="link no-underline text-sm">{{ $t('navbar.items.introduce') }}</router-link></li>
               <li><router-link to="/web-dictionary" class="link no-underline text-sm">{{ $t('navbar.items.webDictionary') }}</router-link></li>
             </ul>
@@ -89,7 +88,6 @@
           <details>
             <summary>{{ $t('navbar.groups.more') }}</summary>
             <ul class="p-2 w-max whitespace-nowrap top-[calc(100%+1.2rem)]">
-              <li><router-link to="/contact" class="link no-underline">{{ $t('navbar.items.contact') }}</router-link></li>
               <li><router-link to="/introduce" class="link no-underline">{{ $t('navbar.items.introduce') }}</router-link></li>
               <li><router-link to="/web-dictionary" class="link no-underline">{{ $t('navbar.items.webDictionary') }}</router-link></li>
             </ul>
@@ -175,7 +173,7 @@
           tabindex="0"
           class="menu menu-sm dropdown-content bg-base-100 rounded-box z-10 mt-8 w-max whitespace-nowrap p-2 shadow"
         >
-          <li><router-link to="/contact" class="justify-between no-underline text-sm">{{ $t('navbar.items.contact') }}</router-link></li>
+          <li><router-link to="/introduce" class="justify-between no-underline text-sm">{{ $t('navbar.items.introduce') }}</router-link></li>
         </ul>
       </div>
     </div>

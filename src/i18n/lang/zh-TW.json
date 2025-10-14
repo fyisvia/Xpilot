@@ -416,7 +416,8 @@
         },
         "link": "連結",
         "donate": "贊助：",
-        "qrcodeAlt": "贊助 QR 碼"
+        "qrcodeAlt": "贊助 QR 碼",
+        "qrcodeNote": "非常感謝各位的支持，請在備註中寫下暱稱或者聯絡方式。"
     },
     "introduce": {
         "title": "MahjongXpilot",
@@ -426,6 +427,7 @@
         "repoLabel": "Github 專案：",
         "repoLinkText": "連結",
         "repoWelcome": "歡迎協助 code review、回報 bug 與提出功能建議。",
+        "specialThanksTitle": "特別鳴謝",
         "changelog": {
             "common": {
                 "intro": "本次更新重點："

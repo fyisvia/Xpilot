@@ -529,7 +529,8 @@
     },
     "link": "링크",
     "donate": "후원:",
-    "qrcodeAlt": "후원 QR 코드"
+    "qrcodeAlt": "후원 QR 코드",
+    "qrcodeNote": "모든 성원에 진심으로 감사드립니다. 비고에 닉네임이나 연락처를 적어 주세요."
   },
   "introduce": {
     "title": "MahjongXpilot",
@@ -539,6 +540,8 @@
     "repoLabel": "GitHub 저장소:",
     "repoLinkText": "링크",
     "repoWelcome": "코드 리뷰, 버그 리포트 및 기능 제안을 환영합니다.",
+    "specialThanksTitle": "특별 감사",
+    "specialThanksDesc": "이 프로젝트는 다음과 같은 분들의 특별한 도움으로 이루어졌습니다:",
     "changelog": {
       "common": {
         "intro": "이번 업데이트 주요 내용:"

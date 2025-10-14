@@ -19,7 +19,6 @@ const routes = [
     { path: '/guide', name: 'Guide', component: () => import('../components/Guide.vue') },
     { path: '/basic-terms', name: 'BasicTerms', component: () => import('../components/BasicTerms.vue') },
     { path: '/books', name: 'Books', component: () => import('../components/Books.vue') },
-    { path: '/contact', name: 'Contact', component: () => import('../components/Contact.vue') },
     { path: '/introduce', name: 'Introduce', component: () => import('../components/Introduce.vue') },
     { path: '/web-dictionary', name: 'WebDictionary', component: () => import('../components/WebDictionary.vue') },
     { path: '/review', name: 'Review', component: () => import('../components/Review.vue') },

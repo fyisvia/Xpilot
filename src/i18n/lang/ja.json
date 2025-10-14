@@ -529,7 +529,8 @@
     },
     "link": "リンク",
     "donate": "支援：",
-    "qrcodeAlt": "支援用QRコード"
+    "qrcodeAlt": "支援用QRコード",
+    "qrcodeNote": "ご支援いただき誠にありがとうございます。備考欄にニックネームまたは連絡先をご記入ください。"
   },
   "introduce": {
     "title": "MahjongXpilot",
@@ -539,6 +540,7 @@
     "repoLabel": "GitHub リポジトリ：",
     "repoLinkText": "リンク",
     "repoWelcome": "コードレビュー・バグ報告・機能提案を歓迎します。",
+    "specialThanksTitle": "特別感謝",
     "changelog": {
       "common": {
         "intro": "今回の主な更新内容："
