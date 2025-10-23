@@ -1,9 +1,5 @@
-// Copyright 2025 [Fyisvia Virell]
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// any later version.
-// See the LICENSE file in the project root for full license information.
+//Xpilot Copyright 2025 [Fyisvia Virell] — https://mj.fyisvia.com
+//Licensed under AGPL-3.0 with Additional Terms (see LICENSE).
 
 <template>
     <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
@@ -72,17 +68,14 @@
                 <fieldset class="fieldset ml-0 mt-4 flex-1">
                     <legend class="text-base">{{ $t("review.options.engine4pLegend") }}</legend>
                     <select class="select ml-0 w-full sm:w-auto" :aria-label="$t('review.aria.selectModel')" v-model="model4p">
-                        <option value="Zeus">Zeus</option>
-                        <option value="Balance">Balance</option>
-                        <option value="Aggressive">Aggressive</option>
-                        <option value="Defensive">Defensive</option>
+                        <option v-for="m in options4p" :key="m.id" :value="m.id">{{ m.name || m.id }}</option>
                     </select>
                 </fieldset>
                 <!-- 三麻分析引擎 -->
                 <fieldset class="fieldset ml-0 mt-4 flex-1 sm:mt-4">
                     <legend class="text-base">{{ $t("review.options.engine3pLegend") }}</legend>
                     <select class="select ml-0 w-full sm:w-auto" :aria-label="$t('review.aria.selectModel')" v-model="model3p">
-                        <option value="Default">{{ $t("review.options.engine3pDefault") }}</option>
+                        <option v-for="m in options3p" :key="m.id" :value="m.id">{{ m.name || m.id }}</option>
                     </select>
                 </fieldset>
             </div>
@@ -108,7 +101,7 @@
 
         <li class="list-row flex flex-col gap-2">
             <div></div>
-            <button class="btn" type="button" @click="onSubmit">{{ $t("review.submit") }}</button>
+            <button class="btn" type="button" :disabled="submitting" @click="onSubmit">{{ $t("review.submit") }}</button>
         </li>
         <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
     </ul>
@@ -137,16 +130,22 @@
 
     // 收集表单字段
     const paipuUrl = ref('');
-    const playerId = ref(-1);           // -1 自动，0 东，1 南，2 西，3 北
-    const model4p = ref('Zeus');        // "Zeus" | "Balance" | "Aggressive" | "Defensive"
-    const model3p = ref('Default');     // 三麻模型固定 "Default"（UI 显示为“三叉戟”）
-    const ui = ref('new');              // "new" | "classic"
-    const analysisMode = ref('standard'); // "standard" | "advanced"
-    const lang = ref('zh');             // "zh" | "en" | "ja" | "ko"（将于挂载时根据站点语言重置）
+    const playerId = ref(-1);
+    // 动态模型选项
+    const options4p = ref([]); // [{ id, name, isOnline }]
+    const options3p = ref([]); // [{ id, name, isOnline }]
+    // 选中的模型（值为 id）
+    const model4p = ref('Zeus');
+    const model3p = ref('Default');
+    const ui = ref('new');
+    const analysisMode = ref('standard');
+    const lang = ref('zh');
+    const submitting = ref(false);
 
     // 打开页面时同步 Review 语言；站点语言变更时同步
-    onMounted(() => {
+    onMounted(async () => {
         lang.value = mapSiteLocaleToReviewLang(locale.value);
+        await fetchConfig(); // 拉取动态模型
     });
     watch(() => locale.value, (newL) => {
         lang.value = mapSiteLocaleToReviewLang(newL);
@@ -154,39 +153,68 @@
 
     const PARTNER_TOKEN = 'e30ddb9dfce9a8c00eaef647096514dd8209f4bc9326d4cc0c23a08df7b5eaa7';
 
-    // 使用原生表单 POST，浏览器自动跟随 302 跳转到结果页
-    function postToReview() {
-        const form = document.createElement('form');
-        form.action = 'https://review.bigcoach.work/review';
-        form.method = 'POST';
-        form.style.display = 'none';
-
-        const append = (name, value) => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = name;
-            input.value = String(value);
-            form.appendChild(input);
-        };
-
-        append('id', paipuUrl.value.trim());
-        append('actor', playerId.value);
-        append('model4p', model4p.value);
-        append('model3p', model3p.value);
-        append('ui', ui.value);
-        append('analysis_mode', analysisMode.value);
-        append('lang', lang.value);
-        append('partner_token', PARTNER_TOKEN);
-
-        document.body.appendChild(form);
-        form.submit();
+    // 拉取配置，填充模型选项
+    async function fetchConfig() {
+        try {
+            const res = await fetch('https://review.bigcoach.work/api/v2/config', { method: 'GET' });
+            const json = await res.json();
+            if (json?.success && json?.data) {
+                const d = json.data;
+                options4p.value = Array.isArray(d.models4p) ? d.models4p : [];
+                options3p.value = Array.isArray(d.models3p) ? d.models3p : [];
+                // 若当前选中不在返回列表中，则回退为第一个可用项
+                if (options4p.value.length && !options4p.value.some(m => m.id === model4p.value)) {
+                    model4p.value = options4p.value[0].id;
+                }
+                if (options3p.value.length && !options3p.value.some(m => m.id === model3p.value)) {
+                    model3p.value = options3p.value[0].id;
+                }
+            }
+        } catch (e) {
+            console.error('fetchConfig failed', e);
+        }
     }
 
-    function onSubmit() {
+    // 使用 v2 接口创建任务，随后跳转 loading/{taskId}
+    async function onSubmit() {
         if (!paipuUrl.value || paipuUrl.value.trim() === '') {
             alert(t('review.input.toastEmpty'));
             return;
         }
-        postToReview();
+        if (submitting.value) return;
+        submitting.value = true;
+
+        try {
+            const fd = new FormData();
+            fd.append('paipuId', paipuUrl.value.trim());
+            fd.append('playerId', String(playerId.value));
+            fd.append('ui', ui.value);
+            fd.append('model3p', model3p.value);
+            fd.append('model4p', model4p.value);
+            fd.append('analysisMode', analysisMode.value);
+            fd.append('language', lang.value);
+            fd.append('partnerToken', PARTNER_TOKEN);
+
+            const res = await fetch('https://review.bigcoach.work/api/v2/review', {
+                method: 'POST',
+                body: fd
+            });
+            const json = await res.json();
+            if (!res.ok || !json?.success) {
+                alert(json?.message || '提交失败，请稍后重试');
+                return;
+            }
+            const taskId = json?.data?.taskId;
+            if (!taskId) {
+                alert('提交失败：未获得任务ID');
+                return;
+            }
+            window.location.href = `https://review.bigcoach.work/loading/${taskId}`;
+        } catch (e) {
+            console.error(e);
+            alert('网络错误，请稍后重试');
+        } finally {
+            submitting.value = false;
+        }
     }
 </script>

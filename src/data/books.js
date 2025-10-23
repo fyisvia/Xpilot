@@ -1,9 +1,7 @@
-// Copyright 2025 [Fyisvia Virell]
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// any later version.
-// See the LICENSE file in the project root for full license information.
+//Xpilot Copyright 2025 [Fyisvia Virell] — https://mj.fyisvia.com
+//Licensed under AGPL-3.0 with Additional Terms (see LICENSE).
+//Note: This content may NOT be publicly published without written
+//permission from the author.(Additional Terms in LICENSE apply)
 
 export const books = [
   {

@@ -1,3 +1,8 @@
+//Xpilot Copyright 2025 [Fyisvia Virell] — https://mj.fyisvia.com
+//Licensed under AGPL-3.0 with Additional Terms (see LICENSE).
+//Note: This content may NOT be publicly published without written
+//permission from the author.(Additional Terms in LICENSE apply)
+
 <template>
     <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
         <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
@@ -151,7 +156,7 @@ const terms = Object.freeze([
   { id: 63, title: '横移动率', lines: ['别家互相放铳的概率。'] },
   { id: 64, title: '待牌', lines: ['听的牌。x枚待指和的牌还剩x枚没有见到，可以自摸或被别人打出。'] },
   { id: 65, title: 'x向听', lines: ['还差x张牌就可以听牌。（※注意区别x向听和x面听，x面听指听牌种类有x种）'] },
-  { id: 66, title: '片听', lines: ['2面及多面听时，待牌中有部分牌满足和牌形但无役的听牌情况。'] },
+  { id: 66, title: '偏听', lines: ['2面及多面听时，待牌中有部分牌满足和牌形但无役的听牌情况。'] },
   { id: 67, title: '高目、低目', lines: ['2面及多面听时，待牌中有部分和牌形式与其他的打点不同的情况。其中，打点高的和牌形式叫做高目，打点低的和牌形式叫做低目。'] },
   { id: 68, title: '后付', lines: ['在没有确定有役的时候就鸣牌，之后再和出有役的牌的行为。例如，手中存在23466s 57p 6789m 中中 的牌型的时候，先吃6p打9m，再和中的情况就叫做后付。'] },
   { id: 69, title: '打点', lines: ['和牌时获得的点数。又名和牌得点，和点。'] },
