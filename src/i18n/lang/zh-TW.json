@@ -96,7 +96,12 @@
             "cut": "切",
             "improvements": "進張",
             "goodShapeRate": "好型率",
-            "total": "總進張"
+            "total": "總進張",
+            "index": "指數"
+        },
+        "small": {
+            "toggleToMetrics": "顯示指標",
+            "toggleToWaits": "顯示進張"
         }
     },
     "home": {
@@ -320,7 +325,9 @@
         "title": "牌效率練習",
         "settings": {
             "shantenDisplayLegend": "向聽顯示",
-            "tileSetLegend": "牌山類型"
+            "tileSetLegend": "牌山類型",
+            "judgeCriteriaLegend": "判斷標準",
+            "submitModeLegend": "提交方式"
         },
         "options": {
             "shantenDisplay": {
@@ -334,6 +341,16 @@
                 "m": "清一色：萬子",
                 "p": "清一色：筒子",
                 "s": "清一色：索子"
+            },
+            "judgeCriteria": {
+                "default": "預設（混合）",
+                "volume": "進張數",
+                "shape": "好形率",
+                "index": "指數"
+            },
+            "submitMode": {
+                "instant": "點擊後直接提交",
+                "button": "點擊後按提交按鈕提交"
             }
         },
         "status": {
@@ -353,18 +370,20 @@
             "cut": "切",
             "improvements": "進張",
             "goodShapeRate": "好形率",
-            "total": "總進張"
+            "total": "總進張",
+            "index": "指數"
         },
         "buttons": {
             "prev": "上一題",
-            "next": "下一題"
+            "next": "下一題",
+            "submit": "提交"
         },
         "result": {
             "correctAnswersTitle": "所有正確的答案為：",
             "messages": {
                 "errShantenBack": "錯誤：向聽數後退",
                 "correct": "正確",
-                "wrongNotMax": "錯誤：非最多進張"
+                "wrongNotMax": "錯誤"
             }
         }
     },
@@ -431,6 +450,16 @@
         "changelog": {
             "common": {
                 "intro": "本次更新重點："
+            },
+            "v150": {
+                "title": "1.5.0 版本更新（2025-10-29）",
+                "i1": "1. 新增牌效率分析與牌效率練習中的指數顯示。",
+                "i2": "2. 新增牌效率練習中對正確答案判斷邏輯的選擇。",
+                "i3": "3. 新增何切三百問與牌效率練習在行動端小螢幕時的提交方式選擇。",
+                "i4": "4. 修復特定情況下計算符數時嵌張聽牌被忽略的問題。",
+                "i5": "5. 優化牌效率練習中的答案判定邏輯。",
+                "i6": "6. 優化網站圖示與 favicon。",
+                "i7": "7. 優化各頁面顯示計算結果時的顯示邏輯。"
             },
             "v140": {
                 "title": "1.4.0 版本更新（2025-10-06）",

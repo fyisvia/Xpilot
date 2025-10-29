@@ -96,7 +96,12 @@
             "cut": "切",
             "improvements": "进张",
             "goodShapeRate": "好型率",
-            "total": "总进张"
+            "total": "总进张",
+            "index": "指数"
+        },
+        "small": {
+            "toggleToMetrics": "显示指标",
+            "toggleToWaits": "显示进张"
         }
     },
     "home": {
@@ -320,7 +325,9 @@
     "title": "牌效率练习",
     "settings": {
       "shantenDisplayLegend": "向听显示",
-      "tileSetLegend": "牌堆类型"
+      "tileSetLegend": "牌堆类型",
+      "judgeCriteriaLegend": "判断标准",
+      "submitModeLegend": "提交方式"
     },
     "options": {
       "shantenDisplay": {
@@ -334,6 +341,16 @@
         "m": "清一色：万子",
         "p": "清一色：筒子",
         "s": "清一色：索子"
+      },
+      "judgeCriteria": {
+        "default": "默认（混合）",
+        "volume": "进张数",
+        "shape": "好型率",
+        "index": "指数"
+      },
+      "submitMode": {
+        "instant": "点击后直接提交",
+        "button": "点击后按提交按钮提交"
       }
     },
     "status": {
@@ -353,18 +370,20 @@
       "cut": "切",
       "improvements": "进张",
       "goodShapeRate": "好型率",
-      "total": "总进张"
+      "total": "总进张",
+      "index": "指数"
     },
     "buttons": {
       "prev": "上一题",
-      "next": "下一题"
+      "next": "下一题",
+      "submit": "提交"
     },
     "result": {
       "correctAnswersTitle": "所有正确的答案是：",
       "messages": {
         "errShantenBack": "错误：向听数后退",
         "correct": "正确",
-        "wrongNotMax": "错误：并非最多进张"
+        "wrongNotMax": "错误"
       }
     }
   },
@@ -431,6 +450,16 @@
     "changelog": {
       "common": {
         "intro": "本次更新主要内容为："
+      },
+      "v150": {
+        "title": "1.5.0 版本更新（2025-10-29）",
+        "i1": "1.新增牌效率分析与牌效率练习中的指数显示。",
+        "i2": "2.新增牌效率练习中对正确答案判断逻辑的选择。",
+        "i3": "3.新增了何切三百问与牌效率练习在移动端小屏显示时，提交方式的选择。",
+        "i4": "4.修复了在特定情况下计算符数时坎张听牌被忽略的问题。",
+        "i5": "5.优化了在牌效率练习中的答案判定逻辑。",
+        "i6": "6.优化了页面图标和favicon。",
+        "i7": "7.优化了各页面显示计算结果时的显示逻辑。"
       },
       "v140": {
         "title": "1.4.0 版本更新（2025-10-06）",

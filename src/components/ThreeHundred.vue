@@ -1,7 +1,8 @@
-//Xpilot Copyright 2025 [Fyisvia Virell] — https://mj.fyisvia.com
-//Licensed under AGPL-3.0 with Additional Terms (see LICENSE).
-//Note: This content may NOT be publicly published without written
-//permission from the author.(Additional Terms in LICENSE apply)
+// Xpilot Copyright 2025 [Fyisvia Virell] — https://mj.fyisvia.com
+// Licensed under AGPL-3.0 with Additional Terms (see LICENSE).
+// Note: Certain non-code assets (including datasets, content sets, or media files)
+// are excluded from the AGPL license and may NOT be publicly published or redistributed
+// without written permission from the author. (See LICENSE for details)
 
 <template>
   <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-full px-2 sm:px-8">
@@ -10,10 +11,35 @@
       {{ t('threeHundred.title') }}
     </li>
     <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
+
+    <!-- 新增：仅在小屏显示提交方式选择 -->
+    <li v-if="isSmallScreen" class="p-4 pb-2 text-base opacity-100 tracking-wide">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:gap-8">
+        <fieldset class="fieldset ml-0 flex-1">
+          <legend class="text-base">{{ t('efficiencyTrain.settings.submitModeLegend') }}</legend>
+          <select
+            class="select ml-0 w-full sm:w-auto"
+            v-model="submitMode"
+            :disabled="!isSmallScreen"
+          >
+            <option
+              v-for="option in submitModeOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </fieldset>
+      </div>
+    </li>
+ 
     <li class="p-4 pb-2 text-lg sm:text-xl opacity-100 tracking-wide">
       {{ t('threeHundred.labels.no') }} {{ currentArticle.id }}
     </li>
     <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
+
+    <!-- <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li> -->
     <li class="p-4 sm:p-4 pb-2 text-lg sm:text-xl opacity-100 tracking-wide">
       <div class="flex flex-col items-start">
         <a class="mb-2">[ {{ currentArticle.round }} ]</a>
@@ -41,7 +67,13 @@
               :src="img"
               alt=""
               class="flex-shrink-0 object-contain transition-transform duration-150 group-active:scale-95 group-hover:scale-110"
-              :style="{ width: '100%', height: 'calc(1.5 * 100%)' }"
+              :style="{
+                width: '100%',
+                height: 'calc(1.5 * 100%)',
+                // 新增：按钮提交模式下，已选择牌变灰
+                filter: (isSmallScreen && submitMode === 'button' && selectedAnswer === img) ? 'grayscale(100%) brightness(0.9)' : undefined,
+                opacity: (isSmallScreen && submitMode === 'button' && selectedAnswer === img) ? '0.8' : undefined
+              }"
             />
             <button
               class="absolute inset-0 w-full h-full opacity-0 hover:opacity-50 transition-opacity duration-300"
@@ -88,9 +120,29 @@
         </template>
       </div>
     </li>
-    <li class="p-4 pb-2 text-xs md:text-base opacity-80 tracking-wide flex justify-end mx-2">
+
+    <!-- 点击提示 -->
+    <li
+      v-if="!(isSmallScreen && submitMode === 'button')"
+      class="p-4 pb-2 text-xs md:text-base opacity-80 tracking-wide flex justify-end mx-2"
+    >
       <div>{{ t('threeHundred.ui.clickHint') }}</div>
     </li>
+
+    <!-- 新增：提交按钮（仅小屏且选择“点击后按提交按钮提交”时显示） -->
+    <li v-if="isSmallScreen && submitMode === 'button'" class="p-2 sm:p-4 pt-0 pb-2">
+      <div class="flex justify-center">
+        <button
+          class="btn btn-sm text-sm sm:text-base px-4 btn-primary"
+          :disabled="!selectedAnswer"
+          @click="handleSubmitAnswer"
+        >
+          {{ t('efficiencyTrain.buttons.submit') }}
+        </button>
+      </div>
+    </li>
+
+    <!-- 参考答案 -->
     <li class="p-2 sm:p-4 pb-2 text-sm sm:text-base md:text-lg opacity-100 tracking-wide">
       <div class="flex items-center gap-2 pb-4">
         <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
@@ -129,6 +181,8 @@
           </div>
         </div>
       </div>
+
+      <!-- 分析 -->
       <div class="flex items-center gap-2 pb-4">
         <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
           <input type="checkbox" v-model="showResult" @change="handleAnalysisToggle"/>
@@ -204,7 +258,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch, onUnmounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { Shanten } from '../utils/shanten'
 import { articles as articlesRaw } from '../data/articles'
@@ -268,6 +322,21 @@ const shantenNum = ref(null)
 const improvementResults = ref({})
 const errorMessage = ref(null)
 
+// 新增：提交方式（沿用 EfficiencyTrain 的 i18n）
+const submitMode = ref('instant') // 'instant' | 'button'
+const selectedAnswer = ref(null)
+const isSmallScreen = ref(false)
+const submitModeOptions = computed(() => [
+  { value: 'instant', label: t('efficiencyTrain.options.submitMode.instant') },
+  { value: 'button', label: t('efficiencyTrain.options.submitMode.button') }
+])
+const updateScreenSize = () => {
+  isSmallScreen.value = window.innerWidth < 640
+  if (!isSmallScreen.value && submitMode.value === 'button') {
+    submitMode.value = 'instant'
+  }
+}
+
 const handleAnalysisToggle = () => {
   if (showResult.value && Object.keys(improvementResults.value).length === 0) {
     handleSubmit()
@@ -294,6 +363,8 @@ const resetAnalysis = () => {
   shantenNum.value = null
   improvementResults.value = {}
   errorMessage.value = null
+  // 新增：清空已选答案
+  selectedAnswer.value = null
 }
 
 const prevArticle = () => {
@@ -353,6 +424,11 @@ onMounted(() => {
   }
   // 初始化时更新路由
   updateRoute(currentIndex.value)
+  updateScreenSize()
+  window.addEventListener('resize', updateScreenSize)
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', updateScreenSize)
 })
 
 defineProps(['changeComponent'])
@@ -590,7 +666,8 @@ const handleSubmit = () => {
   errorMessage.value = null
 }
 
-const handleImageClick = img => {
+// 新增：提交动作抽取（复用原判题流程）
+const commitAnswer = (img) => {
   const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches
   const showMsg = (msg, bg) => {
     const div = document.createElement('div')
@@ -613,13 +690,30 @@ const handleImageClick = img => {
   }
   if (img === currentArticle.value.answerImg) {
     showMsg(t('threeHundred.result.correct'), isDark ? 'rgba(80, 120, 180, 0.8)' : 'rgba(120, 180, 255, 0.25)')
+    selectedAnswer.value = null
     nextArticle()
   } else {
     showMsg(t('threeHundred.result.wrong'), isDark ? 'rgba(80, 80, 80, 0.65)' : 'rgba(0, 0, 0, 0.06)')
     isAnswerCollapsed.value = true
     showResult.value = true
     handleSubmit()
+    selectedAnswer.value = null
   }
+}
+
+// 修改：图片点击逻辑，支持两种提交方式
+const handleImageClick = img => {
+  if (isSmallScreen.value && submitMode.value === 'button') {
+    selectedAnswer.value = img
+    return
+  }
+  commitAnswer(img)
+}
+
+// 新增：提交按钮回调（仅按钮模式）
+const handleSubmitAnswer = () => {
+  if (!selectedAnswer.value) return
+  commitAnswer(selectedAnswer.value)
 }
 </script>
 

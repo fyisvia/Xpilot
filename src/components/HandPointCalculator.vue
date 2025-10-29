@@ -1,5 +1,8 @@
-//Xpilot Copyright 2025 [Fyisvia Virell] — https://mj.fyisvia.com
-//Licensed under AGPL-3.0 with Additional Terms (see LICENSE).
+// Xpilot Copyright 2025 [Fyisvia Virell] — https://mj.fyisvia.com
+// Licensed under AGPL-3.0 with Additional Terms (see LICENSE).
+// Note: Certain non-code assets (including datasets, content sets, or media files)
+// are excluded from the AGPL license and may NOT be publicly published or redistributed
+// without written permission from the author. (See LICENSE for details)
 
 <template>
   <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
@@ -500,29 +503,18 @@ function handleSubmit() {
     const merged = [...res, ...furo].sort((a,b) => (typeOrder[a.type]??99) - (typeOrder[b.type]??99))
     const sel = applyAkaToHand(merged, akaClosedCounts)
 
-    // 确定和牌所在面子与待型
+    // 收集所有可能的“和牌所在面子 + 牌位”，避免只命中第一个导致坎张被忽略
     const handPart = sel.filter(x => ['handshuntsu','handkouutsu','handtoitsu'].includes(x.type))
-    let winMeldIndex = -1, winTileIndex = -1, waitType = ''
-    handPart.forEach((m, idx) => {
-      const idxs = m.tiles.map((t,i) => t === win ? i : -1).filter(x => x !== -1)
-      if (idxs.length && winMeldIndex === -1) {
-        winMeldIndex = sel.indexOf(m)
-        if (m.type === 'handkouutsu') winTileIndex = 2
-        else if (m.type === 'handtoitsu') winTileIndex = 1
-        else winTileIndex = idxs[0]
-        if (m.type === 'handkouutsu') waitType = 'shanpon'
-        else if (m.type === 'handtoitsu') waitType = 'tanki-machi'
-        else if (m.type === 'handshuntsu') {
-          const nums = m.tiles.map(t => parseInt(t))
-          if (winTileIndex === 1) waitType = 'kanchan-machi'
-          else if (winTileIndex === 0) waitType = JSON.stringify(nums) === JSON.stringify([7,8,9]) ? 'penchan-machi' : 'ryanmen-machi'
-          else if (winTileIndex === 2) waitType = JSON.stringify(nums) === JSON.stringify([1,2,3]) ? 'penchan-machi' : 'ryanmen-machi'
-        }
-      }
+    const tileNum = (t) => (t && t[0] === '0') ? 5 : parseInt(t[0], 10)
+    const winPlaces = []
+    handPart.forEach((m) => {
+      const meldIndex = sel.indexOf(m)
+      const idxs = m.tiles.map((t,i) => t === win ? i : -1).filter(i => i !== -1)
+      idxs.forEach(i => winPlaces.push({ meldIndex, tileIndex: i }))
     })
-    if (winMeldIndex === -1) continue
+    if (winPlaces.length === 0) continue
 
-    // Dora/赤宝统计（红5等同 5 参与 dora；赤宝单独计数）
+    // Dora/赤宝统计（对同一 sel 不变）
     const allTiles = sel.flatMap(x => x.tiles)
     const doraNum = allTiles.reduce((c, t) => c + doras.filter(d => tileMatchesDora(t, d)).length, 0)
     const uraNum  = (form.isRiichi || form.isDaburuRiichi)
@@ -530,152 +522,173 @@ function handleSubmit() {
       : 0
     const akaDoraNum = allTiles.filter(t => t === '0m' || t === '0p' || t === '0s').length
 
-    // 役判定
-    const r = {
-      melds: sel,
-      winningMeldIndex: winMeldIndex,
-      winningTileIndex: winTileIndex,
-      waitType,
-      roundWind: form.roundWind,
-      seatWind: form.seatWind,
-      isDealer: form.isDealer,
-      isMenzen,
-      isTsumo: form.isTsumo,
-      isRiichi: form.isRiichi,
-      isDaburuRiichi: form.isDaburuRiichi,
-      isIppatsu: form.isIppatsu,
-      isHaitei: form.isHaitei,
-      isHoutei: form.isHoutei,
-      isRinshan: form.isRinshan,
-      isChankan: form.isChankan,
-      doraNum,
-      riichiDoraNum: uraNum,
-      akaDoraNum
+    // 针对每一种“和牌落点”分别生成候选
+    for (const wp of winPlaces) {
+      let waitType = ''
+      const meld = sel[wp.meldIndex]
+      if (meld.type === 'handkouutsu') {
+        waitType = 'shanpon'
+      } else if (meld.type === 'handtoitsu') {
+        waitType = 'tanki-machi'
+      } else if (meld.type === 'handshuntsu') {
+        // 稳健判定：顺子按数值排序，赤5按 5 处理
+        const numsSorted = meld.tiles.map(tileNum).sort((a,b) => a - b)
+        const wn = tileNum(win)
+        if (wn === numsSorted[1]) {
+          waitType = 'kanchan-machi'
+        } else if (wn === numsSorted[0]) {
+          waitType = (numsSorted[0] === 7 && numsSorted[1] === 8 && numsSorted[2] === 9) ? 'penchan-machi' : 'ryanmen-machi'
+        } else {
+          waitType = (numsSorted[0] === 1 && numsSorted[1] === 2 && numsSorted[2] === 3) ? 'penchan-machi' : 'ryanmen-machi'
+        }
+      }
+
+      const r = {
+        melds: sel,
+        winningMeldIndex: wp.meldIndex,
+        winningTileIndex: wp.tileIndex,
+        waitType,
+        roundWind: form.roundWind,
+        seatWind: form.seatWind,
+        isDealer: form.isDealer,
+        isMenzen,
+        isTsumo: form.isTsumo,
+        isRiichi: form.isRiichi,
+        isDaburuRiichi: form.isDaburuRiichi,
+        isIppatsu: form.isIppatsu,
+        isHaitei: form.isHaitei,
+        isHoutei: form.isHoutei,
+        isRinshan: form.isRinshan,
+        isChankan: form.isChankan,
+        doraNum,
+        riichiDoraNum: uraNum,
+        akaDoraNum
+      }
+
+      // 各役
+      r.isTanyao = yakuList.checkTanyao(r.melds)
+      r.isRoundEast = yakuList.checkRoundEast(r.melds, r.roundWind)
+      r.isRoundSouth = yakuList.checkRoundSouth(r.melds, r.roundWind)
+      r.isRoundWest = yakuList.checkRoundWest(r.melds, r.roundWind)
+      r.isSeatEast = yakuList.checkSeatEast(r.melds, r.seatWind)
+      r.isSeatSouth = yakuList.checkSeatSouth(r.melds, r.seatWind)
+      r.isSeatWest = yakuList.checkSeatWest(r.melds, r.seatWind)
+      r.isSeatNorth = yakuList.checkSeatNorth(r.melds, r.seatWind)
+      r.isHaku = yakuList.checkHaku(r.melds)
+      r.isHatsu = yakuList.checkHatsu(r.melds)
+      r.isChun = yakuList.checkChun(r.melds)
+      r.isMenzenTsumo = yakuList.checkMenzenTsumo(r.isMenzen, r.isTsumo)
+      r.isPinfu = yakuList.checkPinfu(r.melds, r.waitType, r.roundWind, r.seatWind)
+      r.isIipeikou = yakuList.checkIipeikou(r.melds, r.isMenzen)
+      r.isToitoi = yakuList.checkToitoi(r.melds)
+      r.isSanankou = yakuList.checkSanankou(r.melds, r.waitType, r.isTsumo)
+      r.isSankantsu = yakuList.checkSankantsu(r.melds)
+      r.isSanshokuDoko = yakuList.checkSanshokuDoko(r.melds)
+      r.isHonrouto = yakuList.checkHonrouto(r.melds)
+      r.isShouSangen = yakuList.checkShouSangen(r.melds)
+      r.isSanshokuDoujun = yakuList.checkSanshokuDoujun(r.melds)
+      r.isIttsu = yakuList.checkIttsu(r.melds)
+      r.isChanta = yakuList.checkChanta(r.melds)
+      r.isHonitsu = yakuList.checkHonitsu(r.melds)
+      r.isJunchan = yakuList.checkJunchan(r.melds)
+      if (yakuList.checkRyanpeikou(r.melds)) { r.isIipeikou = false; r.isRyanpeikou = true } else r.isRyanpeikou = false
+      r.isChinitsu = yakuList.checkChinitsu(r.melds)
+      r.isDaisangen = yakuList.checkDaisangen(r.melds)
+      r.isShousuushii = yakuList.checkShousuushii(r.melds)
+      r.isDaisushi = yakuList.checkDaisushi(r.melds)
+      r.isTsuuiisou = yakuList.checkTsuuiisou(r.melds)
+      r.isRyuuiisou = yakuList.checkRyuuiisou(r.melds)
+      r.isChinroutou = yakuList.checkChinroutou(r.melds)
+      r.isSuuankou = yakuList.checkSuuankou(r.melds, r.isMenzen, r.isTsumo, r.waitType)
+      r.isSuuankouTanki = yakuList.checkSuuankouTanki(r.melds, r.isMenzen, r.waitType)
+      r.isChuurenPoutou = false
+      r.isJunseiChuurenPoutou = false
+      r.isSuukantsu = yakuList.checkSuukantsu(r.melds)
+
+      // 符与番收集
+      r.fuResult = calculateFu(r)
+      let yakuman = 0, yakumanList = []
+      if (r.isDaisangen) { yakuman+=1; yakumanList.push('handpointcalculation.yakuman.daisangen') }
+      if (r.isShousuushii) { yakuman+=1; yakumanList.push('handpointcalculation.yakuman.shousuushii') }
+      if (r.isDaisushi) { yakuman+=2; yakumanList.push('handpointcalculation.yakuman.daisushi') }
+      if (r.isTsuuiisou) { yakuman+=1; yakumanList.push('handpointcalculation.yakuman.tsuuiisou') }
+      if (r.isRyuuiisou) { yakuman+=1; yakumanList.push('handpointcalculation.yakuman.ryuuiisou') }
+      if (r.isChinroutou) { yakuman+=1; yakumanList.push('handpointcalculation.yakuman.chinroutou') }
+      if (r.isSuuankou) { yakuman+=1; yakumanList.push('handpointcalculation.yakuman.suuankou') }
+      if (r.isSuuankouTanki) { yakuman+=2; yakumanList.push('handpointcalculation.yakuman.suuankouTanki') }
+      if (r.isSuukantsu) { yakuman+=1; yakumanList.push('handpointcalculation.yakuman.suukantsu') }
+
+      let han = 0, yList = []
+      if (yakuman === 0) {
+        if (r.isRiichi) { han+=1; yList.push('handpointcalculation.hanLines.riichi') }
+        if (r.isDaburuRiichi) { han+=2; yList.push('handpointcalculation.hanLines.daburuRiichi') }
+        if (r.isIppatsu) { han+=1; yList.push('handpointcalculation.hanLines.ippatsu') }
+        if (r.isHaitei) { han+=1; yList.push('handpointcalculation.hanLines.haitei') }
+        if (r.isHoutei) { han+=1; yList.push('handpointcalculation.hanLines.houtei') }
+        if (r.isRinshan) { han+=1; yList.push('handpointcalculation.hanLines.rinshan') }
+        if (r.isChankan) { han+=1; yList.push('handpointcalculation.hanLines.chankan') }
+        if (r.isTanyao) { han+=1; yList.push('handpointcalculation.hanLines.tanyao') }
+        if (r.isRoundEast) { han+=1; yList.push('handpointcalculation.hanLines.roundEast') }
+        if (r.isRoundSouth) { han+=1; yList.push('handpointcalculation.hanLines.roundSouth') }
+        if (r.isRoundWest) { han+=1; yList.push('handpointcalculation.hanLines.roundWest') }
+        if (r.isSeatEast) { han+=1; yList.push('handpointcalculation.hanLines.seatEast') }
+        if (r.isSeatSouth) { han+=1; yList.push('handpointcalculation.hanLines.seatSouth') }
+        if (r.isSeatWest) { han+=1; yList.push('handpointcalculation.hanLines.seatWest') }
+        if (r.isSeatNorth) { han+=1; yList.push('handpointcalculation.hanLines.seatNorth') }
+        if (r.isHaku) { han+=1; yList.push('handpointcalculation.hanLines.haku') }
+        if (r.isHatsu) { han+=1; yList.push('handpointcalculation.hanLines.hatsu') }
+        if (r.isChun) { han+=1; yList.push('handpointcalculation.hanLines.chun') }
+        if (r.isMenzenTsumo) { han+=1; yList.push('handpointcalculation.hanLines.menzenTsumo') }
+        if (r.isPinfu) { han+=1; yList.push('handpointcalculation.hanLines.pinfu') }
+        if (r.isIipeikou) { han+=1; yList.push('handpointcalculation.hanLines.iipeikou') }
+        if (r.isToitoi) { han+=2; yList.push('handpointcalculation.hanLines.toitoi') }
+        if (r.isSanankou) { han+=2; yList.push('handpointcalculation.hanLines.sanankou') }
+        if (r.isSankantsu) { han+=2; yList.push('handpointcalculation.hanLines.sankantsu') }
+        if (r.isSanshokuDoko) { han+=2; yList.push('handpointcalculation.hanLines.sanshokuDoko') }
+        if (r.isHonrouto) { han+=2; yList.push('handpointcalculation.hanLines.honrouto') }
+        if (r.isShouSangen) { han+=2; yList.push('handpointcalculation.hanLines.shouSangen') }
+        if (r.isSanshokuDoujun) {
+          if (r.isMenzen) { han+=2; yList.push('handpointcalculation.hanLines.sanshokuDoujunMenzen') }
+          else { han+=1; yList.push('handpointcalculation.hanLines.sanshokuDoujunOpen') }
+        }
+        if (r.isIttsu) {
+          if (r.isMenzen) { han+=2; yList.push('handpointcalculation.hanLines.ittsuMenzen') }
+          else { han+=1; yList.push('handpointcalculation.hanLines.ittsuOpen') }
+        }
+        if (r.isChanta) {
+          if (r.isMenzen) { han+=2; yList.push('handpointcalculation.hanLines.chantaMenzen') }
+          else { han+=1; yList.push('handpointcalculation.hanLines.chantaOpen') }
+        }
+        if (r.isHonitsu) {
+          if (r.isMenzen) { han+=3; yList.push('handpointcalculation.hanLines.honitsuMenzen') }
+          else { han+=2; yList.push('handpointcalculation.hanLines.honitsuOpen') }
+        }
+        if (r.isJunchan) {
+          if (r.isMenzen) { han+=3; yList.push('handpointcalculation.hanLines.junchanMenzen') }
+          else { han+=2; yList.push('handpointcalculation.hanLines.junchanOpen') }
+        }
+        if (r.isRyanpeikou) { han+=3; yList.push('handpointcalculation.hanLines.ryanpeikou') }
+        if (r.isChinitsu) {
+          if (r.isMenzen) { han+=6; yList.push('handpointcalculation.hanLines.chinitsuMenzen') }
+          else { han+=5; yList.push('handpointcalculation.hanLines.chinitsuOpen') }
+        }
+        if (r.doraNum) { han += r.doraNum; yList.push({ key: 'handpointcalculation.hanLines.dora', params: { n: r.doraNum } }) }
+        if (r.akaDoraNum) { han += r.akaDoraNum; yList.push({ key: 'handpointcalculation.hanLines.akaDora', params: { n: r.akaDoraNum } }) }
+        if (r.riichiDoraNum) { han += r.riichiDoraNum; yList.push({ key: 'handpointcalculation.hanLines.uraDora', params: { n: r.riichiDoraNum } }) }
+      }
+      r.hanResult = { isYaku: !(yakuman===0 && han===0), yakuman, yakumanList, han, yakuList: yList }
+
+      // 点数
+      let points
+      if (r.hanResult.yakuman) {
+        if (r.isDealer) points = r.isTsumo ? { tsumo: 16000*r.hanResult.yakuman, ron: null } : { tsumo:null, ron: 48000*r.hanResult.yakuman }
+        else points = r.isTsumo ? { tsumo: { dealer: 16000*r.hanResult.yakuman, nonDealer: 8000*r.hanResult.yakuman }, ron: null } : { tsumo:null, ron: 32000*r.hanResult.yakuman }
+      } else {
+        points = calculatePoints(r.isDealer, r.isTsumo, r.hanResult.han, r.fuResult.fu)
+      }
+      r.pointsResult = points
+      candidates.push(r)
     }
-
-    // 各役
-    r.isTanyao = yakuList.checkTanyao(r.melds)
-    r.isRoundEast = yakuList.checkRoundEast(r.melds, r.roundWind)
-    r.isRoundSouth = yakuList.checkRoundSouth(r.melds, r.roundWind)
-    r.isRoundWest = yakuList.checkRoundWest(r.melds, r.roundWind)
-    r.isSeatEast = yakuList.checkSeatEast(r.melds, r.seatWind)
-    r.isSeatSouth = yakuList.checkSeatSouth(r.melds, r.seatWind)
-    r.isSeatWest = yakuList.checkSeatWest(r.melds, r.seatWind)
-    r.isSeatNorth = yakuList.checkSeatNorth(r.melds, r.seatWind)
-    r.isHaku = yakuList.checkHaku(r.melds)
-    r.isHatsu = yakuList.checkHatsu(r.melds)
-    r.isChun = yakuList.checkChun(r.melds)
-    r.isMenzenTsumo = yakuList.checkMenzenTsumo(r.isMenzen, r.isTsumo)
-    r.isPinfu = yakuList.checkPinfu(r.melds, r.waitType, r.roundWind, r.seatWind)
-    r.isIipeikou = yakuList.checkIipeikou(r.melds, r.isMenzen)
-    r.isToitoi = yakuList.checkToitoi(r.melds)
-    r.isSanankou = yakuList.checkSanankou(r.melds, r.waitType, r.isTsumo)
-    r.isSankantsu = yakuList.checkSankantsu(r.melds)
-    r.isSanshokuDoko = yakuList.checkSanshokuDoko(r.melds)
-    r.isHonrouto = yakuList.checkHonrouto(r.melds)
-    r.isShouSangen = yakuList.checkShouSangen(r.melds)
-    r.isSanshokuDoujun = yakuList.checkSanshokuDoujun(r.melds)
-    r.isIttsu = yakuList.checkIttsu(r.melds)
-    r.isChanta = yakuList.checkChanta(r.melds)
-    r.isHonitsu = yakuList.checkHonitsu(r.melds)
-    r.isJunchan = yakuList.checkJunchan(r.melds)
-    if (yakuList.checkRyanpeikou(r.melds)) { r.isIipeikou = false; r.isRyanpeikou = true } else r.isRyanpeikou = false
-    r.isChinitsu = yakuList.checkChinitsu(r.melds)
-    r.isDaisangen = yakuList.checkDaisangen(r.melds)
-    r.isShousuushii = yakuList.checkShousuushii(r.melds)
-    r.isDaisushi = yakuList.checkDaisushi(r.melds)
-    r.isTsuuiisou = yakuList.checkTsuuiisou(r.melds)
-    r.isRyuuiisou = yakuList.checkRyuuiisou(r.melds)
-    r.isChinroutou = yakuList.checkChinroutou(r.melds)
-    r.isSuuankou = yakuList.checkSuuankou(r.melds, r.isMenzen, r.isTsumo, r.waitType)
-    r.isSuuankouTanki = yakuList.checkSuuankouTanki(r.melds, r.isMenzen, r.waitType)
-    r.isChuurenPoutou = false
-    r.isJunseiChuurenPoutou = false
-    r.isSuukantsu = yakuList.checkSuukantsu(r.melds)
-
-    // 符与番收集
-    r.fuResult = calculateFu(r)
-    let yakuman = 0, yakumanList = []
-    if (r.isDaisangen) { yakuman+=1; yakumanList.push('handpointcalculation.yakuman.daisangen') }
-    if (r.isShousuushii) { yakuman+=1; yakumanList.push('handpointcalculation.yakuman.shousuushii') }
-    if (r.isDaisushi) { yakuman+=2; yakumanList.push('handpointcalculation.yakuman.daisushi') }
-    if (r.isTsuuiisou) { yakuman+=1; yakumanList.push('handpointcalculation.yakuman.tsuuiisou') }
-    if (r.isRyuuiisou) { yakuman+=1; yakumanList.push('handpointcalculation.yakuman.ryuuiisou') }
-    if (r.isChinroutou) { yakuman+=1; yakumanList.push('handpointcalculation.yakuman.chinroutou') }
-    if (r.isSuuankou) { yakuman+=1; yakumanList.push('handpointcalculation.yakuman.suuankou') }
-    if (r.isSuuankouTanki) { yakuman+=2; yakumanList.push('handpointcalculation.yakuman.suuankouTanki') }
-    if (r.isSuukantsu) { yakuman+=1; yakumanList.push('handpointcalculation.yakuman.suukantsu') }
-
-    let han = 0, yList = []
-    if (yakuman === 0) {
-      if (r.isRiichi) { han+=1; yList.push('handpointcalculation.hanLines.riichi') }
-      if (r.isDaburuRiichi) { han+=2; yList.push('handpointcalculation.hanLines.daburuRiichi') }
-      if (r.isIppatsu) { han+=1; yList.push('handpointcalculation.hanLines.ippatsu') }
-      if (r.isHaitei) { han+=1; yList.push('handpointcalculation.hanLines.haitei') }
-      if (r.isHoutei) { han+=1; yList.push('handpointcalculation.hanLines.houtei') }
-      if (r.isRinshan) { han+=1; yList.push('handpointcalculation.hanLines.rinshan') }
-      if (r.isChankan) { han+=1; yList.push('handpointcalculation.hanLines.chankan') }
-      if (r.isTanyao) { han+=1; yList.push('handpointcalculation.hanLines.tanyao') }
-      if (r.isRoundEast) { han+=1; yList.push('handpointcalculation.hanLines.roundEast') }
-      if (r.isRoundSouth) { han+=1; yList.push('handpointcalculation.hanLines.roundSouth') }
-      if (r.isRoundWest) { han+=1; yList.push('handpointcalculation.hanLines.roundWest') }
-      if (r.isSeatEast) { han+=1; yList.push('handpointcalculation.hanLines.seatEast') }
-      if (r.isSeatSouth) { han+=1; yList.push('handpointcalculation.hanLines.seatSouth') }
-      if (r.isSeatWest) { han+=1; yList.push('handpointcalculation.hanLines.seatWest') }
-      if (r.isSeatNorth) { han+=1; yList.push('handpointcalculation.hanLines.seatNorth') }
-      if (r.isHaku) { han+=1; yList.push('handpointcalculation.hanLines.haku') }
-      if (r.isHatsu) { han+=1; yList.push('handpointcalculation.hanLines.hatsu') }
-      if (r.isChun) { han+=1; yList.push('handpointcalculation.hanLines.chun') }
-      if (r.isMenzenTsumo) { han+=1; yList.push('handpointcalculation.hanLines.menzenTsumo') }
-      if (r.isPinfu) { han+=1; yList.push('handpointcalculation.hanLines.pinfu') }
-      if (r.isIipeikou) { han+=1; yList.push('handpointcalculation.hanLines.iipeikou') }
-      if (r.isToitoi) { han+=2; yList.push('handpointcalculation.hanLines.toitoi') }
-      if (r.isSanankou) { han+=2; yList.push('handpointcalculation.hanLines.sanankou') }
-      if (r.isSankantsu) { han+=2; yList.push('handpointcalculation.hanLines.sankantsu') }
-      if (r.isSanshokuDoko) { han+=2; yList.push('handpointcalculation.hanLines.sanshokuDoko') }
-      if (r.isHonrouto) { han+=2; yList.push('handpointcalculation.hanLines.honrouto') }
-      if (r.isShouSangen) { han+=2; yList.push('handpointcalculation.hanLines.shouSangen') }
-      if (r.isSanshokuDoujun) {
-        if (r.isMenzen) { han+=2; yList.push('handpointcalculation.hanLines.sanshokuDoujunMenzen') }
-        else { han+=1; yList.push('handpointcalculation.hanLines.sanshokuDoujunOpen') }
-      }
-      if (r.isIttsu) {
-        if (r.isMenzen) { han+=2; yList.push('handpointcalculation.hanLines.ittsuMenzen') }
-        else { han+=1; yList.push('handpointcalculation.hanLines.ittsuOpen') }
-      }
-      if (r.isChanta) {
-        if (r.isMenzen) { han+=2; yList.push('handpointcalculation.hanLines.chantaMenzen') }
-        else { han+=1; yList.push('handpointcalculation.hanLines.chantaOpen') }
-      }
-      if (r.isHonitsu) {
-        if (r.isMenzen) { han+=3; yList.push('handpointcalculation.hanLines.honitsuMenzen') }
-        else { han+=2; yList.push('handpointcalculation.hanLines.honitsuOpen') }
-      }
-      if (r.isJunchan) {
-        if (r.isMenzen) { han+=3; yList.push('handpointcalculation.hanLines.junchanMenzen') }
-        else { han+=2; yList.push('handpointcalculation.hanLines.junchanOpen') }
-      }
-      if (r.isRyanpeikou) { han+=3; yList.push('handpointcalculation.hanLines.ryanpeikou') }
-      if (r.isChinitsu) {
-        if (r.isMenzen) { han+=6; yList.push('handpointcalculation.hanLines.chinitsuMenzen') }
-        else { han+=5; yList.push('handpointcalculation.hanLines.chinitsuOpen') }
-      }
-      if (r.doraNum) { han += r.doraNum; yList.push({ key: 'handpointcalculation.hanLines.dora', params: { n: r.doraNum } }) }
-      if (r.akaDoraNum) { han += r.akaDoraNum; yList.push({ key: 'handpointcalculation.hanLines.akaDora', params: { n: r.akaDoraNum } }) }
-      if (r.riichiDoraNum) { han += r.riichiDoraNum; yList.push({ key: 'handpointcalculation.hanLines.uraDora', params: { n: r.riichiDoraNum } }) }
-    }
-    r.hanResult = { isYaku: !(yakuman===0 && han===0), yakuman, yakumanList, han, yakuList: yList }
-
-    // 点数
-    let points
-    if (r.hanResult.yakuman) {
-      if (r.isDealer) points = r.isTsumo ? { tsumo: 16000*r.hanResult.yakuman, ron: null } : { tsumo:null, ron: 48000*r.hanResult.yakuman }
-      else points = r.isTsumo ? { tsumo: { dealer: 16000*r.hanResult.yakuman, nonDealer: 8000*r.hanResult.yakuman }, ron: null } : { tsumo:null, ron: 32000*r.hanResult.yakuman }
-    } else {
-      points = calculatePoints(r.isDealer, r.isTsumo, r.hanResult.han, r.fuResult.fu)
-    }
-    r.pointsResult = points
-    candidates.push(r)
   }
 
   if (!candidates.length) {

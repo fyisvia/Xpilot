@@ -96,7 +96,12 @@
       "cut": "버림",
       "improvements": "수용(進張)",
       "goodShapeRate": "좋은형률",
-      "total": "합계"
+      "total": "합계",
+      "index": "지수"
+    },
+    "small": {
+      "toggleToMetrics": "지표 보기",
+      "toggleToWaits": "수용 보기"
     }
   },
   "home": {
@@ -433,7 +438,9 @@
     "title": "패 효율 연습",
     "settings": {
       "shantenDisplayLegend": "샨텐(向聴) 표시",
-      "tileSetLegend": "패 구성"
+      "tileSetLegend": "패 구성",
+      "judgeCriteriaLegend": "판정 기준",
+      "submitModeLegend": "제출 방식"
     },
     "options": {
       "shantenDisplay": {
@@ -447,6 +454,16 @@
         "m": "청일색: 만자",
         "p": "청일색: 통자",
         "s": "청일색: 삭자"
+      },
+      "judgeCriteria": {
+        "default": "기본 (혼합)",
+        "volume": "수용(進張) 수",
+        "shape": "좋은형률",
+        "index": "지수"
+      },
+      "submitMode": {
+        "instant": "클릭 후 즉시 제출",
+        "button": "클릭 후 버튼으로 제출"
       }
     },
     "status": {
@@ -466,18 +483,20 @@
       "cut": "버림",
       "improvements": "수용",
       "goodShapeRate": "좋은형률",
-      "total": "총 수용"
+      "total": "총 수용",
+      "index": "지수"
     },
     "buttons": {
       "prev": "이전",
-      "next": "다음"
+      "next": "다음",
+      "submit": "제출"
     },
     "result": {
       "correctAnswersTitle": "모든 정답:",
       "messages": {
         "errShantenBack": "오류: 샨텐이 후퇴함",
         "correct": "정답",
-        "wrongNotMax": "오답: 최대 수용이 아님"
+        "wrongNotMax": "오답"
       }
     }
   },
@@ -545,6 +564,16 @@
     "changelog": {
       "common": {
         "intro": "이번 업데이트 주요 내용:"
+      },
+      "v150": {
+        "title": "버전 1.5.0 (2025-10-29)",
+        "i1": "1. 패 효율 분석·패 효율 연습에 지수 표시를 추가.",
+        "i2": "2. 패 효율 연습에 정답 판정 로직 선택을 추가.",
+        "i3": "3. 모바일 소화면에서 제출 방식 선택을 何切り300문과 패 효율 연습에 추가.",
+        "i4": "4. 특정 상황에서 부수 계산 시 칸찬 대기가 무시되던 문제를 수정.",
+        "i5": "5. 패 효율 연습의 정답 판정 로직을 최적화.",
+        "i6": "6. 사이트 아이콘 및 파비콘을 최적화.",
+        "i7": "7. 각 페이지의 결과 표시 로직을 최적화."
       },
       "v140": {
         "title": "버전 1.4.0 (2025-10-06)",

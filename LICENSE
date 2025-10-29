@@ -668,8 +668,21 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ========================== ADDITIONAL TERMS =============================
 
-You may use, modify, and share this code under the AGPLv3 license, provided that:
-1. This copyright notice and hyperlink remain visible and unaltered;
-2. Any public-facing version includes a visible hyperlink to https://mj.fyisvia.com;
-3. If more than two (2) pages of this software’s frontend code are used,the project name “Xpilot” must be visibly displayed all pages.
-4. The content set part of data or components included in this project may not be publicly published or distributed in any form (website, app, downloadabl file, or other media), whether modified or unmodified, without explicit written permission from the author (Fyisvia Virell).
+You may use, modify, and share this code under the AGPLv3 license, provided 
+that:
+1. This copyright notice and hyperlink remain visible and unaltered in all 
+copies and substantial portions of the software;
+2. Any public-facing deployment of this software must include a clearly 
+visible hyperlink to https://mj.fyisvia.com on all pages where the software 
+is used;
+3. If this software’s frontend code is used to power or form a substantial 
+part of any website, application, or other public-facing product 
+(including but not limited to web, mobile, or desktop apps), the overall 
+product name or title must prominently feature the name “Xpilot” and 
+display it in a clearly visible location such as the site header, app 
+title bar, or main page banner;
+4. Certain non-code assets, including but not limited to datasets, content 
+sets, or media files, are excluded from this AGPLv3 license and may not be 
+publicly published, redistributed, or incorporated into other projects, 
+whether modified or unmodified, without explicit written permission from 
+the author (Fyisvia Virell).

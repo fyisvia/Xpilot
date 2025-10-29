@@ -96,7 +96,12 @@
       "cut": "切り",
       "improvements": "受け入れ",
       "goodShapeRate": "良形率",
-      "total": "合計"
+      "total": "合計",
+      "index": "指數"
+    },
+    "small": {
+      "toggleToMetrics": "指標を表示",
+      "toggleToWaits": "進張を表示"
     }
   },
   "home": {
@@ -433,7 +438,9 @@
     "title": "牌効率練習",
     "settings": {
       "shantenDisplayLegend": "シャンテン表示",
-      "tileSetLegend": "牌山タイプ"
+      "tileSetLegend": "牌山タイプ",
+      "judgeCriteriaLegend": "判定基準",
+      "submitModeLegend": "送信方式"
     },
     "options": {
       "shantenDisplay": {
@@ -447,6 +454,16 @@
         "m": "清一色：萬子",
         "p": "清一色：筒子",
         "s": "清一色：索子"
+      },
+      "judgeCriteria": {
+        "default": "デフォルト（混合）",
+        "volume": "受け入れ数",
+        "shape": "良形率",
+        "index": "指数"
+      },
+      "submitMode": {
+        "instant": "クリック後すぐ送信",
+        "button": "クリック後ボタンで送信"
       }
     },
     "status": {
@@ -466,18 +483,20 @@
       "cut": "切り",
       "improvements": "受け入れ",
       "goodShapeRate": "良形率",
-      "total": "合計受け入れ"
+      "total": "合計受け入れ",
+      "index": "指数"
     },
     "buttons": {
       "prev": "前の問題",
-      "next": "次の問題"
+      "next": "次の問題",
+      "submit": "送信"
     },
     "result": {
       "correctAnswersTitle": "全ての正解：",
       "messages": {
         "errShantenBack": "誤り：シャンテンが後退",
         "correct": "正解",
-        "wrongNotMax": "誤り：最大受け入れではありません"
+        "wrongNotMax": "誤り"
       }
     }
   },
@@ -544,6 +563,16 @@
     "changelog": {
       "common": {
         "intro": "今回の主な更新内容："
+      },
+      "v150": {
+        "title": "バージョン 1.5.0（2025-10-29）",
+        "i1": "1. 牌効率解析・牌効率練習に指数表示を追加。",
+        "i2": "2. 牌効率練習に正解判定ロジックの選択肢を追加。",
+        "i3": "3. モバイル小画面での送信方式の選択を、何切る300問と牌効率練習に追加。",
+        "i4": "4. 特定条件で符計算において嵌張待ちが無視される不具合を修正。",
+        "i5": "5. 牌効率練習の解答判定ロジックを最適化。",
+        "i6": "6. サイトアイコンとfaviconを最適化。",
+        "i7": "7. 各ページの結果表示ロジックを最適化。"
       },
       "v140": {
         "title": "バージョン 1.4.0（2025-10-06）",

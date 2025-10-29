@@ -96,7 +96,12 @@
       "cut": "Descartar",
       "improvements": "Mejoras",
       "goodShapeRate": "Buena forma",
-      "total": "Total"
+      "total": "Total",
+      "index": "Índice"
+    },
+    "small": {
+      "toggleToMetrics": "Mostrar métricas",
+      "toggleToWaits": "Mostrar mejoras"
     }
   },
   "home": {
@@ -433,7 +438,9 @@
     "title": "Entrenamiento de Eficiencia",
     "settings": {
       "shantenDisplayLegend": "Mostrar Shanten",
-      "tileSetLegend": "Conjunto de fichas"
+      "tileSetLegend": "Conjunto de fichas",
+      "judgeCriteriaLegend": "Criterio de juicio",
+      "submitModeLegend": "Modo de envío"
     },
     "options": {
       "shantenDisplay": {
@@ -447,6 +454,16 @@
         "m": "Chinitsu: Manzu",
         "p": "Chinitsu: Pinzu",
         "s": "Chinitsu: Souzu"
+      },
+      "judgeCriteria": {
+        "default": "Predeterminado (mixto)",
+        "volume": "Volumen",
+        "shape": "Buena forma",
+        "index": "Índice"
+      },
+      "submitMode": {
+        "instant": "Enviar al hacer clic",
+        "button": "Hacer clic y luego enviar"
       }
     },
     "status": {
@@ -466,18 +483,20 @@
       "cut": "Descartar",
       "improvements": "Mejoras",
       "goodShapeRate": "Buena forma",
-      "total": "Total"
+      "total": "Total",
+      "index": "Índice"
     },
     "buttons": {
       "prev": "Anterior",
-      "next": "Siguiente"
+      "next": "Siguiente",
+      "submit": "Enviar"
     },
     "result": {
       "correctAnswersTitle": "Todas las respuestas correctas:",
       "messages": {
         "errShantenBack": "Error: Shanten retrocede",
         "correct": "Correcto",
-        "wrongNotMax": "Incorrecto: no es la máxima mejora"
+        "wrongNotMax": "Incorrecto"
       }
     }
   },
@@ -548,6 +567,16 @@
     "changelog": {
       "common": {
         "intro": "Novedades:"
+      },
+      "v150": {
+        "title": "Versión 1.5.0 (2025-10-29)",
+        "i1": "1. Añadida la visualización del índice en Análisis de Eficiencia de Fichas y Entrenamiento de Eficiencia.",
+        "i2": "2. Añadida la selección de la lógica de evaluación de respuestas correctas en Entrenamiento de Eficiencia.",
+        "i3": "3. Añadida la selección del modo de envío en pantallas móviles pequeñas para 300 Nanikiru y Entrenamiento de Eficiencia.",
+        "i4": "4. Corregido un problema por el que la espera kanchan se ignoraba al calcular el fu en ciertos casos.",
+        "i5": "5. Optimizada la lógica de evaluación de respuestas en Entrenamiento de Eficiencia.",
+        "i6": "6. Optimizados los iconos del sitio y el favicon.",
+        "i7": "7. Optimizada la lógica de visualización de resultados en las distintas páginas."
       },
       "v140": {
         "title": "Versión 1.4.0 (2025-10-06)",

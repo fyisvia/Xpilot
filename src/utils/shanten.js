@@ -1,9 +1,8 @@
-// Copyright 2025 [Fyisvia Virell]
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// any later version.
-// See the LICENSE file in the project root for full license information.
+// Xpilot Copyright 2025 [Fyisvia Virell] — https://mj.fyisvia.com
+// Licensed under AGPL-3.0 with Additional Terms (see LICENSE).
+// Note: Certain non-code assets (including datasets, content sets, or media files)
+// are excluded from the AGPL license and may NOT be publicly published or redistributed
+// without written permission from the author. (See LICENSE for details)
 
 // 原有常量
 const TERMINAL_INDICES = [0, 8, 9, 17, 18, 26];

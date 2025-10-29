@@ -96,7 +96,12 @@
       "cut": "Couper",
       "improvements": "Améliorations",
       "goodShapeRate": "Bonne forme",
-      "total": "Total"
+      "total": "Total",
+      "index": "Indice"
+    },
+    "small": {
+      "toggleToMetrics": "Afficher les métriques",
+      "toggleToWaits": "Afficher les améliorations"
     }
   },
   "home": {
@@ -433,7 +438,9 @@
     "title": "Entraînement d'efficacité",
     "settings": {
       "shantenDisplayLegend": "Affichage Shanten",
-      "tileSetLegend": "Ensemble de tuiles"
+      "tileSetLegend": "Ensemble de tuiles",
+      "judgeCriteriaLegend": "Critère de jugement",
+      "submitModeLegend": "Mode de soumission"
     },
     "options": {
       "shantenDisplay": {
@@ -447,6 +454,16 @@
         "m": "Chinitsu : Manzu",
         "p": "Chinitsu : Pinzu",
         "s": "Chinitsu : Souzu"
+      },
+      "judgeCriteria": {
+        "default": "Par défaut (mixte)",
+        "volume": "Volume",
+        "shape": "Bonne forme",
+        "index": "Indice"
+      },
+      "submitMode": {
+        "instant": "Soumettre au clic",
+        "button": "Cliquer puis soumettre"
       }
     },
     "status": {
@@ -466,18 +483,20 @@
       "cut": "Couper",
       "improvements": "Améliorations",
       "goodShapeRate": "Bonne forme",
-      "total": "Total"
+      "total": "Total",
+      "index": "Indice"
     },
     "buttons": {
       "prev": "Précédent",
-      "next": "Suivant"
+      "next": "Suivant",
+      "submit": "Soumettre"
     },
     "result": {
       "correctAnswersTitle": "Toutes les réponses correctes :",
       "messages": {
         "errShantenBack": "Erreur : le Shanten recule",
         "correct": "Correct",
-        "wrongNotMax": "Incorrect : pas le maximum d'améliorations"
+        "wrongNotMax": "Incorrect"
       }
     }
   },
@@ -548,6 +567,16 @@
     "changelog": {
       "common": {
         "intro": "Points forts :"
+      },
+      "v150": {
+        "title": "Version 1.5.0 (2025-10-29)",
+        "i1": "1. Ajout de l’affichage de l’indice dans l’Analyse d’efficacité des tuiles et l’Entraînement d’efficacité.",
+        "i2": "2. Ajout du choix de la logique de jugement des réponses correctes dans l’Entraînement d’efficacité.",
+        "i3": "3. Ajout du choix du mode d’envoi sur petits écrans mobiles pour 300 Nanikiru et l’Entraînement d’efficacité.",
+        "i4": "4. Correction d’un problème où l’attente kanchan était ignorée lors du calcul des fu dans certains cas.",
+        "i5": "5. Optimisation de la logique de jugement des réponses dans l’Entraînement d’efficacité.",
+        "i6": "6. Optimisation des icônes du site et du favicon.",
+        "i7": "7. Optimisation de la logique d’affichage des résultats sur les différentes pages."
       },
       "v140": {
         "title": "Version 1.4.0 (2025-10-06)",

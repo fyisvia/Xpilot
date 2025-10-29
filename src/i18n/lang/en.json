@@ -96,7 +96,12 @@
       "cut": "Discard",
       "improvements": "Improvements",
       "goodShapeRate": "Good Shape",
-      "total": "Total"
+      "total": "Total",
+      "index": "Index"
+    },
+    "small": {
+      "toggleToMetrics": "Show metrics",
+      "toggleToWaits": "Show improvements"
     }
   },
   "home": {
@@ -433,7 +438,9 @@
     "title": "Tile Efficiency Drills",
     "settings": {
       "shantenDisplayLegend": "Shanten display",
-      "tileSetLegend": "Tile set"
+      "tileSetLegend": "Tile set",
+      "judgeCriteriaLegend": "Judging criteria",
+      "submitModeLegend": "Submission mode"
     },
     "options": {
       "shantenDisplay": {
@@ -447,6 +454,16 @@
         "m": "Chinitsu: Manzu",
         "p": "Chinitsu: Pinzu",
         "s": "Chinitsu: Souzu"
+      },
+      "judgeCriteria": {
+        "default": "Default (mixed)",
+        "volume": "Total improvements",
+        "shape": "Good shape rate",
+        "index": "Index"
+      },
+      "submitMode": {
+        "instant": "Submit on tap",
+        "button": "Tap then press Submit"
       }
     },
     "status": {
@@ -466,18 +483,20 @@
       "cut": "Discard",
       "improvements": "Improvements",
       "goodShapeRate": "Good shape",
-      "total": "Total"
+      "total": "Total",
+      "index": "Index"
     },
     "buttons": {
       "prev": "Previous",
-      "next": "Next"
+      "next": "Next",
+      "submit": "Submit"
     },
     "result": {
       "correctAnswersTitle": "All correct answers:",
       "messages": {
         "errShantenBack": "Wrong: shanten goes backward",
         "correct": "Correct",
-        "wrongNotMax": "Wrong: not the maximum improvements"
+        "wrongNotMax": "Wrong"
       }
     }
   },
@@ -544,6 +563,16 @@
     "changelog": {
       "common": {
         "intro": "Highlights:"
+      },
+      "v150": {
+        "title": "Version 1.5.0 (2025-10-29)",
+        "i1": "1. Added Index display to Tile Efficiency Analysis and Tile Efficiency Drills.",
+        "i2": "2. Added selectable judging logic for correct answers in Tile Efficiency Drills.",
+        "i3": "3. Added submission‑mode selection on small‑screen mobile for 300 Nanikiru and Tile Efficiency Drills.",
+        "i4": "4. Fixed an issue where kanchan waits were ignored when calculating fu in certain cases.",
+        "i5": "5. Optimized answer judging logic in Tile Efficiency Drills.",
+        "i6": "6. Optimized site icons and favicon.",
+        "i7": "7. Optimized result display logic across pages."
       },
       "v140": {
         "title": "Version 1.4.0 (2025-10-06)",

@@ -1,5 +1,8 @@
-//Xpilot Copyright 2025 [Fyisvia Virell] — https://mj.fyisvia.com
-//Licensed under AGPL-3.0 with Additional Terms (see LICENSE).
+// Xpilot Copyright 2025 [Fyisvia Virell] — https://mj.fyisvia.com
+// Licensed under AGPL-3.0 with Additional Terms (see LICENSE).
+// Note: Certain non-code assets (including datasets, content sets, or media files)
+// are excluded from the AGPL license and may NOT be publicly published or redistributed
+// without written permission from the author. (See LICENSE for details)
 
 <template>
     <ul ref="outerEl" class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
@@ -929,15 +932,21 @@ function generateValidHand() {
       }, [])
     winningTileData.forEach((data)=>{
       let waitType = ''
-      if (sel[data.winningMeldIndex].type==='handkouutsu') waitType = 'shanpon'
-      else if (sel[data.winningMeldIndex].type==='handtoitsu') waitType = 'tanki-machi'
-      else if (sel[data.winningMeldIndex].type==='handshuntsu') {
-        const nums = sel[data.winningMeldIndex].tiles.map((t)=>parseInt(t))
-        if (data.winningTileIndex===1) waitType='kanchan-machi'
-        else if (data.winningTileIndex===0) {
-          waitType = JSON.stringify(nums) === JSON.stringify([7,8,9]) ? 'penchan-machi' : 'ryanmen-machi'
-        } else if (data.winningTileIndex===2) {
-          waitType = JSON.stringify(nums) === JSON.stringify([1,2,3]) ? 'penchan-machi' : 'ryanmen-machi'
+      if (sel[data.winningMeldIndex].type==='handkouutsu') {
+        waitType = 'shanpon'
+      } else if (sel[data.winningMeldIndex].type==='handtoitsu') {
+        waitType = 'tanki-machi'
+      } else if (sel[data.winningMeldIndex].type==='handshuntsu') {
+        // 稳健判定：顺子按数值升序，赤5按 5 处理
+        const tileNum = (t) => (t && t[0] === '0') ? 5 : parseInt(t[0], 10)
+        const numsSorted = sel[data.winningMeldIndex].tiles.map(tileNum).sort((a,b)=>a-b)
+        const wn = parseInt(winningTile[0], 10) // 生成阶段 winningTile 不会是赤5
+        if (wn === numsSorted[1]) {
+          waitType = 'kanchan-machi'
+        } else if (wn === numsSorted[0]) {
+          waitType = (numsSorted[0]===7 && numsSorted[1]===8 && numsSorted[2]===9) ? 'penchan-machi' : 'ryanmen-machi'
+        } else {
+          waitType = (numsSorted[0]===1 && numsSorted[1]===2 && numsSorted[2]===3) ? 'penchan-machi' : 'ryanmen-machi'
         }
       }
 
@@ -1187,7 +1196,10 @@ function generateValidHand() {
         const hanA = results[idx].hanResult.han
         const hanB = results[mi].hanResult.han
         if (hanA > hanB) return idx
-        if (hanA === hanB) return results[idx].fuResult.fuNotCeil > results[mi].fuResult.fuNotCeil ? idx : mi
+        if (hanA === hanB) {
+          // 修复：用 fuResult.fuNotCeil 做未进位符比较，避免遗漏坎张 +2 符的更优方案
+          return results[idx].fuResult.fuNotCeil > results[mi].fuResult.fuNotCeil ? idx : mi
+        }
       }
       return mi
     }, 0)

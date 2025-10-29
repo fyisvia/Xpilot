@@ -1,11 +1,9 @@
-/**
- * 役种判定集合
- * 说明：
- * - 本类只做“是否满足某个役”判定，不负责分手（搭子/面子分解）。
- * - 函数均为纯判定函数，输入为已经“分解好的一手牌结构”（由 HandDivider 提供）。
- * - hand 结构：数组，元素形如 { type: string, tiles: string[] }，type 见 HandDivider.getMeldType。
- * - tiles 牌编码示例：'1m'（万）、'9p'（筒）、'3s'（索）、'1z'~'7z'（字牌），'0m' 为赤宝牌，normalize 后按 '5m' 处理。
- */
+// Xpilot Copyright 2025 [Fyisvia Virell] — https://mj.fyisvia.com
+// Licensed under AGPL-3.0 with Additional Terms (see LICENSE).
+// Note: Certain non-code assets (including datasets, content sets, or media files)
+// are excluded from the AGPL license and may NOT be publicly published or redistributed
+// without written permission from the author. (See LICENSE for details)
+
 class YakuList {
     /**
      * 断幺九（所有面子都不能包含幺九或字牌）

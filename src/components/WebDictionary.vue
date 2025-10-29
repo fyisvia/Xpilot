@@ -1,5 +1,8 @@
-//Xpilot Copyright 2025 [Fyisvia Virell] — https://mj.fyisvia.com
-//Licensed under AGPL-3.0 with Additional Terms (see LICENSE).
+// Xpilot Copyright 2025 [Fyisvia Virell] — https://mj.fyisvia.com
+// Licensed under AGPL-3.0 with Additional Terms (see LICENSE).
+// Note: Certain non-code assets (including datasets, content sets, or media files)
+// are excluded from the AGPL license and may NOT be publicly published or redistributed
+// without written permission from the author. (See LICENSE for details)
 
 <template>
   <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">

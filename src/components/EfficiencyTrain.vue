@@ -1,5 +1,8 @@
-//Xpilot Copyright 2025 [Fyisvia Virell] — https://mj.fyisvia.com
-//Licensed under AGPL-3.0 with Additional Terms (see LICENSE).
+// Xpilot Copyright 2025 [Fyisvia Virell] — https://mj.fyisvia.com
+// Licensed under AGPL-3.0 with Additional Terms (see LICENSE).
+// Note: Certain non-code assets (including datasets, content sets, or media files)
+// are excluded from the AGPL license and may NOT be publicly published or redistributed
+// without written permission from the author. (See LICENSE for details)
 
 <template>
   <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%] px-2 sm:px-8">
@@ -38,6 +41,40 @@
           >
             <option
               v-for="option in tileSetOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </fieldset>
+      </div>
+      <!-- 新增：判断标准与提交方式 -->
+      <div class="flex flex-col sm:flex-row sm:items-center sm:gap-8 mt-4">
+        <fieldset class="fieldset ml-0 flex-1">
+          <legend class="text-base">{{ t('efficiencyTrain.settings.judgeCriteriaLegend') }}</legend>
+          <select
+            class="select ml-0 w-full sm:w-auto"
+            v-model="judgeCriteria"
+          >
+            <option
+              v-for="option in judgeCriteriaOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </fieldset>
+        <fieldset class="fieldset ml-0 flex-1 mt-4 sm:mt-0">
+          <legend class="text-base">{{ t('efficiencyTrain.settings.submitModeLegend') }}</legend>
+          <select
+            class="select ml-0 w-full sm:w-auto"
+            v-model="submitMode"
+            :disabled="!isSmallScreen"
+          >
+            <option
+              v-for="option in submitModeOptions"
               :key="option.value"
               :value="option.value"
             >
@@ -92,20 +129,29 @@
             class="tile-img transition-transform duration-150 cursor-pointer"
             :style="{
               borderRadius: '5px',
-              transform: hoveredIndex === index ? 'translateY(-5px)' : 'none'
+              transform: hoveredIndex === index ? 'translateY(-5px)' : 'none',
+              // 新增：按钮提交模式下，已选择牌变灰
+              filter: (isSmallScreen && submitMode === 'button' && selectedDiscard === tile) ? 'grayscale(100%) brightness(0.9)' : undefined,
+              opacity: (isSmallScreen && submitMode === 'button' && selectedDiscard === tile) ? '0.8' : undefined
             }"
           />
         </template>
       </div>
     </li>
     
-    <li class="p-4 pb-2 text-xs md:text-base opacity-80 tracking-wide flex justify-end mx-2">
-      <div>{{ t('efficiencyTrain.ui.clickHint') }}</div>
+    <li
+      v-if="!(isSmallScreen && submitMode === 'button')"
+      class="p-4 pb-2 text-xs md:text-base opacity-80 tracking-wide flex justify-end mx-2"
+    >
+      <div>{{ t('threeHundred.ui.clickHint') }}</div>
     </li>
 
+    <li v-if="(isSmallScreen && submitMode === 'button')" aria-hidden="true" role="presentation" class="p-0 m-0 h-6"></li>
+    
     <li v-if="lastDiscardResult" class="p-2">
       <div class="flex flex-col items-center gap-3">
-        <div :class="lastDiscardResult.isCorrect ? 'badge badge-success' : 'badge badge-error'" class="inline-flex items-center gap-1 text-lg font-bold">
+        <!-- 合并静态 class 与动态 :class，避免解析器误判 -->
+        <div :class="['inline-flex items-center gap-1 text-lg font-bold', lastDiscardResult.isCorrect ? 'badge badge-success' : 'badge badge-error']">
           <svg v-if="lastDiscardResult.isCorrect" class="size-[1em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <g fill="currentColor" stroke-linejoin="miter" stroke-linecap="butt">
               <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2"></circle>
@@ -152,6 +198,14 @@
         {{ t('efficiencyTrain.buttons.prev') }}
       </button>
       <button
+        v-if="isSmallScreen && submitMode === 'button'"
+        class="btn btn-sm text-sm sm:text-base px-4 btn-primary"
+        :disabled="!selectedDiscard"
+        @click="handleSubmitDiscard"
+      >
+        {{ t('efficiencyTrain.buttons.submit') }}
+      </button>
+      <button
         class="btn btn-sm text-sm sm:text-base px-4"
         @click="nextQuestion"
       >
@@ -166,13 +220,78 @@
           <div class="collapse-title text-base sm:text-lg font-semibold text-center pl-12">{{ t('efficiencyTrain.analysis.title') }}</div>
           <div class="collapse-content text-sm sm:text-base md:text-lg mb-0">
             <div class="overflow-x-auto">
-              <div class="responsive-table-wrapper">
+              <!-- 新增：小屏幕切换按钮 + 两套视图 -->
+              <div class="sm:hidden">
+                <div class="flex justify-end mb-2">
+                  <button
+                    class="btn btn-sm text-sm sm:text-base px-4"
+                    @click="showSmallWaits = !showSmallWaits"
+                    :aria-label="showSmallWaits ? t('discard.small.toggleToMetrics') : t('discard.small.toggleToWaits')"
+                    :title="showSmallWaits ? t('discard.small.toggleToMetrics') : t('discard.small.toggleToWaits')"
+                  >
+                    {{ showSmallWaits ? t('discard.small.toggleToMetrics') : t('discard.small.toggleToWaits') }}
+                  </button>
+                </div>
+
+                <!-- 小屏视图A：切牌/好型率/指数/进张数 -->
+                <div class="responsive-table-wrapper" v-if="!showSmallWaits">
+                  <table class="table table-xs w-full bg-base-100 rounded-lg">
+                    <thead>
+                      <tr>
+                        <th class="text-center">{{ t('efficiencyTrain.table.cut') }}</th>
+                        <th class="text-center">{{ t('efficiencyTrain.table.goodShapeRate') }}</th>
+                        <th class="text-center">{{ t('discard.table.index') }}</th>
+                        <th class="text-center">{{ t('efficiencyTrain.table.total') }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="([tile, result], idx) in sortedImprovementResults"
+                        :key="'smA-' + (tile || '-')"
+                        :class="idx % 2 === 1 ? 'hover:bg-base-300' : ''"
+                      >
+                        <td class="font-bold text-center">{{ tile || '—' }}</td>
+                        <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(0) }}%</td>
+                        <td class="font-bold text-center">{{ Math.round(expectedPointResults[tile] || 0) }}</td>
+                        <td class="font-bold text-center">{{ result.totalCount }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- 小屏视图B：切牌/进张 -->
+                <div class="responsive-table-wrapper" v-else>
+                  <table class="table table-xs w-full bg-base-100 rounded-lg">
+                    <thead>
+                      <tr>
+                        <th class="text-center">{{ t('efficiencyTrain.table.cut') }}</th>
+                        <th class="text-center">{{ t('efficiencyTrain.table.improvements') }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="([tile, result], idx) in sortedImprovementResults"
+                        :key="'smB-' + (tile || '-')"
+                        :class="idx % 2 === 1 ? 'hover:bg-base-300' : ''"
+                      >
+                        <td class="font-bold text-center">{{ tile || '—' }}</td>
+                        <td class="text-center">{{ formatImprovements(result.improvements) }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!-- 大屏完整表格 -->
+              <div class="responsive-table-wrapper hidden sm:block">
                 <table class="table table-sm w-full bg-base-100 rounded-lg">
                   <thead>
                     <tr>
                       <th class="text-center">{{ t('efficiencyTrain.table.cut') }}</th>
                       <th class="text-center">{{ t('efficiencyTrain.table.improvements') }}</th>
                       <th class="text-center">{{ t('efficiencyTrain.table.goodShapeRate') }}</th>
+                      <!-- 新增：指数列 -->
+                      <th class="text-center">{{ t('discard.table.index') }}</th>
                       <th class="text-center">{{ t('efficiencyTrain.table.total') }}</th>
                     </tr>
                   </thead>
@@ -185,6 +304,8 @@
                       <td class="font-bold text-center">{{ tile }}</td>
                       <td class="text-center">{{ formatImprovements(result.improvements) }}</td>
                       <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(0) }}%</td>
+                      <!-- 指数（四舍五入展示） -->
+                      <td class="font-bold text-center">{{ Math.round(expectedPointResults[tile] || 0) }}</td>
                       <td class="font-bold text-center">{{ result.totalCount }}</td>
                     </tr>
                   </tbody>
@@ -216,10 +337,23 @@ const tiles34Arr = ref([])                  // 手牌34进制数组
 const shantenNum = ref(null)                // 当前向听数
 const hoveredIndex = ref(null)              // 手牌悬浮态
 const improvementResults = ref({})          // 计算出的进张列表
-const lastDiscardResult = ref(null)         // 最近一次答题结果（正确/错误）
-const showResult = ref(false)               // “进张数分析”折叠是否展开
-const shantenDisplayMode = ref('hidden')    // 向听显示模式：hidden / full / tenpaiOnly
-const tileSetMode = ref('noHonor')          // 牌堆类型：noHonor/withHonor/m/p/s（清一色）
+// 新增：每个切牌的“预期打点指数”
+const expectedPointResults = ref({})
+
+// 新增：小屏表格切换（false=指标视图，true=进张视图）
+const showSmallWaits = ref(false)
+
+// 新增：设置项与结果状态（需在 prevTileSetMode 使用前声明）
+const shantenDisplayMode = ref('full')      // 'hidden' | 'full' | 'tenpaiOnly'
+const tileSetMode = ref('noHonor')        // 'noHonor' | 'withHonor' | 'm' | 'p' | 's'
+const showResult = ref(false)
+const lastDiscardResult = ref(null)
+
+// 新增：判断标准与提交方式
+const judgeCriteria = ref('default')      // 'default' | 'volume' | 'shape' | 'index'
+const submitMode = ref('instant')         // 'instant' | 'button'
+// 新增：暂存用户点击的牌（按钮提交模式）
+const selectedDiscard = ref(null)
 
 // 历史题目记录（上一题/下一题）
 const questions = ref([])                   // [{ hand: string[], baseCount: Record<string, number>, tileSet: string }]
@@ -238,6 +372,17 @@ const tileSetOptions = computed(() => [
   { value: 'm', label: t('efficiencyTrain.options.tileSet.m') },
   { value: 'p', label: t('efficiencyTrain.options.tileSet.p') },
   { value: 's', label: t('efficiencyTrain.options.tileSet.s') }
+])
+// 新增：判断标准与提交方式选项
+const judgeCriteriaOptions = computed(() => [
+  { value: 'default', label: t('efficiencyTrain.options.judgeCriteria.default') },
+  { value: 'volume', label: t('efficiencyTrain.options.judgeCriteria.volume') },
+  { value: 'shape', label: t('efficiencyTrain.options.judgeCriteria.shape') },
+  { value: 'index', label: t('efficiencyTrain.options.judgeCriteria.index') }
+])
+const submitModeOptions = computed(() => [
+  { value: 'instant', label: t('efficiencyTrain.options.submitMode.instant') },
+  { value: 'button', label: t('efficiencyTrain.options.submitMode.button') }
 ])
 
 // -------------------- 公共计算/常量 --------------------
@@ -470,7 +615,257 @@ const analyzeImprovement = (currentHand, current34) => {
   return results
 }
 
+// ==================== 指数计算：番估计 / 期望递归 / 加权与惩罚 ====================
+// 基础分类与工具
+const isHonor = (t) => t.endsWith('z')
+const isTerminal = (t) => !isHonor(t) && (t[0] === '1' || t[0] === '9')
+const suitOf = (t) => t.slice(-1)
+const isRed = (t) => t[0] === '0'
+
+// 对对和（14张）：4刻子1雀头（红5并到5处理）
+function isToitoiAgari34(arr34) {
+  for (let i = 0; i < 34; i++) {
+    if (arr34[i] >= 2) {
+      let ok = true
+      for (let j = 0; j < 34; j++) {
+        const rem = arr34[j] - (j === i ? 2 : 0)
+        if (rem < 0 || rem % 3 !== 0) { ok = false; break }
+      }
+      if (ok) return true
+    }
+  }
+  return false
+}
+// 三色同顺（启发）
+function hasSanshokuDoujun(arr34) {
+  const offs = [0, 9, 18]
+  for (let r = 0; r <= 6; r++) {
+    let ok = true
+    for (const o of offs) {
+      if (!(arr34[o + r] > 0 && arr34[o + r + 1] > 0 && arr34[o + r + 2] > 0)) { ok = false; break }
+    }
+    if (ok) return true
+  }
+  return false
+}
+// 一气通贯（启发）
+function hasIttsuu(arr34) {
+  const offs = [0, 9, 18]
+  for (const o of offs) {
+    const a = Math.min(arr34[o + 0], arr34[o + 1], arr34[o + 2])
+    const b = Math.min(arr34[o + 3], arr34[o + 4], arr34[o + 5])
+    const c = Math.min(arr34[o + 6], arr34[o + 7], arr34[o + 8])
+    if (a >= 1 && b >= 1 && c >= 1) return true
+  }
+  return false
+}
+// 七对/国士
+function isChiitoi(hand) {
+  if (hand.length !== 14) return false
+  const cnt = buildHandCountMap(hand)
+  let pairs = 0
+  for (const c of Object.values(cnt)) {
+    if (c === 2) pairs++
+    else if (c === 1 || c === 3 || c === 4) return false
+  }
+  return pairs === 7
+}
+function isKokushi(hand) {
+  if (hand.length !== 14) return false
+  const req = new Set(['1m','9m','1p','9p','1s','9s','1z','2z','3z','4z','5z','6z','7z'])
+  const cnt = buildHandCountMap(hand)
+  let pairFound = false
+  for (const r of req) {
+    if (!cnt[r]) return false
+    if (cnt[r] >= 2) pairFound = true
+  }
+  for (const t of Object.keys(cnt)) if (!req.has(t)) return false
+  return pairFound
+}
+
+// 番估计（门清近似）
+function estimateHanStandard(hand) {
+  const cnt = buildHandCountMap(hand)
+  const reds = hand.filter(isRed).length
+  const suits = new Set(hand.filter(t => !isHonor(t)).map(suitOf))
+  const hasHonor = hand.some(isHonor)
+  const arr34 = convertToTiles34Arr(hand)
+  let han = 0
+  // 混一/清一
+  han += (suits.size === 1) ? (hasHonor ? 3 : 6) : 0
+  // 断幺
+  han += hand.some(t => isHonor(t) || isTerminal(t)) ? 0 : 1
+  // 三元刻
+  for (const d of ['5z','6z','7z']) if ((cnt[d] || 0) >= 3) han += 1
+  // 对对和 或 顺子类
+  if (isToitoiAgari34(arr34)) {
+    han += 2
+  } else {
+    if (hasSanshokuDoujun(arr34)) han += 2
+    if (hasIttsuu(arr34)) han += 2
+  }
+  // 赤宝
+  han += reds
+  return han
+}
+function estimateHanChiitoi(hand) {
+  let han = 2
+  const hasTermOrHonor = hand.some(t => isHonor(t) || isTerminal(t))
+  if (!hasTermOrHonor) han += 1
+  const suits = new Set(hand.filter(t => !isHonor(t)).map(suitOf))
+  const hasHonor = hand.some(isHonor)
+  if (suits.size === 1) han += hasHonor ? 3 : 6
+  han += hand.filter(isRed).length
+  return han
+}
+function calcChildRonPointByHanFu(han, fu) {
+  if (han <= 0) return 0
+  if (han >= 13) return 32000
+  if (han >= 11) return 24000
+  if (han >= 8) return 16000
+  if (han >= 6) return 12000
+  if (han >= 5) return 8000
+  const basic = fu * Math.pow(2, 2 + han)
+  const ron = basic * 4
+  return Math.ceil(ron / 100) * 100
+}
+function estimateAgariPointIndex(hand14) {
+  if (isKokushi(hand14)) return 32000
+  if (isChiitoi(hand14)) {
+    const han = estimateHanChiitoi(hand14)
+    return calcChildRonPointByHanFu(han, 25)
+  }
+  let han = estimateHanStandard(hand14)
+  if (han <= 0) han = 1 // 立直
+  return calcChildRonPointByHanFu(han, 30)
+}
+
+// 权重枚举
+function enumerateWaitTilesWeighted(hand13) {
+  const res = []
+  const rem = remainingCounts(buildHandCountMap(hand13))
+  if (calcShanten(convertToTiles34Arr(hand13)) !== 0) return res
+  for (const [t, left] of Object.entries(rem)) {
+    const test = [...hand13, t]
+    if (calcShanten(convertToTiles34Arr(test)) === -1) res.push([t, left])
+  }
+  return res
+}
+function enumerateImprovingTilesWeighted(hand13) {
+  const res = []
+  const rem = remainingCounts(buildHandCountMap(hand13))
+  const s = calcShanten(convertToTiles34Arr(hand13))
+  for (const [t, left] of Object.entries(rem)) {
+    const test = [...hand13, t]
+    if (calcShanten(convertToTiles34Arr(test)) < s) res.push([t, left])
+  }
+  return res
+}
+
+// 递归V13（带权）
+const handKey = (tiles) => sortTiles(tiles).join(',')
+function makeEvaluator(depthMax = 2) {
+  const memo13 = new Map()
+  const V13 = (hand13, depth) => {
+    const key = handKey(hand13) + '|' + depth
+    if (memo13.has(key)) return memo13.get(key)
+
+    const s = calcShanten(convertToTiles34Arr(hand13))
+    if (s === 0) {
+      const waits = enumerateWaitTilesWeighted(hand13)
+      if (waits.length === 0) { memo13.set(key, 0); return 0 }
+      let wSum = 0, vSum = 0
+      for (const [w, cnt] of waits) {
+        vSum += cnt * estimateAgariPointIndex([...hand13, w])
+        wSum += cnt
+      }
+      const avg = vSum / wSum
+      memo13.set(key, avg)
+      return avg
+    }
+
+    if (depth <= 0) { memo13.set(key, 0); return 0 }
+    const improves = enumerateImprovingTilesWeighted(hand13)
+    if (improves.length === 0) { memo13.set(key, 0); return 0 }
+
+    let wSum = 0, vSum = 0
+    for (const [draw, cnt] of improves) {
+      const afterDraw14 = [...hand13, draw]
+      let best = 0
+      for (let i = 0; i < afterDraw14.length; i++) {
+        const next13 = afterDraw14.slice()
+        next13.splice(i, 1)
+        best = Math.max(best, V13(next13, depth - 1))
+      }
+      vSum += cnt * best
+      wSum += cnt
+    }
+    const avg = vSum / wSum
+    memo13.set(key, avg)
+    return avg
+  }
+
+  const expectedPointIndexByDiscard = (hand14, allowedSet) => {
+    const map = {}
+    const allow = allowedSet ? new Set(allowedSet) : null
+    for (let i = 0; i < hand14.length; i++) {
+      const d = hand14[i]
+      if (allow && !allow.has(d)) continue
+      if (map[d] !== undefined) continue
+      const next13 = hand14.slice()
+      next13.splice(i, 1)
+      map[d] = V13(next13, depthMax)
+    }
+    return map
+  }
+  return { expectedPointIndexByDiscard }
+}
+
+// 加权与惩罚项
+const ALPHA_SHAPE = 1.2
+const BETA_VOLUME = 1.6
+const GAMMA_SHAPE = 2.0
+const GAMMA_VOLUME = 2.4
+function applyShapeAndVolumeWeights(baseMap, impMap) {
+  const totals = Object.values(impMap || {}).map(v => v?.totalCount || 0)
+  const maxTotal = Math.max(1, ...(totals.length ? totals : [0]))
+  const adjusted = {}
+  for (const [k, base] of Object.entries(baseMap || {})) {
+    const info = impMap?.[k]
+    const shapeNorm = info ? Math.max(0, (info.goodShapeRate || 0) / 100) : 0
+    const volumeNorm = info ? Math.min(1, (info.totalCount || 0) / maxTotal) : 0
+    const shapeWeighted = Math.pow(shapeNorm, GAMMA_SHAPE)
+    const volumeWeighted = Math.pow(volumeNorm, GAMMA_VOLUME)
+    adjusted[k] = (base || 1000) * (1 + ALPHA_SHAPE * shapeWeighted) * (1 + BETA_VOLUME * volumeWeighted)
+  }
+  return adjusted
+}
+function tileDigitPenalty(tile) {
+  if (!tile || tile.length < 2) return 0
+  const type = tile.slice(-1)
+  if (type === 'z') return 0
+  const nChar = tile[0]
+  const val = nChar === '0' ? 5 : parseInt(nChar, 10)
+  if (!Number.isFinite(val) || val < 1 || val > 9) return 0
+  return val <= 5 ? val : 10 - val
+}
+function applyDiscardDigitPenalty(map) {
+  const res = { ...(map || {}) }
+  for (const k of Object.keys(res)) {
+    const p = tileDigitPenalty(k)
+    if (p > 0) res[k] = (res[k] || 0) - 3 * p
+    // 新增：赤5切牌（0m/0p/0s）额外惩罚 -480
+    if (k === '0m' || k === '0p' || k === '0s') {
+      res[k] = (res[k] || 0) - 480
+    }
+  }
+  return res
+}
+
 // -------------------- UI/状态更新与判题 --------------------
+// 判题容差（指数差值<=100 视为正确）
+const INDEX_CORRECT_TOLERANCE = 100
+
 // 更新当前手牌相关状态
 const updateTilesState = (tiles) => {
   tilesStr.value = convertToTilesStr(tiles)
@@ -478,10 +873,23 @@ const updateTilesState = (tiles) => {
   shantenNum.value = calcShanten(tiles34Arr.value)
 }
 
-// 重算进张分析
+// 重算进张分析 + 指数
 const recalcImprovementResults = (hand = handTiles.value) => {
-  goodShapeCache = new Map() // 清空记忆化缓存，确保结果一致
+  goodShapeCache = new Map()
   improvementResults.value = analyzeImprovement(hand, convertToTiles34Arr(hand))
+  const allowedDiscards = Object.keys(improvementResults.value || {})
+  if (!allowedDiscards.length) {
+    expectedPointResults.value = {}
+    return
+  }
+  const { expectedPointIndexByDiscard } = makeEvaluator(2)
+  const baseMap = expectedPointIndexByDiscard(hand, allowedDiscards)
+  if (!Object.keys(baseMap).length) {
+    expectedPointResults.value = {}
+    return
+  }
+  expectedPointResults.value = applyShapeAndVolumeWeights(baseMap, improvementResults.value)
+  expectedPointResults.value = applyDiscardDigitPenalty(expectedPointResults.value)
 }
 
 // 折叠展开回调：需要时才计算
@@ -489,16 +897,38 @@ const handleAnalysisToggle = () => {
   if (showResult.value) recalcImprovementResults()
 }
 
-// 结果表排序：按总进张降序
-const sortedImprovementResults = computed(() =>
-  Object.entries(improvementResults.value)
-    .sort((a, b) => b[1].totalCount - a[1].totalCount)
-)
+// 结果表排序：按判定逻辑切换排序依据
+const sortedImprovementResults = computed(() => {
+  const entries = Object.entries(improvementResults.value || {})
+  const criterion = judgeCriteria.value
 
-// 判题：以“总进张最多”为标准，数量相同的全部为正确答案
+  if (criterion === 'shape') {
+    // 好型率优先，其次进张数
+    return entries.sort(
+      (a, b) =>
+        ((b[1].goodShapeRate || 0) - (a[1].goodShapeRate || 0)) ||
+        ((b[1].totalCount || 0) - (a[1].totalCount || 0))
+    )
+  } else if (criterion === 'index') {
+    // 指数优先，其次进张数
+    return entries.sort(
+      (a, b) =>
+        ((expectedPointResults.value[b[0]] || 0) - (expectedPointResults.value[a[0]] || 0)) ||
+        ((b[1].totalCount || 0) - (a[1].totalCount || 0))
+    )
+  } else {
+    // 默认（混合）与进张数：按总进张，其次指数
+    return entries.sort(
+      (a, b) =>
+        ((b[1].totalCount || 0) - (a[1].totalCount || 0)) ||
+        ((expectedPointResults.value[b[0]] || 0) - (expectedPointResults.value[a[0]] || 0))
+    )
+  }
+})
+
+// 判题：指数容差内判对（<= 60）并列全对
 const evaluateDiscardChoice = (discardedTile, results) => {
-  const entries = Object.entries(results)
-  if (!entries.length) {
+  if (!Object.keys(results).length) {
     lastDiscardResult.value = {
       type: 'invalid',
       isCorrect: false,
@@ -508,50 +938,103 @@ const evaluateDiscardChoice = (discardedTile, results) => {
     }
     return
   }
+  if (!Object.keys(expectedPointResults.value || {}).length) {
+    recalcImprovementResults()
+  }
+  const idxMap = expectedPointResults.value || {}
+  let correctChoices = []
 
-  const maxCount = Math.max(...entries.map(([, d]) => d.totalCount))
-  const correctChoices = entries.filter(([, d]) => d.totalCount === maxCount).map(([t]) => t)
-  const target = results[discardedTile]
-
-  if (!target) {
-    lastDiscardResult.value = {
-      type: 'invalid',
-      isCorrect: false,
-      messageKey: 'efficiencyTrain.result.messages.errShantenBack',
-      correctChoices,
-      discardedTile
+  if (judgeCriteria.value === 'volume') {
+    const maxVol = Math.max(...Object.values(results).map(r => r.totalCount || 0))
+    correctChoices = Object.keys(results).filter(k => (results[k]?.totalCount || 0) === maxVol)
+  } else if (judgeCriteria.value === 'shape') {
+    const maxShape = Math.max(...Object.values(results).map(r => r.goodShapeRate || 0))
+    const threshold = maxShape - 2
+    correctChoices = Object.keys(results).filter(k => (results[k]?.goodShapeRate || 0) >= threshold)
+  } else if (judgeCriteria.value === 'index') {
+    const vals = Object.values(idxMap)
+    if (!vals.length) {
+      lastDiscardResult.value = {
+        type: 'invalid',
+        isCorrect: false,
+        messageKey: 'efficiencyTrain.result.messages.errShantenBack',
+        correctChoices: [],
+        discardedTile
+      }
+      return
     }
-    return
+    const maxVal = Math.max(...vals)
+    const threshold = maxVal - INDEX_CORRECT_TOLERANCE
+    correctChoices = Object.keys(idxMap).filter(k => (idxMap[k] || 0) >= threshold - 1e-9)
+  } else {
+    // default
+    const maxVol = Math.max(...Object.values(results).map(r => r.totalCount || 0))
+    const volCandidates = new Set(Object.keys(results).filter(k => (results[k]?.totalCount || 0) === maxVol))
+    const vals = Object.values(idxMap)
+    if (!vals.length) {
+      correctChoices = Array.from(volCandidates)
+    } else {
+      const maxIdx = Math.max(...vals)
+      const threshold = maxIdx - INDEX_CORRECT_TOLERANCE
+      const idxCandidates = new Set(Object.keys(idxMap).filter(k => (idxMap[k] || 0) >= threshold - 1e-9))
+      correctChoices = Array.from(new Set([...volCandidates, ...idxCandidates]))
+    }
   }
 
-  if (target.totalCount === maxCount) {
-    lastDiscardResult.value = {
-      type: 'best',
-      isCorrect: true,
-      messageKey: 'efficiencyTrain.result.messages.correct',
-      correctChoices,
-      discardedTile
+  // 新增：当 0m/0p/0s 不作为“唯一的答案”时，从答案里去掉它们
+  // 仅当正确答案集合“恰好为一个且为赤5”时保留赤5；否则过滤掉 0m/0p/0s
+  {
+    const redFives = new Set(['0m', '0p', '0s'])
+    const keepRedFiveOnly = (correctChoices.length === 1 && redFives.has(correctChoices[0]))
+    if (!keepRedFiveOnly) {
+      correctChoices = correctChoices.filter(k => !redFives.has(k))
     }
-    return
   }
 
+  const isCorrect = correctChoices.includes(discardedTile)
   lastDiscardResult.value = {
-    type: 'suboptimal',
-    isCorrect: false,
-    messageKey: 'efficiencyTrain.result.messages.wrongNotMax',
+    type: isCorrect ? 'best' : 'suboptimal',
+    isCorrect,
+    messageKey: isCorrect ? 'efficiencyTrain.result.messages.correct' : 'efficiencyTrain.result.messages.wrongNotMax',
     correctChoices,
     discardedTile
   }
 }
 
-// 点击手牌：仅判题并展开分析，不改动手牌/牌山
+// 修改：点击手牌逻辑（按提交方式分流）
 const handleTileClick = (clickedTile) => {
   if (Object.keys(improvementResults.value).length === 0) {
     recalcImprovementResults()
   }
-  evaluateDiscardChoice(clickedTile, improvementResults.value)
-  showResult.value = true
+  if (submitMode.value === 'instant') {
+    evaluateDiscardChoice(clickedTile, improvementResults.value)
+    showResult.value = true
+    selectedDiscard.value = null
+  } else {
+    selectedDiscard.value = clickedTile
+  }
 }
+
+// 新增：提交按钮回调
+const handleSubmitDiscard = () => {
+  if (!selectedDiscard.value) return
+  evaluateDiscardChoice(selectedDiscard.value, improvementResults.value)
+  showResult.value = true
+  selectedDiscard.value = null
+}
+
+// 新增：屏幕尺寸监听（大屏时强制 instant）
+const isSmallScreen = ref(false)
+const updateScreenSize = () => {
+  isSmallScreen.value = window.innerWidth < 640
+  if (!isSmallScreen.value && submitMode.value === 'button') {
+    submitMode.value = 'instant'
+  }
+}
+onMounted(() => {
+  updateScreenSize()
+  window.addEventListener('resize', updateScreenSize)
+})
 
 // -------------------- 题目生成（含清一色目标向听概率） --------------------
 // 清一色下目标向听概率：10%两向听，60%一向听，30%听牌
