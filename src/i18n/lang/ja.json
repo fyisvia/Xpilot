@@ -1,0 +1,607 @@
+{
+  "review": {
+    "title": "牌譜解析",
+    "thanks": "謝辞:",
+    "thanksDesc": "本システムは Skyler により提供・保守されています。ソース：",
+    "link": "リンク",
+    "hint": "ヒント:",
+    "hint1": "1. 三人麻雀は上級モードに未対応です。",
+    "hint2": "2. 四人麻雀の上級モードは既定で KillerDucky スタイルを使用し、より詳細な出力と放銃データを表示します。1〜2分ほど時間がかかる場合があります。標準モードは高速です。",
+    "input": {
+      "legend": "牌譜URLまたはIDを入力",
+      "help": "天鳳・雀魂・麻雀一番街などの4/3人対局を自動判別します。",
+      "toastEmpty": "まず牌譜URLまたはIDを入力してください"
+    },
+    "options": {
+      "viewpointLegend": "視点",
+      "auto": "自動判定",
+      "east": "東家",
+      "south": "南家",
+      "west": "西家",
+      "north": "北家（3麻では利用不可）",
+      "langLegend": "言語",
+      "langZh": "简体中文",
+      "langEn": "English",
+      "langJa": "日本語",
+      "langKo": "한국어",
+      "engine4pLegend": "四麻エンジン",
+      "engine3pLegend": "三麻エンジン",
+      "engine3pDefault": "トライデント",
+      "uiLegend": "UIスタイル",
+      "uiClassic": "クラシック",
+      "uiNew": "KillerDuckyスタイル（ベータ）",
+      "modeLegend": "解析モード",
+      "modeStandard": "標準",
+      "modeAdvanced": "上級"
+    },
+    "aria": {
+      "selectModel": "モデルを選択",
+      "selectLang": "言語を選択"
+    },
+    "submit": "送信"
+  },
+  "discard": {
+    "title": "牌効率解析",
+    "collapses": {
+      "rules": {
+        "title": "既定の解析ルール",
+        "l1": "1. 一般形・七対子・国士無双を考慮します。",
+        "l2": "2. 対戦相手や河がないため、残り枚数は最大値とします。",
+        "l3": "3. 巡目は考慮しません。",
+        "l4": "4. テンパイ時の良形の定義は総和了牌が4枚超です。"
+      },
+      "notation": {
+        "title": "手牌表記",
+        "l1": "\"m\" は萬子、",
+        "l2": "\"p\" は筒子、",
+        "l3": "\"s\" は索子。",
+        "l4": "\"z\" は字牌（東南西北白發中）を表します。",
+        "l5": "\"0\" は赤五です。",
+        "l6": "副露の入力は不要です。ツモ牌は任意です。",
+        "l7": "ツモ牌を入力した場合、全切り選択の解析を行います。",
+        "l8": "入力しない場合、現在手の受け入れと良形率のみを計算します。",
+        "l9": "例：",
+        "l10": "012m123p123s1156z。",
+        "l11": "もし123pが副露なら、012m123s1156zのみ入力します。"
+      }
+    },
+    "input": {
+      "label": "手牌を入力",
+      "placeholder": "123m456p789s1122z"
+    },
+    "palette": {
+      "title": "画像をクリックして追加"
+    },
+    "selected": {
+      "title": "選択中（{count}/14）",
+      "undo": "1枚戻す",
+      "clear": "クリア"
+    },
+    "a11y": {
+      "add": "{tile} を追加",
+      "remove": "{tile} を削除"
+    },
+    "submit": "送信",
+    "loading": "計算中...",
+    "error": {
+      "empty": "手牌を入力してください",
+      "format": "手牌の形式が不正です"
+    },
+    "result": {
+      "he": "和了",
+      "tenpai": "テンパイ",
+      "shanten": "{n} シャンテン"
+    },
+    "table": {
+      "cut": "切り",
+      "improvements": "受け入れ",
+      "goodShapeRate": "良形率",
+      "total": "合計",
+      "index": "指數"
+    },
+    "small": {
+      "toggleToMetrics": "指標を表示",
+      "toggleToWaits": "進張を表示"
+    }
+  },
+  "home": {
+    "cards": {
+      "discard": {
+        "title": "牌効率解析",
+        "desc": "異なる打牌における受け入れ枚数を解析。",
+        "aria": "牌効率解析へ"
+      },
+      "review": {
+        "title": "牌譜解析",
+        "desc": "Skyler により保守。Zeus などのモデルで牌譜を解析。",
+        "aria": "牌譜解析へ"
+      },
+      "threeHundred": {
+        "title": "何切る300問",
+        "desc": "『麻雀傑作「何切る」300選』のオンライン練習。",
+        "aria": "何切る300問へ"
+      },
+      "threeHundredOne": {
+        "title": "何切る301選",
+        "desc": "何切る300問に続く追加問題セット。",
+        "aria": "何切る301選へ"
+      },
+      "efficiencyTrain": {
+        "title": "牌効率練習",
+        "desc": "牌効率の観点から最善手を選ぶ訓練。",
+        "aria": "牌効率練習へ"
+      },
+      "pureOnesTenpai": {
+        "title": "清一色聴牌練習",
+        "desc": "門前清一色の待ちを素早く判断する訓練。",
+        "aria": "清一色聴牌練習へ"
+      },
+      "pointCalc": {
+        "title": "点数計算練習",
+        "desc": "各種の翻・符に対する点数を計算。",
+        "aria": "点数計算練習へ"
+      },
+      "guide": {
+        "title": "入門から上級へ",
+        "desc": "リーチ麻雀の学習ルート。",
+        "aria": "学習ルートへ"
+      },
+      "terms": {
+        "title": "基本用語辞典",
+        "desc": "代表的なリーチ用語を手早く確認できます。",
+        "aria": "基本用語辞典へ"
+      },
+      "books": {
+        "title": "戦術書リンク集",
+        "desc": "Bilibili の中国語訳および国内作品のリンク集。",
+        "aria": "戦術書リンク集へ"
+      },
+      "webDictionary": {
+        "title": "その他のサイト",
+        "desc": "便利なリーチ麻雀サイトのまとめ。",
+        "aria": "その他のサイトへ"
+      },
+      "handPointCalc": {
+        "title": "手牌点数計算練習",
+        "desc": "手牌から役・符・点数を判定する練習。",
+        "aria": "手牌点数計算練習へ"
+      },
+      "handPointCalculator": {
+        "title": "手牌点数計算機",
+        "desc": "手牌を入力して役・符・点数を計算。",
+        "aria": "手牌点数計算機へ"
+      }
+    }
+  },
+  "webDictionary": {
+    "title": "その他のサイト",
+    "sites": {
+      "mortal": {
+        "name": "Mortal AI",
+        "desc": "Mortal 作者の牌譜検討サイト。Mortal 等のモデルで解析。"
+      },
+      "naga": {
+        "name": "NAGA AI",
+        "desc": "NAGA モデルを用いる牌譜検討サイト。やや高精度だが中国語UIは未対応。"
+      },
+      "discardSimulator": {
+        "name": "麻雀捨牌シミュレータ",
+        "desc": "より完成度の高い『何切り』シミュレータ。C++のオープンソース。"
+      },
+      "gsz": {
+        "name": "雀荘公式戦",
+        "desc": "ヘルシー麻雀連合：オフライン公式戦雀荘のナビと戦績。"
+      },
+      "amaeKoromo": {
+        "name": "雀魂牌譜屋（Amae-Koromo）",
+        "desc": "雀魂のサードパーティ牌譜DB。金之間以上の毎日の対局と統計を提供。"
+      }
+    }
+  },
+  "navbar": {
+    "groups": {
+      "analysis": "分析",
+      "learn": "学習",
+      "more": "その他"
+    },
+    "items": {
+      "discard": "牌効率解析",
+      "review": "牌譜解析",
+      "threeHundred": "何切る300問",
+      "threeHundredOne": "何切る301選",
+      "pureOnesTenpai": "清一色聴牌練習",
+      "pointCalc": "点数計算練習",
+      "efficiencyTrain": "牌効率練習",
+      "guide": "入門から上級へ",
+      "books": "戦術書リンク集",
+      "contact": "作者について",
+      "introduce": "当サイトについて",
+      "webDictionary": "その他のサイト",
+      "handPointCalc": "手牌点数計算練習",
+      "handPointCalculator": "手牌点数計算機",
+      "basicTerms": "基本用語辞典"
+    },
+    "aria": {
+      "openMenu": "ナビゲーションメニューを開く",
+      "langSwitch": "言語を切り替え",
+      "userAvatarAlt": "ユーザーアバター"
+    },
+    "lang": {
+      "zhCN": "简体中文",
+      "zhTW": "繁體中文",
+      "en": "English",
+      "ja": "日本語",
+      "ko": "한국어",
+      "fr": "Français",
+      "es": "Español"
+    }
+  },
+  "pureOnesTenpai": {
+    "title": "清一色聴牌練習",
+    "settings": {
+      "difficultyLegend": "難易度",
+      "tileTypeLegend": "牌種",
+      "waitCountPrefix": "待ち牌: "
+    },
+    "handTitle": "手牌",
+    "pickAnswerTitle": "解答を選択",
+    "actions": {
+      "resetStats": "統計をリセット",
+      "submit": "解答を送信",
+      "submitted": "送信済み",
+      "newHand": "新しい手牌"
+    },
+    "result": {
+      "correct": "正解",
+      "wrong": "不正解",
+      "correctAnswer": "正解："
+    },
+    "stats": {
+      "accuracy": "正答率: {percent} %",
+      "summary": "（正解：{correct} / 総問題数：{total}）"
+    },
+    "articles": {
+      "title": "関連記事",
+      "item1": "1.『麻雀学習・牌効率』5-3 門前清一色の待ち牌を探す",
+      "link": "リンク"
+    },
+    "options": {
+      "difficulty": {
+        "0": { "label": "制限なし", "range": "任意" },
+        "1": { "label": "簡単", "range": "1 ~ 2" },
+        "2": { "label": "普通", "range": "3 ~ 4" },
+        "3": { "label": "難しい", "range": "5 +" }
+      },
+      "tileType": {
+        "random": "ランダム",
+        "m": "萬子",
+        "p": "筒子",
+        "s": "索子"
+      }
+    }
+  },
+  "pointCalc": {
+    "title": "点数計算練習",
+    "roles": {
+      "dealer": "親",
+      "nonDealer": "子"
+    },
+    "winTypes": {
+      "tsumo": "ツモ",
+      "ron": "ロン"
+    },
+    "labels": {
+      "points": "点",
+      "pointsAll": "点 オール",
+      "pointTable": "点数表"
+    },
+    "actions": {
+      "submit": "解答する",
+      "next": "次の問題",
+      "prev": "前の問題"
+    },
+    "question": {
+      "summary": "{role} {win} {han} 翻 {fu} 符 {honba} 本場"
+    },
+    "aria": {
+      "showTable": "点数表を表示",
+      "inputDealerAll": "親のツモ（オール）を入力",
+      "inputDealerRon": "親のロン点数を入力",
+      "inputNonDealerTsumoNonDealer": "子の支払い点を入力",
+      "inputNonDealerTsumoDealer": "親の支払い点を入力",
+      "inputNonDealerRon": "子のロン点数を入力"
+    },
+    "result": {
+      "correct": "正解",
+      "wrong": "不正解",
+      "correctAnswer": "正解："
+    },
+    "images": {
+      "alt": {
+        "tableLight": "点数表",
+        "tableDark": "点数表（ダーク）"
+      }
+    },
+    "placeholders": {
+      "dealer": "親",
+      "nonDealer": "子"
+    }
+  },
+  "handpointcalculation": {
+    "title": "手牌点数計算練習",
+    "summary": "{round}場{seat} {win}",
+    "labels": {
+      "doraIndicators": "ドラ表示牌",
+      "uraDoraIndicators": "裏ドラ表示牌",
+      "hanPrefix": "翻数：",
+      "fuPrefix": "符数：",
+      "hanTotal": "合計 {han} 翻",
+      "ansHanTotal": " {han}翻",
+      "baseFu20": "基本 20 符",
+      "menzenRon10": "門前ロン +10 符",
+      "tsumo2": "ツモ +2 符",
+      "waitTanki2": "単騎待ち +2 符",
+      "waitPenchan2": "辺張待ち +2 符",
+      "waitKanchan2": "嵌張待ち +2 符",
+      "fuTotalExact": "合計 {fu} 符",
+      "ansFuTotal": " {fu}符",
+      "fuTotalRaw": "合計 {fu} 符",
+      "yakumanTimes": "{n}倍 役満",
+      "pinfuTsumo20": "平和ツモ 20 符",
+      "chowThirtyFu": "副露平和形は 30 符"
+    },
+    "badges": {
+      "riichi": "立直",
+      "daburuRiichi": "ダブル立直",
+      "ippatsu": "一発",
+      "haitei": "海底撈月",
+      "houtei": "河底撈魚",
+      "rinshan": "嶺上開花",
+      "chankan": "槍槓"
+    },
+    "meldFu": {
+      "sequence": "順子 {fu} 符",
+      "tripletClosedSimple": "中張暗刻 {fu} 符",
+      "tripletClosedTerminal": "ヤオ九暗刻 {fu} 符",
+      "tripletOpenSimple": "中張明刻 {fu} 符",
+      "tripletOpenTerminal": "ヤオ九明刻 {fu} 符",
+      "kongOpenSimple": "中張明槓 {fu} 符",
+      "kongOpenTerminal": "ヤオ九明槓 {fu} 符",
+      "kongClosedSimple": "中張暗槓 {fu} 符",
+      "kongClosedTerminal": "ヤオ九暗槓 {fu} 符",
+      "pairRoundWind": "場風雀頭 {fu} 符",
+      "pairSeatWind": "自風雀頭 {fu} 符",
+      "pairDoubleWind": "連風雀頭 {fu} 符",
+      "pairDragons": "三元牌雀頭 {fu} 符",
+      "pairNonYaku": "役牌以外の雀頭 {fu} 符"
+    },
+    "hanLines": {
+      "riichi": "立直 1 翻",
+      "daburuRiichi": "ダブル立直 2 翻",
+      "ippatsu": "一発 1 翻",
+      "haitei": "海底撈月 1 翻",
+      "houtei": "河底撈魚 1 翻",
+      "rinshan": "嶺上開花 1 翻",
+      "chankan": "槍槓 1 翻",
+      "tanyao": "断么九 1 翻",
+      "roundEast": "場風 東 1 翻",
+      "roundSouth": "場風 南 1 翻",
+      "roundWest": "場風 西 1 翻",
+      "seatEast": "自風 東 1 翻",
+      "seatSouth": "自風 南 1 翻",
+      "seatWest": "自風 西 1 翻",
+      "seatNorth": "自風 北 1 翻",
+      "haku": "白 1 翻",
+      "hatsu": "發 1 翻",
+      "chun": "中 1 翻",
+      "menzenTsumo": "門前清自摸和 1 翻",
+      "pinfu": "平和 1 翻",
+      "iipeikou": "一盃口 1 翻",
+      "toitoi": "対々和 2 翻",
+      "sanankou": "三暗刻 2 翻",
+      "sankantsu": "三槓子 2 翻",
+      "sanshokuDoko": "三色同刻 2 翻",
+      "honrouto": "混老頭 2 翻",
+      "shouSangen": "小三元 2 翻",
+      "sanshokuDoujunMenzen": "三色同順 2 翻",
+      "sanshokuDoujunOpen": "三色同順（副露）1 翻",
+      "ittsuMenzen": "一気通貫 2 翻",
+      "ittsuOpen": "一気通貫（副露）1 翻",
+      "chantaMenzen": "混全帯么九 2 翻",
+      "chantaOpen": "混全帯么九（副露）1 翻",
+      "honitsuMenzen": "混一色 3 翻",
+      "honitsuOpen": "混一色（副露）2 翻",
+      "junchanMenzen": "純全帯么九 3 翻",
+      "junchanOpen": "純全帯么九（副露）2 翻",
+      "ryanpeikou": "二盃口 3 翻",
+      "chinitsuMenzen": "清一色 6 翻",
+      "chinitsuOpen": "清一色（副露）5 翻",
+      "dora": "ドラ {n} 翻",
+      "akaDora": "赤ドラ {n} 翻",
+      "uraDora": "裏ドラ {n} 翻"
+    },
+    "yakuman": {
+      "daisangen": "大三元 役満",
+      "shousuushii": "小四喜 役満",
+      "daisushi": "大四喜 ダブル役満",
+      "tsuuiisou": "字一色 役満",
+      "ryuuiisou": "緑一色 役満",
+      "chinroutou": "清老頭 役満",
+      "suuankou": "四暗刻 役満",
+      "suuankouTanki": "四暗刻単騎 ダブル役満",
+      "chuurenPoutou": "九蓮宝燈 役満",
+      "junseiChuurenPoutou": "純正九蓮宝燈 ダブル役満",
+      "suukantsu": "四槓子 役満"
+    },
+    "winds": {
+      "east": "東",
+      "south": "南",
+      "west": "西",
+      "north": "北"
+    }
+  },
+  "efficiencyTrain": {
+    "title": "牌効率練習",
+    "settings": {
+      "shantenDisplayLegend": "シャンテン表示",
+      "tileSetLegend": "牌山タイプ",
+      "judgeCriteriaLegend": "判定基準",
+      "submitModeLegend": "送信方式"
+    },
+    "options": {
+      "shantenDisplay": {
+        "hidden": "非表示",
+        "full": "シャンテン数を表示",
+        "tenpaiOnly": "テンパイのみ表示"
+      },
+      "tileSet": {
+        "noHonor": "字牌なし",
+        "withHonor": "字牌あり",
+        "m": "清一色：萬子",
+        "p": "清一色：筒子",
+        "s": "清一色：索子"
+      },
+      "judgeCriteria": {
+        "default": "デフォルト（混合）",
+        "volume": "受け入れ数",
+        "shape": "良形率",
+        "index": "指数"
+      },
+      "submitMode": {
+        "instant": "クリック後すぐ送信",
+        "button": "クリック後ボタンで送信"
+      }
+    },
+    "status": {
+      "mahjong": "和了!!",
+      "tenpai": "テンパイ",
+      "noten": "ノーテン",
+      "shanten": "{n} シャンテン"
+    },
+    "ui": {
+      "handTitle": "手牌",
+      "clickHint": "⬆️ 上の牌をタップして解答を選択"
+    },
+    "analysis": {
+      "title": "受け入れ分析"
+    },
+    "table": {
+      "cut": "切り",
+      "improvements": "受け入れ",
+      "goodShapeRate": "良形率",
+      "total": "合計受け入れ",
+      "index": "指数"
+    },
+    "buttons": {
+      "prev": "前の問題",
+      "next": "次の問題",
+      "submit": "送信"
+    },
+    "result": {
+      "correctAnswersTitle": "全ての正解：",
+      "messages": {
+        "errShantenBack": "誤り：シャンテンが後退",
+        "correct": "正解",
+        "wrongNotMax": "誤り"
+      }
+    }
+  },
+  "threeHundred": {
+    "title": "何切る300問",
+    "labels": {
+      "no": "No."
+    },
+    "ui": {
+      "clickHint": "⬆️ 上の牌をタップして解答を選択"
+    },
+    "answer": {
+      "title": "参考解答と解説",
+      "explanationTitle": "解説："
+    },
+    "analysis": {
+      "title": "受け入れ分析"
+    },
+    "table": {
+      "cut": "切り",
+      "improvements": "受け入れ",
+      "goodShapeRate": "良形率",
+      "total": "合計受け入れ"
+    },
+    "buttons": {
+      "prev": "前へ",
+      "next": "次へ",
+      "jump": "ジャンプ"
+    },
+    "messages": {
+      "invalidId": "有効な番号を入力してください",
+      "invalidHand": "手牌文字列が不正、または同一牌が多すぎます"
+    },
+    "result": {
+      "correct": "正解！",
+      "wrong": "不正解！"
+    },
+    "aria": {
+      "selectAnswer": "解答を選択"
+    }
+  },
+  "contact": {
+    "title": "作者について",
+    "email": "メール: {email}",
+    "links": {
+      "github": "GitHub：",
+      "bilibili": "Bilibili：",
+      "xiaoheihe": "小黒盒："
+    },
+    "link": "リンク",
+    "donate": "支援：",
+    "qrcodeAlt": "支援用QRコード",
+    "qrcodeNote": "ご支援いただき誠にありがとうございます。備考欄にニックネームまたは連絡先をご記入ください。"
+  },
+  "introduce": {
+    "title": "MahjongXpilot",
+    "versionLine": "version: {version}",
+    "copyrightLine": "Copyright © Fyisvia Virell.",
+    "rightsLine": "All Rights Reserved.",
+    "repoLabel": "GitHub リポジトリ：",
+    "repoLinkText": "リンク",
+    "repoWelcome": "コードレビュー・バグ報告・機能提案を歓迎します。",
+    "specialThanksTitle": "特別感謝"
+  },
+  "guide": {
+    "title": "入門から上級へ",
+    "disclaimer": "免責：本ページの資料は非商用の学習・交流目的でまとめたものです。すべての権利は原著者に帰属します。ご支援をお願いします。",
+    "beginner": "入門",
+    "advanced": "上級"
+  },
+  "booksPage": {
+    "title": "戦術書リンク集",
+    "disclaimer": "免責：本ページの資料は非商用の学習・交流目的でまとめたものです。すべての権利は原著者/翻訳者に帰属します。ご支援ください。",
+    "sortNote": "以下の記事はピンインの頭文字順に並んでいます。",
+    "referenceText": "本コレクションは Bilibili の投稿者 {upname} を参考にしています",
+    "contact": "権利者の方は {email} までご連絡ください"
+  },
+  "books": {
+    "categories": {
+      "汉化日语战术书": "日本語戦術書（中国語訳）",
+      "其他汉化日语资料": "その他の日本語資料（中国語訳）",
+      "国内作者内容": "中国国内作者の作品",
+      "三麻相关资料": "三麻関連資料"
+    }
+  },
+  "handpointcalculator": {
+    "title": "手牌点数計算機",
+    "roundWind": "場風",
+    "seatWind": "自風",
+    "chiipon": "チー／ポン（セミコロン区切り）",
+    "kan": "カン（形式：明槓／暗槓:5m；セミコロン区切り）",
+    "closedHand": "門前の手牌（副露を含まない、赤五は0m／0p／0s）",
+    "winningTile": "和了牌",
+    "clear": "クリア",
+    "commit": "送信",
+    "error": {
+      "invalidTiles": "入力された門前の手牌または和了牌が無効です",
+      "cannotDecompose": "手牌を分解できません。入力内容を確認してください",
+      "noValidWinningShape": "有効な和了形がありません。入力内容を確認してください"
+    }
+  }
+}

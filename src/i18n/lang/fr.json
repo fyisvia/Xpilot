@@ -1,0 +1,611 @@
+{
+  "review": {
+    "title": "Analyse de parties",
+    "thanks": "Remerciements :",
+    "thanksDesc": "Maintenu et fourni par Skyler. Source :",
+    "link": "Lien",
+    "hint": "Conseils :",
+    "hint1": "1. Le mahjong à 3 joueurs ne prend pas en charge le mode avancé.",
+    "hint2": "2. En 4 joueurs, le mode avancé utilise par défaut le style KillerDucky, avec une sortie plus détaillée et des données de Ron. Cela peut prendre 1–2 minutes. Le mode standard est plus rapide.",
+    "input": {
+      "legend": "Entrez l'URL ou l'ID du replay",
+      "help": "Détecte automatiquement les replays 4/3 joueurs de Tenhou, Majsoul, Mahjong Ichibangai, etc.",
+      "toastEmpty": "Veuillez d'abord entrer une URL ou un ID de replay"
+    },
+    "options": {
+      "viewpointLegend": "Point de vue",
+      "auto": "Détection automatique",
+      "east": "Est",
+      "south": "Sud",
+      "west": "Ouest",
+      "north": "Nord (non disponible en 3P)",
+      "langLegend": "Langue",
+      "langZh": "简体中文",
+      "langEn": "English",
+      "langJa": "日本語",
+      "langKo": "한국어",
+      "engine4pLegend": "Moteur 4 joueurs",
+      "engine3pLegend": "Moteur 3 joueurs",
+      "engine3pDefault": "Trident",
+      "uiLegend": "Style UI",
+      "uiClassic": "Classique",
+      "uiNew": "Style KillerDucky (bêta)",
+      "modeLegend": "Mode d'analyse",
+      "modeStandard": "Standard",
+      "modeAdvanced": "Avancé"
+    },
+    "aria": {
+      "selectModel": "Sélectionner le modèle",
+      "selectLang": "Sélectionner la langue"
+    },
+    "submit": "Soumettre"
+  },
+  "discard": {
+    "title": "Analyse d'efficacité des tuiles",
+    "collapses": {
+      "rules": {
+        "title": "Règles d'analyse par défaut",
+        "l1": "1. Le calcul prend en compte la forme standard, Seven Pairs et Thirteen Orphans.",
+        "l2": "2. En l'absence d'adversaires et de rivière de défausse, les comptes restants sont considérés comme maximaux.",
+        "l3": "3. Le nombre de tours (honba) est ignoré.",
+        "l4": "4. Une 'bonne forme' en Tenpai signifie que le total des tuiles gagnantes > 4."
+      },
+      "notation": {
+        "title": "Notation de la main",
+        "l1": "\"m\" signifie Manzu (wan),",
+        "l2": "\"p\" signifie Pinzu,",
+        "l3": "\"s\" signifie Souzu (bamboo).",
+        "l4": "\"z\" signifie honneurs / dragons (Est, Sud, Ouest, Nord, Blanc, Vert, Rouge).",
+        "l5": "\"0\" signifie cinq rouge (aka red five).",
+        "l6": "Vous n'avez pas besoin d'entrer les melds ; la tuile piochée est optionnelle.",
+        "l7": "Si une tuile piochée est fournie, toutes les options de défausse seront analysées.",
+        "l8": "Sinon, seules les améliorations et le taux de bonne forme de la main actuelle sont calculés.",
+        "l9": "Exemple :",
+        "l10": "012m123p123s1156z.",
+        "l11": "Si 123p est ouvert (meld), entrez 012m123s1156z."
+      }
+    },
+    "input": {
+      "label": "Entrer la main",
+      "placeholder": "123m456p789s1122z"
+    },
+    "palette": {
+      "title": "Cliquez sur les images pour ajouter des tuiles"
+    },
+    "selected": {
+      "title": "Tuiles sélectionnées ({count}/14)",
+      "undo": "Annuler une",
+      "clear": "Effacer"
+    },
+    "a11y": {
+      "add": "Ajouter {tile}",
+      "remove": "Retirer {tile}"
+    },
+    "submit": "Soumettre",
+    "loading": "Calcul en cours...",
+    "error": {
+      "empty": "Veuillez entrer une main",
+      "format": "Format de main invalide"
+    },
+    "result": {
+      "he": "Mahjong",
+      "tenpai": "Tenpai",
+      "shanten": "{n} Shanten"
+    },
+    "table": {
+      "cut": "Couper",
+      "improvements": "Améliorations",
+      "goodShapeRate": "Bonne forme",
+      "total": "Total",
+      "index": "Indice"
+    },
+    "small": {
+      "toggleToMetrics": "Afficher les métriques",
+      "toggleToWaits": "Afficher les améliorations"
+    }
+  },
+  "home": {
+    "cards": {
+      "discard": {
+        "title": "Analyse d'efficacité",
+        "desc": "Analyse des comptes d'amélioration pour différents défausses.",
+        "aria": "Aller à l'analyse d'efficacité"
+      },
+      "review": {
+        "title": "Analyse de parties",
+        "desc": "Maintenu par Skyler. Analyse de replays avec Zeus et d'autres modèles.",
+        "aria": "Aller à l'analyse de parties"
+      },
+      "threeHundred": {
+        "title": "300 Nanikiru",
+        "desc": "Exercice en ligne 'Mahjong Masterpiece: 300 Nanikiru'.",
+        "aria": "Aller à 300 Nanikiru"
+      },
+      "threeHundredOne": {
+        "title": "Nani Kiru 301",
+        "desc": "Série supplémentaire de problèmes « que défausser » après les 300.",
+        "aria": "Aller à Nani Kiru 301"
+      },
+      "efficiencyTrain": {
+        "title": "Entraînement d'efficacité",
+        "desc": "S'entraîner à trouver l'option optimale du point de vue de l'efficacité des tuiles.",
+        "aria": "Aller à l'entraînement d'efficacité"
+      },
+      "pureOnesTenpai": {
+        "title": "Pratique Tenpai Chinitsu",
+        "desc": "Exercices rapides pour Tenpai en chinitsu menzen.",
+        "aria": "Aller à la pratique Tenpai Chinitsu"
+      },
+      "pointCalc": {
+        "title": "Pratique de calcul de points",
+        "desc": "Calcul des points pour diverses combinaisons han/fu.",
+        "aria": "Aller à la pratique de calcul"
+      },
+      "guide": {
+        "title": "Débutant → Avancé",
+        "desc": "Parcours d'apprentissage recommandé pour le Riichi Mahjong.",
+        "aria": "Aller au guide"
+      },
+      "terms": {
+        "title": "Dictionnaire des termes de base",
+        "desc": "Référence rapide des principaux termes de riichi.",
+        "aria": "Aller au dictionnaire des termes de base"
+      },
+      "books": {
+        "title": "Collection de livres",
+        "desc": "Liens rassemblés vers traductions CN et œuvres locales sur Bilibili.",
+        "aria": "Aller à la collection de livres"
+      },
+      "webDictionary": {
+        "title": "Autres sites",
+        "desc": "Liste de sites utiles pour le riichi mahjong.",
+        "aria": "Aller aux autres sites"
+      },
+      "handPointCalc": {
+        "title": "Exercice de calcul des points de main",
+        "desc": "S'exercer à déterminer yaku, fu et points à partir d'une main complète.",
+        "aria": "Aller à l'exercice de calcul des points de main"
+      },
+      "handPointCalculator": {
+        "title": "Calculateur de points de main",
+        "desc": "Entrez une main pour calculer yaku/fu/points.",
+        "aria": "Aller au calculateur de points de main"
+      }
+    }
+  },
+  "webDictionary": {
+    "title": "Autres sites",
+    "sites": {
+      "mortal": {
+        "name": "Mortal AI",
+        "desc": "Site d'analyse de parties par l'auteur de Mortal ; analyse les logs avec Mortal et d'autres modèles."
+      },
+      "naga": {
+        "name": "NAGA AI",
+        "desc": "Site d'analyse utilisant le modèle NAGA. Légèrement plus précis, mais sans interface chinoise."
+      },
+      "discardSimulator": {
+        "name": "Simulateur de défausse Mahjong",
+        "desc": "Simulateur plus complet de 'que défausser' ; projet open-source en C++."
+      },
+      "gsz": {
+        "name": "Matches de club Mahjong (Formula Matches)",
+        "desc": "Healthy Mahjong Union : annuaire et résultats des clubs de matches officiels offline."
+      },
+      "amaeKoromo": {
+        "name": "Amae-Koromo (Mahjong Soul logs)",
+        "desc": "Base de données tiers pour Mahjong Soul avec parties quotidiennes (Gold et plus) et statistiques."
+      }
+    }
+  },
+  "navbar": {
+    "groups": {
+      "analysis": "Analyse",
+      "learn": "Apprendre",
+      "more": "Plus"
+    },
+    "items": {
+      "discard": "Analyse d'efficacité",
+      "review": "Analyse de parties",
+      "threeHundred": "300 Nanikiru",
+      "threeHundredOne": "Nani Kiru 301",
+      "pureOnesTenpai": "Pratique Tenpai Chinitsu",
+      "pointCalc": "Pratique de points",
+      "efficiencyTrain": "Entraînement d'efficacité",
+      "guide": "Débutant → Avancé",
+      "books": "Collection de livres",
+      "contact": "À propos de l'auteur",
+      "introduce": "À propos du site",
+      "webDictionary": "Autres sites",
+      "handPointCalc": "Exercice de calcul des points de main",
+      "handPointCalculator": "Calculateur de points de main",
+      "basicTerms": "Dictionnaire de termes de base"
+    },
+    "aria": {
+      "openMenu": "Ouvrir le menu de navigation",
+      "langSwitch": "Changer la langue",
+      "userAvatarAlt": "Avatar utilisateur"
+    },
+    "lang": {
+      "zhCN": "简体中文",
+      "zhTW": "繁體中文",
+      "en": "English",
+      "ja": "日本語",
+      "ko": "한국어",
+      "fr": "Français",
+      "es": "Español"
+    }
+  },
+  "pureOnesTenpai": {
+    "title": "Pratique Tenpai Chinitsu",
+    "settings": {
+      "difficultyLegend": "Difficulté",
+      "tileTypeLegend": "Couleur",
+      "waitCountPrefix": "Tuiles gagnantes : "
+    },
+    "handTitle": "Main",
+    "pickAnswerTitle": "Choisir la réponse",
+    "actions": {
+      "resetStats": "Réinitialiser les stats",
+      "submit": "Soumettre",
+      "submitted": "Soumis",
+      "newHand": "Nouvelle main"
+    },
+    "result": {
+      "correct": "Correct",
+      "wrong": "Incorrect",
+      "correctAnswer": "Réponse correcte :"
+    },
+    "stats": {
+      "accuracy": "Précision : {percent} %",
+      "summary": "(Corrects : {correct} / Total : {total})"
+    },
+    "articles": {
+      "title": "Articles liés",
+      "item1": "1. 'Mahjong Study: Tile Efficiency' 5-3 Trouver les waits pour menzen Chinitsu",
+      "link": "Lien"
+    },
+    "options": {
+      "difficulty": {
+        "0": { "label": "Sans limite", "range": "Tous" },
+        "1": { "label": "Facile", "range": "1 ~ 2" },
+        "2": { "label": "Normal", "range": "3 ~ 4" },
+        "3": { "label": "Difficile", "range": "5 +" }
+      },
+      "tileType": {
+        "random": "Aléatoire",
+        "m": "Manzu",
+        "p": "Pinzu",
+        "s": "Souzu"
+      }
+    }
+  },
+  "pointCalc": {
+    "title": "Pratique de calcul de points",
+    "roles": {
+      "dealer": "Donneur",
+      "nonDealer": "Non-donneur"
+    },
+    "winTypes": {
+      "tsumo": "Tsumo",
+      "ron": "Ron"
+    },
+    "labels": {
+      "points": "points",
+      "pointsAll": "points All",
+      "pointTable": "Table de points"
+    },
+    "actions": {
+      "submit": "Soumettre",
+      "next": "Suivant",
+      "prev": "Précédent"
+    },
+    "question": {
+      "summary": "{role} {win} {han} han {fu} fu {honba} honba"
+    },
+    "aria": {
+      "showTable": "Afficher la table de points",
+      "inputDealerAll": "Entrer le total (All) du donneur pour le tsumo",
+      "inputDealerRon": "Entrer les points du donneur pour le ron",
+      "inputNonDealerTsumoNonDealer": "Entrer le paiement du non-donneur (tsumo)",
+      "inputNonDealerTsumoDealer": "Entrer le paiement au donneur (tsumo)",
+      "inputNonDealerRon": "Entrer les points de ron du non-donneur"
+    },
+    "result": {
+      "correct": "Correct",
+      "wrong": "Incorrect",
+      "correctAnswer": "Réponse correcte :"
+    },
+    "images": {
+      "alt": {
+        "tableLight": "Table de points",
+        "tableDark": "Table de points (sombre)"
+      }
+    },
+    "placeholders": {
+      "dealer": "Donneur",
+      "nonDealer": "Non-donneur"
+    }
+  },
+  "handpointcalculation": {
+    "title": "Exercice de calcul des points de main",
+    "summary": "{round} manche, {seat} {win}",
+    "labels": {
+      "doraIndicators": "Indicateurs de dora",
+      "uraDoraIndicators": "Indicateurs d'ura-dora",
+      "hanPrefix": "Han :",
+      "fuPrefix": "Fu :",
+      "hanTotal": "Total {han} han",
+      "ansHanTotal": " {han}han",
+      "baseFu20": "Base 20 fu",
+      "menzenRon10": "Menzen ron +10 fu",
+      "tsumo2": "Tsumo +2 fu",
+      "waitTanki2": "Attente tanki +2 fu",
+      "waitPenchan2": "Attente penchan +2 fu",
+      "waitKanchan2": "Attente kanchan +2 fu",
+      "fuTotalExact": "Total {fu} fu",
+      "ansFuTotal": " {fu}fu",
+      "fuTotalRaw": "Total {fu} fu",
+      "yakumanTimes": "{n}× yakuman",
+      "pinfuTsumo20": "Pinfu tsumo 20 fu",
+      "chowThirtyFu": "Forme pinfu ouverte comptée 30 fu"
+    },
+    "badges": {
+      "riichi": "Riichi",
+      "daburuRiichi": "Double riichi",
+      "ippatsu": "Ippatsu",
+      "haitei": "Haitei",
+      "houtei": "Houtei",
+      "rinshan": "Rinshan",
+      "chankan": "Chankan"
+    },
+    "meldFu": {
+      "sequence": "Suite {fu} fu",
+      "tripletClosedSimple": "Brelan fermé (simples) {fu} fu",
+      "tripletClosedTerminal": "Brelan fermé (terminal/honneur) {fu} fu",
+      "tripletOpenSimple": "Brelan ouvert (simples) {fu} fu",
+      "tripletOpenTerminal": "Brelan ouvert (terminal/honneur) {fu} fu",
+      "kongOpenSimple": "Kong ouvert (simples) {fu} fu",
+      "kongOpenTerminal": "Kong ouvert (terminal/honneur) {fu} fu",
+      "kongClosedSimple": "Kong fermé (simples) {fu} fu",
+      "kongClosedTerminal": "Kong fermé (terminal/honneur) {fu} fu",
+      "pairRoundWind": "Paire vent de manche {fu} fu",
+      "pairSeatWind": "Paire vent du siège {fu} fu",
+      "pairDoubleWind": "Paire double vent {fu} fu",
+      "pairDragons": "Paire dragon {fu} fu",
+      "pairNonYaku": "Paire sans yaku {fu} fu"
+    },
+    "hanLines": {
+      "riichi": "Riichi 1 han",
+      "daburuRiichi": "Double riichi 2 han",
+      "ippatsu": "Ippatsu 1 han",
+      "haitei": "Haitei 1 han",
+      "houtei": "Houtei 1 han",
+      "rinshan": "Rinshan 1 han",
+      "chankan": "Chankan 1 han",
+      "tanyao": "Tanyao 1 han",
+      "roundEast": "Vent de manche Est 1 han",
+      "roundSouth": "Vent de manche Sud 1 han",
+      "roundWest": "Vent de manche Ouest 1 han",
+      "seatEast": "Vent du siège Est 1 han",
+      "seatSouth": "Vent du siège Sud 1 han",
+      "seatWest": "Vent du siège Ouest 1 han",
+      "seatNorth": "Vent du siège Nord 1 han",
+      "haku": "Blanc 1 han",
+      "hatsu": "Vert 1 han",
+      "chun": "Rouge 1 han",
+      "menzenTsumo": "Menzen tsumo 1 han",
+      "pinfu": "Pinfu 1 han",
+      "iipeikou": "Iipeikou 1 han",
+      "toitoi": "Toitoi 2 han",
+      "sanankou": "San ankou 2 han",
+      "sankantsu": "San kantsu 2 han",
+      "sanshokuDoko": "Sanshoku dōkō 2 han",
+      "honrouto": "Honroutou 2 han",
+      "shouSangen": "Shou sangen 2 han",
+      "sanshokuDoujunMenzen": "Sanshoku dōjun 2 han",
+      "sanshokuDoujunOpen": "Sanshoku dōjun (ouvert) 1 han",
+      "ittsuMenzen": "Ittsu 2 han",
+      "ittsuOpen": "Ittsu (ouvert) 1 han",
+      "chantaMenzen": "Chanta 2 han",
+      "chantaOpen": "Chanta (ouvert) 1 han",
+      "honitsuMenzen": "Honitsu 3 han",
+      "honitsuOpen": "Honitsu (ouvert) 2 han",
+      "junchanMenzen": "Junchan 3 han",
+      "junchanOpen": "Junchan (ouvert) 2 han",
+      "ryanpeikou": "Ryanpeikou 3 han",
+      "chinitsuMenzen": "Chinitsu 6 han",
+      "chinitsuOpen": "Chinitsu (ouvert) 5 han",
+      "dora": "Dora {n} han",
+      "akaDora": "Dora rouge {n} han",
+      "uraDora": "Ura-dora {n} han"
+    },
+    "yakuman": {
+      "daisangen": "Daisangen Yakuman",
+      "shousuushii": "Shousuushii Yakuman",
+      "daisushi": "Daisuusii Double Yakuman",
+      "tsuuiisou": "Tsuuiisou Yakuman",
+      "ryuuiisou": "Ryuuiisou Yakuman",
+      "chinroutou": "Chinroutou Yakuman",
+      "suuankou": "Suuankou Yakuman",
+      "suuankouTanki": "Suuankou tanki Double Yakuman",
+      "chuurenPoutou": "Chuuren poutou Yakuman",
+      "junseiChuurenPoutou": "Junsei chuuren poutou Double Yakuman",
+      "suukantsu": "Suukantsu Yakuman"
+    },
+    "winds": {
+      "east": "Est",
+      "south": "Sud",
+      "west": "Ouest",
+      "north": "Nord"
+    }
+  },
+  "efficiencyTrain": {
+    "title": "Entraînement d'efficacité",
+    "settings": {
+      "shantenDisplayLegend": "Affichage Shanten",
+      "tileSetLegend": "Ensemble de tuiles",
+      "judgeCriteriaLegend": "Critère de jugement",
+      "submitModeLegend": "Mode de soumission"
+    },
+    "options": {
+      "shantenDisplay": {
+        "hidden": "Masqué",
+        "full": "Afficher Shanten",
+        "tenpaiOnly": "Afficher Tenpai seulement"
+      },
+      "tileSet": {
+        "noHonor": "Sans honneurs",
+        "withHonor": "Avec honneurs",
+        "m": "Chinitsu : Manzu",
+        "p": "Chinitsu : Pinzu",
+        "s": "Chinitsu : Souzu"
+      },
+      "judgeCriteria": {
+        "default": "Par défaut (mixte)",
+        "volume": "Volume",
+        "shape": "Bonne forme",
+        "index": "Indice"
+      },
+      "submitMode": {
+        "instant": "Soumettre au clic",
+        "button": "Cliquer puis soumettre"
+      }
+    },
+    "status": {
+      "mahjong": "Mahjong !!",
+      "tenpai": "Tenpai",
+      "noten": "Noten",
+      "shanten": "{n} Shanten"
+    },
+    "ui": {
+      "handTitle": "Main",
+      "clickHint": "⬆️ Appuyez ci‑dessus pour choisir une réponse"
+    },
+    "analysis": {
+      "title": "Analyse des améliorations"
+    },
+    "table": {
+      "cut": "Couper",
+      "improvements": "Améliorations",
+      "goodShapeRate": "Bonne forme",
+      "total": "Total",
+      "index": "Indice"
+    },
+    "buttons": {
+      "prev": "Précédent",
+      "next": "Suivant",
+      "submit": "Soumettre"
+    },
+    "result": {
+      "correctAnswersTitle": "Toutes les réponses correctes :",
+      "messages": {
+        "errShantenBack": "Erreur : le Shanten recule",
+        "correct": "Correct",
+        "wrongNotMax": "Incorrect"
+      }
+    }
+  },
+  "threeHundred": {
+    "title": "何切り300",
+    "labels": {
+      "no": "No."
+    },
+    "ui": {
+      "clickHint": "⬆️ Appuyez ci‑dessus pour choisir une réponse"
+    },
+    "answer": {
+      "title": "Réponse & Explication",
+      "explanationTitle": "Explication :"
+    },
+    "analysis": {
+      "title": "Analyse des améliorations"
+    },
+    "table": {
+      "cut": "Couper",
+      "improvements": "Améliorations",
+      "goodShapeRate": "Bonne forme",
+      "total": "Total"
+    },
+    "buttons": {
+      "prev": "Précédent",
+      "next": "Suivant",
+      "jump": "Aller"
+    },
+    "messages": {
+      "invalidId": "Veuillez entrer un ID valide",
+      "invalidHand": "Chaîne de main invalide ou trop de copies d'une tuile"
+    },
+    "result": {
+      "correct": "Correct !",
+      "wrong": "Incorrect !"
+    },
+    "aria": {
+      "selectAnswer": "Sélectionner la réponse"
+    }
+  },
+  "contact": {
+    "title": "Contact",
+    "email": "Email : {email}",
+    "links": {
+      "github": "GitHub :",
+      "bilibili": "Bilibili :",
+      "xiaoheihe": "XiaoHeiHe :"
+    },
+    "link": "Lien",
+    "donate": "Soutenir :",
+    "qrcodeAlt": "QR code de don",
+    "qrcodeNote": "Merci beaucoup pour votre soutien. Veuillez indiquer votre pseudo ou vos coordonnées dans la remarque."
+  },
+  "introduce": {
+    "title": "MahjongXpilot",
+    "versionLine": "version : {version}",
+    "copyrightLine": "Copyright © Fyisvia Virell.",
+    "rightsLine": "Tous droits réservés.",
+    "repoLabel": "Dépôt GitHub :",
+    "repoLinkText": "Lien",
+    "repoWelcome": "Bienvenue pour relire le code, reporter des bugs et proposer des fonctionnalités.",
+    "specialThanksTitle": "Remerciements spéciaux",
+    "specialThanks": {
+      "title": "Remerciements spéciaux",
+      "desc": "Merci à tous ceux qui ont contribué au projet MahjongXpilot, directement ou indirectement. Vos efforts sont grandement appréciés."
+    }
+  },
+  "guide": {
+    "title": "Débutant → Avancé",
+    "disclaimer": "Avis : les ressources listées ici sont rassemblées à des fins d'étude et d'échange non commercial. Tous les droits appartiennent aux auteurs originaux. Merci de soutenir les auteurs/traducteurs.",
+    "beginner": "Débutant",
+    "advanced": "Avancé"
+  },
+  "booksPage": {
+    "title": "Collection de livres",
+    "disclaimer": "Avis : les ressources rassemblées ici sont à des fins d'étude et d'échange non commercial. Tous les droits appartiennent aux auteurs/traducteurs. Merci de soutenir les auteurs.",
+    "sortNote": "Les articles sont triés par la première lettre du pinyin.",
+    "referenceText": "Cette collection s'appuie sur le travail de l'uploader Bilibili {upname}",
+    "contact": "Pour une réclamation, écrivez à {email}"
+  },
+  "books": {
+    "categories": {
+      "汉化日语战术书": "Livres tactiques japonais (trad. chinois)",
+      "其他汉化日语资料": "Autres matériels japonais (trad. chinois)",
+      "国内作者内容": "Œuvres d'auteurs locaux",
+      "三麻相关资料": "Ressources sur le 3P Mahjong"
+    }
+  },
+    "handpointcalculator": {
+    "title": "Calculateur de points de main",
+    "roundWind": "Vent de la manche",
+    "seatWind": "Vent du siège",
+    "chiipon": "Chi / Pon (séparés par des points-virgules)",
+    "kan": "Kan (format : minkan/ankan:5m ; séparés par des points-virgules)",
+    "closedHand": "Main fermée (sans appel ; cinq rouges notés 0m/0p/0s)",
+    "winningTile": "Tuile gagnante",
+    "clear": "Effacer",
+    "commit": "Soumettre",
+    "error": {
+      "invalidTiles": "La main fermée ou la tuile gagnante saisie est invalide",
+      "cannotDecompose": "Impossible de décomposer la main. Veuillez vérifier la saisie",
+      "noValidWinningShape": "Aucune forme de main gagnante valide. Veuillez vérifier votre saisie"
+    }
+  }
+}

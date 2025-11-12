@@ -1,0 +1,608 @@
+{
+  "review": {
+    "title": "국면(牌譜) 분석",
+    "thanks": "감사의 말:",
+    "thanksDesc": "이 시스템은 Skyler가 제공하고 유지 관리합니다. 소스:",
+    "link": "링크",
+    "hint": "팁:",
+    "hint1": "1. 3인 마작은 고급 모드를 지원하지 않습니다.",
+    "hint2": "2. 4인 마작의 고급 모드는 기본적으로 KillerDucky 스타일을 사용하며 더 상세한 출력과 방전 데이터(放銃)를 제공합니다. 1~2분 정도 걸릴 수 있습니다. 표준 모드는 더 빠릅니다.",
+    "input": {
+      "legend": "국면(牌譜) URL 또는 ID 입력",
+      "help": "Tenhou,雀魂,麻雀一番街 등 4/3인 대국을 자동으로 감지합니다.",
+      "toastEmpty": "먼저 국면(牌譜) URL 또는 ID를 입력해 주세요"
+    },
+    "options": {
+      "viewpointLegend": "시점",
+      "auto": "자동 감지",
+      "east": "동(東) 관점",
+      "south": "남(南) 관점",
+      "west": "서(西) 관점",
+      "north": "북(北) 관점 (3인 마작에서는 사용 불가)",
+      "langLegend": "언어",
+      "langZh": "简体中文",
+      "langEn": "English",
+      "langJa": "日本語",
+      "langKo": "한국어",
+      "engine4pLegend": "4인용 엔진",
+      "engine3pLegend": "3인용 엔진",
+      "engine3pDefault": "Trident",
+      "uiLegend": "UI 스타일",
+      "uiClassic": "클래식",
+      "uiNew": "KillerDucky 스타일 (베타)",
+      "modeLegend": "분석 모드",
+      "modeStandard": "표준",
+      "modeAdvanced": "고급"
+    },
+    "aria": {
+      "selectModel": "모델 선택",
+      "selectLang": "언어 선택"
+    },
+    "submit": "제출"
+  },
+  "discard": {
+    "title": "패 효율(牌効率) 분석",
+    "collapses": {
+      "rules": {
+        "title": "기본 분석 규칙",
+        "l1": "1. 일반형, 칠대치(七対子), 국사무쌍(国士無双)을 고려합니다.",
+        "l2": "2. 상대 및 버림패가 없으므로 남은 장수는 최대값으로 가정합니다.",
+        "l3": "3. 국수(巡目)는 고려하지 않습니다.",
+        "l4": "4. 텐파이 시 '좋은 형(良形)' 판정은 수용 가능한 화자(和牌) 수가 4를 초과하는 경우로 정의합니다."
+      },
+      "notation": {
+        "title": "손패 표기법",
+        "l1": "\"m\" 은 만자(萬子)",
+        "l2": "\"p\" 은 통자(筒子)",
+        "l3": "\"s\" 은 삭자(索子)",
+        "l4": "\"z\" 는 자패(字牌: 東南西北白發中)를 의미합니다.",
+        "l5": "\"0\" 은 적오(赤五)입니다.",
+        "l6": "폭제(副露)는 입력할 필요가 없으며, 츠모패 입력은 선택 사항입니다.",
+        "l7": "츠모패를 입력한 경우 모든 버림 선택지를 분석합니다.",
+        "l8": "츠모패를 입력하지 않으면 현재 손패의 수용(受け入れ) 및 좋은형률만 계산합니다.",
+        "l9": "예시:",
+        "l10": "012m123p123s1156z.",
+        "l11": "만약 123p가 폼(副露)이라면 012m123s1156z 만 입력합니다."
+      }
+    },
+    "input": {
+      "label": "손패 입력",
+      "placeholder": "123m456p789s1122z"
+    },
+    "palette": {
+      "title": "이미지를 클릭하여 패 추가"
+    },
+    "selected": {
+      "title": "선택된 패 ({count}/14)",
+      "undo": "한 장 취소",
+      "clear": "초기화"
+    },
+    "a11y": {
+      "add": "{tile} 추가",
+      "remove": "{tile} 제거"
+    },
+    "submit": "제출",
+    "loading": "계산 중...",
+    "error": {
+      "empty": "손패를 입력해주세요",
+      "format": "잘못된 손패 형식"
+    },
+    "result": {
+      "he": "화료(和了)",
+      "tenpai": "텐파이(聴牌)",
+      "shanten": "{n} 샨텐(向聴)"
+    },
+    "table": {
+      "cut": "버림",
+      "improvements": "수용(進張)",
+      "goodShapeRate": "좋은형률",
+      "total": "합계",
+      "index": "지수"
+    },
+    "small": {
+      "toggleToMetrics": "지표 보기",
+      "toggleToWaits": "수용 보기"
+    }
+  },
+  "home": {
+    "cards": {
+      "discard": {
+        "title": "패 효율 분석",
+        "desc": "다른 버림에 따른 수용(受け入れ) 장수를 분석합니다.",
+        "aria": "패 효율 분석으로 이동"
+      },
+      "review": {
+        "title": "국면(牌譜) 분석",
+        "desc": "Skyler가 유지 관리. Zeus 등 모델로 국면을 분석합니다.",
+        "aria": "국면 분석으로 이동"
+      },
+      "threeHundred": {
+        "title": "무엇을 버릴까 300문",
+        "desc": "'麻雀傑作「何切り」300選' 온라인 연습.",
+        "aria": "何切り300문으로 이동"
+      },
+      "threeHundredOne": {
+        "title": "무엇을 버릴까 301선",
+        "desc": "무엇을 버릴까 300문 다음의 추가 연습 세트입니다.",
+        "aria": "무엇을 버릴까 301선으로 이동"
+      },
+      "efficiencyTrain": {
+        "title": "패 효율 연습",
+        "desc": "패 효율 관점에서 최적 선택을 연습합니다.",
+        "aria": "패 효율 연습으로 이동"
+      },
+      "pureOnesTenpai": {
+        "title": "청일색 텐파이 연습",
+        "desc": "문전 청일색의 텐파이 분석 연습.",
+        "aria": "청일색 텐파이 연습으로 이동"
+      },
+      "pointCalc": {
+        "title": "점수 계산 연습",
+        "desc": "다양한 한수·부(翻·符)에 따른 점수를 계산합니다.",
+        "aria": "점수 계산 연습으로 이동"
+      },
+      "guide": {
+        "title": "입문에서 고급으로",
+        "desc": "리치 마작 학습 경로 안내.",
+        "aria": "학습 경로로 이동"
+      },
+      "terms": {
+        "title": "기본 용어 사전",
+        "desc": "주요 리치 마작 용어를 빠르게 확인합니다.",
+        "aria": "기본 용어 사전으로 이동"
+      },
+      "books": {
+        "title": "전술서 링크 모음",
+        "desc": "Bilibili의 중국어 번역 및 국내 저작 링크 정리.",
+        "aria": "전술서 링크 모음으로 이동"
+      },
+      "webDictionary": {
+        "title": "기타 사이트",
+        "desc": "유용한 리치 마작 웹사이트 목록.",
+        "aria": "기타 사이트로 이동"
+      },
+      "handPointCalc": {
+        "title": "패 점수 계산 연습",
+        "desc": "완전한 손패에서 역/부/점수를 판정하는 연습.",
+        "aria": "패 점수 계산 연습으로 이동"
+      },
+      "handPointCalculator": {
+        "title": "패 점수 계산기",
+        "desc": "손패를 입력해 역/부/점수를 계산.",
+        "aria": "패 점수 계산기로 이동"
+      }
+    }
+  },
+  "webDictionary": {
+    "title": "기타 사이트",
+    "sites": {
+      "mortal": {
+        "name": "Mortal AI",
+        "desc": "Mortal 저자의 국면 검토 사이트. Mortal 등 모델로 분석합니다."
+      },
+      "naga": {
+        "name": "NAGA AI",
+        "desc": "NAGA 모델을 사용하는 국면 검토 사이트. 다소 정확도가 높지만 중국어 UI는 미지원."
+      },
+      "discardSimulator": {
+        "name": "마작 버림 시뮬레이터",
+        "desc": "'무엇을 버릴까' 시뮬레이터의 보다 완성된 구현체(오픈소스, C++)."
+      },
+      "gsz": {
+        "name": "장소 공식전",
+        "desc": "Healthy Mahjong Union: 오프라인 공식전 점포 안내 및 전적."
+      },
+      "amaeKoromo": {
+        "name": "雀魂 국면 DB (Amae-Koromo)",
+        "desc": "雀魂의 서드파티 국면 DB. 금방·이상 등급의 일일 대국과 통계를 제공합니다."
+      }
+    }
+  },
+  "navbar": {
+    "groups": {
+      "analysis": "분석",
+      "learn": "학습",
+      "more": "기타"
+    },
+    "items": {
+      "discard": "패 효율 분석",
+      "review": "국면 분석",
+      "threeHundred": "何切り300문",
+      "threeHundredOne": "何切り301선",
+      "pureOnesTenpai": "청일색 텐파이 연습",
+      "pointCalc": "점수 계산 연습",
+      "efficiencyTrain": "패 효율 연습",
+      "guide": "학습 경로",
+      "books": "전술서 링크 모음",
+      "contact": "저자 정보",
+      "introduce": "사이트 소개",
+      "webDictionary": "기타 사이트",
+      "handPointCalc": "패 점수 계산 연습",
+      "handPointCalculator": "패 점수 계산기",
+      "basicTerms": "기본 용어 사전"
+    },
+    "aria": {
+      "openMenu": "네비게이션 메뉴 열기",
+      "langSwitch": "언어 변경",
+      "userAvatarAlt": "사용자 아바타"
+    },
+    "lang": {
+      "zhCN": "简体中文",
+      "zhTW": "繁體中文",
+      "en": "English",
+      "ja": "日本語",
+      "ko": "한국어",
+      "fr": "Français",
+      "es": "Español"
+    }
+  },
+  "pureOnesTenpai": {
+    "title": "청일색 텐파이 연습",
+    "settings": {
+      "difficultyLegend": "난이도",
+      "tileTypeLegend": "패종",
+      "waitCountPrefix": "대기패 수: "
+    },
+    "handTitle": "손패",
+    "pickAnswerTitle": "정답 선택",
+    "actions": {
+      "resetStats": "통계 초기화",
+      "submit": "제출",
+      "submitted": "제출됨",
+      "newHand": "새 문제"
+    },
+    "result": {
+      "correct": "정답",
+      "wrong": "오답",
+      "correctAnswer": "정답:"
+    },
+    "stats": {
+      "accuracy": "정확도: {percent} %",
+      "summary": "(정답: {correct} / 전체: {total})"
+    },
+    "articles": {
+      "title": "관련 글",
+      "item1": "1. '麻雀学習·牌効率' 5-3 문전 청일색의 대기패 찾기",
+      "link": "링크"
+    },
+    "options": {
+      "difficulty": {
+        "0": { "label": "제한 없음", "range": "무관" },
+        "1": { "label": "쉬움", "range": "1 ~ 2" },
+        "2": { "label": "보통", "range": "3 ~ 4" },
+        "3": { "label": "어려움", "range": "5 +" }
+      },
+      "tileType": {
+        "random": "무작위",
+        "m": "만자",
+        "p": "통자",
+        "s": "삭자"
+      }
+    }
+  },
+  "pointCalc": {
+    "title": "점수 계산 연습",
+    "roles": {
+      "dealer": "오야(親)",
+      "nonDealer": "자(子)"
+    },
+    "winTypes": {
+      "tsumo": "츠모",
+      "ron": "론"
+    },
+    "labels": {
+      "points": "점",
+      "pointsAll": "점(올)",
+      "pointTable": "점수표"
+    },
+    "actions": {
+      "submit": "제출",
+      "next": "다음",
+      "prev": "이전"
+    },
+    "question": {
+      "summary": "{role} {win} {han} 한(翻) {fu} 부(符) {honba} 혼바"
+    },
+    "aria": {
+      "showTable": "점수표 보기",
+      "inputDealerAll": "오야 츠모 총점 입력(올)",
+      "inputDealerRon": "오야 론 점수 입력",
+      "inputNonDealerTsumoNonDealer": "자(子)의 지불액 입력",
+      "inputNonDealerTsumoDealer": "오야가 받는 지불액 입력",
+      "inputNonDealerRon": "자(子)의 론 점수 입력"
+    },
+    "result": {
+      "correct": "정답",
+      "wrong": "오답",
+      "correctAnswer": "정답:"
+    },
+    "images": {
+      "alt": {
+        "tableLight": "점수표",
+        "tableDark": "점수표(다크)"
+      }
+    },
+    "placeholders": {
+      "dealer": "오야",
+      "nonDealer": "자(子)"
+    }
+  },
+  "handpointcalculation": {
+    "title": "패 점수 계산 연습",
+    "summary": "{round}장 {seat} {win}",
+    "labels": {
+      "doraIndicators": "도라 표시패",
+      "uraDoraIndicators": "우라도라 표시패",
+      "hanPrefix": "한수:",
+      "fuPrefix": "부수:",
+      "hanTotal": "합계 {han} 한",
+      "ansHanTotal": " {han}한",
+      "baseFu20": "기본 20부",
+      "menzenRon10": "문전 론 +10부",
+      "tsumo2": "츠모 +2부",
+      "waitTanki2": "단기 대기 +2부",
+      "waitPenchan2": "펜찬 대기 +2부",
+      "waitKanchan2": "칸찬 대기 +2부",
+      "fuTotalExact": "합계 {fu} 부",
+      "ansFuTotal": " {fu}부",
+      "fuTotalRaw": "합계 {fu} 부",
+      "yakumanTimes": "역만 {n}배",
+      "pinfuTsumo20": "핑후 츠모 20부",
+      "chowThirtyFu": "후로 핑후형은 30부로 계산"
+    },
+    "badges": {
+      "riichi": "리치",
+      "daburuRiichi": "더블 리치",
+      "ippatsu": "일발",
+      "haitei": "해저로월",
+      "houtei": "하저로어",
+      "rinshan": "영상개화",
+      "chankan": "창깡"
+    },
+    "meldFu": {
+      "sequence": "순자 {fu} 부",
+      "tripletClosedSimple": "중장 암각 {fu} 부",
+      "tripletClosedTerminal": "요구(么九) 암각 {fu} 부",
+      "tripletOpenSimple": "중장 명각 {fu} 부",
+      "tripletOpenTerminal": "요구(么九) 명각 {fu} 부",
+      "kongOpenSimple": "중장 명깡 {fu} 부",
+      "kongOpenTerminal": "요구(么九) 명깡 {fu} 부",
+      "kongClosedSimple": "중장 암깡 {fu} 부",
+      "kongClosedTerminal": "요구(么九) 암깡 {fu} 부",
+      "pairRoundWind": "장풍 작두 {fu} 부",
+      "pairSeatWind": "자풍 작두 {fu} 부",
+      "pairDoubleWind": "연풍 작두 {fu} 부",
+      "pairDragons": "삼원패 작두 {fu} 부",
+      "pairNonYaku": "역패 아님 작두 {fu} 부"
+    },
+    "hanLines": {
+      "riichi": "리치 1 한",
+      "daburuRiichi": "더블 리치 2 한",
+      "ippatsu": "일발 1 한",
+      "haitei": "해저로월 1 한",
+      "houtei": "하저로어 1 한",
+      "rinshan": "영상개화 1 한",
+      "chankan": "창깡 1 한",
+      "tanyao": "탕야오 1 한",
+      "roundEast": "장풍 동 1 한",
+      "roundSouth": "장풍 남 1 한",
+      "roundWest": "장풍 서 1 한",
+      "seatEast": "자풍 동 1 한",
+      "seatSouth": "자풍 남 1 한",
+      "seatWest": "자풍 서 1 한",
+      "seatNorth": "자풍 북 1 한",
+      "haku": "백 1 한",
+      "hatsu": "발 1 한",
+      "chun": "중 1 한",
+      "menzenTsumo": "문전 자모화 1 한",
+      "pinfu": "핑후 1 한",
+      "iipeikou": "이페코 1 한",
+      "toitoi": "또이또이 2 한",
+      "sanankou": "삼암각 2 한",
+      "sankantsu": "삼깡자 2 한",
+      "sanshokuDoko": "삼색동각 2 한",
+      "honrouto": "혼노두 2 한",
+      "shouSangen": "소삼원 2 한",
+      "sanshokuDoujunMenzen": "삼색동순 2 한",
+      "sanshokuDoujunOpen": "삼색동순(후로) 1 한",
+      "ittsuMenzen": "일기통관 2 한",
+      "ittsuOpen": "일기통관(후로) 1 한",
+      "chantaMenzen": "혼전대요구 2 한",
+      "chantaOpen": "혼전대요구(후로) 1 한",
+      "honitsuMenzen": "혼일색 3 한",
+      "honitsuOpen": "혼일색(후로) 2 한",
+      "junchanMenzen": "순전대요구 3 한",
+      "junchanOpen": "순전대요구(후로) 2 한",
+      "ryanpeikou": "량페코 3 한",
+      "chinitsuMenzen": "청일색 6 한",
+      "chinitsuOpen": "청일색(후로) 5 한",
+      "dora": "도라 {n} 한",
+      "akaDora": "적도라 {n} 한",
+      "uraDora": "우라도라 {n} 한"
+    },
+    "yakuman": {
+      "daisangen": "대삼원 역만",
+      "shousuushii": "소사희 역만",
+      "daisushi": "대사희 더블 역만",
+      "tsuuiisou": "자일색 역만",
+      "ryuuiisou": "녹일색 역만",
+      "chinroutou": "청노두 역만",
+      "suuankou": "사암각 역만",
+      "suuankouTanki": "사암각 단기 더블 역만",
+      "chuurenPoutou": "구련보등 역만",
+      "junseiChuurenPoutou": "순정 구련보등 더블 역만",
+      "suukantsu": "사깡자 역만"
+    },
+    "winds": {
+      "east": "동",
+      "south": "남",
+      "west": "서",
+      "north": "북"
+    }
+  },
+  "efficiencyTrain": {
+    "title": "패 효율 연습",
+    "settings": {
+      "shantenDisplayLegend": "샨텐(向聴) 표시",
+      "tileSetLegend": "패 구성",
+      "judgeCriteriaLegend": "판정 기준",
+      "submitModeLegend": "제출 방식"
+    },
+    "options": {
+      "shantenDisplay": {
+        "hidden": "표시 안 함",
+        "full": "샨텐 수 표시",
+        "tenpaiOnly": "텐파이 여부만 표시"
+      },
+      "tileSet": {
+        "noHonor": "자패 제외",
+        "withHonor": "자패 포함",
+        "m": "청일색: 만자",
+        "p": "청일색: 통자",
+        "s": "청일색: 삭자"
+      },
+      "judgeCriteria": {
+        "default": "기본 (혼합)",
+        "volume": "수용(進張) 수",
+        "shape": "좋은형률",
+        "index": "지수"
+      },
+      "submitMode": {
+        "instant": "클릭 후 즉시 제출",
+        "button": "클릭 후 버튼으로 제출"
+      }
+    },
+    "status": {
+      "mahjong": "화료!!",
+      "tenpai": "텐파이",
+      "noten": "노텐",
+      "shanten": "{n} 샨텐"
+    },
+    "ui": {
+      "handTitle": "손패",
+      "clickHint": "⬆️ 위의 패를 탭하여 정답을 선택하세요"
+    },
+    "analysis": {
+      "title": "수용(受け入れ) 분석"
+    },
+    "table": {
+      "cut": "버림",
+      "improvements": "수용",
+      "goodShapeRate": "좋은형률",
+      "total": "총 수용",
+      "index": "지수"
+    },
+    "buttons": {
+      "prev": "이전",
+      "next": "다음",
+      "submit": "제출"
+    },
+    "result": {
+      "correctAnswersTitle": "모든 정답:",
+      "messages": {
+        "errShantenBack": "오류: 샨텐이 후퇴함",
+        "correct": "정답",
+        "wrongNotMax": "오답"
+      }
+    }
+  },
+  "threeHundred": {
+    "title": "何切り300문",
+    "labels": {
+      "no": "No."
+    },
+    "ui": {
+      "clickHint": "⬆️ 위의 패를 탭하여 정답을 선택하세요"
+    },
+    "answer": {
+      "title": "참고 정답 및 해설",
+      "explanationTitle": "해설:"
+    },
+    "analysis": {
+      "title": "수용 분석"
+    },
+    "table": {
+      "cut": "버림",
+      "improvements": "수용",
+      "goodShapeRate": "좋은형률",
+      "total": "총 수용"
+    },
+    "buttons": {
+      "prev": "이전",
+      "next": "다음",
+      "jump": "이동"
+    },
+    "messages": {
+      "invalidId": "유효한 번호를 입력해 주세요",
+      "invalidHand": "손패 문자열이 유효하지 않거나 동일 패가 너무 많습니다"
+    },
+    "result": {
+      "correct": "정답!",
+      "wrong": "오답!"
+    },
+    "aria": {
+      "selectAnswer": "정답 선택"
+    }
+  },
+  "contact": {
+    "title": "저자 연락처",
+    "email": "이메일: {email}",
+    "links": {
+      "github": "GitHub:",
+      "bilibili": "Bilibili:",
+      "xiaoheihe": "XiaoHeiHe:"
+    },
+    "link": "링크",
+    "donate": "후원:",
+    "qrcodeAlt": "후원 QR 코드",
+    "qrcodeNote": "모든 성원에 진심으로 감사드립니다. 비고에 닉네임이나 연락처를 적어 주세요."
+  },
+  "introduce": {
+    "title": "MahjongXpilot",
+    "versionLine": "버전: {version}",
+    "copyrightLine": "Copyright © Fyisvia Virell.",
+    "rightsLine": "All Rights Reserved.",
+    "repoLabel": "GitHub 저장소:",
+    "repoLinkText": "링크",
+    "repoWelcome": "코드 리뷰, 버그 리포트 및 기능 제안을 환영합니다.",
+    "specialThanksTitle": "특별 감사",
+    "specialThanksDesc": "이 프로젝트는 다음과 같은 분들의 특별한 도움으로 이루어졌습니다:"
+  },
+  "guide": {
+    "title": "입문에서 고급으로",
+    "disclaimer": "면책: 본 페이지의 자료는 비상업적 학습 및 교류 목적의 정리입니다. 모든 권리는 원저작자에게 귀속됩니다.",
+    "beginner": "입문",
+    "advanced": "고급"
+  },
+  "booksPage": {
+    "title": "전술서 링크 모음",
+    "disclaimer": "면책: 본 페이지의 자료는 비상업적 학습 및 교류 목적의 정리입니다. 모든 권리는 원저작자/번역자에게 귀속됩니다. 저작자 지원을 부탁드립니다.",
+    "sortNote": "아래 항목은 병음(핀인) 첫 글자 순으로 정렬되어 있습니다.",
+    "referenceText": "이 컬렉션은 Bilibili 업로더 {upname}를 참고했습니다",
+    "contact": "저작권 관련 문의: {email}"
+  },
+  "books": {
+    "categories": {
+      "汉化日语战术书": "일본어 전술서(중문 번역)",
+      "其他汉化日语资料": "기타 일본어 자료(중문 번역)",
+      "国内作者内容": "국내 저자 자료",
+      "三麻相关资料": "3인 마작 관련 자료"
+    }
+  },
+  "handpointcalculator": {
+    "title": "패 점수 계산기",
+    "roundWind": "장풍",
+    "seatWind": "자풍",
+    "chiipon": "치／퐁 (세미콜론으로 구분)",
+    "kan": "깡 (형식: 명깡／암깡:5m; 세미콜론으로 구분)",
+    "closedHand": "멘젠 패 (부루 없음, 아카고는 0m／0p／0s)",
+    "winningTile": "화패",
+    "clear": "초기화",
+    "commit": "제출",
+    "error": {
+      "invalidTiles": "입력한 멘젠 패 또는 화패가 올바르지 않습니다",
+      "cannotDecompose": "패를 분해할 수 없습니다. 입력을 확인하세요",
+      "noValidWinningShape": "유효한 화료 형식이 없습니다. 입력을 확인하세요"
+    }
+  }
+}

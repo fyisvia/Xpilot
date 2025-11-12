@@ -1,0 +1,146 @@
+<!-- 
+Xpilot Copyright 2025 [Fyisvia Virell] — https://mj.fyisvia.com
+Licensed under AGPL-3.0 with Additional Terms (see LICENSE).
+Note: Certain non-code assets (including datasets, content sets, or media files)
+are excluded from the AGPL license and may NOT be publicly published or redistributed
+without written permission from the author. (See LICENSE for details)
+ -->
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/photos/Profile.jpg" type="image/jpg">
+    <link rel="stylesheet" href="https://unpkg.com/@waline/client@v3/dist/waline.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xpilot</title>
+    <meta
+      name="description"
+      content="Xpilot是一个日本麻将（Riichi Mahjong）工具性网站，旨在帮助日麻玩家提升雀力。项目整合了牌效率分析与练习等实用功能，并针对各个用户端的用户体验进行了优化和改进，提供更便捷、直观的日麻学习与实战支持。"
+    />
+    <meta
+      name="keywords"
+      content="日麻,日本麻将,牌效率分析,牌谱分析,雀魂,天凤,麻将回放,Xpilot,麻将工具,策略分析,日麻战术书,日麻学习路线,麻将练习,麻将点数计算,雀力提升,麻将技巧,麻将学习,麻将策略,麻将分析,牌效率"
+    />
+    <script type="text/javascript">
+      (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "sk7o2k2nre");
+    </script>
+    <!-- Umami -->
+    <script defer src="https://analytics.fyisvia.cn/script.js" data-website-id="e1e9da33-3f75-4857-9870-26faa4d293c5"></script>
+    <script>
+      // 基于 Blob 的全站预加载 + 自动替换
+      (function () {
+        if (window.__imagesPreloadStarted) return;
+        window.__imagesPreloadStarted = true;
+
+        // 相对 key 规范化：去掉 origin 与开头的 '/'
+        function toKey(src) {
+          try {
+            if (!src) return '';
+            if (src.startsWith('blob:')) return '';
+            if (/^https?:\/\//i.test(src)) {
+              var u = new URL(src, location.origin);
+              return u.pathname.replace(/^\//, '');
+            }
+            return src.replace(/^\//, '');
+          } catch { return ''; }
+        }
+
+        // 映射：相对路径 => blob:URL
+        window.preloadedURLMap = window.preloadedURLMap || Object.create(null);
+        // 兜底：相对路径 => Image 实例（如 Blob 失败时）
+        window.preloadedImages = window.preloadedImages || Object.create(null);
+
+        // 统一取图
+        window.getPreloadedSrc = function(rel) {
+          var key = toKey(rel);
+          if (!key) return '';
+          var blob = window.preloadedURLMap[key];
+          if (blob) return blob;
+          var img = window.preloadedImages[key];
+          if (img && img.complete) return img.src;
+          return '/' + key;
+        };
+
+        // 尝试将 <img> 的 src 替换为预加载的 Blob URL
+        function swapIfPreloaded(img) {
+          if (!(img instanceof HTMLImageElement)) return;
+          var raw = img.getAttribute('src') || img.src;
+          var key = toKey(raw);
+          if (!key) return;
+          var blob = window.preloadedURLMap[key];
+          if (blob && img.src !== blob) {
+            img.src = blob;
+          }
+        }
+
+        // 启动预加载（尽早执行）
+        window.preloadImagesPromise = fetch('/images.json')
+          .then(function (r) {
+            if (!r.ok) throw new Error('Failed to fetch images.json: ' + r.status);
+            return r.json();
+          })
+          .then(function (list) {
+            var uniq = Array.from(new Set(list.map(toKey).filter(Boolean)));
+            return Promise.all(uniq.map(function (key) {
+              if (window.preloadedURLMap[key] || window.preloadedImages[key]) return null;
+              return fetch('/' + key, { cache: 'force-cache' })
+                .then(function (resp) {
+                  if (!resp.ok) throw new Error('fetch fail ' + key);
+                  return resp.blob();
+                })
+                .then(function (blob) {
+                  var url = URL.createObjectURL(blob);
+                  window.preloadedURLMap[key] = url;
+                })
+                .catch(function () {
+                  // Blob 失败则用 Image 预热作兜底
+                  var img = new Image();
+                  img.src = '/' + key;
+                  window.preloadedImages[key] = img;
+                });
+            }));
+          })
+          .then(function () {
+            // 首次扫描已有 IMG
+            document.querySelectorAll('img[src]').forEach(swapIfPreloaded);
+          })
+          .catch(function (err) {
+            console.error('Preload error:', err);
+          });
+
+        // 监听后续 DOM 变更，自动替换 img[src]
+        var mo = new MutationObserver(function (muts) {
+          for (var m of muts) {
+            if (m.type === 'attributes' && m.attributeName === 'src' && m.target instanceof HTMLImageElement) {
+              swapIfPreloaded(m.target);
+            } else if (m.type === 'childList') {
+              m.addedNodes && m.addedNodes.forEach(function (n) {
+                if (n.nodeType !== 1) return;
+                if (n.tagName === 'IMG') swapIfPreloaded(n);
+                n.querySelectorAll && n.querySelectorAll('img[src]').forEach(swapIfPreloaded);
+              });
+            }
+          }
+        });
+        mo.observe(document.documentElement, { subtree: true, childList: true, attributes: true, attributeFilter: ['src'] });
+
+        // 页面卸载时释放 Blob URL
+        window.addEventListener('beforeunload', function () {
+          var map = window.preloadedURLMap || {};
+          for (var k in map) {
+            try { URL.revokeObjectURL(map[k]); } catch {}
+          }
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

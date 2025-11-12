@@ -1,0 +1,124 @@
+@import "tailwindcss";
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/preflight.css" layer(base);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: false;
+  prefersdark: false;
+  color-scheme: "light";
+
+  --color-base-100: oklch(98% 0 0);
+  --color-base-200: oklch(96% 0.001 286.375);
+  --color-base-300: oklch(92% 0.004 286.32);
+  --color-base-content: oklch(21% 0.006 285.885);
+  --color-primary: oklch(77% 0.152 181.912);
+  --color-primary-content: oklch(27% 0.046 192.524);
+  --color-secondary: oklch(0% 0 0);
+  --color-secondary-content: oklch(100% 0 0);
+  --color-accent: oklch(60% 0.118 184.704);
+  --color-accent-content: oklch(98% 0.014 180.72);
+  --color-neutral: oklch(44% 0.017 285.786);
+  --color-neutral-content: oklch(98% 0 0);
+  --color-info: oklch(71% 0.143 215.221);
+  --color-info-content: oklch(98% 0.019 200.873);
+  --color-success: oklch(72% 0.219 149.579);
+  --color-success-content: oklch(98% 0.018 155.826);
+  --color-warning: oklch(81% 0.117 11.638);
+  --color-warning-content: oklch(41% 0.159 10.272);
+  --color-error: oklch(64% 0.246 16.439);
+  --color-error-content: oklch(96% 0.015 12.422);
+
+  --radius-selector: 0.5rem;
+  --radius-field: 2rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  default: false;
+  prefersdark: false;
+  color-scheme: "dark";
+
+  --color-base-100: oklch(12% 0.042 264.695);
+  --color-base-200: oklch(20% 0.042 265.755);
+  --color-base-300: oklch(27% 0.041 260.031);
+  --color-base-content: oklch(96% 0.007 247.896);
+  --color-primary: oklch(80% 0.105 251.813);
+  --color-primary-content: oklch(28% 0.091 267.935);
+  --color-secondary: oklch(82% 0.111 230.318);
+  --color-secondary-content: oklch(29% 0.066 243.157);
+  --color-accent: oklch(51% 0.262 276.966);
+  --color-accent-content: oklch(96% 0.018 272.314);
+  --color-neutral: oklch(37% 0.044 257.287);
+  --color-neutral-content: oklch(98% 0.003 247.858);
+  --color-info: oklch(78% 0.154 211.53);
+  --color-info-content: oklch(30% 0.056 229.695);
+  --color-success: oklch(77% 0.152 181.912);
+  --color-success-content: oklch(27% 0.046 192.524);
+  --color-warning: oklch(75% 0.183 55.934);
+  --color-warning-content: oklch(26% 0.079 36.259);
+  --color-error: oklch(71% 0.202 349.761);
+  --color-error-content: oklch(28% 0.109 3.907);
+
+  --radius-selector: 0.5rem;
+  --radius-field: 2rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+/* Waline 自定义样式 */
+
+[data-theme="light"] #waline {
+  border-radius: 1rem;
+  background-color: #f8f8f8 !important;
+  padding: 1rem;
+}
+
+[data-theme="light"] #waline .wl-cards,
+[data-theme="light"] #waline .wl-card,
+[data-theme="light"] #waline .wl-comment,
+[data-theme="light"] #waline .wl-editor,
+[data-theme="light"] #waline .wl-panel,
+[data-theme="light"] #waline .wl-input,
+[data-theme="dark"] #waline .wl-textarea {
+  background-color: #f8f8f8 !important; /* 浅灰色背景 */
+  border: none !important; /* 移除内层元素的边框 */
+}
+
+[data-theme="light"] #waline .wl-card {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important; /* 评论之间的分隔线 */
+}
+
+[data-theme="dark"] #waline {
+  border-radius: 1rem;
+  background-color: #010515 !important;
+  padding: 1rem;
+}
+
+[data-theme="dark"] #waline .wl-cards,
+[data-theme="dark"] #waline .wl-card,
+[data-theme="dark"] #waline .wl-comment,
+[data-theme="dark"] #waline .wl-editor,
+[data-theme="dark"] #waline .wl-panel,
+[data-theme="dark"] #waline .wl-input,
+[data-theme="dark"] #waline .wl-textarea {
+  background-color: #010515 !important; /* 深蓝色背景 */
+  border: none !important; /* 移除内层元素的边框 */
+}
+
+[data-theme="dark"] #waline .wl-card {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important; /* 评论之间的分隔线 */
+}
