@@ -102,6 +102,50 @@
     "small": {
       "toggleToMetrics": "Afficher les métriques",
       "toggleToWaits": "Afficher les améliorations"
+    },
+    "ev": {
+      "deferHint": "Good-shape rate and EV are skipped by default for shanten >= 4. Click to compute.",
+      "compute": "Compute Good-Shape Rate + EV"
+    }
+  },
+  "discardTest": {
+    "title": "Test Nani Kiru",
+    "sections": {
+      "setup": "Choisir la quantité",
+      "quiz": "En cours",
+      "result": "Rapport d'aptitude"
+    },
+    "settings": {
+      "count": "Nombre de questions",
+      "countOption": "{count} questions",
+      "start": "Démarrer / Re-tirer"
+    },
+    "progress": "Question {current}/{total}",
+    "hint": "Cliquez sur une tuile pour choisir la défausse",
+    "actions": {
+      "prev": "Précédente",
+      "next": "Suivante",
+      "submit": "Soumettre cette question",
+      "finish": "Terminer et voir les résultats",
+      "restart": "Recommencer"
+    },
+    "result": {
+      "title": "Résultats",
+      "columns": {
+        "order": "N°",
+        "id": "ID de la question",
+        "correct": "Correct"
+      },
+      "score": "Précision",
+      "certTitle": "Évaluation des compétences",
+      "level": "Niveau",
+      "correctCountLabel": "Bonnes réponses",
+      "correctCount": "{correct}/{total}",
+      "correct": "Correct",
+      "wrong": "Faux"
+    },
+    "aria": {
+      "selectAnswer": "Sélectionner la défausse"
     }
   },
   "home": {
@@ -122,9 +166,14 @@
         "aria": "Aller à 300 Nanikiru"
       },
       "threeHundredOne": {
-        "title": "Nani Kiru 301",
-        "desc": "Série supplémentaire de problèmes « que défausser » après les 300.",
-        "aria": "Aller à Nani Kiru 301"
+        "title": "Pratique Nani-kiru",
+        "desc": "Exercice en ligne avec un grand ensemble intégré de problèmes de nani-kiru.",
+        "aria": "Aller à Pratique Nani-kiru"
+      },
+      "discardTrainTest": {
+        "title": "Test Nani Kiru",
+        "desc": "Test de compétence Nani Kiru avec tirage aléatoire.",
+        "aria": "Aller au test Nani Kiru"
       },
       "efficiencyTrain": {
         "title": "Entraînement d'efficacité",
@@ -208,7 +257,7 @@
       "discard": "Analyse d'efficacité",
       "review": "Analyse de parties",
       "threeHundred": "300 Nanikiru",
-      "threeHundredOne": "Nani Kiru 301",
+      "threeHundredOne": "Pratique Nani-kiru",
       "pureOnesTenpai": "Pratique Tenpai Chinitsu",
       "pointCalc": "Pratique de points",
       "efficiencyTrain": "Entraînement d'efficacité",
@@ -282,6 +331,12 @@
   },
   "pointCalc": {
     "title": "Pratique de calcul de points",
+    "hint": {
+      "title": "Règles de saisie",
+      "l1": "1. Chiffres et lettres acceptés (insensible à la casse).",
+      "l2": "2. 'k' pour mille (ex: 5k6=5600), 'w' pour dix mille (ex: 1w2=12000).",
+      "l3": "3. Les nombres à 1-2 chiffres sont multipliés par 100 (ex: 13=1300)."
+    },
     "roles": {
       "dealer": "Donneur",
       "nonDealer": "Non-donneur"
@@ -569,6 +624,93 @@
     "specialThanks": {
       "title": "Remerciements spéciaux",
       "desc": "Merci à tous ceux qui ont contribué au projet MahjongXpilot, directement ou indirectement. Vos efforts sont grandement appréciés."
+    },
+    "changelog": {
+      "title": "Journal des modifications",
+      "common": {
+        "intro": "Points forts :"
+      },
+      "v160": {
+        "title": "Version 1.6.0 (2026-05-13)",
+        "i1": "1. Mise à jour et inclusion de plus de 300 exercices NaniKiru, optimisation des modèles d'affichage et amélioration du défilement sur les appareils mobiles.",
+        "i2": "2. Optimisation des performances du système en calculant le taux de bonne forme et l'EV à la demande.",
+        "i3": "3. Réécriture et amélioration de la logique des algorithmes statistiques liés aux calculs d'assistance de base.",
+        "i4": "4. Ajout d'invites de saisie rapide sur les pages de calcul de points, et prise en charge des suffixes k/w pour faciliter la mise à l'échelle des valeurs saisies.",
+        "i5": "5. Amélioration de l'interface utilisateur dans plusieurs sections.",
+        "i6": "6. Correction de certains problèmes connus."
+      },
+      "v150": {
+        "title": "Version 1.5.0 (2025-10-29)",
+        "i1": "1. Ajout de l’affichage de l’indice dans l’Analyse d’efficacité des tuiles et l’Entraînement d’efficacité.",
+        "i2": "2. Ajout du choix de la logique de jugement des réponses correctes dans l’Entraînement d’efficacité.",
+        "i3": "3. Ajout du choix du mode d’envoi sur petits écrans mobiles pour la Pratique Nani-kiru et l’Entraînement d’efficacité.",
+        "i4": "4. Correction d’un problème où l’attente kanchan était ignorée lors du calcul des fu dans certains cas.",
+        "i5": "5. Optimisation de la logique de jugement des réponses dans l’Entraînement d’efficacité.",
+        "i6": "6. Optimisation des icônes du site et du favicon.",
+        "i7": "7. Optimisation de la logique d’affichage des résultats sur les différentes pages."
+      },
+      "v140": {
+        "title": "Version 1.4.0 (2025-10-06)",
+        "i1": "1. Ajout du Calculateur de points de main.",
+        "i2": "2. Ajout de l'Exercice de calcul des points de main.",
+        "i3": "3. Prise en charge multilingue finalisée."
+      },
+      "v130": {
+        "title": "Version 1.3.0 (2025-10-01)",
+        "i1": "1. Ajout de la fonctionnalité d'analyse de parties.",
+        "i2": "2. Améliorations de l'interface."
+      },
+      "v121": {
+        "title": "Version 1.2.1 (2025-09-30)",
+        "i1": "1. Ajout de l'entrée par clic sur image dans l'analyse d'efficacité.",
+        "i2": "2. Ajout du honba au calcul de points."
+      },
+      "v120": {
+        "title": "Version 1.2.0 (2025-09-26)",
+        "i1": "1. Ajout de l'entraînement d'efficacité.",
+        "i2": "2. Améliorations UI."
+      },
+      "v113": {
+        "title": "Version 1.1.3 (2025-08-12)",
+        "i1": "1. Correction d'un Shanten incorrect dans certains cas.",
+        "i2": "2. Amélioration de la gestion d'entrée pour l'analyse d'efficacité ; ajout d'analyse sans tuile piochée."
+      },
+      "v112": {
+        "title": "Version 1.1.2 (2025-07-03)",
+        "i1": "1. Correction d'un débordement de pile dû à une récursion Shanten profonde.",
+        "i2": "2. Ajout de la sélection aléatoire de couleur pour Tenpai Chinitsu.",
+        "i3": "3. Corrections de contenu collecté."
+      },
+      "v111": {
+        "title": "Version 1.1.1 (2025-05-21)",
+        "i1": "1. Ajout du taux de bonne forme dans l'analyse d'efficacité.",
+        "i2": "2. Augmentation de la difficulté en mode aléatoire pour Tenpai Chinitsu.",
+        "i3": "3. Corrections de contenu collecté."
+      },
+      "v110": {
+        "title": "Version 1.1.0 (2025-05-03)",
+        "i1": "1. Ajout de la pratique Tenpai Chinitsu.",
+        "i2": "2. Ajout de la page d'accueil.",
+        "i3": "3. Corrections UI.",
+        "i4": "4. Corrections de contenu."
+      },
+      "v101": {
+        "title": "Version 1.0.1 (2025-04-28)",
+        "i1": "1. Correction du saccade au défilement vertical sur mobile.",
+        "i2": "2. Corrections UI."
+      },
+      "rc": {
+        "title": "Aperçu Version 1.0.1-rc (2025-04-27)",
+        "preamble": "Je suis heureux d'annoncer la sortie de Xpilot 1.0.1-rc. Xpilot est une web app pour Riichi Mahjong, visant à offrir une expérience stable et facile d'utilisation. Cette RC inclut :",
+        "s1": "1. Fonctionnalités principales :",
+        "s1b": "Analyse 'que défausser', Pratique Nani-kiru, tableau de points et exercices, et liste de tutoriels.",
+        "s2": "2. Interface :",
+        "s2b": "Interface propre et minimaliste couvrant l’analyse 'que défausser', la Pratique Nani-kiru, le calcul des points et les tutoriels pour une prise en main rapide.",
+        "s3": "3. Compatibilité multi‑plateforme :",
+        "s3b": "Optimisé pour bureau et mobile.",
+        "s4": "4. Problèmes connus :",
+        "s4b": "En RC il peut y avoir des connexions instables, des fonctionnalités/UI incomplètes ou des crashes occasionnels. Le scoring par valeur attendue pour l’analyse de défausse et la couverture complète de la Pratique Nani-kiru sont en développement ; l’analyse de parties est en cours."
+      }
     }
   },
   "guide": {
@@ -577,10 +719,16 @@
     "beginner": "Débutant",
     "advanced": "Avancé"
   },
+  "basicTerms": {
+    "searchPlaceholder": "Rechercher par terme ou mot-clé",
+    "noResult": "Aucun contenu correspondant trouvé"
+  },
   "booksPage": {
     "title": "Collection de livres",
     "disclaimer": "Avis : les ressources rassemblées ici sont à des fins d'étude et d'échange non commercial. Tous les droits appartiennent aux auteurs/traducteurs. Merci de soutenir les auteurs.",
     "sortNote": "Les articles sont triés par la première lettre du pinyin.",
+    "searchPlaceholder": "Rechercher par titre ou auteur",
+    "noResult": "Aucun contenu correspondant trouvé",
     "referenceText": "Cette collection s'appuie sur le travail de l'uploader Bilibili {upname}",
     "contact": "Pour une réclamation, écrivez à {email}"
   },

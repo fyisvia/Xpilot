@@ -10,6 +10,19 @@
         <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
             {{ t('pointCalc.title') }}
         </li>
+        <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
+            <div class="flex items-center gap-2 pb-4">
+                <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
+                    <input type="checkbox" />
+                    <div class="collapse-title opacity-80">{{ t('pointCalc.hint.title') }}</div>
+                    <div class="collapse-content text-xs font-semibold opacity-60 mb-0">
+                        {{ t('pointCalc.hint.l1') }}<br>
+                        {{ t('pointCalc.hint.l2') }}<br>
+                        {{ t('pointCalc.hint.l3') }}
+                    </div>
+                </div>
+            </div>
+        </li>
         <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide flex justify-center">
             <div v-if="question">
@@ -30,56 +43,67 @@
             <div v-if="question">
                 <div v-if="question.isDealer && question.isTsumo" class="flex items-center gap-2">
                     <input
-                        type="number"
+                        type="text"
                         v-model="userInput.dealer"
+                        @input="handleInput('dealer', $event)"
                         class="input w-60 text-base py-2 px-3"
                         autocomplete="off"
                         @keyup.enter="checkAnswer"
                         :aria-label="t('pointCalc.aria.inputDealerAll')"
+                        ref="inputDealer"
                     />
                     <span>{{ t('pointCalc.labels.pointsAll') }}</span>
                 </div>
                 <div v-else-if="question.isDealer && !question.isTsumo" class="flex items-center gap-2">
                     <input
-                        type="number"
+                        type="text"
                         v-model="userInput.nonDealer"
+                        @input="handleInput('nonDealer', $event)"
                         class="input w-60 text-base py-2 px-3"
                         autocomplete="off"
                         @keyup.enter="checkAnswer"
                         :aria-label="t('pointCalc.aria.inputDealerRon')"
+                        ref="inputNonDealer"
                     />
                     <span>{{ t('pointCalc.labels.points') }}</span>
                 </div>
                 <div v-else-if="!question.isDealer && question.isTsumo" class="flex flex-wrap items-center gap-2 justify-center w-full">
                     <input
-                        type="number"
+                        type="text"
                         v-model="userInput.nonDealer"
+                        @input="handleInput('nonDealer', $event)"
                         class="input w-60 text-base py-2 px-3"
                         :placeholder="t('pointCalc.placeholders.nonDealer')"
                         autocomplete="off"
                         :aria-label="t('pointCalc.aria.inputNonDealerTsumoNonDealer')"
+                        ref="inputNonDealer"
+                        @keyup.enter="focusDealerInput"
                     />
                     <span>{{ t('pointCalc.labels.points') }}</span>
                     <div class="w-full"></div>
                     <input
-                        type="number"
+                        type="text"
                         v-model="userInput.dealer"
+                        @input="handleInput('dealer', $event)"
                         class="input w-60 text-base py-2 px-3"
                         :placeholder="t('pointCalc.placeholders.dealer')"
                         autocomplete="off"
                         @keyup.enter="checkAnswer"
                         :aria-label="t('pointCalc.aria.inputNonDealerTsumoDealer')"
+                        ref="inputDealer"
                     />
                     <span>{{ t('pointCalc.labels.points') }}</span>
                 </div>
                 <div v-else class="flex items-center gap-2">
                     <input
-                        type="number"
+                        type="text"
                         v-model="userInput.nonDealer"
+                        @input="handleInput('nonDealer', $event)"
                         class="input w-60 text-base py-2 px-3"
                         autocomplete="off"
                         @keyup.enter="checkAnswer"
                         :aria-label="t('pointCalc.aria.inputNonDealerRon')"
+                        ref="inputNonDealer"
                     />
                     <span>{{ t('pointCalc.labels.points') }}</span>
                 </div>
@@ -133,12 +157,70 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import PointTableJpg from '/photos/PointsTable.jpg';
 import PointTableBLJpg from '/photos/PointsTableBL.jpg';
 
 const { t } = useI18n();
+
+// 解析输入点数（支持 k/w 后缀及简写）
+const parsePointInput = (str) => {
+    if (!str) return 0;
+    let s = String(str).trim().toUpperCase();
+    if (!s) return 0;
+
+    // 处理 W (万)
+    if (s.includes('W')) {
+        const parts = s.split('W');
+        let val = parseFloat(parts[0]) * 10000;
+        if (parts[1]) {
+            const minorStr = parts[1];
+            const minorVal = parseFloat(minorStr);
+            if (!isNaN(minorVal)) {
+                val += minorVal * (10000 / Math.pow(10, minorStr.length));
+            }
+        }
+        return Math.round(val);
+    }
+    
+    // 处理 K (千)
+    if (s.includes('K')) {
+        const parts = s.split('K');
+        let val = parseFloat(parts[0]) * 1000;
+        if (parts[1]) {
+            const minorStr = parts[1];
+            const minorVal = parseFloat(minorStr);
+            if (!isNaN(minorVal)) {
+                val += minorVal * (1000 / Math.pow(10, minorStr.length));
+            }
+        }
+        return Math.round(val);
+    }
+
+    // 纯数字处理
+    if (/^\d+$/.test(s)) {
+        let val = parseInt(s, 10);
+        // 1或2位数自动乘100
+        if (s.length <= 2) {
+            val *= 100;
+        }
+        return val;
+    }
+    
+    return NaN;
+};
+
+// 输入过滤：只允许数字和字母
+const handleInput = (field, event) => {
+    const val = event.target.value;
+    const sanitized = val.replace(/[^0-9a-zA-Z]/g, '');
+    userInput.value[field] = sanitized;
+    // 如果过滤导致值变化，手动更新 input 显示
+    if (val !== sanitized) {
+        event.target.value = sanitized;
+    }
+};
 
 // 点数计算核心算法（加入本场加点）
 const calculatePoints = (isDealer, isTsumo, han, fu, honba = 0) => {
@@ -300,6 +382,10 @@ const isCorrect = ref(null);
 const showResult = ref(false);
 const isTable = ref(false);
 
+// 输入框引用，用于自动聚焦与切换
+const inputDealer = ref(null);
+const inputNonDealer = ref(null);
+
 // 监听主题变化
 const getTheme = () => document.documentElement.getAttribute('data-theme') || 'light';
 const theme = ref(getTheme());
@@ -313,6 +399,8 @@ onMounted(() => {
   });
   observer.observe(document.documentElement, { attributes: true });
   question.value = generateQuestion();
+  // 进入页面后自动聚焦第一个输入框
+  focusFirstInput();
 });
 onUnmounted(() => {
   observer.disconnect();
@@ -323,19 +411,23 @@ const checkAnswer = () => {
     const { correctPoints } = question.value;
     const { dealer, nonDealer } = userInput.value;
 
+    // 使用新的解析函数
+    const dealerVal = parsePointInput(dealer);
+    const nonDealerVal = parsePointInput(nonDealer);
+
     let isCorrectValue = false;
 
     if (question.value.isDealer) {
         if (question.value.isTsumo) {
-            isCorrectValue = parseInt(dealer) === correctPoints.tsumo;
+            isCorrectValue = dealerVal === correctPoints.tsumo;
         } else {
-            isCorrectValue = parseInt(nonDealer) === correctPoints.ron;
+            isCorrectValue = nonDealerVal === correctPoints.ron;
         }
     } else {
         if (question.value.isTsumo) {
-            isCorrectValue = parseInt(dealer) === correctPoints.tsumo.dealer && parseInt(nonDealer) === correctPoints.tsumo.nonDealer;
+            isCorrectValue = dealerVal === correctPoints.tsumo.dealer && nonDealerVal === correctPoints.tsumo.nonDealer;
         } else {
-            isCorrectValue = parseInt(nonDealer) === correctPoints.ron;
+            isCorrectValue = nonDealerVal === correctPoints.ron;
         }
     }
 
@@ -343,11 +435,41 @@ const checkAnswer = () => {
     showResult.value = true;
 };
 
+// 回车从第一个输入框跳到第二个输入框（仅两输入场景用）
+const focusDealerInput = () => {
+  nextTick(() => {
+    inputDealer.value?.focus();
+  });
+};
+
+// 根据题目场景自动聚焦第一个需要输入的输入框
+const focusFirstInput = () => {
+  nextTick(() => {
+    if (!question.value) return;
+    const { isDealer: d, isTsumo: tsumo } = question.value;
+    if (d && tsumo) {
+      // 亲家自摸：只有一个输入（亲家全收）
+      inputDealer.value?.focus();
+    } else if (d && !tsumo) {
+      // 亲家荣和：只有一个输入（他家支付）
+      inputNonDealer.value?.focus();
+    } else if (!d && tsumo) {
+      // 子家自摸：第一个输入是他家（子家）的失点
+      inputNonDealer.value?.focus();
+    } else {
+      // 子家荣和：只有一个输入（放铳家支付）
+      inputNonDealer.value?.focus();
+    }
+  });
+};
+
 const resetQuestion = () => {
     question.value = generateQuestion();
     userInput.value = { dealer: "", nonDealer: "" };
     isCorrect.value = null;
     showResult.value = false;
+    // 下一题后自动进入第一个输入框
+    focusFirstInput();
 };
 </script>
 

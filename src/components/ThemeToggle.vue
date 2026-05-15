@@ -38,9 +38,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, inject } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { useUIStore } from '../stores/ui'
 
-const emitter = inject('emitter')
+const uiStore = useUIStore()
 const isLightTheme = ref(true)
 
 // 本地存储键（与 Navbar 保持一致）
@@ -64,7 +65,7 @@ function toggleTheme() {
   const theme = isLightTheme.value ? 'light' : 'dark'
   document.documentElement.setAttribute('data-theme', theme)
   try { localStorage.setItem(THEME_STORAGE_KEY, theme) } catch {}
-  if (emitter?.emit) emitter.emit('theme-changed', theme)
+  uiStore.setTheme(theme)
 }
 
 // 初始化：根据当前/已保存主题同步开关状态，并监听外部变更
@@ -74,6 +75,7 @@ onMounted(() => {
     document.documentElement.setAttribute('data-theme', initial)
   }
   isLightTheme.value = initial === 'light'
+  uiStore.setTheme(initial)
 
   observer = new MutationObserver(mutations => {
     for (const m of mutations) {
@@ -81,6 +83,7 @@ onMounted(() => {
         const theme = document.documentElement.getAttribute('data-theme')
         if (theme === 'light' || theme === 'dark') {
           isLightTheme.value = theme === 'light'
+          uiStore.setTheme(theme)
         }
       }
     }

@@ -103,10 +103,9 @@ export const guideData = {
         resources: [
           {
             id: 1,
-            title: "《麻将杰作\"何切\"300选》福地诚/G·Uzaku （何切三百问）",
-            link: "/three-hundred",
-            isExternal: false,
-            useRouter: true
+            title: "《麻将杰作\"何切\"300选》福地诚/G·Uzaku",
+            link: "https://www.bilibili.com/read/readlist/rl380536",
+            isExternal: true
           },
           {
             id: 2,

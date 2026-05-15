@@ -102,6 +102,50 @@
     "small": {
       "toggleToMetrics": "Show metrics",
       "toggleToWaits": "Show improvements"
+    },
+    "ev": {
+      "deferHint": "Good-shape rate and EV are skipped by default for shanten >= 4. Click to compute.",
+      "compute": "Compute Good-Shape Rate + EV"
+    }
+  },
+  "discardTest": {
+    "title": "Nani Kiru Test",
+    "sections": {
+      "setup": "Choose amount",
+      "quiz": "In progress",
+      "result": "Ability report"
+    },
+    "settings": {
+      "count": "Question count",
+      "countOption": "{count} questions",
+      "start": "Start / Reshuffle"
+    },
+    "progress": "Question {current}/{total}",
+    "hint": "Tap a tile to choose the discard",
+    "actions": {
+      "prev": "Previous",
+      "next": "Next",
+      "submit": "Submit this question",
+      "finish": "Finish and view results",
+      "restart": "Restart"
+    },
+    "result": {
+      "title": "Results",
+      "columns": {
+        "order": "No.",
+        "id": "Question ID",
+        "correct": "Correct"
+      },
+      "score": "Accuracy",
+      "certTitle": "Skill Assessment",
+      "level": "Level",
+      "correctCountLabel": "Correct answers",
+      "correctCount": "{correct}/{total}",
+      "correct": "Correct",
+      "wrong": "Wrong"
+    },
+    "aria": {
+      "selectAnswer": "Select discard answer"
     }
   },
   "home": {
@@ -122,9 +166,14 @@
         "aria": "Go to 300 Nanikiru"
       },
       "threeHundredOne": {
-        "title": "Nani Kiru 301",
-        "desc": "Additional 'what to discard' challenges continuing the 300 set.",
-        "aria": "Go to Nani Kiru 301"
+        "title": "Nani Kiru Practice",
+        "desc": "Online practice with a large built-in set of nani-kiru problems.",
+        "aria": "Go to Nani Kiru Practice"
+      },
+      "discardTrainTest": {
+        "title": "Nani Kiru Test",
+        "desc": "Randomized nani-kiru skill test.",
+        "aria": "Go to Nani Kiru Test"
       },
       "efficiencyTrain": {
         "title": "Tile Efficiency Drills",
@@ -208,7 +257,8 @@
       "discard": "Tile Efficiency Analysis",
       "review": "Game Review",
       "threeHundred": "300 Nanikiru",
-      "threeHundredOne": "Nani Kiru 301",
+      "threeHundredOne": "Nani Kiru Practice",
+      "discardTrainTest": "Nani Kiru Test",
       "pureOnesTenpai": "Chinitsu Tenpai Practice",
       "pointCalc": "Point Calculation Practice",
       "efficiencyTrain": "Tile Efficiency Drills",
@@ -282,6 +332,12 @@
   },
   "pointCalc": {
     "title": "Point Calculation Practice",
+    "hint": {
+      "title": "Input Rules",
+      "l1": "1. Supports numbers and letters (case-insensitive).",
+      "l2": "2. 'k' for thousands (e.g. 5k6 = 5600), 'w' for ten-thousands (e.g. 1w2 = 12000).",
+      "l3": "3. 1-2 digit numbers are multiplied by 100 (e.g. 13 = 1300)."
+    },
     "roles": {
       "dealer": "Dealer",
       "nonDealer": "Non-dealer"
@@ -511,6 +567,11 @@
     "labels": {
       "no": "No."
     },
+      "discardTrainTest": {
+        "title": "Nani Kiru Test",
+        "desc": "Randomized nani-kiru skill test.",
+        "aria": "Go to Nani Kiru Test"
+      },
     "ui": {
       "clickHint": "⬆️ Tap above to choose an answer"
     },
@@ -565,7 +626,94 @@
     "repoLabel": "GitHub repo:",
     "repoLinkText": "Link",
     "repoWelcome": "Welcome to review code, report bugs, and suggest features.",
-    "specialThanksTitle": "Special Thanks"
+    "specialThanksTitle": "Special Thanks",
+    "changelog": {
+      "title": "Changelog",
+      "common": {
+        "intro": "Highlights:"
+      },
+      "v160": {
+        "title": "Version 1.6.0 (2026-05-13)",
+        "i1": "1. Updated and included 300+ NaniKiru exercises, optimized question display templates, and improved the scrolling experience on mobile devices.",
+        "i2": "2. Optimized system performance by changing the calculation mechanism for good shape rate and EV to on-demand computation.",
+        "i3": "3. Rewrote and improved the statistical algorithm logic related to core auxiliary calculations.",
+        "i4": "4. Added shortcut input prompts to point calculation pages and added support for using k/w suffixes for quick value scaling.",
+        "i5": "5. Improved UI experience across various sections.",
+        "i6": "6. Fixed some known issues."
+      },
+      "v150": {
+        "title": "Version 1.5.0 (2025-10-29)",
+        "i1": "1. Added Index display to Tile Efficiency Analysis and Tile Efficiency Drills.",
+        "i2": "2. Added selectable judging logic for correct answers in Tile Efficiency Drills.",
+        "i3": "3. Added submission‑mode selection on small‑screen mobile for Nani Kiru Practice and Tile Efficiency Drills.",
+        "i4": "4. Fixed an issue where kanchan waits were ignored when calculating fu in certain cases.",
+        "i5": "5. Optimized answer judging logic in Tile Efficiency Drills.",
+        "i6": "6. Optimized site icons and favicon.",
+        "i7": "7. Optimized result display logic across pages."
+      },
+      "v140": {
+        "title": "Version 1.4.0 (2025-10-06)",
+        "i1": "1. Added Hand Point Calculator.",
+        "i2": "2. Added Hand Point Calculation Practice.",
+        "i3": "3. Completed multi-language support."
+      },
+      "v130": {
+        "title": "Version 1.3.0 (2025-10-01)",
+        "i1": "1. Added game review feature.",
+        "i2": "2. UI refinements."
+      },
+      "v121": {
+        "title": "Version 1.2.1 (2025-09-30)",
+        "i1": "1. Added click-to-input via tile images in Tile Efficiency.",
+        "i2": "2. Added honba to point calculation."
+      },
+      "v120": {
+        "title": "Version 1.2.0 (2025-09-26)",
+        "i1": "1. Added Tile Efficiency Drills.",
+        "i2": "2. UI refinements."
+      },
+      "v113": {
+        "title": "Version 1.1.3 (2025-08-12)",
+        "i1": "1. Fixed incorrect Shanten in edge cases.",
+        "i2": "2. Improved Tile Efficiency input handling; added improvements analysis without a drawn tile."
+      },
+      "v112": {
+        "title": "Version 1.1.2 (2025-07-03)",
+        "i1": "1. Fixed stack overflow from deep Shanten recursion on complex hands.",
+        "i2": "2. Added random pattern selection for Chinitsu tenpai questions.",
+        "i3": "3. Fixed several collected content issues."
+      },
+      "v111": {
+        "title": "Version 1.1.1 (2025-05-21)",
+        "i1": "1. Added good-shape rate in Tile Efficiency analysis.",
+        "i2": "2. Increased difficulty for random mode in Chinitsu tenpai.",
+        "i3": "3. Fixed several collected content issues."
+      },
+      "v110": {
+        "title": "Version 1.1.0 (2025-05-03)",
+        "i1": "1. Added Chinitsu tenpai practice.",
+        "i2": "2. Added Home page.",
+        "i3": "3. Fixed several UI issues.",
+        "i4": "4. Fixed several collected content issues."
+      },
+      "v101": {
+        "title": "Version 1.0.1 (2025-04-28)",
+        "i1": "1. Fixed stutter on vertical scrolling on mobile.",
+        "i2": "2. Fixed several UI issues."
+      },
+      "rc": {
+        "title": "Version 1.0.1-rc Overview (2025-04-27)",
+        "preamble": "I'm pleased to announce the release of Xpilot 1.0.1-rc. Xpilot is a functional web app for Riichi Mahjong, aiming to offer a stable and easy-to-use experience. This RC includes:",
+        "s1": "1. Core features:",
+        "s1b": "What-to-discard analysis, Nani Kiru Practice, point table and calculation drills, and tutorials list.",
+        "s2": "2. User interface:",
+        "s2b": "A clean, minimal interface covering what-to-discard analysis, Nani Kiru Practice, point calculation and tutorials for quick onboarding.",
+        "s3": "3. Cross‑platform compatibility:",
+        "s3b": "Optimized for both desktop and mobile.",
+        "s4": "4. Known issues:",
+        "s4b": "As an RC, there may be unstable connections, incomplete features/UI, or occasional crashes. Expected value scoring in discard analysis and full Nani Kiru Practice coverage are pending; game review is under development."
+      }
+    }
   },
       "guide": {
         "title": "Beginner to Advanced",
@@ -573,10 +721,16 @@
         "beginner": "Beginner",
         "advanced": "Advanced"
   },
+  "basicTerms": {
+    "searchPlaceholder": "Search by term or keyword",
+    "noResult": "No matching content found"
+  },
   "booksPage": {
     "title": "Books Collection",
     "disclaimer": "Disclaimer: The materials listed here are collected for non‑commercial study and exchange only. All rights belong to the original authors/translators. Please support them.",
     "sortNote": "Items are sorted by the first letter of their pinyin.",
+    "searchPlaceholder": "Search by book title or author",
+    "noResult": "No matching content found",
     "referenceText": "This collection is referenced from Bilibili uploader {upname}",
     "contact": "For takedown, please email {email}"
   },

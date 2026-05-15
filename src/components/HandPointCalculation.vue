@@ -11,6 +11,19 @@
         <li class="p-4 pb-2 text-lg font-semibold opacity-100 tracking-wide">
           {{ t('handpointcalculation.title') }}
         </li>
+        <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
+            <div class="flex items-center gap-2 pb-4">
+                <div class="collapse collapse-arrow bg-base-100 border-base-300 border">
+                    <input type="checkbox" />
+                    <div class="collapse-title opacity-80">{{ t('pointCalc.hint.title') }}</div>
+                    <div class="collapse-content text-xs font-semibold opacity-60 mb-0">
+                        {{ t('pointCalc.hint.l1') }}<br>
+                        {{ t('pointCalc.hint.l2') }}<br>
+                        {{ t('pointCalc.hint.l3') }}
+                    </div>
+                </div>
+            </div>
+        </li>
 
         <!-- 基本信息 -->
         <li class="p-4 pb-2 text-lg opacity-100 tracking-wide">
@@ -40,7 +53,7 @@
         </li>
 
         <!-- 宝牌/里宝牌 -->
-        <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
+        <li class="p-4 pb-2 text-base opacity-100 tracking-wide" :style="contentWidthStyle">
           <div class="flex flex-row gap-6 sm:gap-8 mt-2 justify-center">
             <div class="text-center">
               <div class="text-base mb-1">{{ t('handpointcalculation.labels.doraIndicators') }}</div>
@@ -72,7 +85,7 @@
         </li>
 
         <!-- 手牌展示（统一 object-contain 与 gap:0） -->
-        <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
+        <li class="p-4 pb-2 text-base opacity-100 tracking-wide" :style="contentWidthStyle">
           <div class="w-full mt-2 overflow-x-auto">
             <div class="mx-auto">
               <table class="whitespace-nowrap mx-auto">
@@ -97,7 +110,7 @@
           </div>
         </li>
         <!-- 手牌展示（统一 object-contain 与 gap:0） -->
-        <li class="p-0 pb-0 text-base opacity-100 tracking-wide">
+        <li class="p-0 pb-0 text-base opacity-100 tracking-wide" :style="contentWidthStyle">
           <div class="w-full mt-2 overflow-x-auto">
             <div class="mx-auto">
               <table class="whitespace-nowrap mx-auto">
@@ -139,14 +152,31 @@
           </div>
         </li>
 
+        <!-- 屏幕宽度控制（仅大屏显示，保持与其他页面一致） -->
+        <li v-if="!isSmallScreen" class="p-4 pb-2 text-xs md:text-base opacity-80 tracking-wide flex justify-start">
+          <div class="flex items-center gap-3">
+            <input
+              type="range"
+              min="40"
+              max="100"
+              step="5"
+              v-model.number="contentWidth"
+              class="range range-xs w-36 sm:w-40"
+              :aria-label="t('threeHundred.ui.clickHint')"
+            />
+            <span class="opacity-80">{{ contentWidthDisplay }}%</span>
+          </div>
+        </li>
+
         <!-- 输入区域（与 PointCalculation 一致的输入样式与交互） -->
         <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
           <div class="p-2 text-base opacity-100 tracking-wide flex justify-center w-full">
             <div>
               <div v-if="handData.isDealer && handData.isTsumo" class="flex items-center gap-2">
                 <input
-                  type="number"
+                  type="text"
                   v-model="userInput.dealer"
+                  @input="handleInput('dealer', $event)"
                   class="input w-60 text-base py-2 px-3"
                   autocomplete="off"
                   @keyup.enter="checkAnswer"
@@ -156,8 +186,9 @@
               </div>
               <div v-else-if="handData.isDealer && !handData.isTsumo" class="flex items-center gap-2">
                 <input
-                  type="number"
+                  type="text"
                   v-model="userInput.nonDealer"
+                  @input="handleInput('nonDealer', $event)"
                   class="input w-60 text-base py-2 px-3"
                   autocomplete="off"
                   @keyup.enter="checkAnswer"
@@ -167,8 +198,9 @@
               </div>
               <div v-else-if="!handData.isDealer && handData.isTsumo" class="flex flex-wrap items-center gap-2 justify-center w-full">
                 <input
-                  type="number"
+                  type="text"
                   v-model="userInput.nonDealer"
+                  @input="handleInput('nonDealer', $event)"
                   class="input w-60 text-base py-2 px-3"
                   :placeholder="t('pointCalc.placeholders.nonDealer')"
                   autocomplete="off"
@@ -177,8 +209,9 @@
                 <span>{{ t('pointCalc.labels.points') }}</span>
                 <div class="w-full"></div>
                 <input
-                  type="number"
+                  type="text"
                   v-model="userInput.dealer"
+                  @input="handleInput('dealer', $event)"
                   class="input w-60 text-base py-2 px-3"
                   :placeholder="t('pointCalc.placeholders.dealer')"
                   autocomplete="off"
@@ -189,8 +222,9 @@
               </div>
               <div v-else class="flex items-center gap-2">
                 <input
-                  type="number"
+                  type="text"
                   v-model="userInput.nonDealer"
+                  @input="handleInput('nonDealer', $event)"
                   class="input w-60 text-base py-2 px-3"
                   autocomplete="off"
                   @keyup.enter="checkAnswer"
@@ -309,11 +343,69 @@
 // 说明：本文件所有注释均使用简体中文；仅优化注释文案与个别措辞，不改动任何业务逻辑或字符串常量
 // 提示：代码中用于判定的类型与等待形式（如“handshuntsu”“handtoitsu”“chii/pon/minkan/ankan”“tanki-machi/penchan-machi/kanchan-machi/ryanmen-machi”等）为字符串常量，保持不变以避免影响逻辑。
 
-import { onMounted, onBeforeUnmount, reactive, ref, computed } from 'vue'
+import { onMounted, onBeforeUnmount, reactive, ref, computed, watch, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { HandDivider, YakuList } from '../utils/yakucalculation'
 
 const { t } = useI18n()
+
+// 解析输入点数（支持 k/w 后缀及简写）
+const parsePointInput = (str) => {
+    if (!str) return 0;
+    let s = String(str).trim().toUpperCase();
+    if (!s) return 0;
+
+    // 处理 W (万)
+    if (s.includes('W')) {
+        const parts = s.split('W');
+        let val = parseFloat(parts[0]) * 10000;
+        if (parts[1]) {
+            const minorStr = parts[1];
+            const minorVal = parseFloat(minorStr);
+            if (!isNaN(minorVal)) {
+                val += minorVal * (10000 / Math.pow(10, minorStr.length));
+            }
+        }
+        return Math.round(val);
+    }
+    
+    // 处理 K (千)
+    if (s.includes('K')) {
+        const parts = s.split('K');
+        let val = parseFloat(parts[0]) * 1000;
+        if (parts[1]) {
+            const minorStr = parts[1];
+            const minorVal = parseFloat(minorStr);
+            if (!isNaN(minorVal)) {
+                val += minorVal * (1000 / Math.pow(10, minorStr.length));
+            }
+        }
+        return Math.round(val);
+    }
+
+    // 纯数字处理
+    if (/^\d+$/.test(s)) {
+        let val = parseInt(s, 10);
+        // 1或2位数自动乘100
+        if (s.length <= 2) {
+            val *= 100;
+        }
+        return val;
+    }
+    
+    return NaN;
+};
+
+// 输入过滤：只允许数字和字母
+const handleInput = (field, event) => {
+    const val = event.target.value;
+    const sanitized = val.replace(/[^0-9a-zA-Z]/g, '');
+    userInput[field] = sanitized;
+    // 如果过滤导致值变化，手动更新 input 显示
+    if (val !== sanitized) {
+        event.target.value = sanitized;
+    }
+};
 
 // 图片与旋转相关：统一使用 object-contain；支持将带前缀的牌图（-，=，v）旋转后显示
 const img = n => `/mahjongfiles/${n}.png`
@@ -394,6 +486,7 @@ function getTileSrc(tile) {
 }
 
 // 页面状态（题面/手牌/番符/点数/输入等）
+// 说明：手动调整初始值，确保每次生成的牌局都不相同
 const handData = reactive({
   melds: [],
   winningMeldIndex: 0,
@@ -499,14 +592,63 @@ const tileDisplayStyle = (t) => {
   return isRotated(t) ? { ...base, marginTop: 'var(--tile-offset)' } : base
 }
 
+// -------------------- 新增：与其它页面通用的宽度控制 --------------------
+const isSmallScreen = ref(false)
+const WIDTH_STORAGE_KEY = 'threehundred-content-width'
+const WIDTH_CHANGE_EVENT = 'threehundred-content-width-change'
+const clampWidth = (v) => Math.min(100, Math.max(40, Number.isFinite(v) ? v : 100))
+const getSavedContentWidth = () => {
+  try {
+    const stored = parseInt(localStorage.getItem(WIDTH_STORAGE_KEY), 10)
+    return clampWidth(stored)
+  } catch { return 100 }
+}
+const contentWidth = ref(getSavedContentWidth())
+let widthUpdateFromEvent = false
+const contentWidthStyle = computed(() => ({
+  width: `${isSmallScreen.value ? 100 : contentWidth.value}%`,
+  marginLeft: 'auto',
+  marginRight: 'auto'
+}))
+const contentWidthDisplay = computed(() => (isSmallScreen.value ? 100 : contentWidth.value))
+const updateScreenSize = () => { isSmallScreen.value = window.innerWidth < 640 }
+const handleWidthBroadcast = (e) => {
+  if (typeof e.detail !== 'number') return
+  const c = clampWidth(e.detail)
+  if (c === contentWidth.value) return
+  widthUpdateFromEvent = true
+  contentWidth.value = c
+}
+watch(contentWidth, (val) => {
+  const c = clampWidth(val)
+  if (c !== val) { contentWidth.value = c; return }
+  if (widthUpdateFromEvent) { widthUpdateFromEvent = false; return }
+  try { localStorage.setItem(WIDTH_STORAGE_KEY, String(c)) } catch {}
+  window.dispatchEvent(new CustomEvent(WIDTH_CHANGE_EVENT, { detail: c }))
+  // 尺寸重新计算
+  updateTileVars()
+})
+onMounted(() => {
+  updateScreenSize()
+  window.addEventListener('resize', updateScreenSize)
+  window.addEventListener(WIDTH_CHANGE_EVENT, handleWidthBroadcast)
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', updateScreenSize)
+  window.removeEventListener(WIDTH_CHANGE_EVENT, handleWidthBroadcast)
+})
+
 // 监听外层容器宽度，计算并写入 --tile-size 与 --tile-offset，完成自适应
 const outerEl = ref(null)
 let ro = null
+// 替换原 updateTileVars：在基础尺寸上乘以滑动百分比
 function updateTileVars() {
   const el = outerEl.value
   if (!el) return
   const w = el.clientWidth
-  const tilePx = (w / TILE_PER_ROW)
+  const baseTilePx = w / TILE_PER_ROW
+  const scale = isSmallScreen.value ? 1 : (contentWidth.value / 100)
+  const tilePx = baseTilePx * scale
   el.style.setProperty('--tile-size', `${tilePx}px`)
   el.style.setProperty('--tile-offset', `${tilePx * 0.5}px`)
 }
@@ -523,6 +665,7 @@ const localizedRound = computed(() => t(`handpointcalculation.winds.${handData.r
 const localizedSeat = computed(() => t(`handpointcalculation.winds.${handData.seatWind}`))
 
 // 计算展示所需的手牌（去掉和牌那张，仅用于 UI 展示）
+// 说明：手动调整初始值，确保每次生成的牌局都不相同
 const handMainTilesWithoutWinning = computed(() => {
   // 移除未使用变量：保留生成逻辑不变
   // const wm = handData.melds[handData.winningMeldIndex]
@@ -600,14 +743,17 @@ function checkAnswer() {
   const { dealer, nonDealer } = userInput
   let ok = false
 
+  const dealerVal = parsePointInput(dealer);
+  const nonDealerVal = parsePointInput(nonDealer);
+
   if (handData.isDealer) {
     ok = handData.isTsumo
-      ? parseInt(dealer) === points.tsumo
-      : parseInt(nonDealer) === points.ron
+      ? dealerVal === points.tsumo
+      : nonDealerVal === points.ron
   } else {
     ok = handData.isTsumo
-      ? (parseInt(dealer) === points.tsumo.dealer && parseInt(nonDealer) === points.tsumo.nonDealer)
-      : parseInt(nonDealer) === points.ron
+      ? (dealerVal === points.tsumo.dealer && nonDealerVal === points.tsumo.nonDealer)
+      : nonDealerVal === points.ron
   }
   isCorrect.value = ok
   showResult.value = true

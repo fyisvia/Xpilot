@@ -63,6 +63,44 @@
         </button>
       </RouterLink>
     </li>
+
+    <li class="list-row">
+      <div></div>
+      <div>
+        <RouterLink to="/discard-train" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.threeHundred.aria')">
+        <div class="text-sm font-semibold">{{ t('home.cards.threeHundredOne.title') }}</div>
+        <div class="text-xs opacity-80">{{ t('home.cards.threeHundredOne.desc') }}</div>
+        </RouterLink>
+      </div>
+      <RouterLink to="/discard-train" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.threeHundred.aria')">
+        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.threeHundred.aria')">
+        <svg class="size-[1.8em]" viewBox="0 0 24 24">
+          <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
+            <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
+          </g>
+        </svg>
+        </button>
+      </RouterLink>
+    </li>
+
+    <li class="list-row">
+      <div></div>
+      <div>
+        <RouterLink to="/discard-train-test" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.discardTrainTest.aria')">
+        <div class="text-sm font-semibold">{{ t('home.cards.discardTrainTest.title') }}</div>
+        <div class="text-xs opacity-80">{{ t('home.cards.discardTrainTest.desc') }}</div>
+        </RouterLink>
+      </div>
+      <RouterLink to="/discard-train-test" class="no-underline" style="text-decoration: none;" :aria-label="t('home.cards.discardTrainTest.aria')">
+        <button class="btn btn-square btn-ghost" :aria-label="t('home.cards.discardTrainTest.aria')">
+        <svg class="size-[1.8em]" viewBox="0 0 24 24">
+          <g stroke-linejoin="round" stroke-linecap="round" stroke-width="1" fill="none" stroke="currentColor">
+            <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
+          </g>
+        </svg>
+        </button>
+      </RouterLink>
+    </li>
     
     <li class="list-row">
       <div></div>

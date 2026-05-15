@@ -29,7 +29,34 @@
         <span>{{ t('booksPage.contact', { email: 'contact@fyisvia.com' }) }}</span>
       </div>
       <br>
-      <div v-for="category in books" :key="category.category">
+    </li>
+    <li class="p-4 pb-2 opacity-100 tracking-wide">
+      <div class="pl-8 flex items-center space-x-2">
+        <label class="input items-center gap-2 sm:max-w-md">
+          <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <g
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke-width="2.5"
+              fill="none"
+              stroke="currentColor"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </g>
+          </svg>
+          <input
+            v-model.trim="keyword"
+            :placeholder="t('booksPage.searchPlaceholder', '输入书名或作者以搜索')"
+            class="grow"
+            type="search"
+          />
+        </label>
+      </div>
+    </li>
+    <li class="p-4 pb-2 opacity-100 tracking-wide">
+      <template v-if="filteredBooks.length">
+        <div v-for="category in filteredBooks" :key="category.category">
         <div class="font-semibold mt-4 mb-2">
           {{ t('books.categories.' + category.category, category.category) }}
         </div>
@@ -44,13 +71,32 @@
           </a>
         </div>
       </div>
+      </template>
+      <div v-else class="pl-8 text-sm sm:text-base text-base-content/70">
+        {{ t('booksPage.noResult', '未找到匹配的内容') }}
+      </div>
     </li>
     <li aria-hidden="true" role="presentation" class="p-0 m-0 sm:h-4"></li>
   </ul>
 </template>
 
 <script setup>
+import { computed, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { books } from '../data/books'
+
 const { t } = useI18n()
+
+const keyword = ref('')
+
+const filteredBooks = computed(() => {
+  if (!keyword.value) return books
+  const kw = keyword.value.toLowerCase()
+  return books
+    .map(category => ({
+      ...category,
+      list: category.list.filter(book => book.title.toLowerCase().includes(kw))
+    }))
+    .filter(category => category.list.length > 0)
+})
 </script>

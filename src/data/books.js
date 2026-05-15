@@ -88,7 +88,6 @@ export const books = [
       { title: "《亚空间杀法》后半", url: "https://www.bilibili.com/read/readlist/rl633970" },
       { title: "《一击必杀门清流_超門前主義麻雀》リツミサン 前半", url: "https://zhuanlan.zhihu.com/p/75904775" },
       { title: "《一击必杀门清流_超門前主義麻雀》リツミサン 后半", url: "https://www.bilibili.com/read/readlist/rl723959" },
-      { title: "《一秒看破！麻将心理术》铃木优", url: "https://www.bilibili.com/read/readlist/rl784607" },
       { title: "《以倒推制胜的麻将》仲林圭", url: "https://www.bilibili.com/read/readlist/rl817969" },
       { title: "《用「何切」来记忆 麻将基本手筋合集》日本职业麻雀连盟", url: "https://www.bilibili.com/read/readlist/rl490019" },
       { title: "《用数据读牌》平泽元气", url: "https://www.bilibili.com/read/readlist/rl595010" },

@@ -7,8 +7,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
-    { path: '/', name: 'Home', component: () => import('../components/Home.vue') },
+    { path: '/', name: 'Home', component: () => import('../components/Home.vue'), meta: { hideComments: true } },
     { path: '/discard', name: 'Discard', component: () => import('../components/Discard.vue') },
+    { path: '/discard-train/:id?', name: 'DiscardTrain', component: () => import('../components/DiscardTrain.vue'), meta: { hideComments: true } },
+    { path: '/discard-train-test', name: 'DiscardTrainTest', component: () => import('../components/DiscardTrainTest.vue') },
     { path: '/pure-ones-tenpai', name: 'PureOnesTenpai', component: () => import('../components/PureOnesTenpai.vue') },
     { path: '/efficiency-train', name: 'EfficiencyTrain', component: () => import('../components/EfficiencyTrain.vue') },
     { path: '/point-calculation', name: 'PointCalculation', component: () => import('../components/PointCalculation.vue') },
@@ -16,10 +18,10 @@ const routes = [
     { path: '/hand-point-calculator', name: 'HandPointCalculator', component: () => import('../components/HandPointCalculator.vue') },
     { path: '/guide', name: 'Guide', component: () => import('../components/Guide.vue') },
     { path: '/basic-terms', name: 'BasicTerms', component: () => import('../components/BasicTerms.vue') },
-    { path: '/books', name: 'Books', component: () => import('../components/Books.vue') },
-    { path: '/introduce', name: 'Introduce', component: () => import('../components/Introduce.vue') },
+    { path: '/books', name: 'Books', component: () => import('../components/Books.vue'), meta: { hideComments: true } },
+    { path: '/introduce', name: 'Introduce', component: () => import('../components/Introduce.vue'), meta: { hideComments: true } },
     { path: '/web-dictionary', name: 'WebDictionary', component: () => import('../components/WebDictionary.vue') },
-    { path: '/review', name: 'Review', component: () => import('../components/Review.vue') },
+    { path: '/review', name: 'Review', component: () => import('../components/Review.vue'), meta: { hideComments: true } },
 ]
 
 const router = createRouter({

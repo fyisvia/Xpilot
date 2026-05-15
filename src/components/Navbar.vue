@@ -35,6 +35,8 @@
           <li>
             <a class="text-base font-semibold">{{ $t('navbar.groups.learn') }}</a>
             <ul class="p-2 w-max whitespace-nowrap">
+              <li><router-link to="/discard-train" class="link no-underline text-sm">{{ $t('navbar.items.threeHundredOne') }}</router-link></li>
+              <li><router-link to="/discard-train-test" class="link no-underline text-sm">{{ $t('navbar.items.discardTrainTest') }}</router-link></li>
               <li><router-link to="/pure-ones-tenpai" class="link no-underline text-sm">{{ $t('navbar.items.pureOnesTenpai') }}</router-link></li>
               <li><router-link to="/efficiency-train" class="link no-underline text-sm">{{ $t('navbar.items.efficiencyTrain') }}</router-link></li>
               <li><router-link to="/point-calculation" class="link no-underline text-sm">{{ $t('navbar.items.pointCalc') }}</router-link></li>
@@ -53,7 +55,7 @@
           </li>
         </ul>
       </div>
-      <router-link to="/" class="btn btn-ghost text-xl no-underline">Xpilot</router-link>
+      <router-link to="/" class="btn btn-ghost text-[1.35rem] no-underline font-medium">𝕏𝕡𝕚𝕝𝕠𝕥</router-link>
     </div>
     <div class="navbar-center hidden lg:flex">
       <ul class="menu menu-horizontal px-1">
@@ -71,6 +73,8 @@
           <details>
             <summary>{{ $t('navbar.groups.learn') }}</summary>
             <ul class="p-2 w-max whitespace-nowrap top-[calc(100%+1.2rem)]">
+              <li><router-link to="/discard-train" class="link no-underline">{{ $t('navbar.items.threeHundredOne') }}</router-link></li>
+              <li><router-link to="/discard-train-test" class="link no-underline">{{ $t('navbar.items.discardTrainTest') }}</router-link></li>
               <li><router-link to="/pure-ones-tenpai" class="link no-underline">{{ $t('navbar.items.pureOnesTenpai') }}</router-link></li>
               <li><router-link to="/efficiency-train" class="link no-underline">{{ $t('navbar.items.efficiencyTrain') }}</router-link></li>
               <li><router-link to="/point-calculation" class="link no-underline">{{ $t('navbar.items.pointCalc') }}</router-link></li>

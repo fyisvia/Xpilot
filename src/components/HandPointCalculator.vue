@@ -126,7 +126,7 @@
       </div>
     </li>
 
-            <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
+    <li aria-hidden="true" role="presentation" class="p-0 m-0 h-2"></li>
 
     <!-- 操作 -->
     <li class="list-row flex flex-row justify-center items-center gap-6 w-full">

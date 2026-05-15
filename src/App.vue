@@ -6,20 +6,12 @@
 
 <template>
   <navbar class="fixed top-0 left-0 w-full z-10 bg-base-200 h-16 sm:h-20" />
-
   <div class="min-h-screen pt-12 sm:pt-20 w-full flex flex-row justify-center bg-base-0 sm:bg-base-200">
     <main class="w-full max-w-full sm:max-w-6xl overflow-x-hidden overflow-y-auto overscroll-contain bg-base-0 sm:bg-base-200">
       <div class="flex flex-col items-center gap-4 px-0 sm:px-6">
         <br>
         <router-view />
-        <template v-if="
-          route.path !== '/' 
-          && route.path !== '/contact'
-          && route.path !== '/introduce'
-          && route.path !== '/books'
-          && route.path !== '/review'
-          "
-        >
+        <template v-if="!route.meta.hideComments">
           <br>
           <ul class="list bg-base-100 sm:rounded-box sm:shadow-md w-[100%]">
             <div id="waline" class="w-full"></div>
@@ -28,7 +20,9 @@
         <!-- Waline 评论框 -->
         <br>
         <footer class="text-center text-gray-500 text-sm">
+          <br>
           Copyright © Fyisvia Virell.
+          <br>
         </footer>
         <br>
       </div>
@@ -38,14 +32,15 @@
 
 <script setup>
 import Navbar from './components/Navbar.vue';
-import { onMounted, onBeforeUnmount, nextTick, watch, inject, VueElement } from 'vue';
+import { onMounted, onBeforeUnmount, nextTick, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { useUIStore } from './stores/ui';
 
 let walineInstance = null;
 const route = useRoute();
-const emitter = inject('emitter');
-const { t, locale } = useI18n();
+const uiStore = useUIStore();
+const { locale } = useI18n();
 
 // map i18n -> Waline lang（仅 zhCN/zhTW/en 有对应，其余回退 en）
 const toWalineLang = (l) => {
@@ -74,8 +69,11 @@ const initWaline = async () => {
     const { init } = await import('https://unpkg.com/@waline/client@v3/dist/waline.js');
     walineInstance = init({
       el: '#waline',
-      serverURL: 'https://waline.fyisvia.cn',
+      serverURL: 'https://comment.mj.fyisvia.cn',
       path: route.path,
+      meta: [],
+      pageview: false,
+      avatar: 'mp',
       lang: toWalineLang(locale.value),
       dark: 'html[data-theme="dark"]',
     });
@@ -90,16 +88,17 @@ const updateWalineTheme = () => {
   }
 };
 
-onMounted(async () => {
+const updateHeight = () => {
   const main = document.querySelector('main');
-  const updateHeight = () => {
-    const navHeight = window.innerWidth >= 640 ? 80 : 64;
-    main.style.height = `calc(100vh - ${navHeight}px)`;
-    document.documentElement.style.height = '100%';
-    document.body.style.height = '100%';
-    document.body.style.overscrollBehavior = 'none';
-  };
+  if (!main) return;
+  const navHeight = window.innerWidth >= 640 ? 80 : 64;
+  main.style.height = `calc(100vh - ${navHeight}px)`;
+  document.documentElement.style.height = '100%';
+  document.body.style.height = '100%';
+  document.body.style.overscrollBehavior = 'none';
+};
 
+onMounted(async () => {
   updateHeight();
   window.addEventListener('resize', updateHeight);
   window.addEventListener('orientationchange', updateHeight);
@@ -112,12 +111,19 @@ onMounted(async () => {
 
   await initWaline();
 
-  emitter.on('theme-changed', updateWalineTheme);
+  watch(() => uiStore.theme, updateWalineTheme);
 });
 
 // 监听路由变化，重新初始化 Waline
 watch(() => route.path, async () => {
-  await initWaline();
+  if (route.meta.hideComments) {
+    if (walineInstance && walineInstance.destroy) {
+      walineInstance.destroy();
+      walineInstance = null;
+    }
+  } else {
+    await initWaline();
+  }
 });
 
 // 监听站点语言变化，联动 Waline 语言
@@ -130,8 +136,6 @@ watch(() => locale.value, (newLang) => {
 onBeforeUnmount(() => {
   window.removeEventListener('resize', updateHeight);
   window.removeEventListener('orientationchange', updateHeight);
-
-  emitter.off('theme-changed', updateWalineTheme);
 
   if (walineInstance && walineInstance.destroy) {
     walineInstance.destroy();
@@ -152,5 +156,9 @@ body {
 #app {
   height: 100%;
   width: 100%;
+}
+
+#waline img[src*="libravatar.org/"] {
+  content: url('/photos/nobody.jpg');
 }
 </style>

@@ -64,11 +64,26 @@
 
     <!-- 图片选牌面板 -->
     <li class="p-4 pb-2 text-base opacity-100 tracking-wide">
-      <div class="flex items-center gap-2 pb-4">
+      <div class="flex items-center gap-2 pb-4 justify-between">
         <span class="p-0 pb-0 text-base opacity-100 tracking-wide">
           {{ t('discard.palette.title') }}
         </span>
+        <!-- 与 PureOnesTenpai 一致的滑动按钮（仅大屏显示） -->
+        <div v-if="!isSmallScreen" class="flex items-center gap-3">
+          <input
+            type="range"
+            min="40"
+            max="100"
+            step="5"
+            v-model.number="contentWidth"
+            class="range range-xs w-36 sm:w-40"
+            :aria-label="t('threeHundred.ui.clickHint')"
+          />
+          <span class="opacity-80">{{ contentWidthDisplay }}%</span>
+        </div>
       </div>
+    </li>
+    <li class="p-4 pb-2 text-base opacity-100 tracking-wide" :style="contentWidthStyle">
       <div class="flex flex-col gap-2" v-if="preloadedReady">
         <div
           v-for="tp in ['m','p','s','z']"
@@ -104,6 +119,8 @@
           <button class="btn btn-sm text-sm sm:text-base px-4" @click="clearTiles" :disabled="selectedTiles.length === 0">{{ t('discard.selected.clear') }}</button>
         </div>
       </div>
+    </li>
+    <li class="p-4 pb-2 text-base opacity-100 tracking-wide" :style="contentWidthStyle">
       <div class="flex flex-wrap" style="gap: 0px;">
         <template v-for="(tTile, idx) in selectedTiles" :key="'sel-' + tTile + '-' + idx">
           <img
@@ -202,8 +219,8 @@
                       :class="idx % 2 === 1 ? 'hover:bg-base-300' : ''"
                     >
                       <td class="font-bold text-center">{{ tile || '—' }}</td>
-                      <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(0) }}%</td>
-                      <td class="font-bold text-center">{{ Math.round(expectedPointResults[tile] || 0) }}</td>
+                      <td class="font-bold text-center">{{ formatGoodShapeRate(result.goodShapeRate) }}</td>
+                      <td class="font-bold text-center">{{ formatEvIndex(expectedPointResults[tile]) }}</td>
                       <td class="font-bold text-center">{{ result.totalCount }}</td>
                     </tr>
                   </tbody>
@@ -230,7 +247,21 @@
                       :class="idx % 2 === 1 ? 'hover:bg-base-300' : ''"
                     >
                       <td class="font-bold text-center">{{ tile || '—' }}</td>
-                      <td class="text-center">{{ Object.keys(result.improvements).join(', ') }}</td>
+                      <td class="text-center">
+                        <template v-for="(item, idx) in formatImprovementsList(result.improvements, result.improvementsQuality)" :key="item.tile + '-' + idx">
+                          <span>{{ item.tile }}</span>
+                          <span
+                            :class="[
+                              'improvement-muted',
+                              {
+                                'improvement-count--on': shantenNum === 1 && item.goodShape === true,
+                                'improvement-count--bad': shantenNum === 1 && item.goodShape === false
+                              }
+                            ]"
+                          >({{ item.count }})</span>
+                          <span v-if="idx < formatImprovementsList(result.improvements, result.improvementsQuality).length - 1" class="improvement-muted">, </span>
+                        </template>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
@@ -260,16 +291,58 @@
                     :key="tile"
                     :class="idx % 2 === 1 ? 'hover:bg-base-300' : ''"
                   >
-                    <td class="font-bold text-center">{{ tile }}</td>
-                    <td class="text-center">{{ Object.keys(result.improvements).join(', ') }}</td>
-                    <td class="font-bold text-center">{{ result.goodShapeRate.toFixed(0) }}%</td>
+                    <td class="font-bold text-center">
+                      <img
+                        v-if="tile"
+                        :src="tileSrc(tile)"
+                        :alt="tile"
+                        class="inline-block align-middle object-contain"
+                          style="width: 2em; height: 3em;"
+                      />
+                      <span v-else>—</span>
+                    </td>
+                    <td class="text-center">
+                      <template v-for="(item, idx) in formatImprovementsList(result.improvements, result.improvementsQuality)" :key="item.tile + '-' + idx">
+                        <img
+                          :src="tileSrc(item.tile)"
+                          :alt="item.tile"
+                          class="inline-block align-middle object-contain"
+                            style="width: 2em; height: 3em;"
+                        />
+                        <span class="improvement-dots" :aria-label="t('discard.table.improvements') + ' ' + item.tile + ' ' + item.count">
+                          <span
+                            v-for="n in 4"
+                            :key="item.tile + '-dot-' + n"
+                            :class="[
+                              'improvement-dot',
+                              {
+                                'improvement-dot--on': n <= item.count && !(shantenNum === 1 && item.goodShape === false),
+                                'improvement-dot--bad': n <= item.count && shantenNum === 1 && item.goodShape === false
+                              }
+                            ]"
+                          ></span>
+                        </span>
+                      </template>
+                    </td>
+                    <td class="font-bold text-center">{{ formatGoodShapeRate(result.goodShapeRate) }}</td>
                     <!-- 指数（好型率/进张加权后，四舍五入） -->
-                    <td class="font-bold text-center">{{ Math.round(expectedPointResults[tile] || 0) }}</td>
+                    <td class="font-bold text-center">{{ formatEvIndex(expectedPointResults[tile]) }}</td>
                     <td class="font-bold text-center">{{ result.totalCount }}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
+          </div>
+          <div v-if="evDeferred" class="flex flex-col sm:flex-row items-center justify-center gap-2 mb-4">
+            <span class="text-sm opacity-70">{{ t('discard.ev.deferHint') }}</span>
+            <button
+              class="btn btn-sm"
+              @click="handleComputeEv"
+              :aria-label="t('discard.ev.compute')"
+              :title="t('discard.ev.compute')"
+            >
+              {{ t('discard.ev.compute') }}
+            </button>
           </div>
         </div>
       </template>
@@ -280,9 +353,10 @@
 
 <script setup>
 // 导入与 Props
-import { ref, watch, onMounted } from 'vue'
+import { ref, watch, onMounted, computed, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { Shanten } from '../utils/shanten'
+import { evaluateHand, evaluateStatus } from '../utils/evaluation'
 defineProps(["changeComponent"])
 
 const { t } = useI18n()
@@ -301,6 +375,12 @@ const showSmallWaits = ref(false)
 
 // 新增：指数结果
 const expectedPointResults = ref({})
+
+// EV 计算控制
+const evDeferred = ref(false)
+const lastHandTiles = ref([])
+const lastRemMap = ref(null)
+const lastIsPreDraw = ref(false)
 
 // 新增：预加载就绪标记
 const preloadedReady = ref(false)
@@ -484,389 +564,106 @@ const suitOf = (t) => t.slice(-1) // m p s z
 const isRed = (t) => t[0] === '0'
 const isDragon = (t) => t === '5z' || t === '6z' || t === '7z'
 
-// 对对和（精确）：14张和了手，是否可分解为“4刻子+1雀头”（使用34计数；红5并到5）
-function isToitoiAgari34(arr34) {
-  for (let i = 0; i < 34; i++) {
-    if (arr34[i] >= 2) {
-      let ok = true
-      for (let j = 0; j < 34; j++) {
-        const rem = arr34[j] - (j === i ? 2 : 0)
-        if (rem < 0 || rem % 3 !== 0) { ok = false; break }
-      }
-      if (ok) return true
+const formatGoodShapeRate = (rate) => {
+  if (rate === null || typeof rate !== 'number') return '—'
+  return `${rate.toFixed(0)}%`
+}
+
+const formatEvIndex = (value) => {
+  if (evDeferred.value) return '—'
+  if (value === null || value === undefined || Number.isNaN(value)) return '—'
+  return String(Math.round(value))
+}
+
+// ---------- evaluateHand Worker (避免主线程卡顿) ----------
+let evaluateWorker = null
+let evaluateRequestId = 0
+
+const ensureEvaluateWorker = () => {
+  if (evaluateWorker || typeof Worker === 'undefined') return
+  try {
+    evaluateWorker = new Worker(new URL('../workers/evaluateHandWorker.js', import.meta.url), { type: 'module' })
+  } catch {
+    evaluateWorker = null
+  }
+}
+
+const evaluateHandInWorker = (handTiles, remMap, options = {}) => {
+  ensureEvaluateWorker()
+  if (!evaluateWorker) return Promise.resolve(evaluateHand(handTiles, remMap, options))
+
+  const safeHandTiles = Array.isArray(handTiles) ? handTiles.map((t) => String(t)) : []
+  const safeRemMap = remMap && typeof remMap === 'object'
+    ? Object.fromEntries(Object.entries(remMap).map(([k, v]) => [String(k), Number(v)]))
+    : {}
+  const safeOptions = {
+    skipEV: options?.skipEV === true,
+    skipGoodShapeRate: options?.skipGoodShapeRate === true
+  }
+
+  const id = ++evaluateRequestId
+  return new Promise((resolve, reject) => {
+    const handleMessage = (event) => {
+      if (!event?.data || event.data.id !== id) return
+      evaluateWorker.removeEventListener('message', handleMessage)
+      evaluateWorker.removeEventListener('error', handleError)
+      if (event.data.ok) resolve(event.data.results)
+      else reject(new Error(event.data.error || 'Worker error'))
     }
-  }
-  return false
-}
-
-// 三色同顺（启发）：存在任意起点r（1..7），m/p/s三门都各有 r,r+1,r+2 至少1枚
-function hasSanshokuDoujun(arr34) {
-  const offs = [0, 9, 18]
-  for (let r = 0; r <= 6; r++) {
-    let ok = true
-    for (const o of offs) {
-      if (!(arr34[o + r] > 0 && arr34[o + r + 1] > 0 && arr34[o + r + 2] > 0)) { ok = false; break }
-    }
-    if (ok) return true
-  }
-  return false
-}
-
-// 一气通贯（启发）：同一门 123/456/789 都能至少做出1组
-function hasIttsuu(arr34) {
-  const offs = [0, 9, 18]
-  for (const o of offs) {
-    const a = Math.min(arr34[o + 0], arr34[o + 1], arr34[o + 2])
-    const b = Math.min(arr34[o + 3], arr34[o + 4], arr34[o + 5])
-    const c = Math.min(arr34[o + 6], arr34[o + 7], arr34[o + 8])
-    if (a >= 1 && b >= 1 && c >= 1) return true
-  }
-  return false
-}
-
-// 七对、国士
-function isChiitoi(hand) {
-  // ...实现逻辑同审核稿...
-  if (hand.length !== 14) return false
-  const cnt = buildHandCountMap(hand)
-  let pairs = 0
-  for (const c of Object.values(cnt)) {
-    if (c === 2) pairs++
-    else if (c === 1 || c === 3 || c === 4) return false
-  }
-  return pairs === 7
-}
-function isKokushi(hand) {
-  if (hand.length !== 14) return false
-  const req = new Set(['1m','9m','1p','9p','1s','9s','1z','2z','3z','4z','5z','6z','7z'])
-  const cnt = buildHandCountMap(hand)
-  let pairFound = false
-  for (const r of req) {
-    if (!cnt[r]) return false
-    if (cnt[r] >= 2) pairFound = true
-  }
-  for (const t of Object.keys(cnt)) {
-    if (!req.has(t)) return false
-  }
-  return pairFound
-}
-
-// 番估计（门清近似）：断幺、混一/清一、三元刻、赤宝；七对单独估计
-function estimateHanStandard(hand) {
-  const cnt = buildHandCountMap(hand)
-  const reds = hand.filter(isRed).length
-  const suits = new Set(hand.filter(t => !isHonor(t)).map(suitOf))
-  const hasHonor = hand.some(isHonor)
-  const arr34 = convertToTiles34Arr(hand)
-  let han = 0
-  // 混一/清一
-  han += (suits.size === 1) ? (hasHonor ? 3 : 6) : 0
-  // 断幺
-  han += hand.some(t => isHonor(t) || isTerminal(t)) ? 0 : 1
-  // 三元刻
-  for (const d of ['5z','6z','7z']) if ((cnt[d] || 0) >= 3) han += 1
-  // 对对和 / 三色 / 一气（对对和与顺子系互斥，优先加对对和）
-  if (isToitoiAgari34(arr34)) {
-    han += 2
-  } else {
-    if (hasSanshokuDoujun(arr34)) han += 2
-    if (hasIttsuu(arr34)) han += 2
-  }
-  // 赤宝
-  han += reds
-  return han
-}
-function estimateHanChiitoi(hand) {
-  let han = 2
-  const hasTerminalOrHonor = hand.some(t => isHonor(t) || isTerminal(t))
-  if (!hasTerminalOrHonor) han += 1
-  const suits = new Set(hand.filter(t => !isHonor(t)).map(suitOf))
-  const hasHonor = hand.some(isHonor)
-  if (suits.size === 1) han += hasHonor ? 3 : 6
-  han += hand.filter(isRed).length
-  return han
-}
-function calcChildRonPointByHanFu(han, fu) {
-  if (han <= 0) return 0
-  if (han >= 13) return 32000
-  if (han >= 11) return 24000
-  if (han >= 8) return 16000
-  if (han >= 6) return 12000
-  if (han >= 5) return 8000
-  const basic = fu * Math.pow(2, 2 + han)
-  const ron = basic * 4
-  return Math.ceil(ron / 100) * 100
-}
-function estimateAgariPointIndex(hand14) {
-  // 国士
-  if (isKokushi(hand14)) return 32000
-  // 七对
-  if (isChiitoi(hand14)) {
-    const han = estimateHanChiitoi(hand14)
-    return calcChildRonPointByHanFu(han, 25)
-  }
-  // 普通手
-  let han = estimateHanStandard(hand14)
-  // 修复：无役听牌默认可立直，至少 +1 番（不计里宝/一发）
-  if (han <= 0) han = 1
-  return calcChildRonPointByHanFu(han, 30)
-}
-
-// ---------- 预期打点指数（扩展番种 + 概率加权） ----------
-// 改为“带权重”的和张/改良枚举（用最大剩余枚数作权重）
-function enumerateWaitTilesWeighted(hand13) {
-  const res = []
-  const rem = remainingCounts(buildHandCountMap(hand13))
-  if (calculateShanten(convertToTiles34Arr(hand13)) !== 0) return res
-  for (const [t, left] of Object.entries(rem)) {
-    const test = [...hand13, t]
-    if (calculateShanten(convertToTiles34Arr(test)) === -1) res.push([t, left])
-  }
-  return res
-}
-function enumerateImprovingTilesWeighted(hand13) {
-  const res = []
-  const rem = remainingCounts(buildHandCountMap(hand13))
-  const s = calculateShanten(convertToTiles34Arr(hand13))
-  for (const [t, left] of Object.entries(rem)) {
-    const test = [...hand13, t]
-    if (calculateShanten(convertToTiles34Arr(test)) < s) res.push([t, left])
-  }
-  return res
-}
-
-// 递归V13：用权重加权平均
-const handKey = (tiles) => [...tiles].sort(compareTiles).join(',')
-function makeEvaluator(depthMax = 2) {
-  const memo13 = new Map()
-  const V13 = (hand13, depth) => {
-    const key = handKey(hand13) + '|' + depth
-    if (memo13.has(key)) return memo13.get(key)
-
-    const s = calculateShanten(convertToTiles34Arr(hand13))
-    // 听牌：按和张剩余枚数加权
-    if (s === 0) {
-      const waits = enumerateWaitTilesWeighted(hand13)
-      if (waits.length === 0) { memo13.set(key, 0); return 0 }
-      let wSum = 0, vSum = 0
-      for (const [w, cnt] of waits) {
-        vSum += cnt * estimateAgariPointIndex([...hand13, w])
-        wSum += cnt
-      }
-      const avg = vSum / wSum
-      memo13.set(key, avg)
-      return avg
+    const handleError = (err) => {
+      evaluateWorker.removeEventListener('message', handleMessage)
+      evaluateWorker.removeEventListener('error', handleError)
+      reject(err)
     }
 
-    // 未听：深度用“改良牌剩余枚数”加权
-    if (depth <= 0) { memo13.set(key, 0); return 0 }
-    const improves = enumerateImprovingTilesWeighted(hand13)
-    if (improves.length === 0) { memo13.set(key, 0); return 0 }
-
-    let wSum = 0, vSum = 0
-    for (const [draw, cnt] of improves) {
-      const afterDraw14 = [...hand13, draw]
-      let best = 0
-      for (let i = 0; i < afterDraw14.length; i++) {
-        const next13 = afterDraw14.slice()
-        next13.splice(i, 1)
-        best = Math.max(best, V13(next13, depth - 1))
-      }
-      vSum += cnt * best
-      wSum += cnt
-    }
-    const avg = vSum / wSum
-    memo13.set(key, avg)
-    return avg
-  }
-
-  const expectedPointIndexByDiscard = (hand14, allowedSet) => {
-    const map = {}
-    const allow = allowedSet ? new Set(allowedSet) : null
-    for (let i = 0; i < hand14.length; i++) {
-      const d = hand14[i]
-      if (allow && !allow.has(d)) continue
-      if (map[d] !== undefined) continue
-      const next13 = hand14.slice()
-      next13.splice(i, 1)
-      map[d] = V13(next13, depthMax)
-    }
-    return map
-  }
-  const expectedPointIndexFromPreDraw = (hand13) => V13(hand13, depthMax)
-  return { expectedPointIndexByDiscard, expectedPointIndexFromPreDraw }
-}
-
-// 新增：指数后处理——加重好型率与进张数权重
-// 调参：加重好型率/进张；进张采用幂次提升（更看重大进张）
-const ALPHA_SHAPE = 1.2   // 好型率权重
-const BETA_VOLUME = 1.6   // 进张数权重
-const GAMMA_SHAPE = 2.0   // 好型率幂次，略偏向高好型
-const GAMMA_VOLUME = 2.4   // 进张幂次，强烈偏向大进张
-
-function applyShapeAndVolumeWeights(baseMap, impMap, currentShanten) {
-  // 进张归一化分母：同一手牌下各候选的最大 totalCount
-  const totals = Object.values(impMap || {}).map(v => v?.totalCount || 0)
-  const maxTotal = Math.max(1, ...(totals.length ? totals : [0]))
-
-  const adjusted = {}
-  for (const [k, base] of Object.entries(baseMap || {})) {
-    const info = impMap?.[k]
-    const shapeNorm = info ? Math.max(0, (info.goodShapeRate || 0) / 100) : 0
-    const volumeNorm = info ? Math.min(1, (info.totalCount || 0) / maxTotal) : 0
-
-    const shapeWeighted = Math.pow(shapeNorm, GAMMA_SHAPE)
-    const volumeWeighted = Math.pow(volumeNorm, GAMMA_VOLUME)
-    adjusted[k] = (base || 1000) * (1 + ALPHA_SHAPE * shapeWeighted) * (1 + BETA_VOLUME * volumeWeighted)
-    
-  }
-  return adjusted
-}
-
-// 新增：按切牌数字做指数扣减（1/9 -1，2/8 -2，...，5 -5；赤5按5；字牌不扣）
-function tileDigitPenalty(tile) {
-  if (!tile || tile.length < 2) return 0
-  const type = tile.slice(-1)
-  if (type === 'z') return 0
-  const nChar = tile[0]
-  const val = nChar === '0' ? 5 : parseInt(nChar, 10)
-  if (!Number.isFinite(val) || val < 1 || val > 9) return 0
-  return val <= 5 ? val : 10 - val
-}
-function applyDiscardDigitPenalty(map) {
-  const res = { ...(map || {}) }
-  for (const k of Object.keys(res)) {
-    const p = tileDigitPenalty(k)
-    if (p > 0) res[k] = (res[k] || 0) - 3 * p
-    // 新增：赤5切牌（0m/0p/0s）额外惩罚 -480
-    if (k === '0m' || k === '0p' || k === '0s') {
-      res[k] = (res[k] || 0) - 480
-    }
-  }
-  return res
-}
-
-// 进阶计算函数
-// 好型率 (递归 + 记忆化)
-const calculateGoodShapeRate = (() => {
-  const cache = new Map()
-  const MAX_DEPTH = 3
-  function inner(hand, tiles34Arr, depth = 0) {
-    const key = tiles34Arr.join(',') + '|' + depth
-    if (cache.has(key)) return cache.get(key)
-    if (depth > MAX_DEPTH) return 0
-
-    const shanten = calculateShanten(tiles34Arr)
-    if (shanten === 0) {
-      const handCount = buildHandCountMap(hand)
-      const rem = remainingCounts(handCount)
-      let waitTypes = new Set(), waitCount = 0
-      for (const [tile, count] of Object.entries(rem)) {
-        const tempHand = [...hand, tile]
-        const tempTiles34 = convertToTiles34Arr(tempHand)
-        if (calculateShanten(tempTiles34) === -1) {
-          waitTypes.add(tile)
-          waitCount += count
-        }
-      }
-      const result = (waitTypes.size > 1 && waitCount > 4) ? 1 : 0
-      cache.set(key, result)
-      return result
-    }
-
-    const handCount = buildHandCountMap(hand)
-    const rem = remainingCounts(handCount)
-
-    let totalPaths = 0, goodShapePaths = 0
-    for (const [tile, count] of Object.entries(rem)) {
-      const tempHand = [...hand, tile]
-      const tempTiles34 = convertToTiles34Arr(tempHand)
-      const newShanten = calculateShanten(tempTiles34)
-      if (newShanten < shanten) {
-        let bestPathRate = 0
-        const seen = new Set()
-        for (let i = 0; i < tempHand.length; i++) {
-          const dTile = tempHand[i]
-          if (seen.has(dTile)) continue
-          seen.add(dTile)
-          const discardHand = tempHand.slice()
-          discardHand.splice(i,1)
-          const discardTiles34 = convertToTiles34Arr(discardHand)
-          if (calculateShanten(discardTiles34) < shanten) {
-            bestPathRate = Math.max(bestPathRate, inner(discardHand, discardTiles34, depth + 1))
-          }
-        }
-        totalPaths += count
-        goodShapePaths += count * bestPathRate
-      }
-    }
-    const result = totalPaths === 0 ? 0 : (goodShapePaths / totalPaths)
-    cache.set(key, result)
-    return result
-  }
-  return inner
-})()
-// 切牌后的提效率/好型率分析
-const analyzeImprovement = (currentHand, currentTiles34) => {
-  const results = {}
-  const originalShanten = calculateShanten(currentTiles34)
-  const globalHandCount = buildHandCountMap(currentHand)
-
-  currentHand.forEach((tileToDiscard, discardIndex) => {
-    const newHand = currentHand.filter((_, i) => i !== discardIndex)
-    const newHandCount = { ...globalHandCount }
-    newHandCount[tileToDiscard]--
-    if (newHandCount[tileToDiscard] === 0) delete newHandCount[tileToDiscard]
-
-    const newTiles34 = convertToTiles34Arr(newHand)
-    const rem = remainingCounts(newHandCount)
-
-    const improvements = {}
-    let totalCount = 0
-    for (const [tile, count] of Object.entries(rem)) {
-      const tempHand = [...newHand, tile]
-      const tempTiles34 = convertToTiles34Arr(tempHand)
-      if (calculateShanten(tempTiles34) < originalShanten) {
-        improvements[tile] = count
-        totalCount += count
-      }
-    }
-
-    if (totalCount > 0) {
-      const goodShapeRate = Math.max(0, calculateGoodShapeRate(newHand, newTiles34) * 100)
-      results[tileToDiscard] = { improvements, totalCount, goodShapeRate }
-    }
+    evaluateWorker.addEventListener('message', handleMessage)
+    evaluateWorker.addEventListener('error', handleError)
+    evaluateWorker.postMessage({ id, handTiles: safeHandTiles, remMap: safeRemMap, options: safeOptions })
   })
-  return results
 }
-// 未摸牌/预摸场景进张与好型率
-function buildPreDrawResults(hand, tiles34Arr, currentShanten) {
-  const results = {}
-  const handCount = buildHandCountMap(hand)
-  const rem = remainingCounts(handCount)
-  const improvements = {}
-  let totalCount = 0
-  for (const [tile, count] of Object.entries(rem)) {
-    const tempHand = [...hand, tile]
-    const tempTiles34 = convertToTiles34Arr(tempHand)
-    const newShanten = calculateShanten(tempTiles34)
-    if ((currentShanten === 0 && newShanten === -1) || (currentShanten > 0 && newShanten < currentShanten)) {
-      improvements[tile] = count
-      totalCount += count
-    }
-  }
-  if (totalCount > 0) {
-    let goodShapeRate
-    if (currentShanten === 0) {
-      const waitTypes = Object.keys(improvements).length
-      goodShapeRate = (waitTypes > 1 && totalCount > 4) ? 100 : 0
-    } else {
-      goodShapeRate = Math.max(0, calculateGoodShapeRate(hand, tiles34Arr) * 100)
-    }
-    results[''] = { improvements, totalCount, goodShapeRate }
-  }
-  return results
+
+// 进张显示格式：6p(2), 9p(3)
+const formatImprovementsList = (improvements, improvementsQuality = {}) => {
+  if (!improvements || typeof improvements !== 'object') return []
+  return Object.entries(improvements)
+    .filter(([, count]) => (count || 0) > 0)
+    .map(([tile, count]) => ({ tile, count, goodShape: improvementsQuality?.[tile] }))
 }
+
+// 听牌好型判定（与 calculateGoodShapeRate 中的听牌判定逻辑一致）
+const isGoodShapeTenpai = (hand) => {
+  if (!Array.isArray(hand) || hand.length === 0) return false
+
+  const isGoodWaitsFor13 = (hand13) => {
+    const handCount = buildHandCountMap(hand13)
+    const rem = remainingCounts(handCount)
+    let waitTypes = new Set(), waitCount = 0
+    for (const [tile, count] of Object.entries(rem)) {
+      const tempHand = [...hand13, tile]
+      const tempTiles34 = convertToTiles34Arr(tempHand)
+      if (calculateShanten(tempTiles34) === -1) {
+        waitTypes.add(tile)
+        waitCount += count
+      }
+    }
+    return (waitTypes.size > 1 && waitCount > 4)
+  }
+
+  // 若为14张（摸牌后），先尝试弃一张进入听牌再判好型
+  if (hand.length % 3 === 2) {
+    for (let i = 0; i < hand.length; i++) {
+      const reduced = hand.slice(0, i).concat(hand.slice(i + 1))
+      const reducedTiles34 = convertToTiles34Arr(reduced)
+      if (calculateShanten(reducedTiles34) === 0) {
+        if (isGoodWaitsFor13(reduced)) return true
+      }
+    }
+    return false
+  }
+
+  return isGoodWaitsFor13(hand)
+}
+
 
 // 主流程入口：提交处理（优先使用图片选牌）
 const handleSubmit = async () => {
@@ -914,36 +711,159 @@ const handleSubmit = async () => {
   const tiles34Arr = convertToTiles34Arr(handTiles)
   shantenNum.value = calculateShanten(tiles34Arr)
 
+  const shouldDeferEV = shantenNum.value >= 4
+  const shouldSkipGoodShapeRate = shantenNum.value >= 4
+  evDeferred.value = shouldDeferEV
+
   showTable.value = true
+  improvementResults.value = {}
+  expectedPointResults.value = {}
+
+  // New Logic using utils/evaluation
+  const handCount = buildHandCountMap(handTiles)
+  const remMap = remainingCounts(handCount)
   const isPreDraw = (count % 3 === 1)
-  if (isPreDraw) {
-    improvementResults.value = buildPreDrawResults(handTiles, tiles34Arr, shantenNum.value)
-  } else {
-    improvementResults.value = analyzeImprovement(handTiles, tiles34Arr)
-  }
-  const allowedKeys = Object.keys(improvementResults.value || {})
-  if (!allowedKeys.length) {
-    expectedPointResults.value = {}
-    loading.value = false
-    return
-  }
-  const { expectedPointIndexByDiscard, expectedPointIndexFromPreDraw } = makeEvaluator(2)
-  let baseMap = {}
-  if (isPreDraw) {
-    if (allowedKeys.includes('')) {
-      baseMap[''] = expectedPointIndexFromPreDraw(handTiles)
+  lastHandTiles.value = handTiles
+  lastRemMap.value = remMap
+  lastIsPreDraw.value = isPreDraw
+
+  try {
+    if (isPreDraw) {
+      const status = evaluateStatus(handTiles, remMap, {
+        skipEV: shouldDeferEV,
+        skipGoodShapeRate: shouldSkipGoodShapeRate
+      })
+      if (status.totalCount > 0) {
+        const improvementsQuality = {}
+        if (shantenNum.value === 1) {
+          for (const [tile] of Object.entries(status.improvements || {})) {
+            const tempHand = [...handTiles, tile]
+            const tempTiles34 = convertToTiles34Arr(tempHand)
+            if (calculateShanten(tempTiles34) === 0) {
+              improvementsQuality[tile] = isGoodShapeTenpai(tempHand)
+            }
+          }
+        }
+        improvementResults.value = {
+          '': {
+            improvements: status.improvements,
+            improvementsQuality,
+            totalCount: status.totalCount,
+            goodShapeRate: status.goodShapeRate
+          }
+        }
+        expectedPointResults.value = { '': status.evIndex }
+      }
+    } else {
+      const results = await evaluateHandInWorker(handTiles, remMap, {
+        skipEV: shouldDeferEV,
+        skipGoodShapeRate: shouldSkipGoodShapeRate
+      })
+      for (const [t, data] of Object.entries(results)) {
+        if (data.totalCount > 0 || data.evIndex > 0) {
+          const improvementsQuality = {}
+          if (shantenNum.value === 1) {
+            const discardIndex = handTiles.findIndex((x) => x === t)
+            const baseHand = discardIndex >= 0 ? handTiles.slice(0, discardIndex).concat(handTiles.slice(discardIndex + 1)) : [...handTiles]
+            for (const [tile] of Object.entries(data.improvements || {})) {
+              const tempHand = [...baseHand, tile]
+              const tempTiles34 = convertToTiles34Arr(tempHand)
+              if (calculateShanten(tempTiles34) === 0) {
+                improvementsQuality[tile] = isGoodShapeTenpai(tempHand)
+              }
+            }
+          }
+          improvementResults.value[t] = {
+            improvements: data.improvements,
+            improvementsQuality,
+            totalCount: data.totalCount,
+            goodShapeRate: data.goodShapeRate
+          }
+          expectedPointResults.value[t] = data.evIndex
+        }
+      }
     }
-  } else {
-    baseMap = expectedPointIndexByDiscard(handTiles, allowedKeys)
-  }
-  if (!Object.keys(baseMap).length) {
+  } catch (err) {
+    errorMessage.value = err?.message || 'Calculation failed'
+    showTable.value = false
+    improvementResults.value = {}
     expectedPointResults.value = {}
+  } finally {
     loading.value = false
-    return
   }
-  expectedPointResults.value = applyShapeAndVolumeWeights(baseMap, improvementResults.value, shantenNum.value)
-  expectedPointResults.value = applyDiscardDigitPenalty(expectedPointResults.value)
-  loading.value = false
+}
+
+const handleComputeEv = async () => {
+  if (!evDeferred.value) return
+  if (!Array.isArray(lastHandTiles.value) || !lastHandTiles.value.length) return
+  if (!lastRemMap.value) return
+
+  loading.value = true
+  errorMessage.value = null
+  showResult.value = true
+  try {
+    if (lastIsPreDraw.value) {
+      const status = evaluateStatus(lastHandTiles.value, lastRemMap.value)
+      if (status.totalCount > 0) {
+        const improvementsQuality = {}
+        if (shantenNum.value === 1) {
+          for (const [tile] of Object.entries(status.improvements || {})) {
+            const tempHand = [...lastHandTiles.value, tile]
+            const tempTiles34 = convertToTiles34Arr(tempHand)
+            if (calculateShanten(tempTiles34) === 0) {
+              improvementsQuality[tile] = isGoodShapeTenpai(tempHand)
+            }
+          }
+        }
+        improvementResults.value = {
+          '': {
+            improvements: status.improvements,
+            improvementsQuality,
+            totalCount: status.totalCount,
+            goodShapeRate: status.goodShapeRate
+          }
+        }
+        expectedPointResults.value = { '': status.evIndex }
+      }
+    } else {
+      const results = await evaluateHandInWorker(lastHandTiles.value, lastRemMap.value)
+      improvementResults.value = {}
+      expectedPointResults.value = {}
+      for (const [t, data] of Object.entries(results)) {
+        if (data.totalCount > 0 || data.evIndex > 0) {
+          const improvementsQuality = {}
+          if (shantenNum.value === 1) {
+            const discardIndex = lastHandTiles.value.findIndex((x) => x === t)
+            const baseHand = discardIndex >= 0
+              ? lastHandTiles.value.slice(0, discardIndex).concat(lastHandTiles.value.slice(discardIndex + 1))
+              : [...lastHandTiles.value]
+            for (const [tile] of Object.entries(data.improvements || {})) {
+              const tempHand = [...baseHand, tile]
+              const tempTiles34 = convertToTiles34Arr(tempHand)
+              if (calculateShanten(tempTiles34) === 0) {
+                improvementsQuality[tile] = isGoodShapeTenpai(tempHand)
+              }
+            }
+          }
+          improvementResults.value[t] = {
+            improvements: data.improvements,
+            improvementsQuality,
+            totalCount: data.totalCount,
+            goodShapeRate: data.goodShapeRate
+          }
+          expectedPointResults.value[t] = data.evIndex
+        }
+      }
+    }
+    evDeferred.value = false
+  } catch (err) {
+    errorMessage.value = err?.message || 'Calculation failed'
+    showTable.value = false
+    improvementResults.value = {}
+    expectedPointResults.value = {}
+  } finally {
+    loading.value = false
+  }
 }
 
 // 同步文本到选牌
@@ -973,6 +893,63 @@ onMounted(() => {
   }
 })
 
+// -------------------- 与其他页面通用的宽度控制 --------------------
+const isSmallScreen = ref(false)
+const WIDTH_STORAGE_KEY = 'threehundred-content-width'
+const WIDTH_CHANGE_EVENT = 'threehundred-content-width-change'
+const clampWidth = (value) => Math.min(100, Math.max(40, Number.isFinite(value) ? value : 100))
+const getSavedContentWidth = () => {
+  try {
+    const stored = parseInt(localStorage.getItem(WIDTH_STORAGE_KEY), 10)
+    return clampWidth(Number.isFinite(stored) ? stored : 100)
+  } catch {
+    return 100
+  }
+}
+const contentWidth = ref(getSavedContentWidth())
+let widthUpdateFromEvent = false
+const contentWidthStyle = computed(() => ({
+  width: `${isSmallScreen.value ? 100 : contentWidth.value}%`,
+  marginLeft: 'auto',
+  marginRight: 'auto'
+}))
+const contentWidthDisplay = computed(() => (isSmallScreen.value ? 100 : contentWidth.value))
+
+const updateScreenSize = () => { isSmallScreen.value = window.innerWidth < 640 }
+const handleWidthBroadcast = (event) => {
+  if (typeof event.detail !== 'number') return
+  const clamped = clampWidth(event.detail)
+  if (clamped === contentWidth.value) return
+  widthUpdateFromEvent = true
+  contentWidth.value = clamped
+}
+watch(contentWidth, (val) => {
+  const clamped = clampWidth(val)
+  if (clamped !== val) {
+    contentWidth.value = clamped
+    return
+  }
+  if (widthUpdateFromEvent) {
+    widthUpdateFromEvent = false
+    return
+  }
+  try { localStorage.setItem(WIDTH_STORAGE_KEY, String(clamped)) } catch {}
+  window.dispatchEvent(new CustomEvent(WIDTH_CHANGE_EVENT, { detail: clamped }))
+})
+onMounted(() => {
+  updateScreenSize()
+  window.addEventListener('resize', updateScreenSize)
+  window.addEventListener(WIDTH_CHANGE_EVENT, handleWidthBroadcast)
+})
+onUnmounted(() => {
+  if (evaluateWorker) {
+    evaluateWorker.terminate()
+    evaluateWorker = null
+  }
+  window.removeEventListener('resize', updateScreenSize)
+  window.removeEventListener(WIDTH_CHANGE_EVENT, handleWidthBroadcast)
+})
+
 // 调用链总结
 </script>
 
@@ -988,5 +965,37 @@ onMounted(() => {
   }
   @keyframes spin {
     to { transform: rotate(360deg); }
+  }
+  .improvement-muted {
+    opacity: 0.5;
+  }
+  .improvement-dots {
+    display: inline-grid;
+    grid-template-columns: repeat(2, 0.4em);
+    grid-template-rows: repeat(2, 0.4em);
+    gap: 0.1em;
+    margin: 0 0.3em;
+    vertical-align: middle;
+  }
+  .improvement-dot {
+    width: 0.32em;
+    height: 0.32em;
+    border-radius: 999px;
+    background: rgba(34, 197, 94, 0.18);
+    display: inline-block;
+  }
+  .improvement-dot--on {
+    background: rgba(34, 197, 94, 0.9);
+  }
+  .improvement-dot--bad {
+    background: rgba(239, 68, 68, 0.9);
+  }
+  .improvement-count--on {
+    color: rgba(34, 197, 94, 0.9);
+    opacity: 0.7;
+  }
+  .improvement-count--bad {
+    color: rgba(239, 68, 68, 0.9);
+    opacity: 0.7;
   }
 </style>

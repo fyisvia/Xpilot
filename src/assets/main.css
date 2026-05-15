@@ -81,6 +81,107 @@
 
 /* Waline 自定义样式 */
 
+#waline [data-waline] {
+  display: flex !important;
+  flex-direction: column;
+}
+
+#waline [data-waline] > * {
+  order: 2 !important;
+}
+
+#waline [data-waline] > .wl-meta-head,
+#waline [data-waline] > .wl-cards,
+#waline [data-waline] > .wl-operation,
+#waline [data-waline] > .wl-loading,
+#waline [data-waline] > .wl-empty {
+  order: 1 !important;
+}
+
+#waline [data-waline] > .wl-comment {
+  order: 2 !important;
+  border-top: 1px solid var(--waline-border-color) !important;
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+}
+
+#waline [data-waline] > .wl-power {
+  display: none !important;
+}
+
+#waline .wl-content {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+#waline .wl-content .wl-reply {
+  order: 1;
+  display: inline !important;
+  margin: 0 !important;
+}
+
+#waline .wl-content > p {
+  order: 2;
+  display: inline !important;
+  margin: 0 !important;
+}
+
+.waline-power-bottom a {
+  color: var(--waline-theme-color, var(--color-primary));
+  text-decoration: none;
+}
+
+.waline-power-bottom a:hover {
+  text-decoration: underline;
+}
+
+/* 登录/提交按钮统一为 DaisyUI 风格 */
+#waline .wl-info .wl-btn,
+#waline .wl-info .wl-btn.primary {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 2rem !important;
+  min-height: 2rem !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+  border-radius: var(--radius-field) !important;
+  border: 1px solid var(--color-base-300) !important;
+  background-color: var(--color-base-100) !important;
+  color: var(--color-base-content) !important;
+  font-size: 0.875rem !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  box-shadow: none !important;
+}
+
+#waline .wl-info .wl-btn:hover,
+#waline .wl-info .wl-btn.primary:hover {
+  background-color: var(--color-base-200) !important;
+  border-color: var(--color-base-300) !important;
+  color: var(--color-base-content) !important;
+}
+
+#waline .wl-info .wl-btn:active,
+#waline .wl-info .wl-btn.primary:active {
+  transform: translateY(0.5px);
+}
+
+#waline .wl-info .wl-btn:disabled,
+#waline .wl-info .wl-btn.primary:disabled {
+  background-color: var(--color-base-200) !important;
+  border-color: var(--color-base-300) !important;
+  color: color-mix(in oklab, var(--color-base-content) 45%, transparent) !important;
+}
+
+#waline .wl-actions a[href*="guides.github.com/features/mastering-markdown"] {
+  display: none !important;
+}
+
 [data-theme="light"] #waline {
   border-radius: 1rem;
   background-color: #f8f8f8 !important;
@@ -121,4 +222,11 @@
 
 [data-theme="dark"] #waline .wl-card {
   border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important; /* 评论之间的分隔线 */
+}
+
+/* 放在最后，覆盖前面 .wl-comment 的 border:none 规则 */
+#waline [data-waline] > .wl-comment {
+  border-top: 1px solid var(--waline-border-color) !important;
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
 }

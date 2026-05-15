@@ -1,15 +1,17 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
-import mitt from 'mitt'
 import { i18n } from './i18n'
 import './assets/main.css'
+import { initHover3dTracking } from './composables/useHover3d'
 
-const emitter = mitt()
 const app = createApp(App)
+const pinia = createPinia()
 
-app.provide('emitter', emitter)
-
+app.use(pinia)
 app.use(router)
 app.use(i18n)
 app.mount('#app')
+
+initHover3dTracking()
